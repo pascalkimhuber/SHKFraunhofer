@@ -1,0 +1,9 @@
+* Emacs
+** Repair yasnippet config <2013-12-16 Mon>
+** Repair auto-pair config <2013-12-16 Mon>
+
+* Aufgaben
+
+** TODO Go through tutorials and manual
+
+*** TODO Find mistakes and write them down. 
