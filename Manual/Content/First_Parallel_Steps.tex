@@ -1,0 +1,42 @@
+
+Switch to the Tremolo-X folder and enter the example/Argon folder therein.
+Have a glance at the files currently present in the directory.
+Now type
+\begin{lstlisting}
+ mpirun -np 8 tremolo_mpi -p 2,2,2 argon.tremolo
+\end{lstlisting}
+Congratulations! You are running your first parallel Tremolo-X simulation!
+\bigbreak
+As before, you will obtain more output with the verbosity option by typing
+\begin{lstlisting}
+ mpirun -np 8 tremolo_mpi -p 2,2,2 -v argon.tremolo
+\end{lstlisting}
+
+As soon as the program is finished and console command has been returned to you, have another look at the content of the directory. The additional files contain the measurements of Tremolo-X.
+The files argon.e* containing the energy measurements appear as they did in the serial case and are organized in the same way.
+
+\bigbreak
+What changed are the output files for the visualization (.xyz and .pdb) and the data state file (.data.9999).
+Instead of {\tt argon.vis.\#\#\#\#.xyz} ({\tt argon.vis.\#\#\#\#.pdb}) you find {\tt argon.vis.\#\#\#\#.\#\#\#\#.xyz} ({\tt argon.vis.\#\#\#\#.\#\#\#\#.pdb}), similarly you see {\tt argon.data.9999.\#\#\#\#} files.
+This is due to the fact that all processes write output for their segment simultaneously to speed up the process.
+In order to combine these segments, an easy to use tool is provided in the utility section of tremolo.
+
+Typing
+\begin{lstlisting}
+ /PATH_TO_TREMOLO_BINARIES/MergeOutput.py argon xyz
+\end{lstlisting}
+will combine the separate xyz files and produce a unified one for the complete domain of the simulation. Adding the option {\tt -d} will cause the original, partial files to be deleted. Similarly
+{\tt pdb} and {\tt data} files can be merged by typing 
+\begin{lstlisting}
+ /PATH_TO_TREMOLO_BINARIES/MergeOutput.py argon pdb
+\end{lstlisting}
+or 
+\begin{lstlisting}
+ /PATH_TO_TREMOLO_BINARIES/MergeOutput.py argon data
+\end{lstlisting}
+respectively. For more options type 
+\begin{lstlisting}
+/PATH_TO_TREMOLO_BINARIES/MergeOutput.py -h
+\end{lstlisting}
+
+Visualization of those files functions exactly as described for the serial case. (For the use of the {\tt .data.9999} file please refer to the manual.)

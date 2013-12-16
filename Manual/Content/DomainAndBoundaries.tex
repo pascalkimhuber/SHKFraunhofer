@@ -1,0 +1,25 @@
+\chapter{Domain and Boundaries}
+\label{domain}
+
+The first step of setting up a Molecular Dynamics simulation is to decide and specify the domain of the system. The domain is determined by its shape and the type of boundary, e.g. what happens, when a particle crosses the boundary domain. Several choices are available in Tremolo-X which, depending on the setup desired, can be combined freely.
+The shape of domain used determines the type of input required: 
+
+\begin{itemize}
+ \item A \textit{cube}(={\tt cube}) requires only one parameter, an edge length.
+\item A \textit{cuboid}(={\tt diag}) requires three edge length.
+\item A \textit{parallelepiped}(={\tt matrix}) requires its complete matrix, i.e. the collection of the three edge vectors. The vectors are written column wise in the matrix, i.e. each column corresponds to one box-vector. (xx, xy and xz are first vector and so on).
+\end{itemize}
+
+Note that one can also give the box matrix by a \texttt{\# BOX} line
+in the \texttt{.data} file. In particular, a \texttt{\# BOX} line
+given in the \texttt{.data} file will overwrite values from the
+\texttt{.parameter} file.
+
+\bigbreak
+
+The boundary conditions have a direct correspondence to the simulated physical environment of sample.
+\begin{itemize}
+ \item \textit{Reflecting} boundary conditions are self-describing, momentum is preserved. % Checked.
+ \item \textit{Leaving} boundary conditions allow particles to leave the domain and thus remove them from the simulation. Note that leaving boundary conditions destroy the conservation of particles and thus may violate the statistical ensemble of your choice.
+ \item \textit{Periodic} boundary conditions transfer particles to the respective opposite face on the same axis, preserving momentum and direction.
+\end{itemize}

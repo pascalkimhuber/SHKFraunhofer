@@ -1,0 +1,513 @@
+\chapter{Measurements and Output}
+\label{measurement}
+\section{Time/Step Settings}
+\label{measuresetting}
+Most measurements share the parameters
+{\tt T\_Start,   T\_Delta} and {\tt Step\_Delta}.
+The first two specify when in a dynamic simulation the code first starts measuring a given property {\tt T\_Start} 
+and at what time intervals the measurement is to be repeated  {\tt T\_Delta}.
+The time interval does not need to be an exact multiple of the timestep used in the propagator. 
+While the measurement is carried out in the next timestep, after a time of {\tt T\_Delta}
+has passed and writes out the propagator time as the time of measurement, 
+the program notes the exact time at which measurement should take place and 
+continues to add the interval to that exact point in time. 
+As a consequence the number of timesteps between measurements may vary by one. 
+Note that for obvious reasons it is also not sensible to choose {\tt T\_Delta} smaller
+than the propagator timestep, consequently Tremolo-X will produce an error if you do.
+
+Contrary to intuition, tremolo will accept negative starting times and treat them as zero.
+
+The parameter {\tt Step\_Delta} applies, when an optimization is performed and indicates the measurement interval
+in terms of steps. Since only integers are valid input much of the above caution does not apply.
+
+However it is noteworthy, that while the output files still indicate that the first column contains time, this is not a time in the physical sense
+but indicates the number of iteration steps performed.
+
+\subsection{Outvis}
+This regulates the output of visual(izable) data. Specifically in each output steps two files are created, a \$PROJECTNAME.vis.\#\#\#\#.xyz, \$PROJECTNAME.vis.\#\#\#\#.pdb and \$PROJECTNAME.vis.\#\#\#\#.data file. 
+The first records particle elements and positions and features the timestep in which the file was written in the comment line, while the latter is PDB equivalent output 
+and does not carry the exact time.
+The naming of the files indicates one 4 digit number in the serial case: The consecutive numbering of the .vis output files.
+In the parallel case the naming convention changes to \$PROJECTNAME.vis.\#\#\#\#.\#\#\#\#.xyz, where the first four digit number corresponds to the numbering in time,
+whereas the second number refers to the numbering of the processors. The files can be merged into one by using one of the utilities delivered with Tremolo-X \todo{utilities}.
+
+Uses the three general parameters described above.
+
+\subsection{Outdata}
+Here intervals are set for writing intermediate data files (\$PROJECTNAME.data.9999). Intermediate data files enable a (re)start of a simulation with the current configuration. 
+This may be useful in the case that a simulation was ended due to a time limit, or when some parameter setting is used for equilibration, while measurements should take place in another.
+When the program terminates normally a \$PROJECTNAME.data.9999 file is written with the latest configuration, unless {\tt endtime < T\_Start - T\_Delta}. 
+As with the visual data, when the program is run in parallel mode, four extra digits (\$PROJECTNAME.data.9999.\#\#\#\#) are used to have each process write its own file. The files can be merged into one by using one of the utilities delivered with Tremolo-X \todo{utilities}.
+
+Uses the three general parameters described above.
+\subsection{Outm}
+This sets the measurement intervals for all actual measurements described below. Uses the three general parameters described above.
+\subsection{Outmm}
+In addition to measurements at a point in time Tremolo-X provides the ability to perform mean measurements, 
+to measure a parameter over the course of a time interval and average the results.
+This feature smoothes out some of the unavoidable irregularities in the measurements due to discretization effects.
+In addition to the three general time parameters, {\tt T\_Deltam} and {\tt Step\_Deltam} need to be specified. Those establish the interval, within which the measurements and averaging 
+are applied. Measurements will be performed by the following rules:
+\begin{itemize}
+\item The timer is started with {\tt T\_Start}.
+\item Let {\tt$n \in \mathbb{N}\setminus 0$}
+\item Beginning with {\tt $n \cdot$T\_Deltam}-{\tt Step\_Deltam} desired magnitudes are measured and summed up for each propagator timestep, until
+\item at {\tt $n\cdot$T\_Deltam} the average is computed and printed to the output file.
+\end{itemize}
+
+\section{Visual Output}
+\section{Energy Measurements}
+Here the decision is made, whether energies and/or mean energies will be measured. All output files list the time in their first column and respective measurements in following columns.
+Energy measurements encompass the following:
+\begin{itemize}
+\item kinetic energies -- stored in a single file \$PROJECTNAME.ekin
+  \begin{itemize} 
+    \item One column for the physical kinetic energy of each particle type.
+    \item One column for the physical kinetic energy of all ensemble.
+    \item One column for the temperature of the whole ensemble.
+  \end{itemize}
+\item potential energies -- stored in multiple files.
+  \begin{itemize}
+    \item \$PROJECTNAME.epot contains the complete potential energy
+    \item \$PROJECTNAME.e\_lj contains the potential energy of non bonded interactions
+    \item \$PROJECTNAME.ebond -- contains the potential energy stored in direct bonds. Due to the data structure the file contains some zero-filled columns.
+    \item \$PROJECTNAME.eangle -- contains the potential energy stored in angles between bonds. Due to the data structure the file contains some zero-filled columns.
+    \item \$PROJECTNAME.etorsion -- contains the potential energy of torsion forces. Due to the data structure the file contains some zero-filled columns.
+  \end{itemize}
+\item total energy -- stored in a single file \$PROJECTNAME.etot
+  \begin{itemize}
+    \item One column contains the physical energy
+    \item In case a thermostat is used an additional column appears, which is either identical to the first, or -- if the thermostat in use is a
+      Hoover-type thermostat -- is the sum of the physical energy and the Hoover energy. The case is similar for the use of a barostat, where columns are added for 
+      hoover and box energy by themselves and the sum over all three columns.
+  \end{itemize}
+\end{itemize}
+ 
+\section{Radial Distribution}
+\label{section:radialDistribution}
+
+\begin{lstlisting}
+radial:   measure=on, meanmeasure=off, vis=off, r_cut=1.470588, n_bin=50;
+          radialdistribution 
+            {
+              radialdist: particle_type1=Fe, particle_type2=Ni;
+            };
+\end{lstlisting}
+
+The options measure and meanmeasure work as described in \ref{measuresetting}.
+Another {\tt r\_cut} needs to be supplied, for the radial analysis this will determine the radius in which particles are taken into account for the distribution. With {\tt n\_bin} you can specify in how many bins the particles shall be sorted in the interval from 0 to {\tt r\_cut}. Lastly you have to list the pairs for which you would like to receive the relevant data. For each pair which you intend to examin you need to add a line 
+\begin{lstlisting}
+radialdist: particle_type1=Fe, particle_type2=Ni;
+\end{lstlisting}
+within the {\tt radialdistribution} environment, where {\tt Fe} and {\tt Ni} in this example take the place of any particle types you would like to analyze.
+
+The data is added to the {\tt\$PROJECTNAME.histogram} files. By reading the first line of the file, you find in which columns the data of a particluar measurement is stored. 
+
+The first column has index 0 and indicates a point in time to which the rest of the information in the line corresponds. For the following columns you have to check for an expression such as {\tt RadialDist[Fe-Ni](1)(50)}, where {\tt Fe} and {\tt Ni} are the particle types which we added in our example, you need to check for your particle types. The following two numbers indicate the columns occupied by the measurement: The first column contains the index for the column in which the measurement begins, while the second indicated the number of columns occupied, which corresponds to the number of bins chosen in the {\tt .parameter} file. Always remember that counting starts at 0 so that in the above example the data for the radial distribution of {\tt Fe} and {\tt Ni} starts in the $2^{nd}$ columns and ends in the $51^{st}$ column.
+
+The value in each entry corresponds to the number of particles found in the respective bin, however instead of calculating the radial distribution from that on your own, you can use the functionality of the CalcRadialHisto script, which is documented in the Tremolo\_Tool\_Documentation, which will also compute some other useful information, such as the coordination numbers.
+
+
+\section{Bond Distances}
+\begin{lstlisting}
+ bond: measure=on, meanmeasure=off, vis=off;
+ bondDistances {
+     bondDistance: particle\_type1=Fe, particle\_type2=Ni, distance=2.700000e+00;
+   };
+\end{lstlisting}
+
+The options measure and meanmeasure work as described in \ref{measuresetting}. When the option {\tt vis} is switched on, additional files are produced which contain the respective bonds 
+by listing adjacent particle id's (\$PROJECTNAME.dbond.\#\#\#\#). Theses are produced at the intervals of the visual output.
+Bonds are identified by checking pairs of particles. Those whose distance is smaller than {\tt distance} are considered bonded for the sake of measuring bond distances, 
+however this does not have an impact on any bond dependent potentials.
+
+The average bond length and numbers are written in the output file {\tt \$PROJECTNAME.generalmeas}.
+The first column (index 0) in this file contains the time, whereas the position of the bondtypes can be found in the first line of the file. By checking for the keyword {\tt BondDist} followed by particle types
+(e.g. {\tt BondDist[Fe-Ni](1)(2)}), you can identify the columns giving the result for the bonds between these particular particle types. The later of the two numbers will always be two, as two columns are associated with every pair.
+The first number following gives the index of the column with the average bond distance measured, the number of such bonds will always be in the following column.
+
+Note: The file named {\tt \$PROJECTNAME.info.bonds} does not list bonds measured by this analysis, but bonds defined in the {\tt \$PROJECTNAME.data} file.
+
+\section{Diffusion measurements}
+
+\subsection{Definition}
+Diffusion coefficients are an equilibrium property. Thus for the computations to be sensible, the ensemble should be in equilibrium or steady state \todo{ref and/or write up steady state}.
+
+The derivations of the equations can be found in the standard literature, e.g.~\cite{Frenkel02, Haberlandt} or in the authors words in \cite{NeuenDipl}.
+
+Let $r_i(t) = x_i(t)-x_i(0)$.
+The \textbf{m}ean \textbf{s}quare \textbf{d}istance (MSD), reads as
+\begin{equation}
+\label{MSD}
+ \left< r^2(t) \right> = \frac{1}{n}\sum_{i=0}^{n} (r_i(t))^{2},
+\end{equation}
+resulting in the traditional formula for the diffusion coefficient
+\begin{equation}
+ D = \frac{1}{6} \frac{\left<r^2(t)\right>}{t},
+\end{equation}
+which is commonly referred to as the Einstein relation.
+
+There is a mathematically equivalent approach, which is not based on the averaging over distances but integrating over the velocities.
+This numerically different approach to the calculation of the diffusion coefficient is the \textbf{V}elocity \textbf{A}uto\textbf{c}orrelation (VAC).
+Using the classic equation
+\begin{equation}
+ r(t) = \int_0^t v(\tau) d\tau, \nonumber
+\end{equation}
+we obtain the VAC or Green-Kubo relation for diffusion:
+\begin{align}
+\label{derive_vac}
+ D & = \frac{1}{6}\frac{\partial}{\partial t} \left< r^2(t)\right> \\
+& = \frac{1}{6}\frac{\partial}{\partial t} \int_0^t \int_0^t \left< v(\tau' ) v(\tau'')\right> \, d\tau' \, d\tau''  \nonumber\\
+& = \frac{2}{6}\frac{\partial}{\partial t} \int_0^t \int_0^{\tau'} \left< v(\tau') v(\tau'')\right> \,d\tau' \, d\tau'' \nonumber\\
+& = \frac{1}{3} \frac{\partial}{\partial t} \int_0^t \int_0^{\tau'} \left< v(\tau'' -\tau') v(0)\right> \, d\tau' \, d\tau'' \label{variable_shift} \\
+& = \frac{1}{3} \int_0^t \left< v(t-\tau) v(0) \right> \, d\tau  \nonumber
+\end{align}
+where in \eqref{variable_shift} the fact that this is an equilibrium property is explicitly used to justify the shift in time~\cite{Frenkel02}.
+
+\subsubsection{Corrected Diffusion Measurement}
+\todo{ARTICLE OUT BEFORE MANUAL?!?}
+Particle motion is not always only random, may have directed components as well (\todo{ref outer forces}). 
+The separation of the particle movement in diffusive and convective parts is not taken into account in the 
+traditional computations of the diffusion coefficients. 
+Thus, when in addition to the diffusive motion an additional directed component is present during the measurement, it is necessary to correct for this convection induced movement, which might taint the results~\cite{NeuenDipl}.
+
+Obtaining the undirected mobility of the particles is achieved by subtracting the mean displacement before squaring in \eqref{MSD}, resulting in
+\begin{equation}
+ \left<L^2(t)\right> =\frac{1}{n} \sum_{i=0}^{n} \left(r_i(t) - \left<r(t)\right>\right)^{2}. \nonumber
+\end{equation}
+In this equation we measure in fact the variance of the variable ``distance traveled'', which allows the use of standard error estimation techniques for variance expressions. From this variance we can compute the diffusion over the time interval $t$
+\begin{equation}
+ D = \frac{1}{6} \frac{\left<L^2(t)\right>}{t}. \nonumber
+\end{equation}
+
+\fixme{This needs some more discussion, since steady state is violated.}
+We now turn towards a corresponding convection correction for the VAC. Beginning with the respective convection corrected variant, we find that
+\begin{align}
+ \left< L^2(t)\right> & = \frac{1}{n} \sum_{i=0}^{n} (r_i(t) - \left<r(t)\right>)^{2} \nonumber\\
+&=  2\int_0^t \int_0^{\tau}  \left( \left< v(\tau)v(\tau')\right> \,  - \left< v(\tau) \right>\left< v(\tau') \right> \right) d\tau' d\tau. \nonumber
+\end{align}
+We now perform the same shift in the variable as in the original derivation \eqref{variable_shift} and insert the above result in \ref{derive_vac} to obtain
+\begin{equation}
+\label{corrected_vac}
+ D = \frac{1}{3} \lim_{t\rightarrow \infty} \int_0^t \left< v(t-\tau) v(0) \right> - \left< v(t-\tau) \right>\left< v(0) \right> \, d\tau,
+\end{equation}
+which is the complete form of the convection corrected velocity autocorrelation.
+\todo{write about steady state}
+
+\subsection{MSD-Options}
+
+Things to set:
+\begin{itemize}
+\item \texttt{starttime} -- Self explanatory
+\item \texttt{resetinterval} -- The interval, after which starting positions and velocities are reinitialized to the current values. In essence a restart of the measurement procedure.
+\item \texttt{convection\_correction} -- Allows to choose, whether measurements shall be corrected for convective contributions.
+\item \texttt{measureflag} -- 0 == no measurement, 1 == only point-wise measurement, 2 == only mean measurement, 3 == point-wise and mean measurement
+\item \texttt{msdusegroups} -- \todo{This option is currently buggy.}
+\item \texttt{particle\_type} -- \todo{This option is currently buggy.}
+\item \texttt{groupno} -- \todo{This option is currently buggy.}
+\end{itemize}
+\todo{groups \& types currently out of order}
+
+\subsection{MSD-Output}
+The output of diffusion measurements can be found in the file \$PROJECTNAME.msd (\$PROJECTNAME.msd.mean). It is organized in 5 groups (6 if you count time), each of which has multiple columns (as e.g. the .ekin file). All groups have a column for the values of each particle type measured and one for the values of the complete system. The number is indicated in the head line of the file
+by \$GROUP($i$)($n$), where $i$ indicates the starting column, and $n$ the number of respective columns (equal to the number of particles measured). Additionally, there is a column \$GROUP\_sum, which is the sum of the previous ($n$) columns. The groups are:
+
+\begin{itemize}
+\item Time -- scaled time, needs to be converted to physical time
+
+\item MSD -- mean square displacement in chosen unit of length $\left<r^2(t)\right>$.
+
+\item Dif -- Diffusion computed by MSD in chosen units of length and time  $D = \frac{1}{6} \frac{\left<r^2(t)\right>}{t}$.
+
+\item VAC -- VAC for single time step - VAC averaged over particles but not time-scaled $\sum_iv_i(t-\tau) v_i(0) $.
+
+\item VACDif\_unscaled -- VAC summed for all particles - VAC summed over time and particles, but not averaged and time-scaled. $\int_0^t \sum_i v_i(t-\tau) v_i(0) $.
+
+\item VACDif -- VAC integral - averaged, time-scaled and dimension distributed - the diffusion value in chosen units of length and time $\frac{1}{3} \int_0^t \left< v(t-\tau) v(0) \right> \, d\tau$.\\
+(The relation \mbox{VACDif = $\frac{1}{3} \frac{\Delta t}{\# Particles} \cdot \text{VACDif\_unscaled}$ }holds.)
+\end{itemize}
+Note, that as always the units are tremolo reference units. Units of Dif and VACDif are equal.
+
+\emph{Note: Formulas given refer to the default, for the corrected method, the corrected formulas above apply!}
+
+
+
+\section{Velocity Distribution}
+
+\begin{lstlisting}
+velocity:               measure=on,             meanmeasure=off,                vis=off,        min=0,  max=0.006382352,        n_bin=50;
+\end{lstlisting}
+
+The options measure and meanmeasure work as described in \ref{measuresetting}.
+With {\tt n\_bin} you can specify in how many bins the particles shall be sorted in the interval from 0 to {\tt r\_cut}. Lastly you have to list the pairs for which you would like to receive the relevant data. 
+
+The data is added to the {\tt\$PROJECTNAME.histogram} files. By reading the first line of the file, you find in which columns the data of a particluar measurement is stored. 
+
+The first column has index 0 and indicates a point in time to which the rest of the information in the line corresponds. For the following columns you have to check for an expression such as {\tt VelocityDist[GMT-Argon](51)(50)}, where 
+{\tt Argon} is a particle type present in the simulation. (The shorthand {\tt GMT} stands for {\tt General Measure Type}. In most cases this defaults to the particle types, however if you declared separate group types ({\tt GrpTypeNo}) in the {\tt .data} file, you will find the respective group type numbers in four digit format.)
+
+The two numbers following the {\tt GMT} identifier indicate the columns occupied by the measurement: The first column contains the index for the column in which the measurement begins, while the second indicated the number of columns occupied, which corresponds to the number of bins chosen in the {\tt .parameter} file. Always remember that counting starts at 0 so that in the above example the data for the velocity distribution of {\tt Argon} starts in the $52^{nd}$ column and ends in the $101^{st}$ column.
+
+The value in each entry corresponds to the number of particles found to have the velocity associtated with the bin.
+
+
+\section{Stress}
+\label{output:stress}
+\todo{Not all of the information in stress is suitable for a user, so some rewriting is sensible}
+\subsection{Definitions}
+Let \( \vec{a}_1, \vec{a}_2, \vec{a}_3 \) be the basis vectors of the simulation box. Let \( h = [\vec{a}_1, \vec{a}_2, \vec{a}_3] \) be a 3x3 matrix. Let \( \vec{r}_i \) be the positions and \( \vec{v}_i \) the velocities of the \( n \) particles. The volume comes out to \( \Omega = \det{h} \). Defining the scaled positions
+\[ \vec{s}_i =  h^{-1}\vec{r}_i\]
+we get
+\( \vec{v}_i = \dot{\vec{r}}_i = h\dot{\vec{s}}_i \), with \( \dot{h} = 0 \). Force: \( F_i = m_i\ddot{\vec{r}}_i \) with mass \( m_i \).
+
+
+\subsubsection{Internal Stress Tensor I}
+\label{subsec:StressTensor}
+Let \( E(\vec{r}_1, \dots, \vec{r}_n; \vec{v}_1, \dots, \vec{v}_n) = E(\{\vec{r}_i\}; \{\vec{v}_i\})\) be the total energy. It can also be written as a function of h: \( E^h(\{\vec{s}_i\}; \{\dot{\vec{s}}_i\}; h) = E(\{h\vec{s}_i\}; \{h\dot{\vec{s}}_i\})\)
+The stress-tensor (internal stress tensor) \( \Pi \) is defined as follows:
+\begin{equation*}
+  \begin{split}
+    \Pi_{\alpha \beta}  
+    & = -\frac{1}{\Omega} \sum_\gamma \frac{\partial E^h}{\partial h_{\alpha \gamma}}h_{\beta \gamma} \\
+    \Pi
+    & = -\frac{1}{\Omega} \sum_i \left( m_i\vec{v}_i\vec{v}_i^T + \vec{r}_i\vec{F}_i^T \right)
+  \end{split}
+\end{equation*}
+By definition of the pressure tensor \( P \) we have
+\[ \left(
+  \begin{array}{ccc}
+    P_{xx} & P_{xy} & P_{xz} \\
+    P_{yx} & P_{yy} & P_{yz} \\
+    P_{zx} & P_{zy} & P_{zz}  
+  \end{array}
+\right)=-\Pi 
+\]
+ and for the instantaneous hydrostatic pressure \( p = \frac{1}{3}\mathrm{Spur}\;P \). These magnitudes are computed in the program. (Identified as stress throughout the code and is by this definition the pressure tensor.) (Also note:  e.g. \(P_{xy} = \frac{1}{\Omega} \sum_i \left( m_i\vec{v}_{ix}\vec{v}_{iy} + \vec{r}_{ix}\vec{F}_{iy} \right)\)
+: This definition is the usual one. It is only valid in case of a finite volume. \todo{periodic, reflecting?}. \textbf{Thus the formula may not be used as is in the periodic case!(For discussion see section \ref{sec:Implementation})}
+
+
+\subsubsection{Internal Stress Tensor II}
+Let 
+\[ \epsilon = \left(
+  \begin{array}{ccc}
+    \epsilon_{xx} & \epsilon_{xy} & \epsilon_{xz} \\
+    \epsilon_{yx} & \epsilon_{yy} & \epsilon_{yz} \\
+    \epsilon_{zx} & \epsilon_{zy} & \epsilon_{zz}  
+  \end{array} 
+\right)
+\]
+In analogy to the above let: \( E^\epsilon(\{\vec{r}_i\}; \{\vec{v}_i\}; \epsilon) = E(\{(1+\epsilon)\vec{r}_i\}; \{(1+\epsilon)\vec{v}_i\})\). Then
+\[
+\left. -\frac{\partial E^\epsilon}{\partial \epsilon_{\alpha \beta}} \right|_{\epsilon_{\alpha \beta} = 0} = \Omega  \Pi_{\alpha \beta}.
+\]
+holds. The gradient on the left side can be used for a steepest descend or conjugated gradient procedure. To compute the stress tensor one only has to choose a normalization coefficient: \(\Omega \). 
+
+Note: In the case of tubes the literature is not specific about what volume to choose. Some use the full cylinder, some a pipe with some thickness, other assume a volume per particle and even other people define a surface-stress-tensor by dividing through the surface instead of the volume of the tube.
+
+
+\subsubsection{Stress-Strain} 
+\todo{more of an experiment suggestion?}
+The following description refers to an experiment with a nanotube: The tube is oriented along the z-axis. The tube is observed in a reference state (normally equilibrium) with a deflection \( l_0 \) in z direction. Now the experiment is performed (pushing/pulling in z direction) and the deflection in z direction and the zz-component of the stress-tensors \( \Pi_{zz} \) are computed.
+For a stress-strain-diagram use the measured stress and the computed strain \( \epsilon_z = \frac{l-l_0}{l_0} \).
+
+
+\subsubsection{Young Modulus}
+\todo{more of an experiment suggestion?}
+We assume (and experiments confirm), that a tube behaves as a spring. Thus one chooses \( l_0 \) as equilibrium. Now we obtain a linear stress-strain diagram for some domain (as for a spring). In this case the Young Modulus is the slope of the line (corresponding to Hooks constant). Generally the definition is:
+\[
+Y_{\alpha \beta} = \frac{1}{\Omega}\left. \frac{\partial^2 E}{\partial^2 \epsilon_{\alpha \beta}} \right|_{\epsilon_{\alpha \beta} = 0}
+\]
+Sometimes (possibly to circumvent the volume problem) the following definition is used:
+\[
+Y_{\alpha \beta} = \frac{1}{n} \left. \frac{\partial^2 E}{\partial^2 \epsilon_{\alpha \beta}}\right|_{\epsilon_{\alpha \beta} = 0}.
+\]
+Observing the stress-strain diagrams, those are found to be parabolas, with a minimum for strain \( = 0 \) (with \( l_0\) the equilibrium). And the Young Modulus is (corresponding to the spring assumption) the curvature in 0 (lacking normalization). \todo{Sign might be wrong.}
+
+\subsection{Implementation}
+\label{sec:Implementation}
+According to section (\ref{subsec:StressTensor}) the formula for the stress-tensor reads:
+\begin{equation}
+  \label{for:nonperiodicstress}
+  \Pi = -\frac{1}{\Omega} \sum_i \left( m_i\vec{v}_i\vec{v}_i^T + \vec{r}_i\vec{F}_i^T \right)
+\end{equation}
+In the periodic case the term
+\begin{equation}
+  \label{for:nonperiodicstress2}
+   \vec{r}_i\vec{F}_i^T
+\end{equation}
+needs separate treatment, since also the forces between the particles and the periodic images need to be taken into account.
+
+
+\emph{Question}: Where is the problem?\\
+\emph{Answer}: In the derivation of \ref{for:nonperiodicstress} and \ref{for:nonperiodicstress2} it was assumed that:
+\begin{equation}
+  E_{pot}(\{\vec{r}_i\}) = E_{pot}(\{h\vec{s}_i\})
+\end{equation}
+However this assumption does not necessarily hold in the periodic case, since $E_{pot}$ is not only dependent on $\{h\vec{s}_i\}$. We have for the periodic potential:
+\begin{equation}
+  E_{pot}(h,\{\vec{r}_i\}) = E_{pot}(h,\{h\vec{s}_i\})
+\end{equation}
+Thus we don't obtain a formula reducing the stress to dependencies of \(\vec{F}_i\) and \(\vec{r}_i\), however for the commonly used potentials the following approach is valid:
+\begin{equation}
+  E_{pot}(h,\{\vec{r}_i\}) = E_{pot}(h,\{\vec{r}_{i'}\}) = E_{pot}(\{\vec{r}_{i'}\}) = E_{pot}(\{h\vec{s}_{i'}\})
+  .
+\end{equation}
+where
+\begin{equation}
+  \{\vec{r}_{i'}\} = \{ \vec{r}_{i'} \,|\, \vec{r}_{i'}=h\mathbf{a}\, , \, \mathbf{a} \in \mathbb{Z}^3\}
+\end{equation}
+This set can generally be reduced to a finite one (\emph{cutoff}).
+
+Using pair potentials (The third law of Newton holds) we can do the following:
+\begin{equation*}
+  \begin{split}
+    \vec{r}_{ij} 
+    & := \vec{r}_{j} - \vec{r}_{i} \\
+    \vec{F}_{i} 
+    & = \sum_{j \neq i} \vec{F}_{ij} \quad \textrm{mit \(\vec{F}_{ij}\) von i nach j} 
+  \end{split}
+\end{equation*}
+s.t. without use of periodic images
+\begin{equation}
+  \label{for:ImpStress}
+  \sum_i \vec{r}_i\vec{F}_i^T = \sum_{i<j} -\vec{r}_{ij}\vec{F}_{ij}^T
+\end{equation}
+holds.
+
+The right hand side of (\ref{for:ImpStress}) contains only differences of \(\vec{r}_{ij}\). Thus the stress can be computed by use of the forces over the course of a standard linked cell method. Together with periodic images we have
+\begin{equation}
+  \sum_i \vec{r}_i\vec{F}_i^T+\sum_{i''} \vec{r}_{i''}\vec{F}_{i''}^T = \sum_{i<j} -\vec{r}_{ij}\vec{F}_{ij}^T + \sum_{i<j''} -\vec{r}_{ij''}\vec{F}_{ij''}^T
+\end{equation}
+where: $\{\vec{r}_{i''}\} = \{\vec{r}_{i'}\} \backslash \{\vec{r}_{i}\}$. Specifically, there is no contribution of an interaction within $\{\vec{r}_{i''}\}$.
+Of course there are other methods to deal with this problem, such as:
+
+As done in the parallel case anyways, (periodic) boundary cells could be added, in which the images with respective coordinates are held. All that is left to do then is \textit{correct} summation. (Left hand side of (\ref{for:ImpStress}) also for periodic images.)
+
+With the different potential types (2-body, 3-body, Coulomb, ...) the solutions to the \textit{periodic image} problem vary
+
+Note:
+With the exception of coulomb all force contributions are reduced to pair terms (analogous to the right hand side of (\ref{for:ImpStress})). 
+
+Example 3-body (j-i-k) with \( F_i = -F_j -F_k \)
+\begin{equation*}
+   \vec{r}_{i}\vec{F}_{i}^T+\vec{r}_{j}\vec{F}_{j}^T+\vec{r}_{k}\vec{F}_{k}^T = \vec{r}_{ij}\vec{F}_{j}^T+\vec{r}_{ik}\vec{F}_{k}^T
+\end{equation*}
+or 4-body (i-j-k-l) with \(F_i=-F_j-F_k-F_l\) and
+\begin{eqnarray*}
+  F_i & = & -F_0 \\
+  F_j & = & F_0-F_1 \\
+  F_k & = & F_1-F_2 \\
+  F_l & = & F_2
+\end{eqnarray*}
+\begin{equation*}
+  \vec{r}_{i}\vec{F}_{i}^T+\vec{r}_{j}\vec{F}_{j}^T+\vec{r}_{k}\vec{F}_{k}^T+\vec{r}_{l}\vec{F}_{l}^T = \vec{r}_{ij}\vec{F}_{0}^T+\vec{r}_{jk}\vec{F}_{1}^T+\vec{r}_{kl}\vec{F}_{2}^T
+\end{equation*}
+The coulomb case requires extra formulas.
+
+\subsection{Output syntax}
+The stress measurements are written to the \texttt{\$PROJECTNAME.stress} file. In this file the information is organized as follows:
+%# Time		ssxx	ssxy	ssxz	ssyy	ssyz	sszz	svxx	svxy	svxz	svyy	svyz	svzz	ssxxmin	ssxxmax	ssyymin	ssyymax	sszzmin	sszzmax	ssxymin	ssxymax	ssxzmin	ssxzmax	ssyzmin	ssyzmax
+\begin{itemize}
+\item The first column contains the time.
+\item The following 6 columns (indices 2-7) contain the stress/strain matrix entries (taking into account symmetrie) in the order \texttt{xx, xy, xz, yy, yz, zz}. 
+\todo{Only the non velocity part? I compared to the .mbox fiel.}
+\item The next 6 columns (indices 8-13) contain the velocity part of the stress tensor.
+\item In the last 12 columns the respective minimal and maximal contributions to the stress are recorded. The min/max pairs are listed together for each matrix entry. 
+\emph{Note that here the diagonal entries are listed first, followed by the off-diagonal entries \texttt{xy, xz, yz}.}
+\end{itemize}
+
+\subsection{Individual Stress}
+Tremolo-X provides the ability to compute the individual stress of each particle, or to be more precise: The equivalent stress contributions originating at an
+individual particle. In order to switch those computations on, you need to add the following line(s) in the parameters file:
+\begin{lstlisting}
+output  {
+  analyze {
+    local_stress: localstress=on;
+  };
+};
+\end{lstlisting}
+(The {\tt output} and {\tt analyze} environments might already be present for other measurements; the relevant keyword is the {\tt local\_stress}.)
+
+
+\section{Box Dimensions and Forces}
+.mbox and .mforce
+\paragraph{mbox}
+\todo{Double check all (specifically positions)!} This file contains:
+\begin{itemize}
+  \item time/optimization step: 1 column
+  \item box volume: 1 column\\
+    The volume is computed as the determinant of the boxmatrix: $det(H_x)$
+  \item box pressure: 1 column
+  \item Box H\_x: NDIM*NDIM columns \\
+    The box vectors describing the parallelepiped (the box matrix).
+  \item (Box H\_u: NDIM*NDIM columns)\\
+    The vectors denoting the change of the box (virtual velocity) (if in dynamics mode).
+  \item Box H\_F: NDIM*NDIM columns\\
+    The vectors denoting the virtual force on the box.
+    (see e.g. Section 2.1.1 in \cite{Griebel.Hamaekers:2005b})
+  \item Box Stress Tensor: 2*NDIM columns\\
+    Since the stress tensor is symmetric, there are only entries {\tt xx, xy, xz, yy, yz, zz}, while {\tt xy=yx} etc.
+  \item (Box Vel StressTensor: 2* NDIM columns)\\
+    The velocity contribution to the above stress tensor.
+  \item HVecOPNorm: 3 columns (x, y, z)\\
+    These three lines contain the projection of the box vectors on the orthogonal system of the box.
+   In most cases these values can be ignored, since they serve mainly internal purposes. However if
+   you do not know the orthogonal projection (size) of your box those values can be of help.
+   Note that the orthogonal system of the box is not necessarily the Cartesian system, if your box
+   vectors include a rotation. (In the Cartesion case these values are identical to the vector norm of the three box vectors as a special case.)
+\end{itemize}
+
+
+
+
+
+
+
+\paragraph{mforce}
+In the optimization case we find the output of the norm of the full force vector in this file (normalized by degrees of freedom).
+\begin{equation*}
+\sqrt{\frac{P->Dynamics.ParOpt.NormSqF}{\left(NDIM \cdot \#Particles\right)}}
+\end{equation*}
+
+\draft{
+\paragraph{mforce.mean}
+\todo{empty?}
+}
+
+\section{Runtime measurement}
+Tremolo-X also provides you with some information about its runtime performance. The information is amended to {\tt \$PROJECTNAME.speed}, meaning that the information of previous simulations with the same name in the same folder is retained. Each simulation adds two lines to the file, one line with column headers, which is always identical and one line with the respective data.
+
+The information displayed is the following:
+\begin{itemize}
+\item \texttt{init}: The time used for initialization of the simulation.
+\item \texttt{sim}: The time used for the actual simulation
+\item \texttt{output}: The time used to output the simulation results. 
+\item \texttt{average}: The average time that was used to compute one time/optimization step.
+\item \texttt{min}: The minimum time that was used for one time/optimization step.
+\item \texttt{max}: The maximum time that was used for one time/optimization step.
+\item \texttt{stddev}: The standard deviation of the time use per time/optimization steps.
+\item \texttt{steps}: The number of time/optimization steps.
+\item \texttt{particles}: The number of particles in the simulation.
+
+\end{itemize}
+
+\section{Information files}
+In these files some information from the .data file is recollected in a different format.
+
+\begin{itemize}
+\item \$PROJECTNAME.info.bonds \\
+  This file contains an adjacency list for all bonded particles. The first non-comment line contains the number of bonds, followed
+by list of bonds by particle id's. There are no repetitions (e.g. bond [3 25] is listed, [25 3] is not).
+\item \$PROJECTNAME.info.particlegroups\\
+  This file lists the different groups to which each particle belongs. The first column contains the particles by id, followed by {\tt ParTypeNo} {\tt GrpMesTypeNo} and {\tt ExtTypeNo}.
+  \todo{ExtTypeNo}
+\item \$PROJECTNAME.info.particletypes \\
+  This file lists some properties of the different particle types used in the simulation. \draft{Each particle type is assigned its number, chemical element and name in addition to the \todo{DefaultZ}, \todo{DefaultRadius} and \todo{DefaultRGB} \todo{Are these EAM (Embedded Atom Method) parameters?}}
+\end{itemize}
+
+
+\section{Pressure}
+\todo{inner vs. outer pressure?}
+
+\section{Center of Mass}
+This file is self explanatory, it contains for columns, of which the first is the time and the remaining three contain the x-, y-, and z-coordinates of the center of mass.

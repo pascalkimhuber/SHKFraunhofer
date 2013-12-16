@@ -1,0 +1,497 @@
+\chapter{Ensembles and Thermostats}
+\label{ensembles}
+
+Ensembles can be chosen from the set \{NVE, NVT, NPT, NPE\} \todo{check NPE}
+The letters specify a conservation value, which in combination define the statistical ensemble to be simulated.
+
+N = Number of particles
+
+V = Volume of domain
+
+E = Energy (total = kinetic + potential)
+
+T = Temperature (kinetic energy)
+
+P = Pressure
+
+The choice of ensembles which conserve temperature and/or pressure require the use of a thermostat and/or barostat.
+Furthermore, note that if you choose leaving boundary conditions for at least one boundary, the conservation of particles and thus the chosen statistical ensemble may be violated.
+
+\section{Propagators}
+\label{propagator}
+
+The simulation of particle motion may be executed with several different propagation algorithms.
+In particular, Tremolo-X supports the choice of:
+
+\begin{itemize}
+ \item verlet = Verlet algorithm
+ \item \{beeman2, beeman3, beeman4, beeman5\} = Beeman-Verlet algorithm of order 2--5.
+ \item \{beeman2v, beeman3v\} = Velocity-Beeman-Verlet algorithms with order 2 or 3.\\
+\end{itemize}
+
+Note, that the use of some thermostats may demand or prohibit the choice of some propagators:
+The Berendsen thermostat does not work with \{beeman2v, beeman3v\}, whereas the Nose-Hoover thermostat works only with those two.
+
+The parameter \texttt{delta\_T} fixes the time step length in units specified in the .tremolo file.
+
+The \texttt{endtime} defines the duration of the simulation, again in units specified in the .tremolo file.
+
+\todo{timeinteps and maxiteration}
+
+\section{Thermostats}
+\label{thermostats}
+
+When running a simulation with an ensemble which specifies T, the use of a thermostat is required. Tremolo-X supplies several thermostats to use, which fit different demands.
+All thermostats use the relation between kinetic energy of the particles and temperature:
+\begin{align*}
+E_{kin} & = \sum_{i=1}^N \frac{m_i}{2}\vec{v}_i^2=\frac{3N}{2}k_BT\\
+T & = \frac{2}{3Nk_B} \sum_{i=1}^N\frac{m_i}{2}\vec{v}_i^2
+\end{align*}
+Thus the temperature of the ensemble is controlled by influencing the individual particles. Several different schemes for influencing particles are available, which have very different properties and corresponding advantages and disadvantages.
+
+\subsection{Berendsen Thermostat}
+The Berendsen thermostat works by direct scaling of all velocities. The scaling factor is determined as
+\begin{equation*}
+\beta:=\sqrt{E_{kin}^D/E_{kin}}=\sqrt{T^D/T},
+\end{equation*}
+where $T_D$ is the desired value, while $T$ is the currently measured value. The scaling of the velocities is then
+\begin{equation*}
+\vec{v}_i^{new}=\beta\vec{v}_i^{old}.
+\end{equation*}
+This scaling is performed after a time-interval (specified in parameter T\_Interval) has passed. Time intervals larger than the integration timestep allow the ensemble to achieve some equilibration between the potential and kinetic energy. At the correction point, the velocities of all particles are scaled, so that the kinetic energy exactly matches the specified temperature.
+
+Note that the Berendsen thermostat does not work in combination with propagators of the type Velocity-Beeman-Verlet.
+
+This thermostat does not conserve an abstract energy definition.
+While this thermostat does conserve the total momentum of the system, the angular momentum will not be preserved.
+
+\subsection{Nose Thermostat}
+\todo{not implemented yet}
+
+\subsection{Nose-Hoover Thermostat}
+This thermostat uses a virtual heat bath, coupled to the system via a non-physical traction term. This acts as an additional force term in the equations of motion:
+\begin{align*}
+\dot{\vec{x}}_i & =\vec{v}_i,\\
+m_i\dot{\vec{v}}_i & =\vec{F}_i-\xi m_i\vec{v}_i.
+\end{align*}
+
+The magnitude of the traction term $\xi$ is determined by a differential equation, which ties it to the difference between the current and desired temperature. 
+\begin{equation*}
+\frac{d\xi}{dt}=\left( \sum_{i=1}^N m_i\vec{v}_i^2 - 3Nk_BT^D \right)/M
+\end{equation*}
+The strength of this coupling is determined by the parameter $M$, called the Hoover-Mass.
+This thermostat does not cause instantaneous effects, it rather allows (and by design causes) ``overshooting'' the desired temperature, leading to an oscillating kinetic energy. 
+The choice of the Hoover mass has a substantial impact on the behavior of the thermostat, however to the best of the authors knowledge there is not precise method to help in the 
+choice of this constant. 
+While it can be derived from the differential equation, that the mass should scale with the total mass of the ensemble, there are indications that target temperature and ensemble
+pressure have an influence as well. Thus it is necessary to make educated guesses or find suitable values in the reports of prior, similar experiments.
+
+On a good note, this thermostat does conserve an abstract energy, the so called Hoover energy.
+
+The Nose-Hoover thermostat only works in combination with propagators of the type Velocity-Beeman-Verlet.
+
+
+\subsection{DPD Thermostat}
+\todo{DPD}
+
+\section{Parrinello-Rahman(-Nos\'e) Barostat}
+\label{section:ensembles:barostat}
+\subsection{Idea}
+The pressure and temperature should be controlled by the use of additional degrees of freedom.
+
+We use a scaling of the coordinate vector:
+\begin{equation}
+  \vec{r}_i = h \vec{s}_i
+\end{equation}
+where \( h = [ a_0, a_1, a_2 ] \) is a 3x3-matrix, with basis vectors \( a_0, a_1, a_2 \) of the periodic simulation domain (volume: \( \Omega = \det{h} \) ) and consequently we have \( s_i \in [0,1)^3 \).
+
+\todo{What is alpha for scaled velocities: Dependence on h?}Scaled velocities:
+
+\begin{equation}
+  \dot{\vec{r}}_i' = \alpha \dot{\vec{r}}
+  .
+\end{equation}
+
+The matrix \( h \) and the variable \( \alpha \) will be used control the pressure and temperature of a suitably extended system.
+Towards this purpose we use the fictitious (non-physical!) potentials of the thermodynamic variables \( P \) and \( T \), defined as
+\begin{equation}
+  \begin{split}
+    V_P = 
+    & P \det{h} \\
+    V_T = 
+    & \frac{g}{\beta}\ln{\alpha}
+  \end{split}.
+\end{equation}
+Here, \( P = P_\mathrm{ext} \) is the external system pressure, \( \beta = k_BT \) and \( g \) is a constant corresponding to the number of degrees of freedom of the system.
+
+\subsection{Parrinello-Rahman-Nos\'e Hamilton-function}
+
+\paragraph{Definition:}
+  The extended Lagrange function of a NPT system is defined as follows:
+  \begin{equation}
+    \label{for:LagrangeFunktion}
+    \mathcal{L} = \frac{1}{2} \sum_i^N m_i \alpha^2 \dot{\vec{s}}_i^T h^T h \dot{\vec{s}}_i + \frac{1}{2} W \alpha^2 \mathrm{tr}(\dot{h}^T\dot{h}) + \frac{1}{2} Q \dot{\alpha}^2 - V - P_\mathrm{ext} \Omega - \frac{g}{\beta}\ln{\alpha}
+    ,
+  \end{equation}
+  where \( m_i \) is the mass of the \(i^{th}\) particle, \( Q \) the fictitious mass of the Nos\'e-Thermostat and \( W \) the fictitious mass of the simulation cell (barostat). 
+
+\bigbreak
+\bigbreak
+
+Thus the following conjugated momenta can be extracted:
+\begin{equation}
+  \begin{split}
+    \vec{T}_i =
+    & m_i G \alpha^2 \dot{\vec{s}}_i , \quad G = h^Th \\
+    P_h =
+    & \alpha^2 W \dot{h} \\
+    p_\alpha =
+    & Q\dot{\alpha}
+  \end{split}
+\end{equation}
+An from those we obtain the Hamiltonian:
+\begin{equation}
+  \mathcal{H} = \frac{1}{2}\sum_i^N \frac{\vec{T}_iG^{-1} \vec{T}_i}{m_i\alpha^2}+\frac{1}{2}\frac{\mathrm{tr}(P_h^TP_h)}{\alpha^2 W} + \frac{p_\alpha^2}{2Q}+V+P_\mathrm{ext}\Omega+\frac{g\ln{\alpha}}{\beta}
+\end{equation}
+To obtain the corresponding equations of motion one has to deal with varying timesteps. Thus the following relations are used:
+\begin{equation}
+  \begin{split}
+    \vec{T}_i \quad \rightarrow \quad
+    & \frac{\vec{T}_i}{\alpha} \\
+    P_h \quad \rightarrow \quad
+    & \frac{P_h}{\alpha} \\
+    p_\alpha \quad \rightarrow \quad
+    & \frac{p_\alpha}{\alpha}
+  \end{split}
+\end{equation}
+Furthermore, we introduce the new conjugated momenta
+\begin{equation}
+  \vec{p}_i \equiv G^{-1}\vec{T}_i
+\end{equation}
+in order to write
+\begin{equation}
+  \dot{\vec{s}}_i = \frac{\vec{p}_i}{m_i}
+\end{equation}
+for the corresponding velocities (no knowledge of $h$ required).\\
+Consequently
+\begin{equation}
+  \begin{split}
+    t \quad \rightarrow \quad
+    & \frac{t}{\alpha} \\
+    \eta \quad \equiv \quad
+    & \ln{\alpha}
+    .
+  \end{split}
+\end{equation}
+Also,
+\begin{equation}
+  \label{for:Hamilton}
+  \mathcal{H} = \frac{1}{2}\sum_i^N \frac{\vec{p}_iG^{-1} \vec{p}_i}{m_i}+\frac{1}{2}\frac{\mathrm{tr}(P_h^TP_h)}{W} + \frac{p_\eta p_\eta}{2Q}+V+P_\mathrm{ext}\Omega + g k_B T \eta
+\end{equation}
+Thus we obtain the equations of motion:
+\begin{equation}
+  \label{for:EQoM}
+  \begin{split}
+    \dot{\vec{s}}_i = 
+    & \frac{\vec{p}_i}{m_i}, \quad \dot{h} = \frac{P_h}{W}, \quad \dot{\eta} = \frac{p_\eta}{Q} \\
+    \dot{\vec{p}}_i = 
+    & h^{-1}\vec{f}_i-m_iG^{-1}\dot{G}\vec{p}_i-\frac{p_\eta}{Q}\vec{p}_i ,\\
+    \dot{P}_h = 
+    & \mathcal{V}+\mathcal{K}-h^{-T}P_\mathrm{ext}\det{h}-\frac{p_\eta}{Q}P_h ,\\
+    \dot{p}_\eta =
+    & \sum_i^N\frac{\vec{p}_i^T\vec{p}_i}{m_i}+\frac{\mathrm{tr}(P_h^TP_h)}{W}-g k_B T
+  \end{split}
+\end{equation}
+where
+\begin{equation}
+  \begin{split}
+    f_i = 
+    & -\nabla_{r_i} V \\
+    \mathcal{V} = 
+    & \sum_i^N\vec{f}_i\vec{s}^T_i \\
+    \mathcal{K} = 
+    & \sum_i^N m_i h \dot{\vec{s}}_i \dot{\vec{s}}_i^T 
+    .    
+  \end{split}
+\end{equation}
+
+For the pressure tensor and thus the pressure we have:
+\begin{equation}
+  \begin{split}
+    \Pi_\mathrm{int} = 
+    & \frac{1}{\Omega}\sum_i^N\left(\frac{\vec{p}_i \vec{p}_i^T}{m_i}+\vec{f}_i\vec{r}_i^T \right) \\
+    P_{int} = 
+    & \frac{1}{3} \mathrm{tr}(\Pi_\mathrm{int}) 
+  \end{split}
+\end{equation}
+specifically:
+\begin{equation}
+  \frac{1}{\Omega}(\mathcal{V}+\mathcal{K})h^T = \Pi_\mathrm{int}
+\end{equation}
+holds.
+
+\subsection{Implementation}
+The equations of motion (\ref{for:EQoM}) can be implemented as usual, but one has to pay attention to the propagator, since:
+\begin{equation}
+  \begin{split}
+    \dot{\vec{p}}_i = 
+    & h^{-1}\vec{f}_i-G^{-1}\dot{G}\dot{\vec{s}}_i-\frac{p_\eta}{Q}\dot{\vec{s}}_i \quad \textrm{oder}\\
+    \ddot{\vec{s}}_i = 
+    & \frac{1}{m_i}\left(h^{-1}\vec{f}_i-G^{-1}\dot{G}\dot{\vec{s}}_i-\frac{p_\eta}{Q}\dot{\vec{s}}_i\right)
+  \end{split}
+.
+\end{equation}
+Also, \( \ddot{\vec{s}}_i(t) \) depends on \( \dot{\vec{s}}_i(t) \). This problem can be solved by using an iterative variant of the Beeman algorithm ($3^{rd}$ order).
+\subsubsection{Iterative Beeman}
+\begin{align}
+&  i) &x(t+\delta t)  & = & x(t) +\delta t \dot{x}(t)+\frac{\delta t^2}{6}\left[4\ddot{x}(t)-\ddot{x}(t-\delta t)\right] \\
+&  ii) &\dot{x}^{(p)}(t+\delta t) & = & \dot{x}(t) +\frac{\delta t}{2}\left[3\ddot{x}(t)-\ddot{x}(t-\delta t)\right]\\
+&  iii) &\ddot{x}(t+\delta t) & = & F\left(\{x_i(t+\delta t), \dot{x}_i^{(p)}(t+ \delta t)\}, i = 1 \dots n \right)\\
+&  iv) &\dot{x}^{(c)}(t+\delta t) & = & \dot{x}(t)+\frac{\delta t}{6}\left[2\ddot{x}(t+\delta t)+5\ddot{x}(t)-\ddot{x}(t- \delta t)\right]\\
+&  v) & \textrm{Replace } \dot{x}^{(p)} & \textrm{by }& \dot{x}^{(c)} \textrm{ and go to iii}
+\end{align}
+For each cycle of the iteration the only change for the computation of forces in step iii is the velocity, thus the (usually expensive) computation of the gradient of the potential needs to be performed only once. A break criteria can be constructed by the relative changes of the velocities (e.g. from experience: \(10^{-7}\) yields 2 to 3 cycles).
+
+\subsubsection{Constraints on $h$}
+The nine degrees of freedom of \(h\) are unphysical, at least rotations should be excluded.
+\paragraph{Naive}
+Fix the entries of the force acting on \(h\) (=\(F_h\)) to zero below the main diagonal. This corresponds to a virtual constraining force to avoid rotations.
+\paragraph{Symmetric}
+Only allow symmetric contribution of \(F_h\), this is enforced by setting  \( F_h^S = \frac{1}{2}(F_h+F_h^T)\).
+\paragraph{Isotrop}
+5 constraints
+\begin{equation}
+  \frac{h_{\alpha \beta}}{h_{11}} - \frac{h_{\alpha \beta}^0}{h_{11}^0} = 0 \quad \alpha \leq \beta
+\end{equation}
+and corresponding changes for the velocities (e.g. for the use of RATTLE).
+
+\begin{equation}
+  \dot{h}_{\alpha \beta} - \frac{h_{\alpha \beta}^0}{h_{11}^0}\dot{h}_{11}= 0
+  .
+\end{equation}
+Due to the symmetry of the stress-tensor only one degree of freedom remains, which can be interpreted as a volume. For the reference matrix \( h^0 \) the initial matrix is chosen. 
+
+\todo{ Man kann nun damit nicht nur \({\Pi_{int}}_{11}\) einen Einfluss hat, die Kraft die auf \(h_{11} \) wirkt gleich dem Druck setzen. (Analog zu Andersen). Dies machen wir in unserem Code.}
+
+\subsection{parameters}
+The above description is reflected in the following parameters:
+\todo{experiment with constraints.}
+{\small 
+\begin{lstlisting}
+parinello:      state={on, off},      f_mass=#FLOAT;
+constraint:     type=none;
+constraintmap:  xx=1, xy=1, xz=1, yx=1, yy=1, yz=1, zx=1, zy=1, zz=1;
+constantpressure:       state={on | off}, Pressure=#FLOAT;
+Timeline: state={on | off}, [time,  pressure, interpolation=(0, 0, constant)];
+stresstensor: [time, stress, interpolation,  xx, xy, xz, yy, yz, zz=(0, 0, constant, 0, 0, 0, 0, 0, 0)];
+\end{lstlisting}
+}
+\todo{timeline problems}
+
+\subsection{Note}
+\todo{move to appendix}
+\subsubsection{Molecule Scaling}
+The described and implemented approach is the so called \textit{atomic scaling}. In addition there is another variant called \textit{molecule scaling}. In the following equations $i$ 
+is the index of a molecule, while $k$ is the index of an atom (belonging to the $k^{th}$ molecule).
+\(R_{i}\) are the coordinates of the \textit{center of mass} and $S_i$ the respective scaled coordinates.
+$w_{ik}$ specifies the relative coordinates of the atom $k$ with respect to the center of mass of molecule $i$.
+
+\begin{equation}
+  \begin{split}
+    r_{ik} =
+    & R_{i} +w_{ik} = hS_i + w_{ik}\\
+    \dot{R}_{i}' =
+    & \dot{R}_{i}\alpha \\
+    \dot{w}_{i}' =
+    & \dot{w}_{i}\alpha
+  \end{split}
+\end{equation}
+From those equation corresponding Lagrange- and Hamilton functions with their respective equations of motion can be derived. (Those are are essentially extended by \glqq$w$-terms\grqq. This approach is not implemented, since it would interfere with efficient parallelization.
+
+It can be shown that both approaches display the same statistical behavior of pressure and stress.
+
+\subsubsection{Degrees of Freedom}
+\textit{atomic:} \( N_f = 3N \), where \( N\) is the number of atoms. Then the following holds:
+\begin{itemize}
+\item \textit{nonperiodic:} \(N_f=3N-6\) since translation and rotation of the \textit{center of mass} may be ignored.
+\item \textit{periodic:} (as in the Parrinello-Rahman case (else this would be insensible)) \(N_f=3N-3\) since only translation may be ignored.
+\subsubsection{Temperature}
+\[
+T_{instan}=\frac{2K}{N_fk_B}, \quad K = \frac{1}{2}\sum_i^N\frac{\vec{p}_i^T\vec{p}_i}{m_i}
+\]
+The \(T\) from (\ref{for:Hamilton}) is the desired temperature.
+\end{itemize}
+\subsubsection{Fictitious Masses}
+Educated guessing! Compare to other successful experiments. However there is very little information on this particular aspect.
+\subsection{Euler-Lagrange and Hamilton equations}
+Only as a reminder \todo{Move to appendix?}
+\subsubsection{Newton}
+\begin{equation}
+  \begin{split}
+    F 
+    & = \frac{dp}{dt} \quad \textrm{with} \\
+    p 
+    & = m\dot{q} \quad \textrm{and with} \quad \dot{m}=0 \\
+    F 
+    & = m \ddot{q}
+  \end{split}
+\end{equation}
+\subsubsection{Lagrange}
+\begin{equation}
+  \begin{split}
+    L(q, \dot{q}) 
+    & = T(\dot{q})-V(q) \\
+    \frac{\partial L}{\partial q} 
+    & = -\frac{dV}{dq} \\
+    \frac{\partial L}{\partial \dot{q}} 
+    & = -\frac{dT}{d\dot{q}} = m\dot{q}=p
+  \end{split}
+\end{equation}
+Euler-Lagrange equations of motion
+\begin{equation}
+  \begin{split}
+    \frac{d}{dt}\left(\frac{L}{\dot{q}}\right) 
+    & = \frac{\partial L}{\partial q} \quad \textrm{or} \\
+    \dot{p} 
+    & = \frac{\partial L}{\partial q} 
+  \end{split}
+\end{equation}
+\subsubsection{Hamilton}
+\begin{equation}
+  \begin{split}
+    H(p,q) 
+    & \equiv p\dot{q}-L(q,\dot{q}) \quad \textrm{ with equation of motion} \\
+    \frac{\partial H}{\partial p} 
+    & = \dot{q} \quad \textrm{and} \\
+    -\frac{\partial H}{\partial q}
+    & = \dot{p} \quad \textrm{furthermore} \\
+    \frac{\partial H}{\partial q} 
+    & =  -\frac{\partial L}{\partial q} 
+  \end{split}
+\end{equation}
+For \( T = \frac{1}{2}m\dot{q}^2\) and \( V \neq V(\dot{q}) \) follows \(H = T+V\).
+
+\section{Hybrid Monte Carlo}
+\label{hybridmontecarlo}
+
+\subsection{Idea}
+
+Due to numerical instabilities the integration step size in a conventional molecular dynamics (MD) simulation cannot be chosen arbitrarily large. 
+\textit{Hybrid Monte Carlo (HMC)} is a method to sample the NVT ensemble that applies a Metropolis acceptance-rejection criterion to integration steps such that the step size can be increased to some degree.
+Nevertheless reasonable step sizes are bounded above as higher step sizes result in higher rejection rates.
+Note that HMC does not require a thermostat.
+
+The main advantage of HMC is that a larger region of phase space may be sampled with respect to the time the simulation consumes than a conventional MD simulation may do.
+However, it needs fine tuning of the parameters to profit from this advantage.
+
+To ensure that HMC indeed samples the NVT ensemble the chosen integrator must be \textit{time reversible} and \textit{area preserving}. The most prominent example of such an integrator is the Verlet integrator.
+
+In general the Metropolis criterion is not applied to a single integration step but to a moderate number (such as 10) of steps that shall be referred to as a Monte Carlo (MC) step.
+Let $X$ and $X'$ and be the states of the simulation before and after an MC step. Then HMC will accept this step with probability given by
+\begin{align*}
+w\left(X\,\rightarrow\,X'\right) &=
+  \begin{cases}
+    1,             & \text{if } \Delta\leq 0 \\
+    \exp(-\Delta), & \text{if } \Delta > 0
+  \end{cases},\qquad\text{where} \\
+\Delta &= \beta\left(H(X')-H(X)\right),
+\end{align*}
+where the inverse temperature $\beta$ is defined by $\beta=1/k_B T$, $k_B$ is the Boltzmann constant and $H(\cdot)$ denotes the Hamiltonian or total energy.
+
+If $X'$ is accepted, the coordinates of the configuration will be the input for the next MC Step, while the velocities of the system will be randomly chosen according to the temperature that is supposed to be sampled.
+Otherwise the simulation will be reset to $X$ and new velocities will be randomly chosen in order to obtain a different result of the MC step which then may be accepted or rejected.
+
+For detailed information see~\cite{Mehlig1992} and references therein.
+
+\subsection{Implementation}
+
+Tremolo-X will output measurements only after the acceptance or rejection of MC steps but never in between. Furthermore, if the last MC step was declined, the last MC step to be accepted or in extreme cases the initial data will be written to output.
+
+In addition to the usual output files Tremolo-X will create a .hmc file that contains the acceptance rate during the simulation and mean values as well as the standard deviations of all measured energies and the pressure.
+
+\subsection{Usage}
+
+\subsubsection{Parameter file}
+
+To use Hybrid Monte Carlo add or edit the following line to/in the {\tt dynamics} section of the .parameter file:
+
+\begin{lstlisting}
+hybridmc:   state=on,   N_MD=#INT;
+\end{lstlisting}
+
+\noindent {\tt N\_MD} is the number of time integration steps per MC step.
+
+\section{Parallel Tempering}
+\label{paralleltempering}
+
+\subsection{Idea}
+For many applications it is difficult to sample an NVT ensemble at low temperatures with an MD simulation as the system may easily get trapped in one of many local minimum energy configurations.
+A way to overcome this problem is \textit{Parallel Tempering (PT)} which is also known as \textit{Replica Exchange Method}.
+
+In a PT simulation $N$ non-interacting replicas (or copies) of one original system are simulated at $N$ different temperatures $T_n$ ($n=1,\ldots,N$).
+With the progress of the PT simulation a replica may be held at different temperatures.
+Nevertheless there is always exactly one replica at each temperature.
+
+At some points of the simulation replicas are allowed to exchange temperatures such that systems can cross energy barriers at higher temperatures to sample different local minimum energy configurations later on.
+If temperature exchanges occur, particle velocities are scaled uniformly such that replicas have the designated temperatures. In between the temperatures are held constant by an appropriate thermostat.
+
+To ensure that the PT simulation converges towards an equilibrium distribution, the decision whether temperatures are exchanged is based on a Metropolis condition as follows:
+Let $q_1$ and $q_2$ be two replica configurations which are held at temperatures $T_m$ and $T_n$, respectively.
+Furthermore, let $X$ and $X'$ be the state of the overall PT simulation before and after a possible temperature exchange.
+The probability for this exchange is then given by
+\begin{align*}
+w\left(X\,\rightarrow\,X'\right) &=
+  \begin{cases}
+    1,             & \text{if} \Delta\leq 0 \\
+    \exp(-\Delta), & \text{if} \Delta > 0
+  \end{cases},\qquad\text{where} \\
+\Delta &= \left(\beta_n-\beta_m\right)\left(V\left(q_1\right)-V\left(q_2\right)\right),
+\end{align*}
+where the inverse temperature $\beta$ is defined by $\beta=1/k_B T$, $k_B$ is the Boltzmann constant and $V(\cdot)$ denotes the potential energy.
+
+For detailed information see~\cite{Sugita1999} and references therein.
+
+\subsection{Implementation}
+
+Parallel Tempering is only implemented in the parallel version of Tremolo-X. The sequential version simply ignores parameters that are set for Parallel Tempering.
+Furthermore, the number of started processes must be a multiple of the number of temperatures such that each replica simulation is shared by the same number of processes.
+
+The temperatures are enumerated from 0 to $N-1$ in increasing order.
+Analogically, the replicas among which the temperatures are exchanged are enumerated such that the $i$-th replica is held at the $i$-th temperature before the first exchange.
+
+As the acceptance probability of a temperature exchange between two replicas decreases exponentially with the difference in inverse temperature, exchanges are only tried between replicas that are held at neighboring temperatures.
+Every second time Tremolo-X tries to swap the following pairs of temperatures (0,1),(2,3),(4,5),...
+Every other time it tries to swap the pairs (1,2),(3,4),(5,6),...
+
+Every simulated replica produces a .xxxx.ptlog file, where xxxx is the replica number padded with leading zeros.
+For each temperature exchange that the respective replica undergoes, the file contains the point in time (given in simulation time) and the temperature number before and after the exchange.
+
+All other output files carry the number of the temperature at which the replica was held when the respective measurement was made in their names just after the simulation prefix.
+After that, the non-visual output files carry a 4-digit serial number in their name such that the files can be ordered chronologically without reading their content.
+
+\subsection{Usage}
+
+\subsubsection{Parameter file}
+
+To use Parallel Tempering add or edit the following lines to the {\tt dynamics} section of the .parameter file:
+
+\begin{lstlisting}
+paralleltempering   {
+  temperatures:   state=on, t_start=#INT, t_delta=#INT, [temperature=(#FLOAT),...,(#FLOAT)];
+  };
+\end{lstlisting}
+
+\noindent {\tt t\_delta} is the number of integration steps between exchanges.\\
+{\tt t\_start} is an additional number if integration steps that shall be passed before the first exchanges are tried.\\
+{\tt temperature} is followed by a list of the temperatures at which the replicas shall be held. The list must be given in increasing order.
+
+\subsubsection{Invocation}
+
+Start {\tt tremolo\_mpi} with the number of process that is the number of temperatures times the number of processes for each single simulation.
+
+To set the number of processes per single replica enter the parameters for a single replica in the section {\tt parallelization} of the .parameter file or use the command line switch {\tt -p} analogically.
+
+\subsubsection{Postprocessing}
+
+To concatenate the data of the non-visual output for each temperature see the script \textit{MergePTDataAccToTemp.py}.
+

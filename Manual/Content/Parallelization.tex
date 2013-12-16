@@ -1,0 +1,57 @@
+\chapter{Parallelization}
+\label{parallelization}
+
+One of the key strength of Tremolo-X is the parallelization.
+Naturally there are some associated parameters, which you can set.
+
+The most basic decision is the number of processes to be started.
+They are organized by a division of the simulation domain along the
+three major axes. The total number of processes is then the product
+of the number of processes in x direction times the number of processes
+in y direction times the number of processes in z direction.
+
+There are some restrictions on the choice of processes:
+Each process must at least contain one cell, thus the choice of the 
+number of processes must at least satisfy the inequality:\\
+$\frac{edge\_length}{number\_processes} > lc\_rcut,$\\
+where $lc\_rcut$ is the cut radius (edge length) of the linked cells.
+
+A prudent choice of this parameter deserves some thought, as both a good and
+bad choice may reflect in the performance of the code. The range of the used potentials and the domain size and shape
+should be considered.
+
+\bigbreak
+In the parameter file, the processor numbers are set as follows:
+\begin{lstlisting}
+ n1=<n1>       number of processes in x direction
+ n2=<n2>       number of processes in y direction
+ n3=<n3>       number of processes in z direction
+ all=<all>     product of n1 n2 n3
+\end{lstlisting}
+
+It may be overridden with the command line switch -p <n1>,<n2>,<n3>, as documented in chapter \ref{running_tremolo}.
+
+\bigbreak
+
+After the division is established, cells are distributed via (dynamic) load-balancing. You can choose a number of parameters
+to fit the use to your liking, apart from switching it on and off, you may specify intervals, after which the balancing is 
+reexamined. In addition you may also choose, whether the load is measured linear or quadratic (with respect to the particle number assigned to a process).
+
+
+
+% proc: n1=<n1>, n2=<n2>, n3=<n3>, all=<all>;
+% n1=<n1>               [1] number of processes in x direction
+% n2=<n2>               [1] number of processes in y direction
+% n3=<n3>               [1] number of processes in z direction
+% all=<all>             [1] product of n1 n2 n3
+
+% loadbal: wf=<weight_func>, Lb_t=<Lb_t>, Lb_delta=<Lb_delta>, Lb_step=<Lb_step>;
+% wf=<weight_func>      off | linear | quadratic
+%                       weight function to use for determining the work count
+% Lb_t=<Lb_t>           [t] start time of first load balancing step
+% Lb_delta=<Lb_delta>   [t] time span to pass before the next load balancing step
+% Lb_step=<Lb_step>     [1] number of optimization steps between two load balancing steps
+%parallelization {
+%                proc:   n1=1,   n2=1,   n3=1,   all=1;
+%                loadbal:        wf=quadratic,   Lb_t=0.000000e+00,      Lb_delta=2.046167e+13,  Lb_step=1;
+%                };

@@ -1,0 +1,18 @@
+\chapter{External Forces}
+\label{external}
+
+Tremolo-X allows to assign outer forces/constraints on individual or groups of particles or on regions within the simulation domain.
+
+As external influence on specific particles, two types of forces/constraints are available, ``freezing'' the particles into their place 
+and applying a fixed force along an arbitrary vector. \todo{Tether force is not implemented yet.}
+These forces/constraints can be modified during the runtime of a simulation, by changing their parameters or simply switching them on/off. \todo{Timeline is out of order?}
+
+This allows to establish potential geometries by placing fixed particles or to simulate outer force fields such as electric potentials.
+Force time-lines are specified to apply to particle types in {\tt \$PROJECTNAME.external}, which have to be matched to individual particles in
+{\tt \$PROJECTNAME.exttypes}.
+
+Furthermore, you can assign repulsive potentials to zylindrical and spherical regions in the simulation domain. This may either assist in shaping 
+the simulation domain or enable the creation of ``pockets'' in an otherwise homogenous material matrix during the preprocessing, in order to insert functional structures for
+further simulation.
+
+For the syntax see section \ref{section:input:external}.

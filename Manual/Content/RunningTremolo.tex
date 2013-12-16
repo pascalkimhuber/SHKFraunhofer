@@ -1,0 +1,67 @@
+\chapter{Running Tremolo}
+\label{running_tremolo}
+
+Tremolo-X allows two distinct modes of operation: Control from a command line, which allows the user to take advantage of scripts for task automation, and control from a graphical user interface, which provides an interactive environment and relieves the user of the burden to handle the parameter syntax.
+
+\section{Command line}
+
+Assuming, the Tremolo-X installation path belongs to the \$PATH environment of your system,
+the most basic command to call (serial) tremolo is 
+\begin{lstlisting}
+ tremolo project.tremolo
+\end{lstlisting}
+
+In order to call the parallel version, the call is modified to 
+\begin{lstlisting}
+ tremolo_mpi project.tremolo
+\end{lstlisting}
+
+Both versions share the following parameters:
+% The debug parametes will only be shown in the internal version.
+\begin{lstlisting}
+Usage: tremolo [-hvx ] [-a alarmtime] [-d debugstr|-D debugstr] [-n nicelevel] [-o verbosity] [-s sleeptime] [-f] mainparameterfile
+  -a alarmtime  Sets alarm to alarmtime seconds. Code will finish after next timestep, writing out the current state.
+  -f mainfile   Specify main parameter file (last argument: '-f' may be omitted)
+  -h            Displays this help page and exits successfully.
+  -n nicelevel  Decreases priority of process.
+  -v            Increases verbosity level by one. Default value: 0.
+  -V            Print version.
+\end{lstlisting}
+
+\draft{
+Only for developers and in developer version the following options are accepted:
+%\begin{lstlisting}
+{\tt  -d debugstr   Starts debugger right away.
+
+  -D debugstr   Starts debugger when encountering an error.
+                Valid syntax for debugstr:
+                0 sleep for a minute, no debugger
+                [host[:display][,debugger]]  start debugger xterm on host:display
+                (if DISPLAY is set or for local connection set host to local).
+                Valid values for debugger are: gdb, dbx, ddd, cvd, totalview, ups.
+
+  -s sleeptime  wait sleeptime seconds for debugger to come up (-d, -D)}
+%\end{lstlisting}
+\todo{Create new lst listing environment which is sensitive to the draft option}
+}
+
+\todo{detail verbosity syntax}
+
+while the parallel version takes one additional parameter,
+\begin{lstlisting}
+  -p px,py,pz   Start parallel code with domain decomposition,
+                using px slices on x-axis, py slices on y-axis and pz slices on z-axis (total: px*py*pz processes)
+\end{lstlisting}
+which must be supplied to actually benefit from parallel execution, since the default would be one process.
+However, Tremolo-X will always check whether the number of processes in the MPI-call matches the number
+of sub domains in the domain decomposition and will throw an error if this is not the case.
+
+
+For parallel codes it may be necessary to specify the main parameter file
+with an absolute path.
+
+\draft{
+\section{Using the GUI}
+
+\todo{separate instructions for the GUI?}
+}

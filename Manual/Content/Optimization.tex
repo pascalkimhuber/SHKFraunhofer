@@ -1,0 +1,52 @@
+
+\chapter{Optimization}
+\label{optimization}
+
+While the optimization feature of Tremolo-X can be viewed as a non-dynamic
+simulation in its own right, it is very beneficial to temper a simulations starting
+ensemble prior to a dynamic simulation.
+
+The optimization manifests itself in a minimization of the potential energy,
+by rearranging particle positions and/or the simulation domain.
+
+There are several methods available to minimize a given function value. Gradient based methods are computationally convenient for Molecular Dynamics simulations, since the
+potential energy and its derivative need to be computed anyway. The method used by the Tremolo-X software is based on the modified \textbf{c}onjugated \textbf{g}radient (CG)
+method by Polak-Ribi\'ere.\cite{Griebel.Hamaekers:2005b}
+
+When comparing a \textbf{s}teepest \textbf{d}escent to a CG method, we notice that the SC is more stable than the CG if the starting position is distant from a local minimum point.
+On the other hand the SD converges more slowly in the near neighborhood of such a point than the CG does. While it is possible to use both methods and switch after some iterations it is also possible to use a CG method with periodic resets to combine the benefits of both approaches.
+
+Furthermore convergence can be stabilized by choosing \emph{(strong) Wolfe} conditions for the line search:
+
+With $d_k$ the search direction from point $q_k$ (here denoting the vector of all particle positions) let:
+\begin{align*}
+\Phi(\eta) := E_{pot} \left( \textbf{q}_k + \eta \cdot \textbf{d}_k \right)
+\Phi'(\eta) := \nabla E_{pot} \left( \textbf{q}_k + \eta \cdot \textbf{d}_k \right) \cdot \textbf{d}_k
+\end{align*}
+The so called \emph{(strong) Wolfe} condition is then the combination of the \emph{sufficient decrease} or \emph{Armijo} condition
+\begin{equation*}
+\Phi(\eta)\leq \Phi(0) + \alpha \eta \Phi'(0), \qquad 0 < \alpha < 1
+\end{equation*}
+and the \emph{curvature} condition
+\begin{equation*}
+\Phi'(\eta) \geq \beta \Phi'(0), \qquad 0 < \alpha < \beta < 1
+\end{equation*}.
+
+The \emph{Armijo} condition fixes an upper limit on acceptable new function values, whereas the \emph{curvature} condition imposes a lower bound on the step size $\eta$.
+
+\todo{Choosing a suitable $\eta$ to satisfy the above conditions can be restricted to a certain interval (with respect to the original step length). Not implemented.}
+
+Another method to control the steps of the iteration method is to apply a prefactor to the step, in essence reducing the maximum change of the ensemble\todo{without reset prefactor kills convergence?}.
+
+The minimization iteration finishes, when the change in the mean force acting on a particle between consecutive iteration steps drops below a fixed threshold (drops below a fixed factor).
+
+\bigbreak
+The minimization may be extended to the structure of the simulation domain as well, by observing changes in the potential energy when scaling with the box matrix.
+Depending on the type of box one wishes to retain from the input values, constraints have to be specified (to (de-)couple box edge length and or box angles).
+The matrix takes inputs 0 and 1, specifying accessible degrees of freedom, in addition constraints have to be specified as off (\todo{is there even an off?}), 
+none (no constraint, this is unphysical and should not be used), isotropic (box stays in cubic shape, only diagonal elements are changed[Andersen constraint]),standard (\todo{effect of standard}) and symmetric (\todo{effect of symmetric}).
+
+
+Specifying an external pressure and/or stress values for the box is essential for the optimization results to conform with physical reality.
+
+

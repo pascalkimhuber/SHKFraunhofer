@@ -1,0 +1,93 @@
+\section{CalcRadialHisto}
+
+The CalcRadialHisto Tool is used for computing the radial distribution of particle pairs, their coordination number and some useful integrals.
+
+\subsection{Input}
+It must always be called with the full range of its arguments:
+
+\begin{lstlisting}
+CalcRadialHisto source timestart timeend left right border start bin Na Nb V R
+\end{lstlisting}
+
+where the arguments must be the following:
+\begin{itemize}
+\item {\tt source} is the file from which the data is to be read
+\item {\tt timestart} is the starting time for the time average
+\item {\tt timeend} is the end time for the time average
+\item {\tt left} is the minimum radius considered for the binned atoms (this should generally be set to 0)
+\item {\tt right} is the maximum radius considered for the binned atoms (this should generally be set to the {\tt r\_cut} specified in the {\tt .parameters} file)
+\item {\tt border} Domain separator: The program computes and supplies the value of the (reduced) integral over the radial distribution function up to and from the border.
+\item {\tt start} the column index at which the data for the computation starts
+\item {\tt bin} the number of columns to be taken into account for the compuation
+\item {\tt Na} the number of atoms of particle type a in the sample
+\item {\tt Nb} the number of atoms of particle type b in the sample
+\item {\tt V} the volume of the sample
+\item {\tt R} Radius to be considered for the computation of the average coordination number
+\end{itemize}
+
+\subsection{Results}
+
+Before describing the output let us define some useful values.
+
+First we define denote the number of averaging timesteps by $Max$ and the size of a bin by $\delta r$.
+
+Further we write 
+\begin{equation*}% Histo[i]/Max
+N_{(a, b)}([r, r+\delta r]) = \frac{1}{Max} \sum_{t = timestart}^{timeend} N_{(a,b)}([r, r+\delta r], t),
+\end{equation*}
+which is the time average of particles in a particular bin.
+And at last we define the total sum of particles in all bins (averaged over time).
+\begin{equation*} %dummydouble/Max
+X := \sum_{i=0}^{bin} N_{(a, b)}([r + i\cdot \delta r, r+(i+1)\cdot \delta r]) \simeq \int_{left}^{right} N_{(a, b)}^{bin}(r')dr'
+\end{equation*}
+
+
+The program will then produce the following output: 
+
+In the first two lines it will list the timesteps which are being used for computation first individually and then in summery, the latter by displaying the interval and - denoted as {\tt Max} - the number of timesteps.
+
+These lines are followed by a table with the following columns:
+\begin{itemize}
+\item {\tt r} the current radius ($=left + (right - left)\frac{1+2.0\cdot i}{2\cdot bin}$)
+\item {\tt Partial(Pair) Radial distribution function 1}
+\begin{equation*}
+g_{(a,b)}([r,r+\delta r]) \simeq \frac{V}{N_a N_b} \frac{N^{bin}_{(a, b)}([r, r+\delta r])}{\frac{4 \pi}{3}((r+\delta r)^3 - r^3))}
+\end{equation*}
+where $Max$ is the number of timesteps mentioned above.
+
+\item {\tt Partial(Pair) Radial distribution function 2}
+\begin{equation*}
+g_{(a,b)}([r,r+\delta r]) \simeq \frac{V}{X} \frac{N^{bin}_{(a, b)}([r, r+\delta r])}{\frac{4 \pi}{3}((r+\delta r)^3 - r^3))}
+\end{equation*}
+
+\item {\tt Radial Particle density}
+\begin{equation*}
+g_{(a,b)}([r,r+\delta r]) \simeq V \cdot \frac{N^{bin}_{(a, b)}([r, r+\delta r])}{\frac{4 \pi}{3}((r+\delta r)^3 - r^3))}
+\end{equation*}
+
+\item For the following four columns containing the average coordination numbers (AC) we use the standard notation with integrals, however we use the superscript $bin$ to signal that the computation of the program is based on the binned values:
+\begin{align*}
+AC1 &:= \frac{1}{Na} \qquad   \int_{left}^r N^{bin}_{(a,b)}(r')dr' \\
+AC2 &:= \frac{1}{Nb} \qquad   \int_{left}^r N^{bin}_{(a,b)}(r')dr' \\
+AC3 &:= \frac{1}{Na\cdot Nb }    \int_{left}^r N^{bin}_{(a,b)}(r')dr' \\
+AC4 &:= \frac{1}{X} \qquad  \int_{left}^r N_{(a,b)}^{bin}(r')dr'
+\end{align*}
+\end{itemize}
+
+\bigbreak
+Under the table a few more lines are produced.
+The value {\tt HistoSum} is the value {\tt X} used throughout the above formulas.
+And the integrals up to and from the {\tt border}:
+\begin{align*}
+Lower(reduced) &= \frac{1}{X} \qquad \int_{left}^{border}N_{(a,b)}^{bin}(r')dr' \\
+Lower &= \frac{1}{N_a \cdot N_b} \int_{left}^{border}N_{(a,b)}^{bin}(r')dr' \\
+Higher(reduced) &= \frac{1}{X} \qquad \int_{border}^{right}N_{(a,b)}^{bin}(r')dr' \\
+Higher &= \frac{1}{N_a \cdot N_b} \int_{border}^{right}N_{(a,b)}^{bin}(r')dr' 
+\end{align*}
+
+
+In the last line we write the average coordination numbers for both species computed with respect to R
+\begin{align*}
+n_{a}(R) &= \frac{1}{N_a} \int_{left}^R N^{bin}_{(a,b)}(r')dr'\\
+n_{b}(R) &= \frac{1}{N_b} \int_{left}^R N^{bin}_{(a,b)}(r')dr'
+\end{align*}

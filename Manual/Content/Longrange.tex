@@ -1,0 +1,83 @@
+\chapter{Longrange Algorithms}
+\label{longrange}
+
+The longrange interaction in Tremolo-X applies generally to the Coulomb (electrical) potential, describing the interaction between (partially) charged particles. 
+Thus it is necessary to specify the dielectric constant by setting the permittivity. 
+Since MD simulations are almost exclusively conducted in a medium free setting (meaning apart from the particles there is no background substance but 
+free space in between particles) it is designated as $\epsilon_0$, however that does not restrict you from setting this value to a material dependent value. 
+
+Another possibility is to set a negative permittivity coefficient, the resulting potential will be of a gravity type (``charges'' with the same sign attract each other). The interpretation of the permittivity is then the gravitational constant.
+
+
+For the computation of the long range potentials different methods are available. When using mesh-base methods, attention needs to be paid to the singularities encountered at the point charges (the particle positions).
+
+\section{$N^2$ Algorithms}
+These methods compute the actual particle-particle interaction as done for the short range potentials. While the method asks for a cutoff radius you should be aware 
+that in contrast to the fast decaying short range potentials the cutoff-term of the potential energy does not converge to zero.
+\subsection{Hard Cutoff}
+The most simple algorithm simply computes interactions for all particles within the specified radius and ignores all particles beyond. There is no smoothing of the cutoff, 
+leading to some discontinuities in the energy.
+\subsection{Spline}
+In order to avoid discontinuities in the potential, this methods smoothes the cutoff by fitting a spline between the potential value at the inner cutoff and zero at the outer cutoff.
+
+\section{Smooth-Particle-Mesh-Ewald Method}
+The \textbf{S}mooth-\textbf{P}article-\textbf{M}esh-\textbf{E}wald Method (SPME) combines the functionality of two approaches, a particle interaction and a mesh based approach. 
+In order to handle the aforementioned singularities at the particle positions when solving the Poisson equation for the Coulomb potential, this method splits the potential
+into a short range and a long range part by screening functions. The short range part is handled by computing particle-particle interactions, 
+while the long range part is treated by transferring the charge distribution onto a grid and solving the Poisson equation there (with modifications due to boundary conditions).
+
+As the solver for the Poisson equation a \textbf{F}ast \textbf{F}ourier \textbf{T}ransform (FFT) or a multipole method may be used.
+
+The screening function are Gaussian bell curves:
+\begin{equation*}
+\rho(x) := \left(\frac{G}{\sqrt\pi} \right) e^{-G^2 \left\Vert x\right\Vert^2 }
+\end{equation*}
+where \emph{operator splitting coefficient} $G$ may be chosen by the user. Other choices of the user include again the cutoff radius, the number of meshcells per linked cell (if not a power of 2 rounded up to the next such number) and the interpolation degree of B-Splines (as the basis functions on the mesh).
+
+The SPME method is a prudent choice in simulations with uniform particle densities. In cases where the particles are distributed in an inhomogeneous fashion, mesh based methods become inefficient, due to the requirements on mesh density.
+
+Note that in Tremolo-X the SPME method is not implemented sequentially and thus requires a version with parallel capabilities. It can however be started with only one process.
+
+\section{Fast-Multipole-Method}
+The \textbf{F}ast-\textbf{M}ultipole-\textbf{M}ethod (FMM) is a tree based method. As the SPME method in the previous section, this approach is based on a separation of short and long range contributions as well. Particles are grouped in hierarchical cells and their compound momenta are recursively computed, allowing to compute the interaction for each particle in detail
+from its immediate surrounding and with approximated momenta for particle groups in distant cells.
+
+For some domain $\Omega$ we define the momenta:
+\begin{equation*}
+M_\textbf{j}(\Omega, \textbf{y}_0) := \int_\Omega \rho(\textbf{y})(\textbf{y}-\textbf{y}_0)^\textbf{j} d\textbf{y}
+\end{equation*}
+and we introduce the following notation for the multidimensional Taylor series of a function $G$:
+\begin{equation*}
+G(\textbf{x}, \textbf{y}) = \sum_{\left\vert\textbf{j}\right\vert\leq p} \frac{1}{\textbf{j}!} G_{0, \textbf{j}}(\textbf{x}, \textbf{y}_0)(\textbf{y}-\textbf{y}_0)^{\textbf{j}}+R_p(\textbf{x}, \textbf{y})
+\end{equation*}
+where $\textbf{j}=(j_1, j_2, j_3)$ is a multi-index with factorial $\textbf{j}!=j_1!\cdot j_2!\cdot j_3!$ 
+and vector exponential $\textbf{y}^{\textbf{j}}=\textbf{y}_1^{j_1}\cdot \textbf{y}_2^{j_2}\cdot \textbf{y}_3^{j_3}$.
+With the short hand $\frac{d^\textbf{j}}{d\textbf{y}^\textbf{j}} = \frac{d^{j_1}}{d\textbf{y}_1^{j_1}} \frac{d^{j_2}}{d\textbf{y}_2^{j_2}} \frac{d^{j_3}}{d\textbf{y}_3^{j_3}}$ we write
+\begin{equation*}
+G_{\textbf{k},\textbf{j}}(\textbf{x}, \textbf{y}) := \left[ \frac{d_\textbf{k}}{d\textbf{w}^{\textbf{k}}} \frac{d_\textbf{j}}{d\textbf{z}^{\textbf{j}}}  G(\textbf{w}, \textbf{z}) \right]_{\textbf{w}= \textbf{x}, \textbf{z}= \textbf{y}}.
+\end{equation*}
+Then
+\begin{equation*}
+\Phi(\textbf{x}) \approx \sum_\nu \sum_{\left\vert\textbf{j}\right\vert\leq p} \frac{1}{\textbf{j}!} M_\textbf{j}(\Omega^\nu, \textbf{y}_0^nu) G_{0, \textbf{j}}(\textbf{x}, \textbf{y}_0^\nu) 
+\end{equation*}
+with $ \textbf{y}_0^\nu \in \Omega^\nu$, $\bigcup_\nu \Omega^\nu = \Omega$ and pairwise $\Omega_{\nu_1}\cap \Omega_{\nu_2} = \emptyset$.
+
+In order to control the accuracy of the method, it is sensible to use small cells in a medium distance from the particle evaluated and large cells in further distance.
+This is controlled by specifying a multipole acceptance criterion $\theta$: 
+$\frac{diam(\Omega^\nu)}{\left\Vert \textbf{x}-\textbf{y}_0^\nu\right\Vert} \leq \theta$
+which must be satisfied by cell to be included in the sum. If the cell does not satisfy this requirement, the method proceeds to the cells children.
+Note that you also have to specify a maximum tree level and if the acceptance requirement and the maximum tree level have been chosen poorly, the
+algorithm drops to $N^2$ performance.
+
+Further parameters that can be controlled are the degree of the multipole and Taylor expansion $p$ and the cutoff radius for the short range interaction.
+
+\draft{
+\section{Ewald}
+\todo{Not implemented.}
+\section{P3M}
+\todo{Not implemented.}
+\section{PME}
+\todo{Not implemented.}
+\section{Barnes-Hut}
+\todo{Not implemented.}
+}

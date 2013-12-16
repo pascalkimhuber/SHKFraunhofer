@@ -1,0 +1,2 @@
+# ignore general latex products laready in higher hierarchy, here only .pdf
+*.pdf

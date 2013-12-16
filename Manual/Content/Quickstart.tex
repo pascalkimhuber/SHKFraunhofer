@@ -1,0 +1,29 @@
+
+Switch to the Tremolo-X folder and enter the \texttt{example/Argon/} folder therein.
+Have a glance at the files currently present in the directory.
+Now type
+\begin{lstlisting}
+ tremolo argon.tremolo
+\end{lstlisting}
+Congratulations! You are running your first Tremolo-X simulation!
+\bigbreak
+Now that did not look like there was much happening, did it? So let's try that again and have tremolo generate some more output:
+\begin{lstlisting}
+ tremolo -v argon.tremolo
+\end{lstlisting}
+While some of the information is self explanatory, some is not, so if you want to know about everything, have a look at the manual!
+
+As soon as the program is finished and console command has been returned to you, have another look at the content of the directory. The additional files contain the measurements of Tremolo-X.
+The files argon.e* contain information about the energy in the ensemble, e.g. in \texttt{argon.etot} you find the \textbf{total energy}, which remained constant through the simulation (of course there are some oscillations due to numeric effects). Similarly you find the \textbf{potential energy} in \texttt{argon.epot} and the \textbf{kinetic energy/temperature} in \texttt{argon.ekin}. 
+
+Here, as in most output files, columns are printed for different particle groups, so if you have more than one type of particle in your simulation, more columns with the respective values will appear.
+
+Opening the .msd file you find several columns which contains data towards the computation of the \textbf{diffusion coefficient(s)}, in particular in the column labeled \textit{Dif\_sum}. (Note that the numeric values are computed in reduced units, please refer to the manual.)
+
+In most cases it is beneficial to look at a graph, instead of those long columns of numbers. If you have no favorite plotting program of your own, you could try gnuplot\footnotemark[1], it is free and fairly easy to use.
+\bigbreak
+The files \texttt{argon.vis.\#\#\#\#.[xyz,pdb,data]} contain the \textbf{positions} (and also other data) of the atoms at specific time points in the simulation, e.g. in \texttt{argon.vis.0100.[xyz,pdb,data]}, you find the positions at the end of the simulation. 
+
+As before you might prefer to look at pictures instead of the numbers, so if you do not have a favorite program for visualizing .xyz or .pdb output, you could try vmd or ovito\footnotemark[1], as it is also free and easy to use. 
+\footnotetext[1]{Neither gnuplot, nor vmd, nor ovito are developed, maintained, distributed or in any other way associated with Fraunhofer SCAI.}
+
