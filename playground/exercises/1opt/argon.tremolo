@@ -1,0 +1,4 @@
+global: defaultpath=".";
+global: projectname="argon";
+global: comment="Reduced argon example";
+global: systemofunits=custom;

@@ -1,0 +1,4 @@
+global: defaultpath=".";
+global: projectname="butan";
+global: comment="Butane example";
+global: systemofunits=kcalpermole;

@@ -1,0 +1,4 @@
+validate: particle_type=Argon, state=on;
+
+validate: force_type=lennardjones, state=off;
+validate: force_type=ljspline, state=on;

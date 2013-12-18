@@ -1,0 +1,44 @@
+integration: type=dynamics;
+
+lcs: cellrcut=10.0;
+
+domain {
+    size: type=matrix, xx=164.389, yy=164.389, zz=164.389;
+    border: bt_xlow=periodic, bt_xhigh=periodic, bt_ylow=periodic, bt_yhigh=periodic,
+        bt_zlow=periodic, bt_zhigh=periodic;
+};
+
+dynamics {
+    ensemble: ensemble=NVE;
+    propagator, verlet: delta_T=0.002, endtime=100;
+};
+
+optimization {
+    particle: state=on, alpha=0.2, beta=0.8, lambda1=0, lambda2=1;
+    simucell: state=off, alpha=0.2, beta=0.8, lambda1=0, lambda2=1;
+
+    simucell: constraint=isotropic, XX=1, YY=1, ZZ=1, XY=0, XZ=0, YX=0, YZ=0, ZX=0, ZY=0;
+    common: algorithm=cg, maxcg=2001, RT=periodical, maxresetcg=6, LS=strongwolfe,
+        maxlinesearch=6, mean_force_eps=1e-6, mean_force_eps_rel=1e-10, prefactor=1e-4,
+        extpressure=1.4574244e-5;
+};
+
+output {
+    Outvis: T_Start=0, T_Delta=0.1, Step_Delta=10;
+    Outdata: T_Start=0, T_Delta=5, Step_Delta=10;
+    
+    Outm: T_Start=0, T_Delta=0.1, Step_Delta=1;
+
+    energy: measure=on;
+    
+    analyze {
+        bond: measure=on, meanmeasure=off, vis=off;
+        bondDistances {
+            bondDistance: particle_type1=Ci, particle_type2=Ci, distance=1.8;
+            bondDistance: particle_type1=C, particle_type2=Ci, distance=1.8;
+            bondDistance: particle_type1=Ci, particle_type2=H, distance=1.4;
+            bondDistance: particle_type1=C, particle_type2=H, distance=1.4;
+        };
+    };
+};
+

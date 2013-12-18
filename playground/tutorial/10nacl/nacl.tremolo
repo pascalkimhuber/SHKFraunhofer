@@ -1,0 +1,4 @@
+global: defaultpath=".";
+global: projectname="nacl";
+global: comment="NaCl";
+global: systemofunits=kcalpermole;

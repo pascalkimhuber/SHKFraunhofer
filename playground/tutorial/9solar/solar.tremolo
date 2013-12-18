@@ -1,0 +1,15 @@
+global: defaultpath=".";
+global: projectname="solar";
+global: comment="Solar system";
+global: systemofunits=custom;
+
+custom: lengthunit=m;
+custom: lengthscalingfactor=1.496e11;
+custom: timeunit=s;
+custom: timescalingfactor=86400;
+custom: massunit=kg;
+custom: massscalingfactor=1e23;
+custom: currentunit="e/s";
+custom: currentscalingfactor=1;
+custom: temperatureunit=K;
+custom: temperaturescalingfactor=1;

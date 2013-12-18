@@ -1,0 +1,7 @@
+particles	{
+	particle:	particle_type=Argon,	element_name=Ar,	sigma=1,	epsilon=1,	sigma14=1,	epsilon14=1,	mass=1,	free=3,	charge=0;
+	};
+nonbonded_2body_potentials	{
+	lennardjones:	particle_type1=Argon,	particle_type2=Argon,	r_cut=12;
+	ljspline:	particle_type1=Argon,	particle_type2=Argon,	r_cut=12,	r_l=10;
+	};

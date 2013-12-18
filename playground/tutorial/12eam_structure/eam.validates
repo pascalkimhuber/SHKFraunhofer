@@ -1,0 +1,4 @@
+validate: particle_type=Fe, state=on;
+validate: particle_type=Ni, state=on;
+
+validate: force_type=eam, state=on;

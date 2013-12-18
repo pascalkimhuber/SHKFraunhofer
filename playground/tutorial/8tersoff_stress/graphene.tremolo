@@ -1,0 +1,15 @@
+global: defaultpath=".";
+global: projectname="graphene";
+global: comment="Plain graphene sheet in NPT-ensemble";
+global: systemofunits=kcalpermole;
+
+custom: lengthunit=m;
+custom: lengthscalingfactor=1;
+custom: timeunit=s;
+custom: timescalingfactor=1;
+custom: massunit=kg;
+custom: massscalingfactor=1;
+custom: currentunit="e/s";
+custom: currentscalingfactor=1;
+custom: temperatureunit=K;
+custom: temperaturescalingfactor=1;
