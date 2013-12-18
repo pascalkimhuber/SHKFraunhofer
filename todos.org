@@ -1,9 +1,77 @@
+* Configurations
+
+** TODO Change passwords
+Ask Christian how to do this and which passwords have to be changed. 
+
+
+
 * Emacs
+
 ** Repair yasnippet config <2013-12-16 Mon>
+
 ** Repair auto-pair config <2013-12-16 Mon>
+
+** Language evaluation in org mode (see http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10)
+
+
+
+* Arbeitszeiten
+- [2013-12-16 Sat 16:30]--[2013-12-16 Mon 18:00]
+- [2013-12-18 Wed 17:30]--[2013-12-18 Wed 19:56]
+
+
 
 * Aufgaben
 
-** TODO Go through tutorials and manual
+** TODO Go through tutorials and manual (find mistakes)
 
-*** TODO Find mistakes and write them down. 
+*** TODO Bemerkungen
+- vielleicht eine Hinweis, wie man an das Manual kommt?
+- page 7 :: Letzter Satz: missing "of" after "... detailed specification"
+- page 11 :: Erster Satz: es heisst "=examples/Argon/=" nicht "=example/Argon/=.
+- page 17 :: Verstehe nicht den Satz in der Klammer im Abschnitt /parallelepiped/
+- page 105 :: Dritter Satz fehlendes "s" in "exist"
+- Erhalte Warnung bei Aufruf von tremolo in Tutorial 14.1: =WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.=
+
+
+
+*** TODO Notizen
+**** Overview
+Das Tremolo Projekt besteht aus zwei Funktionalitaeten:
+a. sequentielle Simulation 
+b. parallele Simulation
+
+1. Different capabilities of tremolo
+   - ensembles
+   - integrators
+   - thermostats
+2. In-depth description of the different potentials
+3. Detailed specification of the syntax of options in the parameter file.
+
+**** First steps
+Start a tremolo simulation. Example:
+Go to =tremole/examples/Argon/= and type =tremolo argon.tremolo=. This starts the simulation specified in the =*.tremolo= file. 
+
+**** Ensembles and Thermostats
+Es gibt unter anderem folgende Funktionalitaeten:
+1. Propagators
+2. Thermostats
+3. Barostats
+
+
+**** TODO Tutorial
+Kopie des Ordners =/tremolo/tutorial= befindet sich auf =~/playground/=. 
+
+***** TODO 14.1 Optimizing an initial particle setup
+1. Write a =*.tremolo=-file containing:
+   - defaultpath
+   - projectname
+   - comment
+   - systemofunits
+   - base magnitudes for the system of units used. 
+
+
+*** TODO Fragen
+
+1. [ ] Was sind Ensembles?
+
