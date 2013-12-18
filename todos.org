@@ -3,6 +3,8 @@
 ** TODO Change passwords
 Ask Christian how to do this and which passwords have to be changed. 
 
+** TODO Colors in git-output
+
 
 
 * Emacs
