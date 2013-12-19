@@ -30,10 +30,14 @@ Ask Christian how to do this and which passwords have to be changed.
 *** TODO Bemerkungen
 - vielleicht eine Hinweis, wie man an das Manual kommt?
 - page 7 :: Letzter Satz: missing "of" after "... detailed specification"
-- page 11 :: Erster Satz: es heisst "=examples/Argon/=" nicht "=example/Argon/=.
+- page 11 :: Erster Satz: es heisst =examples/Argon/= nicht =example/Argon/=.
 - page 17 :: Verstehe nicht den Satz in der Klammer im Abschnitt /parallelepiped/
 - page 105 :: Dritter Satz fehlendes "s" in "exist"
 - Erhalte Warnung bei Aufruf von tremolo in Tutorial 14.1: =WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.=
+- page 107 :: oben, es fehlt "use a" in1 /Since that introduces a discontinuity, we also second potential, which .../
+- page 107 :: superfluous colon after /...not a dynamic simulation./ before the second grey box. 
+- page 108 :: do not understand the part about the /optimization/ block.
+- page 108 :: in the part about the /output/ block: what is the difference between visuals and particle data?
 
 
 
@@ -64,16 +68,60 @@ Es gibt unter anderem folgende Funktionalitaeten:
 **** TODO Tutorial
 Kopie des Ordners =/tremolo/tutorial= befindet sich auf =~/playground/=. 
 
-***** TODO 14.1 Optimizing an initial particle setup
+***** DONE 14.1 Optimizing an initial particle setup
+Often optimization of the particle distribution must be done, since the distribution is non-optimal creating local energy spikes which affect stability of the simulation. 
+Thus the particle position are slightly modified towards a (static) energy minimum. 
+
 1. Write a =*.tremolo=-file containing:
-   - defaultpath
-   - projectname
+   - defaultpath (has to be set!)
+   - projectname (all files will carry this name)
    - comment
    - systemofunits
    - base magnitudes for the system of units used. 
+
+2. Write a =*.potentials=-file containing the potentials. 
+   1. particles : Contains all particles in the simulation:
+	 - particle_type
+	 - element_name
+	 - mass
+	 - sigma, sigma14, epsilon, epsilo14
+   2. potentials to be used in between particles
+
+3. Write a =*.validates=-file containing:
+   - validates the use of particles
+   - decide which potential should be used
+
+4. Write a =*.parameters=-file containing
+   - the type of simulation (optimization, dynamic simulation)
+   - parameters concerning the domain and the cells
+   - options for parametrization (? here optimization...)
+   - type and intervals of output
+
+5. Write a =*.data=-file containing the initial particle positions in a special format
+   - in the first line starting with =# ATOMDATA= the layout of the particle lsit ist set. 
+   - in the second line starting with =# INPUTCONV= some manipulation of the data can be set (here the temperature)
+
+6. Start the simulation using =tremolo -v *.tremolo=. The optimized particle positions are written to =*.data.999=. 
+
+****** DONE Exercises:
+1. Das Partikel mit ID 12 verlaesst das Gebiet (Positionen mit Koordinaten um die 1e+08). Dies geschiet wahrschenlich dadurch, dass durch den groessen Praefaktor das Partikle direct auf ein benachbartes Partikel gesetzt wird. Durch die Abstossung durch das Potenzial, erhaelt das Partikel ein sehr hohe Geschwindigkeit und verlaesst das Gebiet. 
+2. Die Potentielle Energie ist zu Beginn sehr gross (ca. 2.6e+10), allerdings nur wenige Zeitschritte, (hier nur 2.) unmittelbar nach Beginn der Optimierung, nimmt die Energie schlagartig ab (auf ca. -1.78, ab dem 7. Zeitschritt), danach konvigiert die Energie nur noch langsam zu einem Minimum (-1.15e+10). 
+
+
+ 
+***** TODO 14.2 Setting up a basic simulationx
+
+
+
 
 
 *** TODO Fragen
 
 1. [ ] Was sind Ensembles?
+
+2. [ ] Warum genau braucht man die Optimierung bei der Simulation? (Seite 105)
+
+3. [ ] Was ist der Unterschied zwischen "optimization" and "dynamic simulation"?
+
+4. [ ] Was heisst, dass Optimierung durch das CG-Verfahren durchgefuehrt werden muss? (Seite 108) Verstehe den ganzen Abschnitt zum Block "optmization" in =*.parameters=-file nicht...
 

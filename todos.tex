@@ -1,0 +1,174 @@
+% Created 2013-12-19 Thu 15:03
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+
+\title{todos}
+\author{Pascal Huber}
+\date{19 December 2013}
+
+\begin{document}
+
+\maketitle
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+\vspace*{1cm}
+\section{Configurations}
+\label{sec-1}
+
+
+\subsection{\textbf{TODO} Change passwords}
+\label{sec-1.1}
+
+Ask Christian how to do this and which passwords have to be changed. 
+
+\subsection{\textbf{TODO} Colors in git-output}
+\label{sec-1.2}
+
+
+
+
+\section{Emacs}
+\label{sec-2}
+
+
+\subsection{Repair yasnippet config <2013-12-16 Mon>}
+\label{sec-2.1}
+
+
+\subsection{Repair auto-pair config <2013-12-16 Mon>}
+\label{sec-2.2}
+
+
+\subsection{Language evaluation in org mode (see \href{http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10}{http://zeekat.nl/articles/making-emacs-work-for-me.html\#sec-10})}
+\label{sec-2.3}
+
+
+
+
+\section{Arbeitszeiten}
+\label{sec-3}
+
+\begin{itemize}
+\item \textit{2013-12-16 Sat 16:30}--\textit{2013-12-16 Mon 18:00}
+\item \textit{2013-12-18 Wed 17:30}--\textit{2013-12-18 Wed 19:56}
+\end{itemize}
+\section{Aufgaben}
+\label{sec-4}
+
+
+\subsection{\textbf{TODO} Go through tutorials and manual (find mistakes)}
+\label{sec-4.1}
+
+
+\subsubsection{\textbf{TODO} Bemerkungen}
+\label{sec-4.1.1}
+
+\begin{description}
+\item vielleicht eine Hinweis, wie man an das Manual kommt?
+\item [page 7] Letzter Satz: missing ``of'' after ``\ldots{} detailed specification''
+\item [page 11] Erster Satz: es heisst \texttt{examples/Argon/} nicht \texttt{example/Argon/}.
+\item [page 17] Verstehe nicht den Satz in der Klammer im Abschnitt \emph{parallelepiped}
+\item [page 105] Dritter Satz fehlendes ``s'' in ``exist''
+\item [page 105]Erhalte Warnung bei Aufruf von tremolo in Tutorial 14.1: \texttt{WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.}
+\item [page 107] oben, es fehlt ``use a'' in1 \emph{Since that introduces a discontinuity, we also second potential, which \ldots{}}
+\end{description}
+\subsubsection{\textbf{TODO} Notizen}
+\label{sec-4.1.2}
+
+\begin{itemize}
+
+\item Overview\\
+\label{sec-4.1.2.1}
+
+Das Tremolo Projekt besteht aus zwei Funktionalitaeten:
+a. sequentielle Simulation 
+b. parallele Simulation
+
+\begin{enumerate}
+\item Different capabilities of tremolo
+
+\begin{itemize}
+\item ensembles
+\item integrators
+\item thermostats
+\end{itemize}
+
+\item In-depth description of the different potentials
+\item Detailed specification of the syntax of options in the parameter file.
+\end{enumerate}
+
+\item First steps\\
+\label{sec-4.1.2.2}
+
+Start a tremolo simulation. Example:
+Go to \texttt{tremole/examples/Argon/} and type \texttt{tremolo argon.tremolo}. This starts the simulation specified in the \texttt{*.tremolo} file. 
+
+
+\item Ensembles and Thermostats\\
+\label{sec-4.1.2.3}
+
+Es gibt unter anderem folgende Funktionalitaeten:
+\begin{enumerate}
+\item Propagators
+\item Thermostats
+\item Barostats
+\end{enumerate}
+
+\item \textbf{TODO} Tutorial\\
+\label{sec-4.1.2.4}
+
+Kopie des Ordners \texttt{/tremolo/tutorial} befindet sich auf \texttt{\textasciitilde{}/playground/}. 
+
+\begin{itemize}
+
+\item \textbf{TODO} 14.1 Optimizing an initial particle setup\\
+\label{sec-4.1.2.4.1}
+
+\begin{enumerate}
+\item Write a \texttt{*.tremolo}-file containing:
+
+\begin{itemize}
+\item defaultpath (has to be set!)
+\item projectname (all files will carry this name)
+\item comment
+\item systemofunits
+\item base magnitudes for the system of units used.
+\end{itemize}
+
+\item Write a \texttt{*.potentials}-file containing the potentials.
+
+\begin{enumerate}
+\item particles : Contains all particles in the simulation:
+
+\begin{itemize}
+\item particle$_{\mathrm{type}}$
+\item element$_{\mathrm{name}}$
+\item mass
+\item sigma, sigma14, epsilon, epsilo14
+\end{itemize}
+
+\item potentials to be used in between particles
+\end{enumerate}
+
+\end{enumerate}
+\end{itemize} % ends low level
+\end{itemize} % ends low level
+\subsubsection{\textbf{TODO} Fragen}
+\label{sec-4.1.3}
+
+
+\begin{enumerate}
+\item $\Box$ Was sind Ensembles?
+\end{enumerate}
+
+\end{document}
