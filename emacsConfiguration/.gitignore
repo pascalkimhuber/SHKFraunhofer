@@ -1,0 +1,4 @@
+*~
+*.dat
+/eshell/lastdir
+/.#init.el

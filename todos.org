@@ -3,24 +3,34 @@
 ** TODO Change passwords
 Ask Christian how to do this and which passwords have to be changed. 
 
-** TODO Colors in git-output
-
+** DONE Colors in git-output [2014-01-05 Sun 14:42]
 
 
 * Emacs
 
-** Repair yasnippet config <2013-12-16 Mon>
-
-** Repair auto-pair config <2013-12-16 Mon>
-
+** TODO Add smart-mode-line to emacs config. 
 ** Language evaluation in org mode (see http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10)
-
 
 
 * Arbeitszeiten
 - [2013-12-16 Sat 16:30]--[2013-12-16 Mon 18:00]
 - [2013-12-18 Wed 17:30]--[2013-12-18 Wed 19:56]
 - [2013-12-19 Thu 14:00]--[2013-12-19 Thu 17:02]
+- [2014-01-05 Sun 14:30]
+
+
+
+* Nuetzliches
+
+** Gnuplot Befehle
+Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite gefunden werden: http://people.duke.edu/~hpgavin/gnuplot.html
+
+1. Um ein Data-file (zum Beispiel =*.epot*) mit Gnuplot zu plotten, verwendet man: =gnuplot> plot "./argon.epot" using 1:2=. Hierbei wird die zweite Spalte gegen die erste Spalte aufgetragen. 
+2. Dies kann auch mit mehreren Files gleichzeitig getan werden: =gnuplot> plot "./argon.etot" using 1:2, "./argon.ekin" using 1:2, "./argon.epot" using 1:2=
+3. Um den Achsenabschnitt zu veraendern, verwendet man: =gnuplot> plot "./argon.epot" using 1:2; set yrange [-0.1: 2]=
+4. Den urspruenglichen Achsenabschnitt kann man wie folgt wieder herstellen: =gnuplot> plot "./argon.epot" using 1:2; set autoscale=
+5. Mit =gnuplot> replot= kann der Plot aktualisiert werden. 
+
 
 
 * Aufgaben
@@ -39,7 +49,7 @@ Ask Christian how to do this and which passwords have to be changed.
 - page 108 :: do not understand the part about the /optimization/ block.
 - page 108 :: in the part about the /output/ block: what is the difference between visuals and particle data?
 
-
+			  
 
 *** TODO Notizen
 **** Overview
@@ -66,55 +76,75 @@ Es gibt unter anderem folgende Funktionalitaeten:
 
 
 **** TODO Tutorial
-Kopie des Ordners =/tremolo/tutorial= befindet sich auf =~/playground/=. 
+	 Kopie des Ordners =/tremolo/tutorial= befindet sich auf =~/playground/=. 
 
 ***** DONE 14.1 Optimizing an initial particle setup
-Often optimization of the particle distribution must be done, since the distribution is non-optimal creating local energy spikes which affect stability of the simulation. 
-Thus the particle position are slightly modified towards a (static) energy minimum. 
+	  Often optimization of the particle distribution must be done, since the distribution is non-optimal creating local energy spikes which affect stability of the simulation. 
+	  Thus the particle position are slightly modified towards a (static) energy minimum. 
 
-1. Write a =*.tremolo=-file containing:
+	  1. Write a =*.tremolo=-file containing:
    - defaultpath (has to be set!)
    - projectname (all files will carry this name)
    - comment
    - systemofunits
    - base magnitudes for the system of units used. 
 
-2. Write a =*.potentials=-file containing the potentials. 
-   1. particles : Contains all particles in the simulation:
+	 2. Write a =*.potentials=-file containing the potentials. 
+   1. particles : Contains all particle types in the simulation:
 	 - particle_type
 	 - element_name
 	 - mass
 	 - sigma, sigma14, epsilon, epsilo14
    2. potentials to be used in between particles
 
-3. Write a =*.validates=-file containing:
+   3. Write a =*.validates=-file containing:
    - validates the use of particles
    - decide which potential should be used
 
-4. Write a =*.parameters=-file containing
+	 4. Write a =*.parameters=-file containing
    - the type of simulation (optimization, dynamic simulation)
    - parameters concerning the domain and the cells
    - options for parametrization (? here optimization...)
    - type and intervals of output
 
-5. Write a =*.data=-file containing the initial particle positions in a special format
+	 5. Write a =*.data=-file containing the initial particle positions in a special format
    - in the first line starting with =# ATOMDATA= the layout of the particle lsit ist set. 
    - in the second line starting with =# INPUTCONV= some manipulation of the data can be set (here the temperature)
 
-6. Start the simulation using =tremolo -v *.tremolo=. The optimized particle positions are written to =*.data.999=. 
+	 6. Start the simulation using =tremolo -v *.tremolo=. The optimized particle positions are written to =*.data.9999=. 
 
 ****** DONE Exercises:
-1. Das Partikel mit ID 12 verlaesst das Gebiet (Positionen mit Koordinaten um die 1e+08). Dies geschiet wahrschenlich dadurch, dass durch den groessen Praefaktor das Partikle direct auf ein benachbartes Partikel gesetzt wird. Durch die Abstossung durch das Potenzial, erhaelt das Partikel ein sehr hohe Geschwindigkeit und verlaesst das Gebiet. 
-2. Die Potentielle Energie ist zu Beginn sehr gross (ca. 2.6e+10), allerdings nur wenige Zeitschritte, (hier nur 2.) unmittelbar nach Beginn der Optimierung, nimmt die Energie schlagartig ab (auf ca. -1.78, ab dem 7. Zeitschritt), danach konvigiert die Energie nur noch langsam zu einem Minimum (-1.15e+10). 
+	   1. Das Partikel mit ID 12 verlaesst das Gebiet (Positionen mit Koordinaten um die 1e+08). Dies geschiet wahrschenlich dadurch, dass durch den groessen Praefaktor das Partikle direct auf ein benachbartes Partikel gesetzt wird. Durch die Abstossung durch das Potenzial, erhaelt das Partikel ein sehr hohe Geschwindigkeit und verlaesst das Gebiet. 
+	   2. Die Potentielle Energie ist zu Beginn sehr gross (ca. 2.6e+10), allerdings nur wenige Zeitschritte, (hier nur 2.) unmittelbar nach Beginn der Optimierung, nimmt die Energie schlagartig ab (auf ca. -1.78, ab dem 7. Zeitschritt), danach konvigiert die Energie nur noch langsam zu einem Minimum (-1.15e+10). 
 
 
- 
-***** TODO 14.2 Setting up a basic simulationx
+		  
+***** DONE 14.2 Setting up a basic simulation
+	  After the optimization phase a basic simulation can be done. 
+
+	  1. in the =*.parameters=-file:
+   - change the integration type from "optimization" to "dynamics": =integration: type=dynamics= 
+   - Add new block to file consisting of the parameters of the dynamics:
+	 - =ensemble=NVE= particle number, volume, total energy are constant
+	 - choose integrator (propagator), e.g. =verlet= 
+	 - choose time steps and intervall
+   - Add anlysis sub-block to output-block to analyse velocity distribution of the particles:
+
+	 2. make sure to use the optimized =*.data=-files:
+   - always copy original data file somewhere safe
+   - rename =*.data.9999= as =*.data= 
+
+	 3. run simulation by the usual command
+
+****** DONE Exercises
+1. Die Gesamtenergie des Ensembles ist fast vollstaendig durch die kinetische Energie gegeben. Die potentielle Energie ist fast null, waehrend die kinetische Energie etwa 2000 ist. Desweiteren gibt es kleinste Schwankungen in den Energien. 
+2. ? Wie kann man das anstaendig plotten?
+3. Die Simulation bricht sofort ab mit der Fehlermeldung =Particle leaving simulation territory! Me:0 Particle-Id:12 (-8.547802e+05,-1.965304e+06,1.373152e+07) Process 0: Error in file ../../src/./update.c, line 1209 (0): SomeError: Particle leaving across a nonopen border. Simulation aborted.  Maybe the ensemble requires additional optimization?=
+4. Die Messung von Durchschnittsenergien, kann duch hinzufuegen von =meanmeasure=on= im =*.parameters=-file aktiviert werden. Die Energien sind wie erwartet gemittelt worden und dabei im wesentlichen konstant. Grob gesehen ergeben sich die gleichen Energien wie schon im ungemittelten Fall. 
+5. Durch die Temperaturerhoehung erhoeht sich auch die kinetische Energie der Teilchen, waehrend die potentielle Energie unveraendert bleibt. Ansonsten gibt es keine Aenderungen. 
 
 
-
-
-
+	 
 *** TODO Fragen
 
 1. [ ] Was sind Ensembles?
@@ -124,4 +154,8 @@ Thus the particle position are slightly modified towards a (static) energy minim
 3. [ ] Was ist der Unterschied zwischen "optimization" and "dynamic simulation"?
 
 4. [ ] Was heisst, dass Optimierung durch das CG-Verfahren durchgefuehrt werden muss? (Seite 108) Verstehe den ganzen Abschnitt zum Block "optmization" in =*.parameters=-file nicht...
+
+5. [ ] Was sind die pdb files?
+
+6. [ ] Was sind E_kin_group und e_tot+hoover in den ekin bzw. etot files?
 
