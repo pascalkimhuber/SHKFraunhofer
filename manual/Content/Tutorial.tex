@@ -256,11 +256,11 @@ Then we open a new sub-block for the details of the thermostat:
 We declare that we use the \texttt{berendsen} thermostat and choose to enforce it every second time step by our choice of \textbf{T\_Interval}.
 Furthermore we declare that we wish to hold the temperature constant and at which value. Note that we chose a value lower than
 the originally set temperature (regardless of whether you did the exercise or not.)
-Those are all the changes required, so go ahead and run the simulation.
+Those are all the changes required, so go ahead and run the simulation. \notiz{which data file has to be used? The one with '9999' after running the last simulation?}
 
 In difference to the previous example, where the temperature varied around its original value, you will observe a very sharp drop
 from the original to the designated temperature. Afterwards all temperature values hit the value almost \textit{exactly}. In
-fact, every second one is exactly at 2.5, whereas every other varies ever so slightly.
+fact, every second one is exactly at 2.5, whereas every other varies ever so slightly. 
 
 \subsection{Exercises}
 \begin{itemize}
@@ -268,14 +268,14 @@ fact, every second one is exactly at 2.5, whereas every other varies ever so sli
 \item Play with the time interval for the thermostat. Make it match the propagator timestep or make it a thousand times as long and observe the effects. In addition to the kinetic energy, observe the potential and total energy as well.
 \end{itemize}
 
-\section{An alternative: The Nose-Hoover-thermostat}
+\section{An alternative: The Nose-Hoover-thermostat} \notiz{Shouldn't it be a é?}
 We also introduce a second type of thermostat. Three lines require a change in order to switch to the alternative, all in the \texttt{dynamics} block of the \texttt{argon.parameter} file.
 \begin{lstlisting}
 dynamics {
     ensemble: ensemble=NVT;
     propagator, beeman2v: delta_T=0.5e-3, endtime=1000;
 \end{lstlisting}
-Here we have to make a change to the propagator, in order for the Nose-Hoover thermostat to work, a velocity integrator is required.
+Here we have to make a change to the propagator, in order for the Nose-Hoover thermostat to work, a velocity integrator is required. \notiz{What is a velocity integrator?}
 \begin{lstlisting}
     thermostat {
         berendsen: state=off, T_Interval=0.01;
@@ -284,17 +284,17 @@ Here we have to make a change to the propagator, in order for the Nose-Hoover th
     };
 };
 \end{lstlisting}
-Instead of deleting the \texttt{berendsen} line we can also switch it off.
+Instead of deleting the \texttt{berendsen} line we can also switch it off. \notiz{In the tutorials-file F\_Mass is set to 5.0...}
 In the added \texttt{nosehoover} line we do not have to specify an interval
 for the thermostat, but a virtual mass. This constant determines the strength
-of the coupling of the particles in the simulation with a virtual heat bath.
+of the coupling of the particles in the simulation with a virtual heat bath. \notiz{I am not sure what this is supposed to mean...}
 
 Start the simulation as before and observe the temperature behavior.
 
 You will note that the temperature oscillates, first significantly reducing
 its amplitude. While the amplitude increases again after some time it does
 not gain the same value as before. Thus, when using the Nose-Hoover thermostat
-considerations with respect to equilibration are imperative.
+considerations with respect to equilibration are imperative. \notiz{I do not understand the last sentence.}
 
 \subsection{Exercises}
 \begin{itemize}
@@ -310,7 +310,7 @@ prior to the simulation. In addition to the use of the barostat which we
 handle in the next lesson of this tutorial, we will now take a look at the
 initial optimization
 
-We begin by modifying the the optimization of the sample prior to the actual
+We begin by modifying the the optimization of the sample prior to the actual \fehler{Duplicate 'the'.}
 simulation. In particular we allow that, in addition to the positions of
 the atoms, also the box may be scaled to minimize the potential energy.
 

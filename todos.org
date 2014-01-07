@@ -16,7 +16,8 @@ Ask Christian how to do this and which passwords have to be changed.
 - [2013-12-16 Sat 16:30]--[2013-12-16 Mon 18:00]
 - [2013-12-18 Wed 17:30]--[2013-12-18 Wed 19:56]
 - [2013-12-19 Thu 14:00]--[2013-12-19 Thu 17:02]
-- [2014-01-05 Sun 14:30]
+- [2014-01-05 Sun 14:30]--[2014-01-05 Sun 19:30]
+- [2014-01-07 Tue 12:17]--[2014-01-07 Tue 14:00]
 
 
 
@@ -144,7 +145,44 @@ Es gibt unter anderem folgende Funktionalitaeten:
 5. Durch die Temperaturerhoehung erhoeht sich auch die kinetische Energie der Teilchen, waehrend die potentielle Energie unveraendert bleibt. Ansonsten gibt es keine Aenderungen. 
 
 
-	 
+
+***** DONE 14.3 Using the Berendsen thermostat
+	  Using the first of two defferent thermostats. 
+
+	  1. in =*.parameters=-file: 
+		 - change the ensemble from =NVE= to =NVT= in order to hold the temperature constant instead of the total energy. 
+		 - add a =thermostat= sub-block in order to supply details for the berendsen thermostat. 
+
+****** DONE Exercises
+1. Zum Startzeitpunkt ist sowohl die Gesamt- als auch die kinetsiche Energie recht hoch (ueber 2300), einen Zeitschritt spaeter sinken beide Energie schlagartig auf unter 2000 ab und bleibt anschliessend konstant. Die potentielle Energie ist konstant fast 0. 
+2. Ich sehe gar keinen Unterschied...
+
+
+***** DONE 14.4 An alternative: The Nose-Hoover-thermostat
+	  Introduce second type of thermostat. 
+
+	  1. in =*.parameters=-file:
+		 - Change the propagator (velocity integrator necessary for the Nose-Hoover thermostat)
+		 - set state of =berendsen= in the =thermostat= sub-block to off
+		 - add =nosehoover=-thermostat to =thermostat= block 
+
+****** DONE Exercises
+1. Die Kinetische und die Gesamtenergie oszillieren jetzt genauso wie die Temperatur. Die potentielle Energie ist weiterhin konstant bei etwa 0. 
+2. Fuer hoehere Temperaturen vergroessern sich die Amplituden. Fuer hoehere virtuelle Massen steigt die Frequenz der Oszillationen (ersten Grades...)
+
+
+***** TODO 14.5 Optimizing the domain
+	  Sometimes it is not possible to determine the optimal size of the domain prior to the simulation. 
+	  We can use the optimization phase to determine the size of the domain. For that we allow to scale the box in order to minimize the potential energy. 
+
+	  1. in =*.parameters=-file
+		 - Add =simucell= lines in the =optimization= block. The first line contains the parameters for the cell optimization (in general the as for the particles). The second line can be used to specify some constraints. 
+		 - Add a parameter to the =common= block for an external pressure value (=extpressure=).
+	  2. after the simulation is finished the =# Box= line contains a box matrix entry. The values must be transfered to the parameter file (will be described in next lesson).
+
+
+
+
 *** TODO Fragen
 
 1. [ ] Was sind Ensembles?
@@ -159,3 +197,8 @@ Es gibt unter anderem folgende Funktionalitaeten:
 
 6. [ ] Was sind E_kin_group und e_tot+hoover in den ekin bzw. etot files?
 
+7. [ ] Temperaturen koennen im =*.ekin= File betrachtet werden?	   
+
+8. [ ] Kann es sein, dass ab Kapitel 14.3 die Listings im Tutorial und die Dateien aus =/tutorials= nicht ganz uebereinstimmen? Im Ordner fuer Kapitel 14.4 sind schon Einstellungen fuer das naechste Kapitel....
+
+9. [ ] Der Output waehrend der Simulation wird nicht erklaert...
