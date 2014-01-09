@@ -338,7 +338,7 @@ After running the optimization, take a look at the file \texttt{argon.data.9999}
  \item Change the \texttt{extpressure} value. Check and compare the new box values\footnote{If you run tremolo with increased verbosity (e.g. \texttt{-v} the new box matrix - among other things - will be written to the standard output)}. (Changes by order of magnitude are advised for clearly visible results.)
  \item In the constraint matrix, change one of the main axis entries (\texttt{XX, YY, ZZ}) to 0. Check and compare the new box values.
  \item Change one of the secondary axis entries to 1.
-  Check and compare the new box values. Now rename the constraint to \texttt{constraint=standard} and check again.
+  Check and compare the new box values. Now rename the constraint to \texttt{constraint=standard} and check again. \notiz{For constraint=isotropic optimization is not possible. Is this on purpose in the manual?}
   Repeat the process for \texttt{constraint=symmetric}.
 \end{itemize}
 
@@ -348,7 +348,7 @@ After running the optimization, take a look at the file \texttt{argon.data.9999}
 In some cases it is desired to run simulations not only with isothermic, but also isobaric conditions.
 For this to be possible we allow the volume of the box to be variable and set a barostat similarly to the thermostat.
 
-Again we work in the \texttt{argon.parameter} file and enter the thermostat after (or in place of) the thermostat:
+Again we work in the \texttt{argon.parameter} file and enter the thermostat after (or in place of) the thermostat: \fehler{The first 'thermostat' must be replaced by 'barostat'.}
 \begin{lstlisting}
 dynamics {
     ensemble: ensemble=NPE;
@@ -377,7 +377,7 @@ additional modification by specifying entries in the box-matrix which may be aff
 Finally we have to deal with the particle data. If we start with a file where we did not use the box-optimization there is nothing else to worry about, we can start
 the simulation immediately. But lets take the \texttt{argon.data.9999} file from the previous lesson. (Preferably the one which was optimized with the originally supplied parameters.) Should you attempt to start it right away, you will receive an error
 message. This is due to the fact that the box-matrix in the data file and the one in the parameter file are different. So go ahead and change the domain in the
-appropriate line. (Note that the value shown here may be different from your value. If you wish to use a different result (e.g. the one won from \texttt{symmetric}
+appropriate line. \notiz{Appropriate line of the *.parameters-file... makes it clearer} (Note that the value shown here may be different from your value. If you wish to use a different result (e.g. the one won from \texttt{symmetric}
 constraints) you need to change the domain type as well. For the appropriate syntax see~\ref{sub:domain}.
 
 \begin{lstlisting}
