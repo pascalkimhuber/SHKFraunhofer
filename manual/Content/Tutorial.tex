@@ -368,7 +368,7 @@ dynamics {
         constraintmap: xx=1, yy=1, zz=1, xy=0, xz=0, yx=0, yz=0, zx=0, zy=0;
     };
 };
-\end{lstlisting}
+\end{lstlisting} \notiz{The listing and the provided tutorial files differ. Code from the file: ensemble=NPT, nosehoover: state=on. This produces an error telling, that something with the nose hoover thermostat is wrong (NaN)}
 In the first line we switch the barostat on and specify a virtual mass.
 In the second line we can choose whether the pressure aimed at shall be constant and if so, at what value. Note that as usually this value is in reduced units.
 Furthermore, we make our choice of constraints on the allowed changes to the box. First we specify a specific type of constraint, and afterwards we can apply
@@ -390,9 +390,9 @@ domain {
 
 \subsection{Exercises}
 \begin{itemize}
- \item Change the \texttt{extpressure} value. Check and compare the new box values. (changes by order of magnitude are advised for clearly visible results)
- \item In the \texttt{constraintmap}, change one of the main axis entries (\texttt{XX, YY, ZZ}) to 0. Check and compare the new box values.
- \item In the \texttt{constraintmap}, change one of the secondary axis entries. Check and compare the new box values.
+ \item Change the \texttt{extpressure} value. Check and compare the new box values. (changes by order of magnitude are advised for clearly visible results) \notiz{Do you mean the ``Pressure'' value instead of ``extpressure''?}
+ \item In the \texttt{constraintmap}, change one of the main axis entries (\texttt{XX, YY, ZZ}) to 0. Check and compare the new box values. \notiz{The type of the constraintmap has to be changed too! This should be mentioned!}
+ \item In the \texttt{constraintmap}, change one of the secondary axis entries. Check and compare the new box values. \notiz{Mention that always pairs of coordinates have to be changed?}
  \draft{\item Change the \texttt{f\_mass} value to 1000. Check and compare the of the box values.}
  \item Go back to the previous lesson and use one of the other constraints types (such as standard). Now transfer this \texttt{argon.data.9999} file and insert
  its domain shape in the \texttt{argon.parameter} file. For the appropriate syntax see~\ref{sub:domain}.
@@ -510,7 +510,7 @@ There are no differences in the bond length within statistical error and
 the values match the $r_0$-Parameter because the same parameters were
 used for both, inner and outer, carbon atom types. The nearest neighbors
 of the atoms (spatial configuration) are not taken into account thus
-leading to an identical bond distance.
+leading to an identical bond distance. \notiz{Do not understand the last sentence.}
 
 \subsection{Exercises}
 \begin{itemize}

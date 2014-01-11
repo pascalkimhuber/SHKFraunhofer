@@ -1,0 +1,38 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/huber/Work/todos/todos.org
+
+
+
+
+* TODO 14.7 Bonded potentials and measuring bonds
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-01-11 Sat 12:00
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Go through tutorials and manual (find mistakes)/Notizen/Tutorial
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: TODO
+  :END:
+Till here, only non-bonded interactions has been covered. In order to introduce connected atoms, one has the following to do:
+1. set the indices in the appropriate column in the =*.data=-file
+2. specify bonded potentials in the =*.potentials=-file. 
+
+The bond type covered here is a harmonic potential named =bond= (can be imagined like a spring between the atoms). 
+This type of bond cannot be broken. It is characterized by a restoring force proportional to the deflection from the minimal energy distance r_0. 	 
+
+In this example: Consider Butane (C_4H_10) and measure bond distances. There are three atom types:
+1. C in CH_3: methyl-carbon
+2. Ci in CH_2: methylene-carbon
+3. H: Hydrogen
+
+We will set up this example. 
+
+1. in =*.data= file
+   - The atoms data is set as usual. 
+   - A fourth column =neighbors=4= is added. This 4 new columns contain the indices of the neighboring atoms. 
+2. in =*.potentials= file
+   - first introduce the Lennard Jones potentials acting between the molecules. Tremolo-X handles Lennard Jones in bonded molecules in a way, that the potential is *not* calculated among direct neighbors. 
+   - second the bonded potentials are set. These are: =bonds=, =angles=, =torsions=. The parameters are taken from AMBER94 force field. 
+
+

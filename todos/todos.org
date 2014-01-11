@@ -19,6 +19,7 @@ Ask Christian how to do this and which passwords have to be changed.
 - [2014-01-05 Sun 14:30]--[2014-01-05 Sun 19:30]
 - [2014-01-07 Tue 12:17]--[2014-01-07 Tue 14:00]
 - [2014-01-09 Thu 12:15]--[2014-01-09 Thu 14:00]
+- [2014-01-11 Sat 09:17]--
 
 
 * Nuetzliches
@@ -202,7 +203,7 @@ Es gibt unter anderem folgende Funktionalitaeten:
  
 
 
-***** TODO 14.6 Introducing barostats. 
+***** DONE 14.6 Introducing barostats. 
 	  Instad of isothermic conditions, one often needs isobaric ones. For this one can allow the volume to change and set a barostat similarly to the thermostat. 
 	  
 	  1. in the =*.parameters=-file: 
@@ -210,9 +211,60 @@ Es gibt unter anderem folgende Funktionalitaeten:
 	  2. in order to start a simulation, the box specifications of the =*.parameters= file and those in the =*.data= file are different. Thus one has to change the box information in the =*.parameters= file. 
 
 
-****** TODO Determine which delta_T should be chosen.
+****** TODO Notes
+	   - Choosing delta_T=5e-3 I get the following error: =Process 0: Error in file ../../src/./helpers.c, line 2066 (0): SomeError: HooverEta is NaN! Error with implicitely solved Hoover-Nose-Thermostat. Please check whether structure is sufficiently and satisfactorily optimized ...: No such file or directory=
+	   - I am not receiving any error messages if I set the size of the cupe in =*.parameters= to 1!
 
-****** TODO Exercises. 
+****** DONE Exercises. 
+	   1. Fuer =Pressure=0.0024455185= erhalte ich die folgenden Werte: =# Box	7.579774e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.579774e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.579774e+01=. Mache wieder eine Tabelle: 
+          |       Pressure | Box size                                                                                                                                              |
+          |----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------|
+          |   0.0024455185 | # Box    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01 |
+          | 0.000024455185 | # Box  4.071469e+02    0.000000e+00    0.000000e+00    0.000000e+00    4.071469e+02    0.000000e+00    0.000000e+00    0.000000e+00    4.071469e+02   |
+          |    0.024455185 | # Box  5.323637e+01    0.000000e+00    0.000000e+00    0.000000e+00    5.323637e+01    0.000000e+00    0.000000e+00    0.000000e+00    5.323637e+01   |
+		  Je groesser also der Druck, desto kleiner wird die Box. Darueber hinaus dauert die Simulation fuer geringe Druecke deutlich laenger, was wohl auf die erhoehte Anzahl an Zellen zurueckzufuehren ist. Fuer sehr hohe Druecke laeuft die Simulation nicht, da die Box dann zu klein wird. 
+	   2. Setze =xx=0=. Erhalte Fehlermeldung: =For isotropic barostat conditon constraintmap entry xx must be set to 1.=. Setze =type=standard=. Erhalte nun folgende Werte: =7.457398e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.653474e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.544635e+01=.
+		  Stelle fest, dass die Werte der ersten Koordinate (=xx=) sich nicht veraendert haben, waehrend die Werte von =yy= und =zz= etwas groesser sind (und auch etwas groesser als im vorigen Fall). 
+	   3. Setze =xy=1=. Wie schon bei der Box-Optimierung muss dann =yx= auch auf eins gesetzt werden. Erhalte =# Box	9.568149e+01	0.000000e+00	0.000000e+00	-1.643221e+01	7.152647e+01	0.000000e+00	0.000000e+00	0.000000e+00	6.537388e+01=.
+		  In diesem Fall aendert sich auch die =x=-Koordinate des =y=-Vektors. 
+	   4. Setze =f_mass=1000=. Erhalte folgende Werte: =# Box	7.517290e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.517290e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.517290e+01=. 
+		  Die Box ist also etwas kleiner als im Fall =f_mass=1=. Also je groesser die fiktive Masse, (desto hoeher der Druck?), desto kleiner die Box. 
+
+
+
+
+***** DONE 14.7 Bonded potentials and measuring bonds
+Till here, only non-bonded interactions has been covered. In order to introduce connected atoms, one has the following to do:
+1. set the indices in the appropriate column in the =*.data=-file
+2. specify bonded potentials in the =*.potentials=-file. 
+
+The bond type covered here is a harmonic potential named =bond= (can be imagined like a spring between the atoms). 
+This type of bond cannot be broken. It is characterized by a restoring force proportional to the deflection from the minimal energy distance r_0. 	 
+
+In this example: Consider Butane (C_4H_10) and measure bond distances. There are three atom types:
+1. C in CH_3: methyl-carbon
+2. Ci in CH_2: methylene-carbon
+3. H: Hydrogen
+
+We will set up this example. 
+
+1. in =*.data= file
+   - The atoms data is set as usual. 
+   - A fourth column =neighbors=4= is added. This 4 new columns contain the indices of the neighboring atoms. 
+2. in =*.potentials= file
+   - first introduce the Lennard Jones potentials acting between the molecules. Tremolo-X handles Lennard Jones in bonded molecules in a way, that the potential is *not* calculated among direct neighbors. 
+   - second the bonded potentials are set. These are: =bonds=, =angles=, =torsions=. The parameters are taken from AMBER94 force field. 
+3. in =*.parameters= file
+   - in addition to the usual blocks, some bond measurement is introduced in the =analyze= subblock of =output=. Every pair undershooting the specified threshold =distance= is considered bonded. 
+	 The Ids of the bonded pairs are written to the =*.info.bonds= (vis) file. 
+
+****** DONE Exercises
+1. Erhoehe zunaechst die Temperatur: Eine hoehere Temperatur fuehrt dabei zu groesserer Oszillation. Das selbe sollte auch bei geringerer Verbindungskraft zu beobachten sein. 
+2. Erhoehe alle Gleichgewichtsabstaende um 1. Dadurch erhoehen sich auch die gemessenen Abstaende, allerdings nicht um den gleichen Abstand. Warum?
+
+
+
+
 
 
 *** TODO FRAGEN
@@ -238,3 +290,9 @@ Es gibt unter anderem folgende Funktionalitaeten:
 10. [ ] Bei Box Optimization: Was ist der Unterschied zwischen =standard= und =symmetric=?
 
 11. [ ] In 14.6 laeuft die Simulation nur fuer =delta_T=0.5e-3= und nicht fuer =delta_T=5e-3=. Warum? 
+
+12. [ ] Muss ich genau verstehen, was die Parameter der bonded potentials (Seite 122 und 123) sind? 
+
+13. [ ] Was sind die Zeilen "outvis", "outdata" und "outm" im =*.parameters= file. Fuer was braucht man "T_Delta" *und* "Step_Delta". 
+
+14. [ ] Verstehe nicht ganz was die "restlichen" Spalten im =*.generalmeas= file sein sollen. 
