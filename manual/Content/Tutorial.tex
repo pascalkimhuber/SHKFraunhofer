@@ -543,7 +543,7 @@ For a detailed explanation of the volume term see chapter~\ref{output:stress}}
 given in units of pressure, as one would expect, but contains a surplus
 $V$-Term.  The volume can usually be derived from the domain dimensions, but
 particularly in this tutorial we have to \emph{decide} how much volume a single
-graphene sheet has. Also the box vectors need to be changed individually, so we
+graphene sheet has. \notiz{Verstehe Satz mit 'box vectors' nicht!}Also the box vectors need to be changed individually, so we
 will choose \texttt{standard} constraints (\texttt{isotropic} constraints would be
 infeasible due to the coupling of the constraints).
 
@@ -573,7 +573,7 @@ analyze {
 If activated, the beta column in the visual .pdb output contains per particle
 stress, which can be visualized with an external tool like VMD-Viewer (not
 covered by this tutorial). Due to limitations of the PDB-format the numerical
-value is clipped at $99.99\,\frac{[F]\,[V]}{[A]}$.
+value is clipped at $99.99\,\frac{[F]\,[V]}{[A]}$. \notiz{Was ist die beta column im PDB-Format?}
 
 After the simulation has been finished, the output is analyzed by plotting a
 stress-strain diagram. The strain is defined as the length change relative to
@@ -582,8 +582,8 @@ The argument will be the $43^{rd}$ column in the file \texttt{graphene.mbox}, wh
 is the domain length in \texttt{xx} direction. The stress is read
 from column 31 in the same file and divided by the volume of the graphene sheet, which is the product of
 \texttt{xx} length (column 43), \texttt{yy} length (column 44) and
-\textit{height}, which has to be chosen by the user. We set $height=3.7
-\mathring{A}$, the inter layer distance in graphite. Note that since we pull,
+\textit{height}, which has to be chosen by the user. We set $height=3.7 
+\mathring{A}$, \notiz{Wo kann man die Hoehe ablesen?}the inter layer distance in graphite. Note that since we pull,
 the stress value from the file is negative. With this information we can now
 use gnuplot to create the diagram and fit a slope against the initial
 section, representing the elastic zone where Hook's Law applies. This slope is
@@ -615,7 +615,7 @@ sufficiently reproduces the measurement of $1\,\textrm{TPa}$ in~\cite{egraphene}
         \item Increase the simulation length by factor ten.
         \item Add a $100\,[t]$ relaxation time at the beginning ($\sigma=0$).
         \item Increase the maximum stress at the end of the simulation by factor five.
-    \end{itemize}
+    \end{itemize} \notiz{Was ist $\sigma$? Bin mir nicht sicher, wie man das machen soll...}
     Create a new stain-stress plot -- is there a difference in the fit quality
     ($\chi^2_\textrm{d.o.f.}$ and parameter error as supplied by gnuplot)?
 \end{itemize}
@@ -629,7 +629,7 @@ in macroscopical observables.
 
 The simpelest way to deal with these kind of potentials is using an
 ordinary pair potential. As stated earlier the potential should not be
-cut off but has to to fit the linked cell structure of the domain. With
+cut off but has to to \fehler{Fehlendes Wort!} fit the linked cell structure of the domain. With
 only a few particles it is adequate to run the whole simulation in a
 single cell, the performance drops quadratically with the particle
 number. In this example we simulate our solar system and calculate when
@@ -741,7 +741,7 @@ deviant to the value computed with HORIZONS: 28th July. This relative
 difference of 0.02\% is caused by the simplification of the solar system
 to sixty objects and the resulting difference in the local density. The
 minima of the Earth--Barycenter distance are \SI{365.24}{\siday} apart
-which matches the definition of the tropical year.
+which matches the definition of the tropical year. \fehler{Simulation hat bei mir nicht funktioniert: Viele Partikel verlassen das Gebiet und ich erhalte nur Nullen als Distanzen...}
 
 \subsection{Excercises}
 \begin{itemize}

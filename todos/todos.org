@@ -19,7 +19,8 @@ Ask Christian how to do this and which passwords have to be changed.
 - [2014-01-05 Sun 14:30]--[2014-01-05 Sun 19:30]
 - [2014-01-07 Tue 12:17]--[2014-01-07 Tue 14:00]
 - [2014-01-09 Thu 12:15]--[2014-01-09 Thu 14:00]
-- [2014-01-11 Sat 09:17]--
+- [2014-01-11 Sat 09:17]--[2014-02-11 Tue 13:15]
+- [2014-01-12 Sun 13:25]--
 
 
 * Nuetzliches
@@ -264,7 +265,82 @@ We will set up this example.
 
 
 
+***** DONE 14.8 Tersoff potential and stress
 
+Aim: Determine Young's Modulus of a single graphene sheet. Instead of defining fixed individual neighbors, the potential function will determine the spatial configuration of surrounding carbon atoms by itself. 
+
+1. in =*.potentials= file
+   - A =tersoff= block is introduced containing all necessary parameters for tersoff potentials. 
+2. in =*.parameters= file
+   - A =NPT=-ensemble is used
+   - additionally to the external pressure a custom stress tensor is set. The stress tensor stretches the domain in =xx=-direction with linearly increasing strength startin from 0 to 1e5. 
+   - the box vectors need to be changed individually (why?)
+   - in order to analyze the stress distribution along individual particles, one needs the =local_stress= feature. 
+
+3. Output: Plotting a *stress-strain diagram*:
+   - The values can be found in the =*.mbox=-file:
+	 - strain: can be found by observing the =xx=-value of the box found in 43rd column
+	 - stress: can be found in 31st column
+	 - the =yy=-length of the box can be read in the 44th column
+
+****** DONE Exercises
+1. Aendere die stress Richtung in =yy= Richtung durch Aenderung an =stresstensor= im =*.parameters= File. 
+   Erhalte fuer E =1.58273 mit einem asymptotischen Standard Fehler von +/- 0.2419 (15.28%). Insgesamt die Kurve ganz anders aus... Verstehe ich nicht? 
+2. Bin mir nicht sicher, wie man die Relaxation-Zeit einstellt? Habe jetzt im Stresstensor eine dritte Zeile eingefuegt: =(0, 0, linear, 1, 0, 0, 0, 0,), (100, 0, linear, 1, 0, 0, 0, 0, 0), (200, 5e5, linear, 1, 0, 0, 0, 0, 0)];=. 
+   Hoffentlich stimmt's. 
+   Die Kurve des Plots waechst zunaechst sehr schnell an, und faellt schliesslich etwas langsamer auf null. Bruch? Als Moudulus erhalte ich =E=147.655= mit Fehler =+/- 1.273 (0.8624%)=
+
+
+
+***** DONE 14.9 Long ranged potentials 1 - Halley's Comet with coulombic pair interaction
+
+Covers how to set up simulation to use long ranged potentials like gravity or coulomb potential (characteristic: 1/|x|). 
+For these potentials, a cutoff produces significant errors on the forces. 
+Solution: Use an ordinary pair potential. 
+Here as an example we will calculate when Halley's Comet runs through its perihelion point. 
+
+1. Tremolo does not support a gravity potential. Instead of this the Coulomb potential is used (after adapting the units.)
+2. in =*.parameters= file
+   - in order to simulate the conditions of the solar system, a NVE ensemble with verlet propagator is used. 
+   - the box is choosen to be three times larger then the solar system and =leaving= boundary conditions are set. 
+   - the whole system is contained in one single cell, which is not good for parallelization but the only way to obtain accurate results using long ranged potentials. 
+   - a =coulomb= block is set up
+   - in order to measure the distance between the Comet and the Barycenter, the bond distance measurement is used. 
+3. in =*.potentials= file
+   - set up all the objects, note that the charge of the particles is set to its mass. 
+
+****** TODO Exercises
+Problem: Erhalte keine Werte fuer die Abstaende. Es werden nur Nullen ausgegeben. Was geht da schief? Ausserdem wird waehrend der Simulation mitgeteilt, dass mehrere Partikel das Gebiet verlassen. 
+
+
+
+
+***** TODO 14.10 Long ranged potentials 2 - Sodium chloride with SPME
+
+Typical usage scenario of coulomb forces in molecular dynamics with a large number of particles. 
+The potential is split in two parts: 
+- the short ranged part is calculated in a linked cell fashion as before
+- the long ranged part is calculated by Ewald summation in fourier space for father particles 
+This is suitable for periodic systems of particles. 
+In this example solid NaCl is simulated and its radial distribution is measured. 
+
+1. in the =*.potentials= file
+   - set up the short ranged interactions using the Tosi Fumi potential
+2. in the =*.data= file
+   - set up the starting configuration as a NaCl-structure with small random offset for each atom at 20 degrees celsius. 
+3. in the =*.parameters= file 
+   - NPT ensemble, 
+   - 1000hP pressure maintained by the Parrinello-Barostat, with isotropic constraint
+   - Nose-Hoover-Thermostat for fixed temperature
+   - =coulomb=-block: specify the parameters for the =spme= method
+	 - up to =r_cut= the short ranged part of the potential is used (like n2spline)
+	 - from there it is approximated by bell curves with splitting coefficient =G= (?!)
+   - in =analyze=-block the measurement of the radial distribution is set up. 
+
+Since the SPME method is used, the parallel version of Tremolo-X has to be used: =tremolo_mpi -v *.tremolo=. 
+
+****** TODO Exercises
+1. 
 
 
 *** TODO FRAGEN
@@ -296,3 +372,9 @@ We will set up this example.
 13. [ ] Was sind die Zeilen "outvis", "outdata" und "outm" im =*.parameters= file. Fuer was braucht man "T_Delta" *und* "Step_Delta". 
 
 14. [ ] Verstehe nicht ganz was die "restlichen" Spalten im =*.generalmeas= file sein sollen. 
+
+15. [ ] Welches Programm zum Visualisieren verwenden? Habe ich Programme wie VMD-Viewer, Gnu Units?
+
+16. [ ] Aufgaben zu 14.8: Wie fuegt man eine Relaxation Time hinzu? Einfach zusaetzliche Zeile im Stress-Tensor?
+
+17. [ ] In 14.9: Warum wird der =coulomb= Block in das =*.parameters= File und nicht in das =*.potentials= File geschrieben? 
