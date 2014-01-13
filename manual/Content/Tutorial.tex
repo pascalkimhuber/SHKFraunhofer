@@ -629,10 +629,10 @@ in macroscopical observables.
 
 The simpelest way to deal with these kind of potentials is using an
 ordinary pair potential. As stated earlier the potential should not be
-cut off but has to to \fehler{Fehlendes Wort!} fit the linked cell structure of the domain. With
-only a few particles it is adequate to run the whole simulation in a
-single cell, the performance drops quadratically with the particle
-number. In this example we simulate our solar system and calculate when
+cut off but has to to fit the linked cell structure of the domain. With
+only a few particles \fehler{Fehlendes Wort nach 'to'?} it is adequate to run the whole simulation in a
+single cell, the performance drops quadratically with the particle 
+number.In this example we simulate our solar system and calculate when
 Halley's Comet runs through its perihelion point next time (as of time
 of writing, year 2013).
 
@@ -879,7 +879,7 @@ thermostat {
 };
 \end{lstlisting}
 \todo{Buchstabendreher beim Gradzeichen im PDF/Text fixen
-(Encodingproblem mit lstlisting).}
+(Encodingproblem mit lstlisting).}\notiz{Welcher Buchstabendreher?}
 
 With these settings the temperature is held constant at
 \SI{20}{\celsius} for 100 time units and then lineary increased to
@@ -1029,10 +1029,10 @@ output	{
 	};
 \end{lstlisting}
 
-Note that while we use SI units, the temperature has a scaling prefactor, which needs to be accounted for when setting the thermostat. While we use periodic boundaries, those will not be relevant to our simulation, as we 
+Note that while we use SI units, the temperature has a scaling prefactor, which needs to be accounted for when setting the thermostat. \notiz{Warum? Verstehe ich nicht...} While we use periodic boundaries, those will not be relevant to our simulation, as we 
 set the simulation domain to a cube of 60$\angstrom$, whereas the nanoparticle has a radius of 20 $\angstrom$. Thus no interaction with or across the domain boundaries is present.
 
-We now can run the simulation.After having run the simulation, we can take a look at the potential energy curve and notice that its slope changes around 4.64e-11s into the simulation. It is at this time that
+We now can run the simulation \notiz{Ich erhalte zu Beginn der Simulation zwei Fehlermeldungen...}.After having run the simulation, we can take a look at the potential energy curve and notice that its slope changes around 4.64e-11s into the simulation. It is at this time that
 the transformation takes place.
 
 We will now analyze the radial distribution of the sample at the beginning of the simulation, during the melting phase and after the transition phase.

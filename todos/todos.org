@@ -20,7 +20,8 @@ Ask Christian how to do this and which passwords have to be changed.
 - [2014-01-07 Tue 12:17]--[2014-01-07 Tue 14:00]
 - [2014-01-09 Thu 12:15]--[2014-01-09 Thu 14:00]
 - [2014-01-11 Sat 09:17]--[2014-02-11 Tue 13:15]
-- [2014-01-12 Sun 13:25]--
+- [2014-01-12 Sun 13:25]--[2014-02-12 Wed 17:00]
+- [2014-01-13 Mon 13:30]--
 
 
 * Nuetzliches
@@ -315,7 +316,7 @@ Problem: Erhalte keine Werte fuer die Abstaende. Es werden nur Nullen ausgegeben
 
 
 
-***** TODO 14.10 Long ranged potentials 2 - Sodium chloride with SPME
+***** DONE 14.10 Long ranged potentials 2 - Sodium chloride with SPME
 
 Typical usage scenario of coulomb forces in molecular dynamics with a large number of particles. 
 The potential is split in two parts: 
@@ -340,41 +341,78 @@ In this example solid NaCl is simulated and its radial distribution is measured.
 Since the SPME method is used, the parallel version of Tremolo-X has to be used: =tremolo_mpi -v *.tremolo=. 
 
 ****** TODO Exercises
-1. 
+1. Die radiale Verteilung kann in =*.histogram= abgelesen und dann zum Beispiel mit Excel dargestellt werden. Es zeigt sich, dass es im Anfangszustand nur einzelne winzige Peaks gibt. Im Endzustand wird das Histogramm etwas verwischt. So dass mehrere Bins eine nicht triviale Anzahl von Atomen enthalten. 
+2. Erhoehe zunaechst die Temperatur auf 5 Grad Celsius. Mit hoeherer Temperatur verteilen sich die Werte fuer die radiale Verteilung auf mehr bins (d.h. die Peaks werden noch verwaschener...)
 
 
-*** TODO FRAGEN
 
-1. [ ] WAS sind Ensembles?
+***** DONE 14.11 Melting point 
 
-2. [ ] Warum genau braucht man die Optimierung bei der Simulation? (Seite 105)
+Example for a common application of molecular dynamics: Determine the melting point of NaCl.
+We are goint to use the /Voids method/. Explained [[http://scitation.aip.org/docserver/fulltext/aip/journal/jcp/136/14/1.3702587.pdf%3Fexpires%3D1389619185&id%3Did&accname%3D375729&checksum%3D95953424103DE090EC600A7A00E8088C][here (A comparison of methods for melting point calculation using molecular dynamics
+simulations)]]. 
 
-3. [ ] Was ist der Unterschied zwischen "optimization" and "dynamic simulation"?
+1. The simulation setup is similar to the previous tutorial apart from the thermostat settings and measurement settings.
+2. in the =*.tremolo= file
+   In order to carry out a series of simulations one can make use of the defaultpath-option in =*.tremolo=: 
+   - every simulation is set up in a subdirectory containing only the =*.data= and the =*.parameters= file
+   - the remaining files are saved in the parent directory. 
+   - in this example the subdirectories are named by increasing number of cells with pair defect. 
 
-4. [ ] Was heisst, dass Optimierung durch das CG-Verfahren durchgefuehrt werden muss? (Seite 108) Verstehe den ganzen Abschnitt zum Block "optmization" in =*.parameters=-file nicht...
 
-5. [ ] Was sind die pdb files?
 
-6. [ ] Was sind E_kin_group und e_tot+hoover in den ekin bzw. etot files?
+***** TODO The EAM potential - Observing phase transition in Metall
 
-7. [ ] Temperaturen koennen im =*.ekin= File betrachtet werden?	   
+The "embedded atom method" (EAM) is a standard potential used in the analysis of metalls and alloys. In the following the EAM potential is used to analyze a phase transition. 
+A Fe-Ni nanoparticle is heated from 100K to 800K and the change of its lattice structure from bcc (body-centered cubic) to fcc (face-centered cubic)/ hcp (hexagonal close-packed) is observed. 
 
-8. [ ] Kann es sein, dass ab Kapitel 14.3 die Listings im Tutorial und die Dateien aus =/tutorials= nicht ganz uebereinstimmen? Im Ordner fuer Kapitel 14.4 sind schon Einstellungen fuer das naechste Kapitel....
+1. in order to use EAM potentials, the EAM parameters must be provided by a file either with the "eam/fs" format oder the "eam/alloy" format. 
+   - the unit system of the eam parameters file determines the units which need to be used throughout the simulation. 
+2. in the =*.potentials= file 
+   - the particle parameters are inserted as usual.  
+   - the eam format and the filename is specified. 
+3. in the =*.parameters= file
+   - a =domain= block is set as usual
+   - a =dynamics= block is set as usual
+   - an =ouput= block is set for measuring the radial ditribution
 
-9. [ ] Der Output waehrend der Simulation wird nicht erklaert...
+Beim Start der Simulation erhalte ich folgende Fehlermeldungen:
+1. =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external=
+2. =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.exttypes=
 
-10. [ ] Bei Box Optimization: Was ist der Unterschied zwischen =standard= und =symmetric=?
 
-11. [ ] In 14.6 laeuft die Simulation nur fuer =delta_T=0.5e-3= und nicht fuer =delta_T=5e-3=. Warum? 
+*** DONE FRAGEN
 
-12. [ ] Muss ich genau verstehen, was die Parameter der bonded potentials (Seite 122 und 123) sind? 
+1. [ ] Warum genau braucht man die Optimierung bei der Simulation? (Seite 105)
 
-13. [ ] Was sind die Zeilen "outvis", "outdata" und "outm" im =*.parameters= file. Fuer was braucht man "T_Delta" *und* "Step_Delta". 
+2. [X] Was ist der Unterschied zwischen "optimization" and "dynamic simulation"?
 
-14. [ ] Verstehe nicht ganz was die "restlichen" Spalten im =*.generalmeas= file sein sollen. 
+3. [ ] Was heisst, dass Optimierung durch das CG-Verfahren durchgefuehrt werden muss? (Seite 108) Verstehe den ganzen Abschnitt zum Block "optmization" in =*.parameters=-file nicht...
 
-15. [ ] Welches Programm zum Visualisieren verwenden? Habe ich Programme wie VMD-Viewer, Gnu Units?
+4. [ ] Was sind die pdb files?
 
-16. [ ] Aufgaben zu 14.8: Wie fuegt man eine Relaxation Time hinzu? Einfach zusaetzliche Zeile im Stress-Tensor?
+5. [ ] Was sind E_kin_group und e_tot+hoover in den ekin bzw. etot files?
 
-17. [ ] In 14.9: Warum wird der =coulomb= Block in das =*.parameters= File und nicht in das =*.potentials= File geschrieben? 
+6. [ ] Temperaturen koennen im =*.ekin= File betrachtet werden?	   
+
+7. [ ] Kann es sein, dass ab Kapitel 14.3 die Listings im Tutorial und die Dateien aus =/tutorials= nicht ganz uebereinstimmen? Im Ordner fuer Kapitel 14.4 sind schon Einstellungen fuer das naechste Kapitel....
+
+8. [ ] Der Output waehrend der Simulation wird nicht erklaert...
+
+9. [ ] Bei Box Optimization: Was ist der Unterschied zwischen =standard= und =symmetric=?
+
+10. [ ] In 14.6 laeuft die Simulation nur fuer =delta_T=0.5e-3= und nicht fuer =delta_T=5e-3=. Warum? 
+
+11. [ ] Muss ich genau verstehen, was die Parameter der bonded potentials (Seite 122 und 123) sind? 
+
+12. [ ] Was sind die Zeilen "outvis", "outdata" und "outm" im =*.parameters= file. Fuer was braucht man "T_Delta" *und* "Step_Delta". 
+
+13. [ ] Verstehe nicht ganz was die "restlichen" Spalten im =*.generalmeas= file sein sollen. 
+
+14. [ ] Welches Programm zum Visualisieren verwenden? Habe ich Programme wie VMD-Viewer, Gnu Units?
+
+15. [ ] Aufgaben zu 14.8: Wie fuegt man eine Relaxation Time hinzu? Einfach zusaetzliche Zeile im Stress-Tensor?
+
+16. [ ] In 14.9: Warum wird der =coulomb= Block in das =*.parameters= File und nicht in das =*.potentials= File geschrieben? 
+
+17. [ ] In 14.12 Was ist mit den Fehlermeldungen?
