@@ -1,4 +1,4 @@
-% Created 2013-12-19 Thu 15:03
+% Created 2014-01-16 Thu 12:15
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -11,9 +11,9 @@
 \usepackage{hyperref}
 
 
-\title{todos}
+\title{Go through tutorials and manual (find mistakes)}
 \author{Pascal Huber}
-\date{19 December 2013}
+\date{16 January 2014}
 
 \begin{document}
 
@@ -22,56 +22,9 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 \vspace*{1cm}
-\section{Configurations}
+
+\section{\textbf{TODO} Bemerkungen}
 \label{sec-1}
-
-
-\subsection{\textbf{TODO} Change passwords}
-\label{sec-1.1}
-
-Ask Christian how to do this and which passwords have to be changed. 
-
-\subsection{\textbf{TODO} Colors in git-output}
-\label{sec-1.2}
-
-
-
-
-\section{Emacs}
-\label{sec-2}
-
-
-\subsection{Repair yasnippet config <2013-12-16 Mon>}
-\label{sec-2.1}
-
-
-\subsection{Repair auto-pair config <2013-12-16 Mon>}
-\label{sec-2.2}
-
-
-\subsection{Language evaluation in org mode (see \href{http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10}{http://zeekat.nl/articles/making-emacs-work-for-me.html\#sec-10})}
-\label{sec-2.3}
-
-
-
-
-\section{Arbeitszeiten}
-\label{sec-3}
-
-\begin{itemize}
-\item \textit{2013-12-16 Sat 16:30}--\textit{2013-12-16 Mon 18:00}
-\item \textit{2013-12-18 Wed 17:30}--\textit{2013-12-18 Wed 19:56}
-\end{itemize}
-\section{Aufgaben}
-\label{sec-4}
-
-
-\subsection{\textbf{TODO} Go through tutorials and manual (find mistakes)}
-\label{sec-4.1}
-
-
-\subsubsection{\textbf{TODO} Bemerkungen}
-\label{sec-4.1.1}
 
 \begin{description}
 \item vielleicht eine Hinweis, wie man an das Manual kommt?
@@ -81,14 +34,15 @@ Ask Christian how to do this and which passwords have to be changed.
 \item [page 105] Dritter Satz fehlendes ``s'' in ``exist''
 \item [page 105]Erhalte Warnung bei Aufruf von tremolo in Tutorial 14.1: \texttt{WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.}
 \item [page 107] oben, es fehlt ``use a'' in1 \emph{Since that introduces a discontinuity, we also second potential, which \ldots{}}
+\item [page 107] superfluous colon after \emph{\ldots{}not a dynamic simulation.} before the second grey box.
+\item [page 108] do not understand the part about the \emph{optimization} block.
+\item [page 108] in the part about the \emph{output} block: what is the difference between visuals and particle data?
 \end{description}
-\subsubsection{\textbf{TODO} Notizen}
-\label{sec-4.1.2}
+\section{\textbf{TODO} Notizen}
+\label{sec-2}
 
-\begin{itemize}
-
-\item Overview\\
-\label{sec-4.1.2.1}
+\subsection{Overview}
+\label{sec-2.1}
 
 Das Tremolo Projekt besteht aus zwei Funktionalitaeten:
 a. sequentielle Simulation 
@@ -106,16 +60,14 @@ b. parallele Simulation
 \item In-depth description of the different potentials
 \item Detailed specification of the syntax of options in the parameter file.
 \end{enumerate}
-
-\item First steps\\
-\label{sec-4.1.2.2}
+\subsection{First steps}
+\label{sec-2.2}
 
 Start a tremolo simulation. Example:
 Go to \texttt{tremole/examples/Argon/} and type \texttt{tremolo argon.tremolo}. This starts the simulation specified in the \texttt{*.tremolo} file. 
 
-
-\item Ensembles and Thermostats\\
-\label{sec-4.1.2.3}
+\subsection{Ensembles and Thermostats}
+\label{sec-2.3}
 
 Es gibt unter anderem folgende Funktionalitaeten:
 \begin{enumerate}
@@ -123,32 +75,28 @@ Es gibt unter anderem folgende Funktionalitaeten:
 \item Thermostats
 \item Barostats
 \end{enumerate}
+\subsection{\textbf{TODO} Tutorial}
+\label{sec-2.4}
 
-\item \textbf{TODO} Tutorial\\
-\label{sec-4.1.2.4}
+     Kopie des Ordners \texttt{/tremolo/tutorial} befindet sich auf \texttt{\textasciitilde{}/playground/}. 
 
-Kopie des Ordners \texttt{/tremolo/tutorial} befindet sich auf \texttt{\textasciitilde{}/playground/}. 
+\subsubsection{\textbf{DONE} 14.1 Optimizing an initial particle setup}
+\label{sec-2.4.1}
+
+      Often optimization of the particle distribution must be done, since the distribution is non-optimal creating local energy spikes which affect stability of the simulation. 
+      Thus the particle position are slightly modified towards a (static) energy minimum. 
 
 \begin{itemize}
-
-\item \textbf{TODO} 14.1 Optimizing an initial particle setup\\
-\label{sec-4.1.2.4.1}
-
-\begin{enumerate}
 \item Write a \texttt{*.tremolo}-file containing:
-
-\begin{itemize}
 \item defaultpath (has to be set!)
 \item projectname (all files will carry this name)
 \item comment
 \item systemofunits
 \item base magnitudes for the system of units used.
-\end{itemize}
-
-\item Write a \texttt{*.potentials}-file containing the potentials.
 
 \begin{enumerate}
-\item particles : Contains all particles in the simulation:
+\item Write a \texttt{*.potentials}-file containing the potentials.
+\item particles : Contains all particle types in the simulation:
 
 \begin{itemize}
 \item particle$_{\mathrm{type}}$
@@ -158,17 +106,508 @@ Kopie des Ordners \texttt{/tremolo/tutorial} befindet sich auf \texttt{\textasci
 \end{itemize}
 
 \item potentials to be used in between particles
+\item Write a \texttt{*.validates}-file containing:
 \end{enumerate}
+
+\item validates the use of particles
+\item decide which potential should be used
+
+\begin{enumerate}
+\item Write a \texttt{*.parameters}-file containing
+\end{enumerate}
+
+\item the type of simulation (optimization, dynamic simulation)
+\item parameters concerning the domain and the cells
+\item options for parametrization (? here optimization\ldots{})
+\item type and intervals of output
+
+\begin{enumerate}
+\item Write a \texttt{*.data}-file containing the initial particle positions in a special format
+\end{enumerate}
+
+\item in the first line starting with \texttt{\# ATOMDATA} the layout of the particle lsit ist set.
+\item in the second line starting with \texttt{\# INPUTCONV} some manipulation of the data can be set (here the temperature)
+
+\begin{enumerate}
+\item Start the simulation using \texttt{tremolo -v *.tremolo}. The optimized particle positions are written to \texttt{*.data.9999}.
+\end{enumerate}
+
+\end{itemize}
+\begin{itemize}
+
+\item \textbf{DONE} Exercises:\\
+\label{sec-2.4.1.1}
+
+\begin{enumerate}
+\item Das Partikel mit ID 12 verlaesst das Gebiet (Positionen mit Koordinaten um die 1e+08). Dies geschiet wahrschenlich dadurch, dass durch den groessen Praefaktor das Partikle direct auf ein benachbartes Partikel gesetzt wird. Durch die Abstossung durch das Potenzial, erhaelt das Partikel ein sehr hohe Geschwindigkeit und verlaesst das Gebiet.
+\item Die Potentielle Energie ist zu Beginn sehr gross (ca. 2.6e+10), allerdings nur wenige Zeitschritte, (hier nur 2.) unmittelbar nach Beginn der Optimierung, nimmt die Energie schlagartig ab (auf ca. -1.78, ab dem 7. Zeitschritt), danach konvigiert die Energie nur noch langsam zu einem Minimum (-1.15e+10).
+\end{enumerate}
+\end{itemize} % ends low level
+\subsubsection{\textbf{DONE} 14.2 Setting up a basic simulation}
+\label{sec-2.4.2}
+
+      After the optimization phase a basic simulation can be done. 
+
+\begin{itemize}
+\item in the \texttt{*.parameters}-file:
+\item change the integration type from ``optimization'' to ``dynamics'': \texttt{integration: type=dynamics}
+\item Add new block to file consisting of the parameters of the dynamics:
+
+\begin{itemize}
+\item \texttt{ensemble=NVE} particle number, volume, total energy are constant
+\item choose integrator (propagator), e.g. \texttt{verlet}
+\item choose time steps and intervall
+\end{itemize}
+
+\item Add anlysis sub-block to output-block to analyse velocity distribution of the particles:
+
+\begin{enumerate}
+\item make sure to use the optimized \texttt{*.data}-files:
+\end{enumerate}
+
+\item always copy original data file somewhere safe
+\item rename \texttt{*.data.9999} as \texttt{*.data}
+
+\begin{enumerate}
+\item run simulation by the usual command
+\end{enumerate}
+
+\end{itemize}
+\begin{itemize}
+
+\item \textbf{DONE} Exercises\\
+\label{sec-2.4.2.1}
+
+\begin{enumerate}
+\item Die Gesamtenergie des Ensembles ist fast vollstaendig durch die kinetische Energie gegeben. Die potentielle Energie ist fast null, waehrend die kinetische Energie etwa 2000 ist. Desweiteren gibt es kleinste Schwankungen in den Energien.
+\item ? Wie kann man das anstaendig plotten?
+\item Die Simulation bricht sofort ab mit der Fehlermeldung \texttt{Particle leaving simulation territory! Me:0 Particle-Id:12 (-8.547802e+05,-1.965304e+06,1.373152e+07) Process 0: Error in file ../../src/./update.c, line 1209 (0): SomeError: Particle leaving across a nonopen border. Simulation aborted.  Maybe the ensemble requires additional optimization?}
+\item Die Messung von Durchschnittsenergien, kann duch hinzufuegen von \texttt{meanmeasure=on} im \texttt{*.parameters}-file aktiviert werden. Die Energien sind wie erwartet gemittelt worden und dabei im wesentlichen konstant. Grob gesehen ergeben sich die gleichen Energien wie schon im ungemittelten Fall.
+\item Durch die Temperaturerhoehung erhoeht sich auch die kinetische Energie der Teilchen, waehrend die potentielle Energie unveraendert bleibt. Ansonsten gibt es keine Aenderungen.
+\end{enumerate}
+\end{itemize} % ends low level
+\subsubsection{\textbf{DONE} 14.3 Using the Berendsen thermostat}
+\label{sec-2.4.3}
+
+      Using the first of two defferent thermostats. 
+
+\begin{enumerate}
+\item in \texttt{*.parameters}-file:
+
+\begin{itemize}
+\item change the ensemble from \texttt{NVE} to \texttt{NVT} in order to hold the temperature constant instead of the total energy.
+\item add a \texttt{thermostat} sub-block in order to supply details for the berendsen thermostat.
+\end{itemize}
+
+\end{enumerate}
+\begin{itemize}
+
+\item \textbf{DONE} Exercises\\
+\label{sec-2.4.3.1}
+
+\begin{enumerate}
+\item Zum Startzeitpunkt ist sowohl die Gesamt- als auch die kinetsiche Energie recht hoch (ueber 2300), einen Zeitschritt spaeter sinken beide Energie schlagartig auf unter 2000 ab und bleibt anschliessend konstant. Die potentielle Energie ist konstant fast 0.
+\item Ich sehe gar keinen Unterschied\ldots{}
+\end{enumerate}
+\end{itemize} % ends low level
+\subsubsection{\textbf{DONE} 14.4 An alternative: The Nose-Hoover-thermostat}
+\label{sec-2.4.4}
+
+      Introduce second type of thermostat. 
+
+\begin{enumerate}
+\item in \texttt{*.parameters}-file:
+
+\begin{itemize}
+\item Change the propagator (velocity integrator necessary for the Nose-Hoover thermostat)
+\item set state of \texttt{berendsen} in the \texttt{thermostat} sub-block to off
+\item add \texttt{nosehoover}-thermostat to \texttt{thermostat} block
+\end{itemize}
+
+\end{enumerate}
+\begin{itemize}
+
+\item \textbf{DONE} Exercises\\
+\label{sec-2.4.4.1}
+
+\begin{enumerate}
+\item Die Kinetische und die Gesamtenergie oszillieren jetzt genauso wie die Temperatur. Die potentielle Energie ist weiterhin konstant bei etwa 0.
+\item Fuer hoehere Temperaturen vergroessern sich die Amplituden. Fuer hoehere virtuelle Massen steigt die Frequenz der Oszillationen (ersten Grades\ldots{})
+\end{enumerate}
+\end{itemize} % ends low level
+\subsubsection{\textbf{DONE} 14.5 Optimizing the domain}
+\label{sec-2.4.5}
+
+      Sometimes it is not possible to determine the optimal size of the domain prior to the simulation. 
+      We can use the optimization phase to determine the size of the domain. For that we allow to scale the box in order to minimize the potential energy. 
+
+\begin{enumerate}
+\item in \texttt{*.parameters}-file
+
+\begin{itemize}
+\item Add \texttt{simucell} lines in the \texttt{optimization} block. The first line contains the parameters for the cell optimization (in general the as for the particles). The second line can be used to specify some constraints.
+\item Add a parameter to the \texttt{common} block for an external pressure value (\texttt{extpressure}).
+\end{itemize}
+
+\item after the simulation is finished the \texttt{\# Box} line contains a box matrix entry. The values must be transfered to the parameter file (will be described in next lesson).
+\end{enumerate}
+\begin{itemize}
+
+\item \textbf{DONE} Exercises\\
+\label{sec-2.4.5.1}
+
+\begin{enumerate}
+\item Making a small table: 
+
+\begin{center}
+\begin{tabular}{rl}
+       extpressure  &  box coordinates                                                                                                                                         \\
+\hline
+      0.0024455185  &  \# Box    7.457397e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.457397e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.457397e+01  \\
+       0.024455185  &  \# Box   7.370456e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370456e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370456e+01   \\
+        0.24455185  &  \# Box   7.370444e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370444e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370444e+01   \\
+         2.4455185  &  \# Box   7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01   \\
+          24455185  &  \# Box   7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01   \\
+ 0.000000024455185  &  \# Box  7.774622e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.774622e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.774622e+01    \\
+\end{tabular}
+\end{center}
+
+
+   Also, je groesser \texttt{extpressure} desto kleiner die Box. Das heißt Box Größe und \texttt{extpressure} sind umgekehrt proportional.
+\item Setze \texttt{XX=0} und erhalte \texttt{\# Box  7.775000e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.557398e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.557398e+01}. 
+   Es faellt auf, dass die Box nun nicht mehr quadratisch ist. Durch die Änderung kann sich die x-Komponente des ersten Ecken-Vektors nicht mehr veraendern, so dass eine Dimension fixiert ist. (\texttt{Xk} bezeichnet die \texttt{k} Komponente des \texttt{X}-Ecken-Vektors. Hierbei ist \texttt{X} \in {\texttt{X}, \texttt{Y}, \texttt{Z}}).
+\item Setze \texttt{XY=1}. Betrachte nun folgende Werte fuer \texttt{constraint}
+
+\begin{description}
+\item [\texttt{isotropic}] Keine Optimierung moeglich, da fuer \texttt{isotropic} die sekundären Achsen auf 0 gesetzt werden müssen. Fehlermeldung: \texttt{For isotropic box optimization constraintmap entries must be restricted to xx, yy and zz.}
+\item [\texttt{standard}] Keine Optimierung moeglich: Fehlermeldung: \texttt{Constraintmap entry yx must match xy}. Wenn \texttt{XY} und \texttt{YX} auf 1 gesetzt werden erhaelt man: \texttt{\# Box   7.457272e+01    0.000000e+00    0.000000e+00    -7.979795e-04   7.457325e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.457594e+01}. 
+                   Das heisst die Box ist kein Quader mehr, sondern ein Parallelepiped, in der die Kanten \texttt{Y} nicht mehr parallel zur Achse verlaufen.
+\item [\texttt{symmetric}] Keine Optimierung moeglich: Fehlermeldung: \texttt{Constraintmap entry yx must match xy}. Setze \texttt{XY} und \texttt{YX} auf 1. Erhalte: \texttt{\# Box   7.457272e+01    -8.014574e-04   0.000000e+00    -8.014574e-04   7.457325e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.457594e+01}. 
+                    Wieder ein Parallepiped. Was ist der Unterschied zu \texttt{standard}?
+\end{description}
 
 \end{enumerate}
 \end{itemize} % ends low level
+\subsubsection{\textbf{DONE} 14.6 Introducing barostats.}
+\label{sec-2.4.6}
+
+      Instad of isothermic conditions, one often needs isobaric ones. For this one can allow the volume to change and set a barostat similarly to the thermostat. 
+      
+\begin{enumerate}
+\item in the \texttt{*.parameters}-file:
+
+\begin{itemize}
+\item add a \texttt{barostat} sub-block right under the \texttt{thermostat} block. In the block one can set: which barostat is used, if constant pressure is wished (in reduced units!), and constraints regarding the variation of the volume.
+\end{itemize}
+
+\item in order to start a simulation, the box specifications of the \texttt{*.parameters} file and those in the \texttt{*.data} file are different. Thus one has to change the box information in the \texttt{*.parameters} file.
+\end{enumerate}
+\begin{itemize}
+
+\item \textbf{TODO} Notes\\
+\label{sec-2.4.6.1}
+
+\begin{itemize}
+\item Choosing delta$_T$=5e-3 I get the following error: \texttt{Process 0: Error in file ../../src/./helpers.c, line 2066 (0): SomeError: HooverEta is NaN! Error with implicitely solved Hoover-Nose-Thermostat. Please check whether structure is sufficiently and satisfactorily optimized ...: No such file or directory}
+\item I am not receiving any error messages if I set the size of the cupe in \texttt{*.parameters} to 1!
+\end{itemize}
+
+\item \textbf{DONE} Exercises.\\
+\label{sec-2.4.6.2}
+
+\begin{enumerate}
+\item Fuer \texttt{Pressure=0.0024455185} erhalte ich die folgenden Werte: \texttt{\# Box  7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01}. Mache wieder eine Tabelle: 
+
+\begin{center}
+\begin{tabular}{rl}
+       Pressure  &  Box size                                                                                                                                                \\
+\hline
+   0.0024455185  &  \# Box    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01  \\
+ 0.000024455185  &  \# Box  4.071469e+02    0.000000e+00    0.000000e+00    0.000000e+00    4.071469e+02    0.000000e+00    0.000000e+00    0.000000e+00    4.071469e+02    \\
+    0.024455185  &  \# Box  5.323637e+01    0.000000e+00    0.000000e+00    0.000000e+00    5.323637e+01    0.000000e+00    0.000000e+00    0.000000e+00    5.323637e+01    \\
+\end{tabular}
+\end{center}
+
+
+          Je groesser also der Druck, desto kleiner wird die Box. Darueber hinaus dauert die Simulation fuer geringe Druecke deutlich laenger, was wohl auf die erhoehte Anzahl an Zellen zurueckzufuehren ist. Fuer sehr hohe Druecke laeuft die Simulation nicht, da die Box dann zu klein wird.
+\item Setze \texttt{xx=0}. Erhalte Fehlermeldung: \texttt{For isotropic barostat conditon constraintmap entry xx must be set to 1.}. Setze \texttt{type=standard}. Erhalte nun folgende Werte: \texttt{7.457398e+01 0.000000e+00    0.000000e+00    0.000000e+00    7.653474e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.544635e+01}.
+          Stelle fest, dass die Werte der ersten Koordinate (\texttt{xx}) sich nicht veraendert haben, waehrend die Werte von \texttt{yy} und \texttt{zz} etwas groesser sind (und auch etwas groesser als im vorigen Fall).
+\item Setze \texttt{xy=1}. Wie schon bei der Box-Optimierung muss dann \texttt{yx} auch auf eins gesetzt werden. Erhalte \texttt{\# Box   9.568149e+01    0.000000e+00    0.000000e+00    -1.643221e+01   7.152647e+01    0.000000e+00    0.000000e+00    0.000000e+00    6.537388e+01}.
+          In diesem Fall aendert sich auch die \texttt{x}-Koordinate des \texttt{y}-Vektors.
+\item Setze \texttt{f\_mass=1000}. Erhalte folgende Werte: \texttt{\# Box   7.517290e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.517290e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.517290e+01}. 
+          Die Box ist also etwas kleiner als im Fall \texttt{f\_mass=1}. Also je groesser die fiktive Masse, (desto hoeher der Druck?), desto kleiner die Box.
+\end{enumerate}
 \end{itemize} % ends low level
-\subsubsection{\textbf{TODO} Fragen}
-\label{sec-4.1.3}
+\subsubsection{\textbf{DONE} 14.7 Bonded potentials and measuring bonds}
+\label{sec-2.4.7}
+
+Till here, only non-bonded interactions has been covered. In order to introduce connected atoms, one has the following to do:
+\begin{enumerate}
+\item set the indices in the appropriate column in the \texttt{*.data}-file
+\item specify bonded potentials in the \texttt{*.potentials}-file.
+\end{enumerate}
+The bond type covered here is a harmonic potential named \texttt{bond} (can be imagined like a spring between the atoms). 
+This type of bond cannot be broken. It is characterized by a restoring force proportional to the deflection from the minimal energy distance r$_0$.    
+
+In this example: Consider Butane (C$_{\mathrm{4H}}$$_{\mathrm{10}}$) and measure bond distances. There are three atom types:
+\begin{enumerate}
+\item C in CH$_3$: methyl-carbon
+\item Ci in CH$_2$: methylene-carbon
+\item H: Hydrogen
+\end{enumerate}
+We will set up this example. 
+
+\begin{enumerate}
+\item in \texttt{*.data} file
+
+\begin{itemize}
+\item The atoms data is set as usual.
+\item A fourth column \texttt{neighbors=4} is added. This 4 new columns contain the indices of the neighboring atoms.
+\end{itemize}
+
+\item in \texttt{*.potentials} file
+
+\begin{itemize}
+\item first introduce the Lennard Jones potentials acting between the molecules. Tremolo-X handles Lennard Jones in bonded molecules in a way, that the potential is \textbf{not} calculated among direct neighbors.
+\item second the bonded potentials are set. These are: \texttt{bonds}, \texttt{angles}, \texttt{torsions}. The parameters are taken from AMBER94 force field.
+\end{itemize}
+
+\item in \texttt{*.parameters} file
+
+\begin{itemize}
+\item in addition to the usual blocks, some bond measurement is introduced in the \texttt{analyze} subblock of \texttt{output}. Every pair undershooting the specified threshold \texttt{distance} is considered bonded. 
+     The Ids of the bonded pairs are written to the \texttt{*.info.bonds} (vis) file.
+\end{itemize}
+
+\end{enumerate}
+\begin{itemize}
+
+\item \textbf{DONE} Exercises\\
+\label{sec-2.4.7.1}
+
+\begin{enumerate}
+\item Erhoehe zunaechst die Temperatur: Eine hoehere Temperatur fuehrt dabei zu groesserer Oszillation. Das selbe sollte auch bei geringerer Verbindungskraft zu beobachten sein.
+\item Erhoehe alle Gleichgewichtsabstaende um 1. Dadurch erhoehen sich auch die gemessenen Abstaende, allerdings nicht um den gleichen Abstand. Warum?
+\end{enumerate}
+\end{itemize} % ends low level
+\subsubsection{\textbf{DONE} 14.8 Tersoff potential and stress}
+\label{sec-2.4.8}
+
+
+Aim: Determine Young's Modulus of a single graphene sheet. Instead of defining fixed individual neighbors, the potential function will determine the spatial configuration of surrounding carbon atoms by itself. 
+
+\begin{enumerate}
+\item in \texttt{*.potentials} file
+
+\begin{itemize}
+\item A \texttt{tersoff} block is introduced containing all necessary parameters for tersoff potentials.
+\end{itemize}
+
+\item in \texttt{*.parameters} file
+
+\begin{itemize}
+\item A \texttt{NPT}-ensemble is used
+\item additionally to the external pressure a custom stress tensor is set. The stress tensor stretches the domain in \texttt{xx}-direction with linearly increasing strength startin from 0 to 1e5.
+\item the box vectors need to be changed individually (why?)
+\item in order to analyze the stress distribution along individual particles, one needs the \texttt{local\_stress} feature.
+\end{itemize}
+
+\item Output: Plotting a \textbf{stress-strain diagram}:
+
+\begin{itemize}
+\item The values can be found in the \texttt{*.mbox}-file:
+
+\begin{itemize}
+\item strain: can be found by observing the \texttt{xx}-value of the box found in 43rd column
+\item stress: can be found in 31st column
+\item the \texttt{yy}-length of the box can be read in the 44th column
+\end{itemize}
+
+\end{itemize}
+
+\end{enumerate}
+\begin{itemize}
+
+\item \textbf{DONE} Exercises\\
+\label{sec-2.4.8.1}
+
+\begin{enumerate}
+\item Aendere die stress Richtung in \texttt{yy} Richtung durch Aenderung an \texttt{stresstensor} im \texttt{*.parameters} File. 
+   Erhalte fuer E \texttt{1.58273 mit einem asymptotischen Standard Fehler von +/- 0.2419 (15.28\%). Insgesamt die Kurve ganz anders aus... Verstehe ich nicht?  2. Bin mir nicht sicher, wie man die Relaxation-Zeit einstellt? Habe jetzt im Stresstensor eine dritte Zeile eingefuegt: =(0, 0, linear, 1, 0, 0, 0, 0,), (100, 0, linear, 1, 0, 0, 0, 0, 0), (200, 5e5, linear, 1, 0, 0, 0, 0, 0)];}. 
+   Hoffentlich stimmt's. 
+   Die Kurve des Plots waechst zunaechst sehr schnell an, und faellt schliesslich etwas langsamer auf null. Bruch? Als Moudulus erhalte ich \texttt{E=147.655} mit Fehler \texttt{+/- 1.273 (0.8624\%)}
+\end{enumerate}
+\end{itemize} % ends low level
+\subsubsection{\textbf{DONE} 14.9 Long ranged potentials 1 - Halley's Comet with coulombic pair interaction}
+\label{sec-2.4.9}
+
+
+Covers how to set up simulation to use long ranged potentials like gravity or coulomb potential (characteristic: 1/|x|). 
+For these potentials, a cutoff produces significant errors on the forces. 
+Solution: Use an ordinary pair potential. 
+Here as an example we will calculate when Halley's Comet runs through its perihelion point. 
+
+\begin{enumerate}
+\item Tremolo does not support a gravity potential. Instead of this the Coulomb potential is used (after adapting the units.)
+\item in \texttt{*.parameters} file
+
+\begin{itemize}
+\item in order to simulate the conditions of the solar system, a NVE ensemble with verlet propagator is used.
+\item the box is choosen to be three times larger then the solar system and \texttt{leaving} boundary conditions are set.
+\item the whole system is contained in one single cell, which is not good for parallelization but the only way to obtain accurate results using long ranged potentials.
+\item a \texttt{coulomb} block is set up
+\item in order to measure the distance between the Comet and the Barycenter, the bond distance measurement is used.
+\end{itemize}
+
+\item in \texttt{*.potentials} file
+
+\begin{itemize}
+\item set up all the objects, note that the charge of the particles is set to its mass.
+\end{itemize}
+
+\end{enumerate}
+\begin{itemize}
+
+\item \textbf{TODO} Exercises\\
+\label{sec-2.4.9.1}
+
+Problem: Erhalte keine Werte fuer die Abstaende. Es werden nur Nullen ausgegeben. Was geht da schief? Ausserdem wird waehrend der Simulation mitgeteilt, dass mehrere Partikel das Gebiet verlassen. 
+
+
+
+
+\end{itemize} % ends low level
+\subsubsection{\textbf{DONE} 14.10 Long ranged potentials 2 - Sodium chloride with SPME}
+\label{sec-2.4.10}
+
+
+Typical usage scenario of coulomb forces in molecular dynamics with a large number of particles. 
+The potential is split in two parts: 
+\begin{itemize}
+\item the short ranged part is calculated in a linked cell fashion as before
+\item the long ranged part is calculated by Ewald summation in fourier space for father particles
+\end{itemize}
+This is suitable for periodic systems of particles. 
+In this example solid NaCl is simulated and its radial distribution is measured. 
+
+\begin{enumerate}
+\item in the \texttt{*.potentials} file
+
+\begin{itemize}
+\item set up the short ranged interactions using the Tosi Fumi potential
+\end{itemize}
+
+\item in the \texttt{*.data} file
+
+\begin{itemize}
+\item set up the starting configuration as a NaCl-structure with small random offset for each atom at 20 degrees celsius.
+\end{itemize}
+
+\item in the \texttt{*.parameters} file
+
+\begin{itemize}
+\item NPT ensemble,
+\item 1000hP pressure maintained by the Parrinello-Barostat, with isotropic constraint
+\item Nose-Hoover-Thermostat for fixed temperature
+\item \texttt{coulomb}-block: specify the parameters for the \texttt{spme} method
+
+\begin{itemize}
+\item up to \texttt{r\_cut} the short ranged part of the potential is used (like n2spline)
+\item from there it is approximated by bell curves with splitting coefficient \texttt{G} (?!)
+\end{itemize}
+
+\item in \texttt{analyze}-block the measurement of the radial distribution is set up.
+\end{itemize}
+
+\end{enumerate}
+Since the SPME method is used, the parallel version of Tremolo-X has to be used: \texttt{tremolo\_mpi -v *.tremolo}. 
+
+\begin{itemize}
+
+\item \textbf{TODO} Exercises\\
+\label{sec-2.4.10.1}
+
+\begin{enumerate}
+\item Die radiale Verteilung kann in \texttt{*.histogram} abgelesen und dann zum Beispiel mit Excel dargestellt werden. Es zeigt sich, dass es im Anfangszustand nur einzelne winzige Peaks gibt. Im Endzustand wird das Histogramm etwas verwischt. So dass mehrere Bins eine nicht triviale Anzahl von Atomen enthalten.
+\item Erhoehe zunaechst die Temperatur auf 5 Grad Celsius. Mit hoeherer Temperatur verteilen sich die Werte fuer die radiale Verteilung auf mehr bins (d.h. die Peaks werden noch verwaschener\ldots{})
+\end{enumerate}
+\end{itemize} % ends low level
+\subsubsection{\textbf{DONE} 14.11 Melting point}
+\label{sec-2.4.11}
+
+
+Example for a common application of molecular dynamics: Determine the melting point of NaCl.
+We are goint to use the \emph{Voids method}. Explained \href{http://scitation.aip.org/docserver/fulltext/aip/journal/jcp/136/14/1.3702587.pdf%3Fexpires%3D1389619185&id%3Did&accname%3D375729&checksum%3D95953424103DE090EC600A7A00E8088C}{here (A comparison of methods for melting point calculation using molecular dynamics simulations)}. 
+
+\begin{enumerate}
+\item The simulation setup is similar to the previous tutorial apart from the thermostat settings and measurement settings.
+\item in the \texttt{*.tremolo} file
+   In order to carry out a series of simulations one can make use of the defaultpath-option in \texttt{*.tremolo}:
+
+\begin{itemize}
+\item every simulation is set up in a subdirectory containing only the \texttt{*.data} and the \texttt{*.parameters} file
+\item the remaining files are saved in the parent directory.
+\item in this example the subdirectories are named by increasing number of cells with pair defect.
+\end{itemize}
+
+\end{enumerate}
+\subsubsection{\textbf{TODO} The EAM potential - Observing phase transition in Metall}
+\label{sec-2.4.12}
+
+
+The ``embedded atom method'' (EAM) is a standard potential used in the analysis of metalls and alloys. In the following the EAM potential is used to analyze a phase transition. 
+A Fe-Ni nanoparticle is heated from 100K to 800K and the change of its lattice structure from bcc (body-centered cubic) to fcc (face-centered cubic)/ hcp (hexagonal close-packed) is observed. 
+
+\begin{enumerate}
+\item in order to use EAM potentials, the EAM parameters must be provided by a file either with the ``eam/fs'' format oder the ``eam/alloy'' format.
+
+\begin{itemize}
+\item the unit system of the eam parameters file determines the units which need to be used throughout the simulation.
+\end{itemize}
+
+\item in the \texttt{*.potentials} file
+
+\begin{itemize}
+\item the particle parameters are inserted as usual.
+\item the eam format and the filename is specified.
+\end{itemize}
+
+\item in the \texttt{*.parameters} file
+
+\begin{itemize}
+\item a \texttt{domain} block is set as usual
+\item a \texttt{dynamics} block is set as usual
+\item an \texttt{ouput} block is set for measuring the radial ditribution
+\end{itemize}
+
+\end{enumerate}
+Beim Start der Simulation erhalte ich folgende Fehlermeldungen:
+\begin{enumerate}
+\item \texttt{Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external}
+\item \texttt{Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.exttypes}
+\end{enumerate}
+\section{\textbf{DONE} FRAGEN}
+\label{sec-3}
 
 
 \begin{enumerate}
-\item $\Box$ Was sind Ensembles?
+\item $\Box$ Warum genau braucht man die Optimierung bei der Simulation? (Seite 105)
+\item $\boxtimes$ Was ist der Unterschied zwischen ``optimization'' and ``dynamic simulation''?
+\item $\Box$ Was heisst, dass Optimierung durch das CG-Verfahren durchgefuehrt werden muss? (Seite 108) Verstehe den ganzen Abschnitt zum Block ``optmization'' in \texttt{*.parameters}-file nicht\ldots{}
+\item $\Box$ Was sind die pdb files?
+\item $\Box$ Was sind E$_{\mathrm{kin}}$$_{\mathrm{group}}$ und e$_{\mathrm{tot}}$+hoover in den ekin bzw. etot files?
+\item $\Box$ Temperaturen koennen im \texttt{*.ekin} File betrachtet werden?
+\item $\Box$ Kann es sein, dass ab Kapitel 14.3 die Listings im Tutorial und die Dateien aus \texttt{/tutorials} nicht ganz uebereinstimmen? Im Ordner fuer Kapitel 14.4 sind schon Einstellungen fuer das naechste Kapitel\ldots{}.
+\item $\Box$ Der Output waehrend der Simulation wird nicht erklaert\ldots{}
+\item $\Box$ Bei Box Optimization: Was ist der Unterschied zwischen \texttt{standard} und \texttt{symmetric}?
+\item $\Box$ In 14.6 laeuft die Simulation nur fuer \texttt{delta\_T=0.5e-3} und nicht fuer \texttt{delta\_T=5e-3}. Warum?
+\item $\Box$ Muss ich genau verstehen, was die Parameter der bonded potentials (Seite 122 und 123) sind?
+\item $\Box$ Was sind die Zeilen ``outvis'', ``outdata'' und ``outm'' im \texttt{*.parameters} file. Fuer was braucht man ``T$_{\mathrm{Delta}}$'' \textbf{und} ``Step$_{\mathrm{Delta}}$''.
+\item $\Box$ Verstehe nicht ganz was die ``restlichen'' Spalten im \texttt{*.generalmeas} file sein sollen.
+\item $\Box$ Welches Programm zum Visualisieren verwenden? Habe ich Programme wie VMD-Viewer, Gnu Units?
+\item $\Box$ Aufgaben zu 14.8: Wie fuegt man eine Relaxation Time hinzu? Einfach zusaetzliche Zeile im Stress-Tensor?
+\item $\Box$ In 14.9: Warum wird der \texttt{coulomb} Block in das \texttt{*.parameters} File und nicht in das \texttt{*.potentials} File geschrieben?
+\item $\Box$ In 14.12 Was ist mit den Fehlermeldungen?
 \end{enumerate}
 
 \end{document}

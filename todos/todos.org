@@ -21,7 +21,8 @@ Ask Christian how to do this and which passwords have to be changed.
 - [2014-01-09 Thu 12:15]--[2014-01-09 Thu 14:00]
 - [2014-01-11 Sat 09:17]--[2014-02-11 Tue 13:15]
 - [2014-01-12 Sun 13:25]--[2014-02-12 Wed 17:00]
-- [2014-01-13 Mon 13:30]--
+- [2014-01-13 Mon 13:30]--[2014-01-13 Mon 15:15]
+- [2014-01-16 Thu 14:15]--[2014-01-16 Thu 16:32]
 
 
 * Nuetzliches
@@ -35,13 +36,13 @@ Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite ge
 4. Den urspruenglichen Achsenabschnitt kann man wie folgt wieder herstellen: =gnuplot> plot "./argon.epot" using 1:2; set autoscale=
 5. Mit =gnuplot> replot= kann der Plot aktualisiert werden. 
 
-
+   
 
 * Aufgaben
 
-** TODO Go through tutorials and manual (find mistakes)
+** DONE Go through tutorials and manual (find mistakes)
 
-*** TODO Bemerkungen
+*** DONE Bemerkungen
 - vielleicht eine Hinweis, wie man an das Manual kommt?
 - page 7 :: Letzter Satz: missing "of" after "... detailed specification"
 - page 11 :: Erster Satz: es heisst =examples/Argon/= nicht =example/Argon/=.
@@ -55,7 +56,7 @@ Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite ge
 
 			  
 
-*** TODO Notizen
+*** DONE Notizen
 **** Overview
 Das Tremolo Projekt besteht aus zwei Funktionalitaeten:
 a. sequentielle Simulation 
@@ -79,7 +80,7 @@ Es gibt unter anderem folgende Funktionalitaeten:
 3. Barostats
 
 
-**** TODO Tutorial
+**** DONE Tutorial
 	 Kopie des Ordners =/tremolo/tutorial= befindet sich auf =~/playground/=. 
 
 ***** DONE 14.1 Optimizing an initial particle setup
@@ -215,7 +216,7 @@ Es gibt unter anderem folgende Funktionalitaeten:
 
 ****** TODO Notes
 	   - Choosing delta_T=5e-3 I get the following error: =Process 0: Error in file ../../src/./helpers.c, line 2066 (0): SomeError: HooverEta is NaN! Error with implicitely solved Hoover-Nose-Thermostat. Please check whether structure is sufficiently and satisfactorily optimized ...: No such file or directory=
-	   - I am not receiving any error messages if I set the size of the cupe in =*.parameters= to 1!
+	   - I am not receiving any error messages if I set the size of the cube in =*.parameters= to 1 and do not touch the =*.data= file, even if the values are different!
 
 ****** DONE Exercises. 
 	   1. Fuer =Pressure=0.0024455185= erhalte ich die folgenden Werte: =# Box	7.579774e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.579774e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.579774e+01=. Mache wieder eine Tabelle: 
@@ -286,7 +287,7 @@ Aim: Determine Young's Modulus of a single graphene sheet. Instead of defining f
 
 ****** DONE Exercises
 1. Aendere die stress Richtung in =yy= Richtung durch Aenderung an =stresstensor= im =*.parameters= File. 
-   Erhalte fuer E =1.58273 mit einem asymptotischen Standard Fehler von +/- 0.2419 (15.28%). Insgesamt die Kurve ganz anders aus... Verstehe ich nicht? 
+   Erhalte fuer E = 1.58273 mit einem asymptotischen Standard Fehler von +/- 0.2419 (15.28%). Insgesamt sieht die Kurve ganz anders aus... Verstehe ich nicht? 
 2. Bin mir nicht sicher, wie man die Relaxation-Zeit einstellt? Habe jetzt im Stresstensor eine dritte Zeile eingefuegt: =(0, 0, linear, 1, 0, 0, 0, 0,), (100, 0, linear, 1, 0, 0, 0, 0, 0), (200, 5e5, linear, 1, 0, 0, 0, 0, 0)];=. 
    Hoffentlich stimmt's. 
    Die Kurve des Plots waechst zunaechst sehr schnell an, und faellt schliesslich etwas langsamer auf null. Bruch? Als Moudulus erhalte ich =E=147.655= mit Fehler =+/- 1.273 (0.8624%)=
@@ -380,8 +381,7 @@ Beim Start der Simulation erhalte ich folgende Fehlermeldungen:
 1. =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external=
 2. =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.exttypes=
 
-
-*** DONE FRAGEN
+***** DONE FRAGEN
 
 1. [ ] Warum genau braucht man die Optimierung bei der Simulation? (Seite 105)
 
@@ -397,22 +397,69 @@ Beim Start der Simulation erhalte ich folgende Fehlermeldungen:
 
 7. [ ] Kann es sein, dass ab Kapitel 14.3 die Listings im Tutorial und die Dateien aus =/tutorials= nicht ganz uebereinstimmen? Im Ordner fuer Kapitel 14.4 sind schon Einstellungen fuer das naechste Kapitel....
 
-8. [ ] Der Output waehrend der Simulation wird nicht erklaert...
+8. [ ] Bei Box Optimization: Was ist der Unterschied zwischen =standard= und =symmetric=?
 
-9. [ ] Bei Box Optimization: Was ist der Unterschied zwischen =standard= und =symmetric=?
+9. [ ] In 14.6 laeuft die Simulation nur fuer =delta_T=0.5e-3= und nicht fuer =delta_T=5e-3=. Warum? 
 
-10. [ ] In 14.6 laeuft die Simulation nur fuer =delta_T=0.5e-3= und nicht fuer =delta_T=5e-3=. Warum? 
+10. [ ] Muss ich genau verstehen, was die Parameter der bonded potentials (Seite 122 und 123) sind? 
 
-11. [ ] Muss ich genau verstehen, was die Parameter der bonded potentials (Seite 122 und 123) sind? 
+11. [ ] Was sind die Zeilen "outvis", "outdata" und "outm" im =*.parameters= file. Fuer was braucht man "T_Delta" *und* "Step_Delta", zum Beispiel in Kapitel 14.7. 
 
-12. [ ] Was sind die Zeilen "outvis", "outdata" und "outm" im =*.parameters= file. Fuer was braucht man "T_Delta" *und* "Step_Delta". 
+12. [ ] Kapitel 14.7: Verstehe nicht ganz was die "restlichen" Spalten im =*.generalmeas= file sein sollen. 
 
-13. [ ] Verstehe nicht ganz was die "restlichen" Spalten im =*.generalmeas= file sein sollen. 
+13. [ ] Welches Programm zum Visualisieren verwenden? Habe ich Programme wie VMD-Viewer, Gnu Units?
 
-14. [ ] Welches Programm zum Visualisieren verwenden? Habe ich Programme wie VMD-Viewer, Gnu Units?
+14. [ ] Aufgaben zu 14.8: Wie fuegt man eine Relaxation Time hinzu? Einfach zusaetzliche Zeile im Stress-Tensor?
 
-15. [ ] Aufgaben zu 14.8: Wie fuegt man eine Relaxation Time hinzu? Einfach zusaetzliche Zeile im Stress-Tensor?
+15. [ ] In 14.9: Warum wird der =coulomb= Block in das =*.parameters= File und nicht in das =*.potentials= File geschrieben? 
 
-16. [ ] In 14.9: Warum wird der =coulomb= Block in das =*.parameters= File und nicht in das =*.potentials= File geschrieben? 
+16. [ ] In 14.12 Was ist mit den Fehlermeldungen?
 
-17. [ ] In 14.12 Was ist mit den Fehlermeldungen?
+17. [ ] Probleme mit den Aufgaben bei 14.6 und 14.9.
+
+		
+***** TODO Summary of problems: 
+
+- Kapitel 14.1 :: Programme zum Plotten? Warnung bei der Simulation: =WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.=
+
+- Kapitel 14.2 :: -
+
+- Kapitel 14.3 :: -
+
+- Kapitel 4.4 :: Was ist der Unterschied zwischen Nose-Hoover und Berendsen?
+
+- Kapitel 4.5 :: Verstehe nicht ganz die Unterschiede fuer die =constraint types=. 
+
+- Kapitel 4.6 :: Erhalte Fehler fuer =delta_T=5e-3=: =Process 0: Error in file ../../src/./helpers.c, line 2066 (0): SomeError: HooverEta is NaN! Error with implicitely solved Hoover-Nose-Thermostat. Please check whether structure is sufficiently and satisfactorily optimized ...: No such file or directory=
+				 Dies ist nicht der Fall fuer =delta_T=0.5e3=. 
+
+- Kapitel 4.7 :: Generell: Was ist der Unterschied zwischen /bonded potentials/ und zum Beispiel /lennard jones/?
+
+- Kapitel 4.8 :: in der Aufgabe: wie stellt man die Relaxation-Zeit ein?
+
+- Kapitel 4.9 :: Erhalte keine Werte fuer die Abstaende (Nur nullen). 
+
+- Kapitel 4.10 :: -
+
+- Kapitel 4.11 :: Erhalte Fehlermeldungen: =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external=
+				  
+
+** TODO Manual fixes
+   
+- [ ] Fix all things in the Tremolo-Tutorial that are obvious
+
+- [ ] Check 1.6: Box parameters: What happens for different values in *.parameters and *.data?
+
+- [ ] Check 1.2: Check 0.0005 and 0.005. 
+
+- [ ] Create new branch for that. 
+
+
+** TODO Coulomb-potentials parameters
+
+- [ ] Read online tutorial about qt. (signal, slots)
+
+- [ ] Replace parameters with potential specific paramters, e.g. cellration for N^2 by N^2 cellratio etc. 
+	  For this all occurences of these parameters must be found and changed. 
+
+- [ ] The important files for that are solparallel_gui and solparallel_data. 
