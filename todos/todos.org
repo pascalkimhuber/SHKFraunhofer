@@ -1,3 +1,5 @@
+#+STARTUP: logdone
+
 * Configurations
 
 ** TODO Change passwords
@@ -23,6 +25,7 @@ Ask Christian how to do this and which passwords have to be changed.
 - [2014-01-12 Sun 13:25]--[2014-02-12 Wed 17:00]
 - [2014-01-13 Mon 13:30]--[2014-01-13 Mon 15:15]
 - [2014-01-16 Thu 14:15]--[2014-01-16 Thu 16:32]
+- [2014-01-19 Sun 09:06]--[2014-01-19 Sun 13:00]
 
 
 * Nuetzliches
@@ -445,14 +448,56 @@ Beim Start der Simulation erhalte ich folgende Fehlermeldungen:
 				  
 
 ** TODO Manual fixes
+   DEADLINE: <2014-01-23 Thu>
+
+- Created branch *manual-fix* in tremolo directory. 
    
-- [ ] Fix all things in the Tremolo-Tutorial that are obvious
+*** TODO Fix all things in the Tremolo-Tutorial that are obvious
+	 SCHEDULED: <2014-01-20 Mon>
 
-- [ ] Check 1.6: Box parameters: What happens for different values in *.parameters and *.data?
+**** Aenderungen:
+	 - Page 8 :: /Visuals shall be created every 5 time units or 10 iteration steps, whereas the particle data shall be written every 500 time units or 10 iteration steps./ \\
+				 "Visuals *(argon.vis.####.[xyz,pdb,data])* shall be created ..."
+	 - Page 9 :: /The optimized particle positions are written to argon.data.999./ \\
+				 "The optimized particle positions are written to argon.data.999 *9*."
+	 - Page 10 :: /For this example we can still ignore the extra lines./ \\
+				  "For this example we can still ignore the extra lines *at the top of the file*."
+	 - Page 11 :: /Take a look at the velocity distribution in the argon.histogram file/ \\
+				  "*Plot a histogram displaying the velocity distribution contained in the argon.histogram file*."
+	 - Page 12 :: /1.4 An alternative: The Nose-Hoover-thermostat/ \\
+				  "1.4 An alternative: The Nosé-Hoover-thermostat"
+	 - Page 12 :: /Thus, when using the Nosé-Hoover-thermostat considerations with respect to equilibration are imperative./ \\
+				  "Thus, when using the Nosé-Hoover-thermostat, considerations with respect to equilibration are imperative." (Komma hinzugefuegt)
+	 - Page 13 :: /We begin by modifying the the optimization of the sample .../ \\
+				  "We begin by modifying *the* optimization of the sample..." 
+	 - Page 14 :: /Again we work in the =argon.parameter= file and enter the thermostat after (or in place of) the thermostat:/ \\
+				  Again we work in the =argon.parameter= file and enter the *barostat* after (or in place of) the thermostat: \\
+	 - Page 15 :: /So go ahead and change the domain in the appropriate line/ \\
+				  "So go ahead and change the domain in the appropriate line *of the argon.parameters* file."
+	 - Page 15 :: /Change the extpressure value./ \\
+				  "Change the *Pressure* value."
+	 - Page 15 :: 
+				  
+**** TODO Noch zu machende Aenderungen:				  
+	 - Page 10 :: /For the integration of the particle trajectories we choose a standard verlet algorithm with a time step of 0.005 custom time units./ \\
+				  
+				  Kann nicht beurteilen, ob deltaT=0.5e-3 oder deltaT=5e-3 richtig ist. 
+				  Output fuer die Geschwindigkeitsverteilung in Kapitel 1.2:\\
+				  [[file:pics/argon.histogram.png][Geschwindigkeitsverteilung bei deltaT=0.5e-3]]\\
+				  [[file:pics/argon.short.histogram.png][Geschwindigkeitsverteilung bei deltaT=5e-3]]
 
-- [ ] Check 1.2: Check 0.0005 and 0.005. 
+	 - Page 14 :: Letzter Punkt in Exercises 1.5.1: Optimierung ist nicht moeglich fuer =constraint=isotropic=, wenn nur eine /secondary axis= geaendert wird. 
 
-- [ ] Create new branch for that. 
+	 - Page 14 :: Das Listing unterscheidet sich vom File im =/tutorials/=-Ordner. Beispielsweise: =ensemble=NPE= im Listing und =ensemble=NPT= im File im Ornder =6sim_npt=
+
+*** TODO Check 1.6: Box parameters: What happens for different values in *.parameters and *.data?
+	 SCHEDULED: <2014-01-20 Mon>
+
+*** TODO [ ] Check 1.2: Check 0.0005 and 0.005. 
+	 SCHEDULED: <2014-01-20 Mon>
+
+*** DONE Create new branch for that. 
+	 SCHEDULED: <2014-01-20 Mon> CLOSED: [2014-01-19 Sun 13:12]
 
 
 ** TODO Coulomb-potentials parameters
