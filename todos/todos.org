@@ -26,6 +26,7 @@ Ask Christian how to do this and which passwords have to be changed.
 - [2014-01-13 Mon 13:30]--[2014-01-13 Mon 15:15]
 - [2014-01-16 Thu 14:15]--[2014-01-16 Thu 16:32]
 - [2014-01-19 Sun 09:06]--[2014-01-19 Sun 13:00]
+- [2014-01-20 Mon 16:58]--[2014-01-20 Mon 17:59]
 
 
 * Nuetzliches
@@ -447,57 +448,86 @@ Beim Start der Simulation erhalte ich folgende Fehlermeldungen:
 - Kapitel 4.11 :: Erhalte Fehlermeldungen: =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external=
 				  
 
-** TODO Manual fixes
-   DEADLINE: <2014-01-23 Thu>
+** DONE Manual fixes
+   DEADLINE: <2014-01-23 Thu> CLOSED: [2014-01-20 Mon 18:26]
 
-- Created branch *manual-fix* in tremolo directory. 
-   
+   - Created branch *manual-fix* in tremolo directory. 
+	 
 *** TODO Fix all things in the Tremolo-Tutorial that are obvious
-	 SCHEDULED: <2014-01-20 Mon>
+	SCHEDULED: <2014-01-20 Mon>
 
-**** Aenderungen:
-	 - Page 8 :: /Visuals shall be created every 5 time units or 10 iteration steps, whereas the particle data shall be written every 500 time units or 10 iteration steps./ \\
-				 "Visuals *(argon.vis.####.[xyz,pdb,data])* shall be created ..."
-	 - Page 9 :: /The optimized particle positions are written to argon.data.999./ \\
-				 "The optimized particle positions are written to argon.data.999 *9*."
-	 - Page 10 :: /For this example we can still ignore the extra lines./ \\
-				  "For this example we can still ignore the extra lines *at the top of the file*."
-	 - Page 11 :: /Take a look at the velocity distribution in the argon.histogram file/ \\
-				  "*Plot a histogram displaying the velocity distribution contained in the argon.histogram file*."
-	 - Page 12 :: /1.4 An alternative: The Nose-Hoover-thermostat/ \\
-				  "1.4 An alternative: The Nosé-Hoover-thermostat"
-	 - Page 12 :: /Thus, when using the Nosé-Hoover-thermostat considerations with respect to equilibration are imperative./ \\
-				  "Thus, when using the Nosé-Hoover-thermostat, considerations with respect to equilibration are imperative." (Komma hinzugefuegt)
-	 - Page 13 :: /We begin by modifying the the optimization of the sample .../ \\
-				  "We begin by modifying *the* optimization of the sample..." 
-	 - Page 14 :: /Again we work in the =argon.parameter= file and enter the thermostat after (or in place of) the thermostat:/ \\
-				  Again we work in the =argon.parameter= file and enter the *barostat* after (or in place of) the thermostat: \\
-	 - Page 15 :: /So go ahead and change the domain in the appropriate line/ \\
-				  "So go ahead and change the domain in the appropriate line *of the argon.parameters* file."
-	 - Page 15 :: /Change the extpressure value./ \\
-				  "Change the *Pressure* value."
-	 - Page 15 :: 
-				  
+**** Gemachte Aenderungen:
+	 - Page 108 :: /Visuals shall be created every 5 time units or 10 iteration steps, whereas the particle data shall be written every 500 time units or 10 iteration steps./ \\
+				   "Visuals *(argon.vis.####.[xyz,pdb,data])* shall be created ..."
+	 - Page 109 :: /The optimized particle positions are written to argon.data.999./ \\
+				   "The optimized particle positions are written to argon.data.999 *9*."
+	 - Page 110 :: /For this example we can still ignore the extra lines./ \\
+				   "For this example we can still ignore the extra lines *at the top of the file*."
+	 - Page 111 :: /Take a look at the velocity distribution in the argon.histogram file/ \\
+				   "*Plot a histogram displaying the velocity distribution contained in the argon.histogram file*."
+	 - Page 112 :: /1.4 An alternative: The Nose-Hoover-thermostat/ \\
+				   "1.4 An alternative: The Nosé-Hoover-thermostat"
+	 - Page 112 :: /Thus, when using the Nosé-Hoover-thermostat considerations with respect to equilibration are imperative./ \\
+				   "Thus, when using the Nosé-Hoover-thermostat, considerations with respect to equilibration are imperative." (Komma hinzugefuegt)
+	 - Page 113 :: /We begin by modifying the the optimization of the sample .../ \\
+				   "We begin by modifying *the* optimization of the sample..." 
+	 - Page 114 :: /Again we work in the =argon.parameter= file and enter the thermostat after (or in place of) the thermostat:/ \\
+				   Again we work in the =argon.parameter= file and enter the *barostat* after (or in place of) the thermostat: \\
+	 - Page 115 :: /So go ahead and change the domain in the appropriate line/ \\
+				   "So go ahead and change the domain in the appropriate line *of the argon.parameters* file."
+	 - Page 115 :: /Change the extpressure value./ \\
+				   "Change the *Pressure* value."
+	 - Page 118 :: /... but this time additionally to the external pressure we also support a custom stress tensor, .../ \\
+				   "... but this time additionally to the external pressure we also support a custom stress tensor \sigma, ..."
+				   Die Spannung mit \sigma zu bezeichnen, scheint Standard zu sein: [[http://en.wikipedia.org/wiki/Stress_%28mechanics%29][Wikipedia(Stress)]]
+	 - Page 119 :: /The strain is defined as the length change .../ \\
+				   "The strain \epsilon is defined as the length change ..."
+	 - Page 120 :: /Add a 100 [t] relaxation time at the beginning (\sigma = 0)./ \\
+				   "Add a 100 [t] relaxation time (\sigma = 0) at the beginning *of the simulation by inserting an additional line in the =stresstensor= section of the =graphene.parameters= file.*" 
+	 - Page 121 :: /As stated earlier the potential should not be cut off but has to to fit the linked cell structure of the domain./
+				   "As stated earlier the potential should not be cut off but has *to* fit the linked cell structure of the domain."
+	 - Page 125 :: /TODO/ entfernt (kann keinen Buchstabendreher entdecken). 
+
+
+
+				   
 **** TODO Noch zu machende Aenderungen:				  
-	 - Page 10 :: /For the integration of the particle trajectories we choose a standard verlet algorithm with a time step of 0.005 custom time units./ \\
-				  
-				  Kann nicht beurteilen, ob deltaT=0.5e-3 oder deltaT=5e-3 richtig ist. 
-				  Output fuer die Geschwindigkeitsverteilung in Kapitel 1.2:\\
-				  [[file:pics/argon.histogram.png][Geschwindigkeitsverteilung bei deltaT=0.5e-3]]\\
-				  [[file:pics/argon.short.histogram.png][Geschwindigkeitsverteilung bei deltaT=5e-3]]
+	 - Page 110 :: /For the integration of the particle trajectories we choose a standard verlet algorithm with a time step of 0.005 custom time units./ \\
+				   
+				   Kann nicht beurteilen, ob deltaT=0.5e-3 oder deltaT=5e-3 richtig ist. 
+				   Output fuer die Geschwindigkeitsverteilung in Kapitel 1.2: (oben deltaT=0.5e-3, unten deltaT=5.e-3)\\
+				   [[file:pics/argon.histogram.png]] \\
+				   [[file:pics/argon.short.histogram.png]]\\
+				   - [ ] Werde noch Ausgaben fuer Energien etc. erstellen. 
 
-	 - Page 14 :: Letzter Punkt in Exercises 1.5.1: Optimierung ist nicht moeglich fuer =constraint=isotropic=, wenn nur eine /secondary axis= geaendert wird. 
+	 - Page 114 :: Letzter Punkt in Exercises 14.5.1: Optimierung ist nicht moeglich fuer =constraint=isotropic=, wenn nur eine /secondary axis= geaendert wird. 
 
-	 - Page 14 :: Das Listing unterscheidet sich vom File im =/tutorials/=-Ordner. Beispielsweise: =ensemble=NPE= im Listing und =ensemble=NPT= im File im Ornder =6sim_npt=
+	 - Page 114 :: Das Listing unterscheidet sich vom File im =/tutorials/=-Ordner. Beispielsweise: =ensemble=NPE= im Listing und =ensemble=NPT= im File im Ornder =6sim_npt=
 
-*** TODO Check 1.6: Box parameters: What happens for different values in *.parameters and *.data?
-	 SCHEDULED: <2014-01-20 Mon>
+	 - Page 115 :: /Should you attempt to start it right away, you will receive an error message./ \\
+				   Ich erhalte keine Fehlermeldung, allerdings die Warnung: =Attention: BOX statement in .data file overwrites domain size data in .parameters file suggest correcting moment and angular moment with Max.-Boltz. distribution=
 
-*** TODO [ ] Check 1.2: Check 0.0005 and 0.005. 
-	 SCHEDULED: <2014-01-20 Mon>
+	 - Page 115 :: Dritter Punkt in Exercises 14.6.1: /In the/ =constraintmap= /change one of the secondary axis entries. Check and compare the new box values./ \\
+				   Hier muss auch der =type= der =constraintmap= geaendert werden. Darueber hinaus muessen bei den sekundaeren Achsen immer Paare geaendert werden. 
+
+	 - Page 122 :: Die Simulation ist fehlerhaft: Die meisten Partikel verlassen das Gebiet. Das =*.generalmeas= file enthaelt nur Nullen. 
+
+	 - Page 129 :: Erhalte die folgenden Fehlermeldungen: 
+				   =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external= \\
+				   =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.exttypes= \\
+				   In den Kapiteln 14.1 bis 14.11 habe ich diese Meldungen nicht finden koennen. 
+				   
+
+*** DONE Check 1.6: Box parameters: What happens for different values in *.parameters and *.data?
+	SCHEDULED: <2014-01-20 Mon> CLOSED: [2014-01-20 Mon 18:11]
+	Erhalte die folgende Fehlermeldung, wenn die Werte der Box in =*.parameters= und in =*.data= nicht uebereinstimmen: \\
+	=Attention: BOX statement in .data file overwrites domain size data in .parameters file suggest correcting moment and angular moment with Max.-Boltz. distribution=.
+
+*** TODO Check 1.2: Check 0.0005 and 0.005. 
+	SCHEDULED: <2014-01-20 Mon>
 
 *** DONE Create new branch for that. 
-	 SCHEDULED: <2014-01-20 Mon> CLOSED: [2014-01-19 Sun 13:12]
+	SCHEDULED: <2014-01-20 Mon> CLOSED: [2014-01-19 Sun 13:12]
 
 
 ** TODO Coulomb-potentials parameters
