@@ -3,7 +3,10 @@
 * Configurations
 
 ** TODO Change passwords
-Ask Christian how to do this and which passwords have to be changed. 
+Wait for Mail from IT. Change password if smartcard is there!
+
+** DONE VMD Viewer
+   CLOSED: [2014-01-23 Thu 15:53]
 
 ** DONE Colors in git-output [2014-01-05 Sun 14:42]
 
@@ -28,7 +31,7 @@ Ask Christian how to do this and which passwords have to be changed.
 - [2014-01-19 Sun 09:06]--[2014-01-19 Sun 13:00]
 - [2014-01-20 Mon 16:58]--[2014-01-20 Mon 18:30]
 - [2014-01-21 Tue 12:00]--[2014-01-21 Tue 13:55]
-- [2014-01-23 Thu 12:15]--
+- [2014-01-23 Thu 12:15]--[2014-01-23 Thu 13:55]
 
 
 * Nuetzliches
