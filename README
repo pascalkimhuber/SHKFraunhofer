@@ -1,0 +1,8 @@
+This directory contains everything related to my work at SCAI. 
+At the moment of creation of this README (21/01/14) it contained:
+- .emacsConfiguration: my emacs configuration as a backup
+- playground: containing source files for testing
+- done: directory containing everything finished
+- todos: an overview of my todos
+
+

@@ -35,4 +35,1361 @@ We will set up this example.
    - first introduce the Lennard Jones potentials acting between the molecules. Tremolo-X handles Lennard Jones in bonded molecules in a way, that the potential is *not* calculated among direct neighbors. 
    - second the bonded potentials are set. These are: =bonds=, =angles=, =torsions=. The parameters are taken from AMBER94 force field. 
 
+* DONE Go through tutorials and manual (find mistakes)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-01-21 Tue 12:19
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+
+** DONE Bemerkungen
+- vielleicht eine Hinweis, wie man an das Manual kommt?
+- page 7 :: Letzter Satz: missing "of" after "... detailed specification"
+- page 11 :: Erster Satz: es heisst =examples/Argon/= nicht =example/Argon/=.
+- page 17 :: Verstehe nicht den Satz in der Klammer im Abschnitt /parallelepiped/
+- page 105 :: Dritter Satz fehlendes "s" in "exist"
+- Erhalte Warnung bei Aufruf von tremolo in Tutorial 14.1: =WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.=
+- page 107 :: oben, es fehlt "use a" in1 /Since that introduces a discontinuity, we also second potential, which .../
+- page 107 :: superfluous colon after /...not a dynamic simulation./ before the second grey box. 
+- page 108 :: do not understand the part about the /optimization/ block.
+- page 108 :: in the part about the /output/ block: what is the difference between visuals and particle data?
+
+			  
+
+** DONE Notizen
+*** Overview
+Das Tremolo Projekt besteht aus zwei Funktionalitaeten:
+a. sequentielle Simulation 
+b. parallele Simulation
+
+1. Different capabilities of tremolo
+   - ensembles
+   - integrators
+   - thermostats
+2. In-depth description of the different potentials
+3. Detailed specification of the syntax of options in the parameter file.
+
+*** First steps
+Start a tremolo simulation. Example:
+Go to =tremole/examples/Argon/= and type =tremolo argon.tremolo=. This starts the simulation specified in the =*.tremolo= file. 
+
+*** Ensembles and Thermostats
+Es gibt unter anderem folgende Funktionalitaeten:
+1. Propagators
+2. Thermostats
+3. Barostats
+
+
+*** DONE Tutorial
+	Kopie des Ordners =/tremolo/tutorial= befindet sich auf =~/playground/=. 
+
+**** DONE 14.1 Optimizing an initial particle setup
+	 Often optimization of the particle distribution must be done, since the distribution is non-optimal creating local energy spikes which affect stability of the simulation. 
+	 Thus the particle position are slightly modified towards a (static) energy minimum. 
+
+	 1. Write a =*.tremolo=-file containing:
+  - defaultpath (has to be set!)
+  - projectname (all files will carry this name)
+  - comment
+  - systemofunits
+  - base magnitudes for the system of units used. 
+
+	2. Write a =*.potentials=-file containing the potentials. 
+  1. particles : Contains all particle types in the simulation:
+	- particle_type
+	- element_name
+	- mass
+	- sigma, sigma14, epsilon, epsilo14
+  2. potentials to be used in between particles
+
+  3. Write a =*.validates=-file containing:
+  - validates the use of particles
+  - decide which potential should be used
+
+	4. Write a =*.parameters=-file containing
+  - the type of simulation (optimization, dynamic simulation)
+  - parameters concerning the domain and the cells
+  - options for parametrization (? here optimization...)
+  - type and intervals of output
+
+	5. Write a =*.data=-file containing the initial particle positions in a special format
+  - in the first line starting with =# ATOMDATA= the layout of the particle lsit ist set. 
+  - in the second line starting with =# INPUTCONV= some manipulation of the data can be set (here the temperature)
+
+	6. Start the simulation using =tremolo -v *.tremolo=. The optimized particle positions are written to =*.data.9999=. 
+
+***** DONE Exercises:
+	  1. Das Partikel mit ID 12 verlaesst das Gebiet (Positionen mit Koordinaten um die 1e+08). Dies geschiet wahrschenlich dadurch, dass durch den groessen Praefaktor das Partikle direct auf ein benachbartes Partikel gesetzt wird. Durch die Abstossung durch das Potenzial, erhaelt das Partikel ein sehr hohe Geschwindigkeit und verlaesst das Gebiet. 
+	  2. Die Potentielle Energie ist zu Beginn sehr gross (ca. 2.6e+10), allerdings nur wenige Zeitschritte, (hier nur 2.) unmittelbar nach Beginn der Optimierung, nimmt die Energie schlagartig ab (auf ca. -1.78, ab dem 7. Zeitschritt), danach konvigiert die Energie nur noch langsam zu einem Minimum (-1.15e+10). 
+
+
+		 
+**** DONE 14.2 Setting up a basic simulation
+	 After the optimization phase a basic simulation can be done. 
+
+	 1. in the =*.parameters=-file:
+  - change the integration type from "optimization" to "dynamics": =integration: type=dynamics= 
+  - Add new block to file consisting of the parameters of the dynamics:
+	- =ensemble=NVE= particle number, volume, total energy are constant
+	- choose integrator (propagator), e.g. =verlet= 
+	- choose time steps and intervall
+  - Add anlysis sub-block to output-block to analyse velocity distribution of the particles:
+
+	2. make sure to use the optimized =*.data=-files:
+  - always copy original data file somewhere safe
+  - rename =*.data.9999= as =*.data= 
+
+	3. run simulation by the usual command
+
+***** DONE Exercises
+1. Die Gesamtenergie des Ensembles ist fast vollstaendig durch die kinetische Energie gegeben. Die potentielle Energie ist fast null, waehrend die kinetische Energie etwa 2000 ist. Desweiteren gibt es kleinste Schwankungen in den Energien. 
+2. ? Wie kann man das anstaendig plotten?
+3. Die Simulation bricht sofort ab mit der Fehlermeldung =Particle leaving simulation territory! Me:0 Particle-Id:12 (-8.547802e+05,-1.965304e+06,1.373152e+07) Process 0: Error in file ../../src/./update.c, line 1209 (0): SomeError: Particle leaving across a nonopen border. Simulation aborted.  Maybe the ensemble requires additional optimization?=
+4. Die Messung von Durchschnittsenergien, kann duch hinzufuegen von =meanmeasure=on= im =*.parameters=-file aktiviert werden. Die Energien sind wie erwartet gemittelt worden und dabei im wesentlichen konstant. Grob gesehen ergeben sich die gleichen Energien wie schon im ungemittelten Fall. 
+5. Durch die Temperaturerhoehung erhoeht sich auch die kinetische Energie der Teilchen, waehrend die potentielle Energie unveraendert bleibt. Ansonsten gibt es keine Aenderungen. 
+
+
+
+**** DONE 14.3 Using the Berendsen thermostat
+	 Using the first of two defferent thermostats. 
+
+	 1. in =*.parameters=-file: 
+		- change the ensemble from =NVE= to =NVT= in order to hold the temperature constant instead of the total energy. 
+		- add a =thermostat= sub-block in order to supply details for the berendsen thermostat. 
+
+***** DONE Exercises
+1. Zum Startzeitpunkt ist sowohl die Gesamt- als auch die kinetsiche Energie recht hoch (ueber 2300), einen Zeitschritt spaeter sinken beide Energie schlagartig auf unter 2000 ab und bleibt anschliessend konstant. Die potentielle Energie ist konstant fast 0. 
+2. Ich sehe gar keinen Unterschied...
+
+
+**** DONE 14.4 An alternative: The Nose-Hoover-thermostat
+	 Introduce second type of thermostat. 
+
+	 1. in =*.parameters=-file:
+		- Change the propagator (velocity integrator necessary for the Nose-Hoover thermostat)
+		- set state of =berendsen= in the =thermostat= sub-block to off
+		- add =nosehoover=-thermostat to =thermostat= block 
+
+***** DONE Exercises
+1. Die Kinetische und die Gesamtenergie oszillieren jetzt genauso wie die Temperatur. Die potentielle Energie ist weiterhin konstant bei etwa 0. 
+2. Fuer hoehere Temperaturen vergroessern sich die Amplituden. Fuer hoehere virtuelle Massen steigt die Frequenz der Oszillationen (ersten Grades...)
+
+
+**** DONE 14.5 Optimizing the domain
+	 Sometimes it is not possible to determine the optimal size of the domain prior to the simulation. 
+	 We can use the optimization phase to determine the size of the domain. For that we allow to scale the box in order to minimize the potential energy. 
+
+	 1. in =*.parameters=-file
+		- Add =simucell= lines in the =optimization= block. The first line contains the parameters for the cell optimization (in general the as for the particles). The second line can be used to specify some constraints. 
+		- Add a parameter to the =common= block for an external pressure value (=extpressure=).
+	 2. after the simulation is finished the =# Box= line contains a box matrix entry. The values must be transfered to the parameter file (will be described in next lesson).
+
+***** DONE Exercises
+1. Making a small table: 
+   |       extpressure | box coordinates                                                                                                                                       |
+   |-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------|
+   |      0.0024455185 | # Box    7.457397e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.457397e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.457397e+01 |
+   |       0.024455185 | # Box   7.370456e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370456e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370456e+01  |
+   |        0.24455185 | # Box   7.370444e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370444e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370444e+01  |
+   |         2.4455185 | # Box   7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01  |
+   |          24455185 | # Box   7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01  |
+   | 0.000000024455185 | # Box  7.774622e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.774622e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.774622e+01   |
+   Also, je groesser =extpressure= desto kleiner die Box. Das heißt Box Größe und =extpressure= sind umgekehrt proportional. 
+2. Setze =XX=0= und erhalte =# Box	7.775000e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.557398e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.557398e+01=. 
+   Es faellt auf, dass die Box nun nicht mehr quadratisch ist. Durch die Änderung kann sich die x-Komponente des ersten Ecken-Vektors nicht mehr veraendern, so dass eine Dimension fixiert ist. (=Xk= bezeichnet die =k= Komponente des =X=-Ecken-Vektors. Hierbei ist =X= \in {=X=, =Y=, =Z=}). 
+3. Setze =XY=1=. Betrachte nun folgende Werte fuer =constraint=
+   - =isotropic= :: Keine Optimierung moeglich, da fuer =isotropic= die sekundären Achsen auf 0 gesetzt werden müssen. Fehlermeldung: =For isotropic box optimization constraintmap entries must be restricted to xx, yy and zz.=
+   - =standard= :: Keine Optimierung moeglich: Fehlermeldung: =Constraintmap entry yx must match xy=. Wenn =XY= und =YX= auf 1 gesetzt werden erhaelt man: =# Box	7.457272e+01	0.000000e+00	0.000000e+00	-7.979795e-04	7.457325e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.457594e+01=. 
+				   Das heisst die Box ist kein Quader mehr, sondern ein Parallelepiped, in der die Kanten =Y= nicht mehr parallel zur Achse verlaufen. 
+   - =symmetric= :: Keine Optimierung moeglich: Fehlermeldung: =Constraintmap entry yx must match xy=. Setze =XY= und =YX= auf 1. Erhalte: =# Box	7.457272e+01	-8.014574e-04	0.000000e+00	-8.014574e-04	7.457325e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.457594e+01=. 
+					Wieder ein Parallepiped. Was ist der Unterschied zu =standard=?
+ 
+
+
+**** DONE 14.6 Introducing barostats. 
+	 Instad of isothermic conditions, one often needs isobaric ones. For this one can allow the volume to change and set a barostat similarly to the thermostat. 
+	 
+	 1. in the =*.parameters=-file: 
+		- add a =barostat= sub-block right under the =thermostat= block. In the block one can set: which barostat is used, if constant pressure is wished (in reduced units!), and constraints regarding the variation of the volume. 
+	 2. in order to start a simulation, the box specifications of the =*.parameters= file and those in the =*.data= file are different. Thus one has to change the box information in the =*.parameters= file. 
+
+
+***** TODO Notes
+	  - Choosing delta_T=5e-3 I get the following error: =Process 0: Error in file ../../src/./helpers.c, line 2066 (0): SomeError: HooverEta is NaN! Error with implicitely solved Hoover-Nose-Thermostat. Please check whether structure is sufficiently and satisfactorily optimized ...: No such file or directory=
+	  - I am not receiving any error messages if I set the size of the cube in =*.parameters= to 1 and do not touch the =*.data= file, even if the values are different!
+
+***** DONE Exercises. 
+	  1. Fuer =Pressure=0.0024455185= erhalte ich die folgenden Werte: =# Box	7.579774e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.579774e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.579774e+01=. Mache wieder eine Tabelle: 
+		 |       Pressure | Box size                                                                                                                                              |
+		 |----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------|
+		 |   0.0024455185 | # Box    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01 |
+		 | 0.000024455185 | # Box  4.071469e+02    0.000000e+00    0.000000e+00    0.000000e+00    4.071469e+02    0.000000e+00    0.000000e+00    0.000000e+00    4.071469e+02   |
+		 |    0.024455185 | # Box  5.323637e+01    0.000000e+00    0.000000e+00    0.000000e+00    5.323637e+01    0.000000e+00    0.000000e+00    0.000000e+00    5.323637e+01   |
+		 Je groesser also der Druck, desto kleiner wird die Box. Darueber hinaus dauert die Simulation fuer geringe Druecke deutlich laenger, was wohl auf die erhoehte Anzahl an Zellen zurueckzufuehren ist. Fuer sehr hohe Druecke laeuft die Simulation nicht, da die Box dann zu klein wird. 
+	  2. Setze =xx=0=. Erhalte Fehlermeldung: =For isotropic barostat conditon constraintmap entry xx must be set to 1.=. Setze =type=standard=. Erhalte nun folgende Werte: =7.457398e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.653474e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.544635e+01=.
+		 Stelle fest, dass die Werte der ersten Koordinate (=xx=) sich nicht veraendert haben, waehrend die Werte von =yy= und =zz= etwas groesser sind (und auch etwas groesser als im vorigen Fall). 
+	  3. Setze =xy=1=. Wie schon bei der Box-Optimierung muss dann =yx= auch auf eins gesetzt werden. Erhalte =# Box	9.568149e+01	0.000000e+00	0.000000e+00	-1.643221e+01	7.152647e+01	0.000000e+00	0.000000e+00	0.000000e+00	6.537388e+01=.
+		 In diesem Fall aendert sich auch die =x=-Koordinate des =y=-Vektors. 
+	  4. Setze =f_mass=1000=. Erhalte folgende Werte: =# Box	7.517290e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.517290e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.517290e+01=. 
+		 Die Box ist also etwas kleiner als im Fall =f_mass=1=. Also je groesser die fiktive Masse, (desto hoeher der Druck?), desto kleiner die Box. 
+
+
+
+
+**** DONE 14.7 Bonded potentials and measuring bonds
+Till here, only non-bonded interactions has been covered. In order to introduce connected atoms, one has the following to do:
+1. set the indices in the appropriate column in the =*.data=-file
+2. specify bonded potentials in the =*.potentials=-file. 
+
+The bond type covered here is a harmonic potential named =bond= (can be imagined like a spring between the atoms). 
+This type of bond cannot be broken. It is characterized by a restoring force proportional to the deflection from the minimal energy distance r_0. 	 
+
+In this example: Consider Butane (C_4H_10) and measure bond distances. There are three atom types:
+1. C in CH_3: methyl-carbon
+2. Ci in CH_2: methylene-carbon
+3. H: Hydrogen
+
+We will set up this example. 
+
+1. in =*.data= file
+   - The atoms data is set as usual. 
+   - A fourth column =neighbors=4= is added. This 4 new columns contain the indices of the neighboring atoms. 
+2. in =*.potentials= file
+   - first introduce the Lennard Jones potentials acting between the molecules. Tremolo-X handles Lennard Jones in bonded molecules in a way, that the potential is *not* calculated among direct neighbors. 
+   - second the bonded potentials are set. These are: =bonds=, =angles=, =torsions=. The parameters are taken from AMBER94 force field. 
+3. in =*.parameters= file
+   - in addition to the usual blocks, some bond measurement is introduced in the =analyze= subblock of =output=. Every pair undershooting the specified threshold =distance= is considered bonded. 
+	 The Ids of the bonded pairs are written to the =*.info.bonds= (vis) file. 
+
+***** DONE Exercises
+1. Erhoehe zunaechst die Temperatur: Eine hoehere Temperatur fuehrt dabei zu groesserer Oszillation. Das selbe sollte auch bei geringerer Verbindungskraft zu beobachten sein. 
+2. Erhoehe alle Gleichgewichtsabstaende um 1. Dadurch erhoehen sich auch die gemessenen Abstaende, allerdings nicht um den gleichen Abstand. Warum?
+
+
+
+**** DONE 14.8 Tersoff potential and stress
+
+Aim: Determine Young's Modulus of a single graphene sheet. Instead of defining fixed individual neighbors, the potential function will determine the spatial configuration of surrounding carbon atoms by itself. 
+
+1. in =*.potentials= file
+   - A =tersoff= block is introduced containing all necessary parameters for tersoff potentials. 
+2. in =*.parameters= file
+   - A =NPT=-ensemble is used
+   - additionally to the external pressure a custom stress tensor is set. The stress tensor stretches the domain in =xx=-direction with linearly increasing strength startin from 0 to 1e5. 
+   - the box vectors need to be changed individually (why?)
+   - in order to analyze the stress distribution along individual particles, one needs the =local_stress= feature. 
+
+3. Output: Plotting a *stress-strain diagram*:
+   - The values can be found in the =*.mbox=-file:
+	 - strain: can be found by observing the =xx=-value of the box found in 43rd column
+	 - stress: can be found in 31st column
+	 - the =yy=-length of the box can be read in the 44th column
+
+***** DONE Exercises
+1. Aendere die stress Richtung in =yy= Richtung durch Aenderung an =stresstensor= im =*.parameters= File. 
+   Erhalte fuer E = 1.58273 mit einem asymptotischen Standard Fehler von +/- 0.2419 (15.28%). Insgesamt sieht die Kurve ganz anders aus... Verstehe ich nicht? 
+2. Bin mir nicht sicher, wie man die Relaxation-Zeit einstellt? Habe jetzt im Stresstensor eine dritte Zeile eingefuegt: =(0, 0, linear, 1, 0, 0, 0, 0,), (100, 0, linear, 1, 0, 0, 0, 0, 0), (200, 5e5, linear, 1, 0, 0, 0, 0, 0)];=. 
+   Hoffentlich stimmt's. 
+   Die Kurve des Plots waechst zunaechst sehr schnell an, und faellt schliesslich etwas langsamer auf null. Bruch? Als Moudulus erhalte ich =E=147.655= mit Fehler =+/- 1.273 (0.8624%)=
+
+
+
+**** DONE 14.9 Long ranged potentials 1 - Halley's Comet with coulombic pair interaction
+
+Covers how to set up simulation to use long ranged potentials like gravity or coulomb potential (characteristic: 1/|x|). 
+For these potentials, a cutoff produces significant errors on the forces. 
+Solution: Use an ordinary pair potential. 
+Here as an example we will calculate when Halley's Comet runs through its perihelion point. 
+
+1. Tremolo does not support a gravity potential. Instead of this the Coulomb potential is used (after adapting the units.)
+2. in =*.parameters= file
+   - in order to simulate the conditions of the solar system, a NVE ensemble with verlet propagator is used. 
+   - the box is choosen to be three times larger then the solar system and =leaving= boundary conditions are set. 
+   - the whole system is contained in one single cell, which is not good for parallelization but the only way to obtain accurate results using long ranged potentials. 
+   - a =coulomb= block is set up
+   - in order to measure the distance between the Comet and the Barycenter, the bond distance measurement is used. 
+3. in =*.potentials= file
+   - set up all the objects, note that the charge of the particles is set to its mass. 
+
+***** TODO Exercises
+Problem: Erhalte keine Werte fuer die Abstaende. Es werden nur Nullen ausgegeben. Was geht da schief? Ausserdem wird waehrend der Simulation mitgeteilt, dass mehrere Partikel das Gebiet verlassen. 
+
+
+
+
+**** DONE 14.10 Long ranged potentials 2 - Sodium chloride with SPME
+
+Typical usage scenario of coulomb forces in molecular dynamics with a large number of particles. 
+The potential is split in two parts: 
+- the short ranged part is calculated in a linked cell fashion as before
+- the long ranged part is calculated by Ewald summation in fourier space for father particles 
+This is suitable for periodic systems of particles. 
+In this example solid NaCl is simulated and its radial distribution is measured. 
+
+1. in the =*.potentials= file
+   - set up the short ranged interactions using the Tosi Fumi potential
+2. in the =*.data= file
+   - set up the starting configuration as a NaCl-structure with small random offset for each atom at 20 degrees celsius. 
+3. in the =*.parameters= file 
+   - NPT ensemble, 
+   - 1000hP pressure maintained by the Parrinello-Barostat, with isotropic constraint
+   - Nose-Hoover-Thermostat for fixed temperature
+   - =coulomb=-block: specify the parameters for the =spme= method
+	 - up to =r_cut= the short ranged part of the potential is used (like n2spline)
+	 - from there it is approximated by bell curves with splitting coefficient =G= (?!)
+   - in =analyze=-block the measurement of the radial distribution is set up. 
+
+Since the SPME method is used, the parallel version of Tremolo-X has to be used: =tremolo_mpi -v *.tremolo=. 
+
+***** TODO Exercises
+1. Die radiale Verteilung kann in =*.histogram= abgelesen und dann zum Beispiel mit Excel dargestellt werden. Es zeigt sich, dass es im Anfangszustand nur einzelne winzige Peaks gibt. Im Endzustand wird das Histogramm etwas verwischt. So dass mehrere Bins eine nicht triviale Anzahl von Atomen enthalten. 
+2. Erhoehe zunaechst die Temperatur auf 5 Grad Celsius. Mit hoeherer Temperatur verteilen sich die Werte fuer die radiale Verteilung auf mehr bins (d.h. die Peaks werden noch verwaschener...)
+
+
+
+**** DONE 14.11 Melting point 
+
+Example for a common application of molecular dynamics: Determine the melting point of NaCl.
+We are goint to use the /Voids method/. Explained [[http://scitation.aip.org/docserver/fulltext/aip/journal/jcp/136/14/1.3702587.pdf%3Fexpires%3D1389619185&id%3Did&accname%3D375729&checksum%3D95953424103DE090EC600A7A00E8088C][here (A comparison of methods for melting point calculation using molecular dynamics
+simulations)]]. 
+
+1. The simulation setup is similar to the previous tutorial apart from the thermostat settings and measurement settings.
+2. in the =*.tremolo= file
+   In order to carry out a series of simulations one can make use of the defaultpath-option in =*.tremolo=: 
+   - every simulation is set up in a subdirectory containing only the =*.data= and the =*.parameters= file
+   - the remaining files are saved in the parent directory. 
+   - in this example the subdirectories are named by increasing number of cells with pair defect. 
+
+
+
+**** TODO The EAM potential - Observing phase transition in Metall
+
+The "embedded atom method" (EAM) is a standard potential used in the analysis of metalls and alloys. In the following the EAM potential is used to analyze a phase transition. 
+A Fe-Ni nanoparticle is heated from 100K to 800K and the change of its lattice structure from bcc (body-centered cubic) to fcc (face-centered cubic)/ hcp (hexagonal close-packed) is observed. 
+
+1. in order to use EAM potentials, the EAM parameters must be provided by a file either with the "eam/fs" format oder the "eam/alloy" format. 
+   - the unit system of the eam parameters file determines the units which need to be used throughout the simulation. 
+2. in the =*.potentials= file 
+   - the particle parameters are inserted as usual.  
+   - the eam format and the filename is specified. 
+3. in the =*.parameters= file
+   - a =domain= block is set as usual
+   - a =dynamics= block is set as usual
+   - an =ouput= block is set for measuring the radial ditribution
+
+Beim Start der Simulation erhalte ich folgende Fehlermeldungen:
+1. =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external=
+2. =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.exttypes=
+
+**** DONE FRAGEN
+
+1. [ ] Warum genau braucht man die Optimierung bei der Simulation? (Seite 105)
+
+2. [X] Was ist der Unterschied zwischen "optimization" and "dynamic simulation"?
+
+3. [ ] Was heisst, dass Optimierung durch das CG-Verfahren durchgefuehrt werden muss? (Seite 108) Verstehe den ganzen Abschnitt zum Block "optmization" in =*.parameters=-file nicht...
+
+4. [ ] Was sind die pdb files?
+
+5. [ ] Was sind E_kin_group und e_tot+hoover in den ekin bzw. etot files?
+
+6. [ ] Temperaturen koennen im =*.ekin= File betrachtet werden?	   
+
+7. [ ] Kann es sein, dass ab Kapitel 14.3 die Listings im Tutorial und die Dateien aus =/tutorials= nicht ganz uebereinstimmen? Im Ordner fuer Kapitel 14.4 sind schon Einstellungen fuer das naechste Kapitel....
+
+8. [ ] Bei Box Optimization: Was ist der Unterschied zwischen =standard= und =symmetric=?
+
+9. [ ] In 14.6 laeuft die Simulation nur fuer =delta_T=0.5e-3= und nicht fuer =delta_T=5e-3=. Warum? 
+
+10. [ ] Muss ich genau verstehen, was die Parameter der bonded potentials (Seite 122 und 123) sind? 
+
+11. [ ] Was sind die Zeilen "outvis", "outdata" und "outm" im =*.parameters= file. Fuer was braucht man "T_Delta" *und* "Step_Delta", zum Beispiel in Kapitel 14.7. 
+
+12. [ ] Kapitel 14.7: Verstehe nicht ganz was die "restlichen" Spalten im =*.generalmeas= file sein sollen. 
+
+13. [ ] Welches Programm zum Visualisieren verwenden? Habe ich Programme wie VMD-Viewer, Gnu Units?
+
+14. [ ] Aufgaben zu 14.8: Wie fuegt man eine Relaxation Time hinzu? Einfach zusaetzliche Zeile im Stress-Tensor?
+
+15. [ ] In 14.9: Warum wird der =coulomb= Block in das =*.parameters= File und nicht in das =*.potentials= File geschrieben? 
+
+16. [ ] In 14.12 Was ist mit den Fehlermeldungen?
+
+17. [ ] Probleme mit den Aufgaben bei 14.6 und 14.9.
+
+		
+**** TODO Summary of problems: 
+
+- Kapitel 14.1 :: Programme zum Plotten? Warnung bei der Simulation: =WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.=
+
+- Kapitel 14.2 :: -
+
+- Kapitel 14.3 :: -
+
+- Kapitel 4.4 :: Was ist der Unterschied zwischen Nose-Hoover und Berendsen?
+
+- Kapitel 4.5 :: Verstehe nicht ganz die Unterschiede fuer die =constraint types=. 
+
+- Kapitel 4.6 :: Erhalte Fehler fuer =delta_T=5e-3=: =Process 0: Error in file ../../src/./helpers.c, line 2066 (0): SomeError: HooverEta is NaN! Error with implicitely solved Hoover-Nose-Thermostat. Please check whether structure is sufficiently and satisfactorily optimized ...: No such file or directory=
+				 Dies ist nicht der Fall fuer =delta_T=0.5e3=. 
+
+- Kapitel 4.7 :: Generell: Was ist der Unterschied zwischen /bonded potentials/ und zum Beispiel /lennard jones/?
+
+- Kapitel 4.8 :: in der Aufgabe: wie stellt man die Relaxation-Zeit ein?
+
+- Kapitel 4.9 :: Erhalte keine Werte fuer die Abstaende (Nur nullen). 
+
+- Kapitel 4.10 :: -
+
+- Kapitel 4.11 :: Erhalte Fehlermeldungen: =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external=
+
+* DONE Go through tutorials and manual (find mistakes)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-01-21 Tue 12:20
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+
+** DONE Bemerkungen
+- vielleicht eine Hinweis, wie man an das Manual kommt?
+- page 7 :: Letzter Satz: missing "of" after "... detailed specification"
+- page 11 :: Erster Satz: es heisst =examples/Argon/= nicht =example/Argon/=.
+- page 17 :: Verstehe nicht den Satz in der Klammer im Abschnitt /parallelepiped/
+- page 105 :: Dritter Satz fehlendes "s" in "exist"
+- Erhalte Warnung bei Aufruf von tremolo in Tutorial 14.1: =WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.=
+- page 107 :: oben, es fehlt "use a" in1 /Since that introduces a discontinuity, we also second potential, which .../
+- page 107 :: superfluous colon after /...not a dynamic simulation./ before the second grey box. 
+- page 108 :: do not understand the part about the /optimization/ block.
+- page 108 :: in the part about the /output/ block: what is the difference between visuals and particle data?
+
+			  
+
+** DONE Notizen
+*** Overview
+Das Tremolo Projekt besteht aus zwei Funktionalitaeten:
+a. sequentielle Simulation 
+b. parallele Simulation
+
+1. Different capabilities of tremolo
+   - ensembles
+   - integrators
+   - thermostats
+2. In-depth description of the different potentials
+3. Detailed specification of the syntax of options in the parameter file.
+
+*** First steps
+Start a tremolo simulation. Example:
+Go to =tremole/examples/Argon/= and type =tremolo argon.tremolo=. This starts the simulation specified in the =*.tremolo= file. 
+
+*** Ensembles and Thermostats
+Es gibt unter anderem folgende Funktionalitaeten:
+1. Propagators
+2. Thermostats
+3. Barostats
+
+
+*** DONE Tutorial
+	Kopie des Ordners =/tremolo/tutorial= befindet sich auf =~/playground/=. 
+
+**** DONE 14.1 Optimizing an initial particle setup
+	 Often optimization of the particle distribution must be done, since the distribution is non-optimal creating local energy spikes which affect stability of the simulation. 
+	 Thus the particle position are slightly modified towards a (static) energy minimum. 
+
+	 1. Write a =*.tremolo=-file containing:
+  - defaultpath (has to be set!)
+  - projectname (all files will carry this name)
+  - comment
+  - systemofunits
+  - base magnitudes for the system of units used. 
+
+	2. Write a =*.potentials=-file containing the potentials. 
+  1. particles : Contains all particle types in the simulation:
+	- particle_type
+	- element_name
+	- mass
+	- sigma, sigma14, epsilon, epsilo14
+  2. potentials to be used in between particles
+
+  3. Write a =*.validates=-file containing:
+  - validates the use of particles
+  - decide which potential should be used
+
+	4. Write a =*.parameters=-file containing
+  - the type of simulation (optimization, dynamic simulation)
+  - parameters concerning the domain and the cells
+  - options for parametrization (? here optimization...)
+  - type and intervals of output
+
+	5. Write a =*.data=-file containing the initial particle positions in a special format
+  - in the first line starting with =# ATOMDATA= the layout of the particle lsit ist set. 
+  - in the second line starting with =# INPUTCONV= some manipulation of the data can be set (here the temperature)
+
+	6. Start the simulation using =tremolo -v *.tremolo=. The optimized particle positions are written to =*.data.9999=. 
+
+***** DONE Exercises:
+	  1. Das Partikel mit ID 12 verlaesst das Gebiet (Positionen mit Koordinaten um die 1e+08). Dies geschiet wahrschenlich dadurch, dass durch den groessen Praefaktor das Partikle direct auf ein benachbartes Partikel gesetzt wird. Durch die Abstossung durch das Potenzial, erhaelt das Partikel ein sehr hohe Geschwindigkeit und verlaesst das Gebiet. 
+	  2. Die Potentielle Energie ist zu Beginn sehr gross (ca. 2.6e+10), allerdings nur wenige Zeitschritte, (hier nur 2.) unmittelbar nach Beginn der Optimierung, nimmt die Energie schlagartig ab (auf ca. -1.78, ab dem 7. Zeitschritt), danach konvigiert die Energie nur noch langsam zu einem Minimum (-1.15e+10). 
+
+
+		 
+**** DONE 14.2 Setting up a basic simulation
+	 After the optimization phase a basic simulation can be done. 
+
+	 1. in the =*.parameters=-file:
+  - change the integration type from "optimization" to "dynamics": =integration: type=dynamics= 
+  - Add new block to file consisting of the parameters of the dynamics:
+	- =ensemble=NVE= particle number, volume, total energy are constant
+	- choose integrator (propagator), e.g. =verlet= 
+	- choose time steps and intervall
+  - Add anlysis sub-block to output-block to analyse velocity distribution of the particles:
+
+	2. make sure to use the optimized =*.data=-files:
+  - always copy original data file somewhere safe
+  - rename =*.data.9999= as =*.data= 
+
+	3. run simulation by the usual command
+
+***** DONE Exercises
+1. Die Gesamtenergie des Ensembles ist fast vollstaendig durch die kinetische Energie gegeben. Die potentielle Energie ist fast null, waehrend die kinetische Energie etwa 2000 ist. Desweiteren gibt es kleinste Schwankungen in den Energien. 
+2. ? Wie kann man das anstaendig plotten?
+3. Die Simulation bricht sofort ab mit der Fehlermeldung =Particle leaving simulation territory! Me:0 Particle-Id:12 (-8.547802e+05,-1.965304e+06,1.373152e+07) Process 0: Error in file ../../src/./update.c, line 1209 (0): SomeError: Particle leaving across a nonopen border. Simulation aborted.  Maybe the ensemble requires additional optimization?=
+4. Die Messung von Durchschnittsenergien, kann duch hinzufuegen von =meanmeasure=on= im =*.parameters=-file aktiviert werden. Die Energien sind wie erwartet gemittelt worden und dabei im wesentlichen konstant. Grob gesehen ergeben sich die gleichen Energien wie schon im ungemittelten Fall. 
+5. Durch die Temperaturerhoehung erhoeht sich auch die kinetische Energie der Teilchen, waehrend die potentielle Energie unveraendert bleibt. Ansonsten gibt es keine Aenderungen. 
+
+
+
+**** DONE 14.3 Using the Berendsen thermostat
+	 Using the first of two defferent thermostats. 
+
+	 1. in =*.parameters=-file: 
+		- change the ensemble from =NVE= to =NVT= in order to hold the temperature constant instead of the total energy. 
+		- add a =thermostat= sub-block in order to supply details for the berendsen thermostat. 
+
+***** DONE Exercises
+1. Zum Startzeitpunkt ist sowohl die Gesamt- als auch die kinetsiche Energie recht hoch (ueber 2300), einen Zeitschritt spaeter sinken beide Energie schlagartig auf unter 2000 ab und bleibt anschliessend konstant. Die potentielle Energie ist konstant fast 0. 
+2. Ich sehe gar keinen Unterschied...
+
+
+**** DONE 14.4 An alternative: The Nose-Hoover-thermostat
+	 Introduce second type of thermostat. 
+
+	 1. in =*.parameters=-file:
+		- Change the propagator (velocity integrator necessary for the Nose-Hoover thermostat)
+		- set state of =berendsen= in the =thermostat= sub-block to off
+		- add =nosehoover=-thermostat to =thermostat= block 
+
+***** DONE Exercises
+1. Die Kinetische und die Gesamtenergie oszillieren jetzt genauso wie die Temperatur. Die potentielle Energie ist weiterhin konstant bei etwa 0. 
+2. Fuer hoehere Temperaturen vergroessern sich die Amplituden. Fuer hoehere virtuelle Massen steigt die Frequenz der Oszillationen (ersten Grades...)
+
+
+**** DONE 14.5 Optimizing the domain
+	 Sometimes it is not possible to determine the optimal size of the domain prior to the simulation. 
+	 We can use the optimization phase to determine the size of the domain. For that we allow to scale the box in order to minimize the potential energy. 
+
+	 1. in =*.parameters=-file
+		- Add =simucell= lines in the =optimization= block. The first line contains the parameters for the cell optimization (in general the as for the particles). The second line can be used to specify some constraints. 
+		- Add a parameter to the =common= block for an external pressure value (=extpressure=).
+	 2. after the simulation is finished the =# Box= line contains a box matrix entry. The values must be transfered to the parameter file (will be described in next lesson).
+
+***** DONE Exercises
+1. Making a small table: 
+   |       extpressure | box coordinates                                                                                                                                       |
+   |-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------|
+   |      0.0024455185 | # Box    7.457397e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.457397e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.457397e+01 |
+   |       0.024455185 | # Box   7.370456e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370456e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370456e+01  |
+   |        0.24455185 | # Box   7.370444e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370444e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370444e+01  |
+   |         2.4455185 | # Box   7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01  |
+   |          24455185 | # Box   7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01  |
+   | 0.000000024455185 | # Box  7.774622e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.774622e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.774622e+01   |
+   Also, je groesser =extpressure= desto kleiner die Box. Das heißt Box Größe und =extpressure= sind umgekehrt proportional. 
+2. Setze =XX=0= und erhalte =# Box	7.775000e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.557398e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.557398e+01=. 
+   Es faellt auf, dass die Box nun nicht mehr quadratisch ist. Durch die Änderung kann sich die x-Komponente des ersten Ecken-Vektors nicht mehr veraendern, so dass eine Dimension fixiert ist. (=Xk= bezeichnet die =k= Komponente des =X=-Ecken-Vektors. Hierbei ist =X= \in {=X=, =Y=, =Z=}). 
+3. Setze =XY=1=. Betrachte nun folgende Werte fuer =constraint=
+   - =isotropic= :: Keine Optimierung moeglich, da fuer =isotropic= die sekundären Achsen auf 0 gesetzt werden müssen. Fehlermeldung: =For isotropic box optimization constraintmap entries must be restricted to xx, yy and zz.=
+   - =standard= :: Keine Optimierung moeglich: Fehlermeldung: =Constraintmap entry yx must match xy=. Wenn =XY= und =YX= auf 1 gesetzt werden erhaelt man: =# Box	7.457272e+01	0.000000e+00	0.000000e+00	-7.979795e-04	7.457325e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.457594e+01=. 
+				   Das heisst die Box ist kein Quader mehr, sondern ein Parallelepiped, in der die Kanten =Y= nicht mehr parallel zur Achse verlaufen. 
+   - =symmetric= :: Keine Optimierung moeglich: Fehlermeldung: =Constraintmap entry yx must match xy=. Setze =XY= und =YX= auf 1. Erhalte: =# Box	7.457272e+01	-8.014574e-04	0.000000e+00	-8.014574e-04	7.457325e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.457594e+01=. 
+					Wieder ein Parallepiped. Was ist der Unterschied zu =standard=?
+ 
+
+
+**** DONE 14.6 Introducing barostats. 
+	 Instad of isothermic conditions, one often needs isobaric ones. For this one can allow the volume to change and set a barostat similarly to the thermostat. 
+	 
+	 1. in the =*.parameters=-file: 
+		- add a =barostat= sub-block right under the =thermostat= block. In the block one can set: which barostat is used, if constant pressure is wished (in reduced units!), and constraints regarding the variation of the volume. 
+	 2. in order to start a simulation, the box specifications of the =*.parameters= file and those in the =*.data= file are different. Thus one has to change the box information in the =*.parameters= file. 
+
+
+***** TODO Notes
+	  - Choosing delta_T=5e-3 I get the following error: =Process 0: Error in file ../../src/./helpers.c, line 2066 (0): SomeError: HooverEta is NaN! Error with implicitely solved Hoover-Nose-Thermostat. Please check whether structure is sufficiently and satisfactorily optimized ...: No such file or directory=
+	  - I am not receiving any error messages if I set the size of the cube in =*.parameters= to 1 and do not touch the =*.data= file, even if the values are different!
+
+***** DONE Exercises. 
+	  1. Fuer =Pressure=0.0024455185= erhalte ich die folgenden Werte: =# Box	7.579774e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.579774e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.579774e+01=. Mache wieder eine Tabelle: 
+		 |       Pressure | Box size                                                                                                                                              |
+		 |----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------|
+		 |   0.0024455185 | # Box    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01 |
+		 | 0.000024455185 | # Box  4.071469e+02    0.000000e+00    0.000000e+00    0.000000e+00    4.071469e+02    0.000000e+00    0.000000e+00    0.000000e+00    4.071469e+02   |
+		 |    0.024455185 | # Box  5.323637e+01    0.000000e+00    0.000000e+00    0.000000e+00    5.323637e+01    0.000000e+00    0.000000e+00    0.000000e+00    5.323637e+01   |
+		 Je groesser also der Druck, desto kleiner wird die Box. Darueber hinaus dauert die Simulation fuer geringe Druecke deutlich laenger, was wohl auf die erhoehte Anzahl an Zellen zurueckzufuehren ist. Fuer sehr hohe Druecke laeuft die Simulation nicht, da die Box dann zu klein wird. 
+	  2. Setze =xx=0=. Erhalte Fehlermeldung: =For isotropic barostat conditon constraintmap entry xx must be set to 1.=. Setze =type=standard=. Erhalte nun folgende Werte: =7.457398e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.653474e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.544635e+01=.
+		 Stelle fest, dass die Werte der ersten Koordinate (=xx=) sich nicht veraendert haben, waehrend die Werte von =yy= und =zz= etwas groesser sind (und auch etwas groesser als im vorigen Fall). 
+	  3. Setze =xy=1=. Wie schon bei der Box-Optimierung muss dann =yx= auch auf eins gesetzt werden. Erhalte =# Box	9.568149e+01	0.000000e+00	0.000000e+00	-1.643221e+01	7.152647e+01	0.000000e+00	0.000000e+00	0.000000e+00	6.537388e+01=.
+		 In diesem Fall aendert sich auch die =x=-Koordinate des =y=-Vektors. 
+	  4. Setze =f_mass=1000=. Erhalte folgende Werte: =# Box	7.517290e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.517290e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.517290e+01=. 
+		 Die Box ist also etwas kleiner als im Fall =f_mass=1=. Also je groesser die fiktive Masse, (desto hoeher der Druck?), desto kleiner die Box. 
+
+
+
+
+**** DONE 14.7 Bonded potentials and measuring bonds
+Till here, only non-bonded interactions has been covered. In order to introduce connected atoms, one has the following to do:
+1. set the indices in the appropriate column in the =*.data=-file
+2. specify bonded potentials in the =*.potentials=-file. 
+
+The bond type covered here is a harmonic potential named =bond= (can be imagined like a spring between the atoms). 
+This type of bond cannot be broken. It is characterized by a restoring force proportional to the deflection from the minimal energy distance r_0. 	 
+
+In this example: Consider Butane (C_4H_10) and measure bond distances. There are three atom types:
+1. C in CH_3: methyl-carbon
+2. Ci in CH_2: methylene-carbon
+3. H: Hydrogen
+
+We will set up this example. 
+
+1. in =*.data= file
+   - The atoms data is set as usual. 
+   - A fourth column =neighbors=4= is added. This 4 new columns contain the indices of the neighboring atoms. 
+2. in =*.potentials= file
+   - first introduce the Lennard Jones potentials acting between the molecules. Tremolo-X handles Lennard Jones in bonded molecules in a way, that the potential is *not* calculated among direct neighbors. 
+   - second the bonded potentials are set. These are: =bonds=, =angles=, =torsions=. The parameters are taken from AMBER94 force field. 
+3. in =*.parameters= file
+   - in addition to the usual blocks, some bond measurement is introduced in the =analyze= subblock of =output=. Every pair undershooting the specified threshold =distance= is considered bonded. 
+	 The Ids of the bonded pairs are written to the =*.info.bonds= (vis) file. 
+
+***** DONE Exercises
+1. Erhoehe zunaechst die Temperatur: Eine hoehere Temperatur fuehrt dabei zu groesserer Oszillation. Das selbe sollte auch bei geringerer Verbindungskraft zu beobachten sein. 
+2. Erhoehe alle Gleichgewichtsabstaende um 1. Dadurch erhoehen sich auch die gemessenen Abstaende, allerdings nicht um den gleichen Abstand. Warum?
+
+
+
+**** DONE 14.8 Tersoff potential and stress
+
+Aim: Determine Young's Modulus of a single graphene sheet. Instead of defining fixed individual neighbors, the potential function will determine the spatial configuration of surrounding carbon atoms by itself. 
+
+1. in =*.potentials= file
+   - A =tersoff= block is introduced containing all necessary parameters for tersoff potentials. 
+2. in =*.parameters= file
+   - A =NPT=-ensemble is used
+   - additionally to the external pressure a custom stress tensor is set. The stress tensor stretches the domain in =xx=-direction with linearly increasing strength startin from 0 to 1e5. 
+   - the box vectors need to be changed individually (why?)
+   - in order to analyze the stress distribution along individual particles, one needs the =local_stress= feature. 
+
+3. Output: Plotting a *stress-strain diagram*:
+   - The values can be found in the =*.mbox=-file:
+	 - strain: can be found by observing the =xx=-value of the box found in 43rd column
+	 - stress: can be found in 31st column
+	 - the =yy=-length of the box can be read in the 44th column
+
+***** DONE Exercises
+1. Aendere die stress Richtung in =yy= Richtung durch Aenderung an =stresstensor= im =*.parameters= File. 
+   Erhalte fuer E = 1.58273 mit einem asymptotischen Standard Fehler von +/- 0.2419 (15.28%). Insgesamt sieht die Kurve ganz anders aus... Verstehe ich nicht? 
+2. Bin mir nicht sicher, wie man die Relaxation-Zeit einstellt? Habe jetzt im Stresstensor eine dritte Zeile eingefuegt: =(0, 0, linear, 1, 0, 0, 0, 0,), (100, 0, linear, 1, 0, 0, 0, 0, 0), (200, 5e5, linear, 1, 0, 0, 0, 0, 0)];=. 
+   Hoffentlich stimmt's. 
+   Die Kurve des Plots waechst zunaechst sehr schnell an, und faellt schliesslich etwas langsamer auf null. Bruch? Als Moudulus erhalte ich =E=147.655= mit Fehler =+/- 1.273 (0.8624%)=
+
+
+
+**** DONE 14.9 Long ranged potentials 1 - Halley's Comet with coulombic pair interaction
+
+Covers how to set up simulation to use long ranged potentials like gravity or coulomb potential (characteristic: 1/|x|). 
+For these potentials, a cutoff produces significant errors on the forces. 
+Solution: Use an ordinary pair potential. 
+Here as an example we will calculate when Halley's Comet runs through its perihelion point. 
+
+1. Tremolo does not support a gravity potential. Instead of this the Coulomb potential is used (after adapting the units.)
+2. in =*.parameters= file
+   - in order to simulate the conditions of the solar system, a NVE ensemble with verlet propagator is used. 
+   - the box is choosen to be three times larger then the solar system and =leaving= boundary conditions are set. 
+   - the whole system is contained in one single cell, which is not good for parallelization but the only way to obtain accurate results using long ranged potentials. 
+   - a =coulomb= block is set up
+   - in order to measure the distance between the Comet and the Barycenter, the bond distance measurement is used. 
+3. in =*.potentials= file
+   - set up all the objects, note that the charge of the particles is set to its mass. 
+
+***** TODO Exercises
+Problem: Erhalte keine Werte fuer die Abstaende. Es werden nur Nullen ausgegeben. Was geht da schief? Ausserdem wird waehrend der Simulation mitgeteilt, dass mehrere Partikel das Gebiet verlassen. 
+
+
+
+
+**** DONE 14.10 Long ranged potentials 2 - Sodium chloride with SPME
+
+Typical usage scenario of coulomb forces in molecular dynamics with a large number of particles. 
+The potential is split in two parts: 
+- the short ranged part is calculated in a linked cell fashion as before
+- the long ranged part is calculated by Ewald summation in fourier space for father particles 
+This is suitable for periodic systems of particles. 
+In this example solid NaCl is simulated and its radial distribution is measured. 
+
+1. in the =*.potentials= file
+   - set up the short ranged interactions using the Tosi Fumi potential
+2. in the =*.data= file
+   - set up the starting configuration as a NaCl-structure with small random offset for each atom at 20 degrees celsius. 
+3. in the =*.parameters= file 
+   - NPT ensemble, 
+   - 1000hP pressure maintained by the Parrinello-Barostat, with isotropic constraint
+   - Nose-Hoover-Thermostat for fixed temperature
+   - =coulomb=-block: specify the parameters for the =spme= method
+	 - up to =r_cut= the short ranged part of the potential is used (like n2spline)
+	 - from there it is approximated by bell curves with splitting coefficient =G= (?!)
+   - in =analyze=-block the measurement of the radial distribution is set up. 
+
+Since the SPME method is used, the parallel version of Tremolo-X has to be used: =tremolo_mpi -v *.tremolo=. 
+
+***** TODO Exercises
+1. Die radiale Verteilung kann in =*.histogram= abgelesen und dann zum Beispiel mit Excel dargestellt werden. Es zeigt sich, dass es im Anfangszustand nur einzelne winzige Peaks gibt. Im Endzustand wird das Histogramm etwas verwischt. So dass mehrere Bins eine nicht triviale Anzahl von Atomen enthalten. 
+2. Erhoehe zunaechst die Temperatur auf 5 Grad Celsius. Mit hoeherer Temperatur verteilen sich die Werte fuer die radiale Verteilung auf mehr bins (d.h. die Peaks werden noch verwaschener...)
+
+
+
+**** DONE 14.11 Melting point 
+
+Example for a common application of molecular dynamics: Determine the melting point of NaCl.
+We are goint to use the /Voids method/. Explained [[http://scitation.aip.org/docserver/fulltext/aip/journal/jcp/136/14/1.3702587.pdf%3Fexpires%3D1389619185&id%3Did&accname%3D375729&checksum%3D95953424103DE090EC600A7A00E8088C][here (A comparison of methods for melting point calculation using molecular dynamics
+simulations)]]. 
+
+1. The simulation setup is similar to the previous tutorial apart from the thermostat settings and measurement settings.
+2. in the =*.tremolo= file
+   In order to carry out a series of simulations one can make use of the defaultpath-option in =*.tremolo=: 
+   - every simulation is set up in a subdirectory containing only the =*.data= and the =*.parameters= file
+   - the remaining files are saved in the parent directory. 
+   - in this example the subdirectories are named by increasing number of cells with pair defect. 
+
+
+
+**** TODO The EAM potential - Observing phase transition in Metall
+
+The "embedded atom method" (EAM) is a standard potential used in the analysis of metalls and alloys. In the following the EAM potential is used to analyze a phase transition. 
+A Fe-Ni nanoparticle is heated from 100K to 800K and the change of its lattice structure from bcc (body-centered cubic) to fcc (face-centered cubic)/ hcp (hexagonal close-packed) is observed. 
+
+1. in order to use EAM potentials, the EAM parameters must be provided by a file either with the "eam/fs" format oder the "eam/alloy" format. 
+   - the unit system of the eam parameters file determines the units which need to be used throughout the simulation. 
+2. in the =*.potentials= file 
+   - the particle parameters are inserted as usual.  
+   - the eam format and the filename is specified. 
+3. in the =*.parameters= file
+   - a =domain= block is set as usual
+   - a =dynamics= block is set as usual
+   - an =ouput= block is set for measuring the radial ditribution
+
+Beim Start der Simulation erhalte ich folgende Fehlermeldungen:
+1. =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external=
+2. =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.exttypes=
+
+**** DONE FRAGEN
+
+1. [ ] Warum genau braucht man die Optimierung bei der Simulation? (Seite 105)
+
+2. [X] Was ist der Unterschied zwischen "optimization" and "dynamic simulation"?
+
+3. [ ] Was heisst, dass Optimierung durch das CG-Verfahren durchgefuehrt werden muss? (Seite 108) Verstehe den ganzen Abschnitt zum Block "optmization" in =*.parameters=-file nicht...
+
+4. [ ] Was sind die pdb files?
+
+5. [ ] Was sind E_kin_group und e_tot+hoover in den ekin bzw. etot files?
+
+6. [ ] Temperaturen koennen im =*.ekin= File betrachtet werden?	   
+
+7. [ ] Kann es sein, dass ab Kapitel 14.3 die Listings im Tutorial und die Dateien aus =/tutorials= nicht ganz uebereinstimmen? Im Ordner fuer Kapitel 14.4 sind schon Einstellungen fuer das naechste Kapitel....
+
+8. [ ] Bei Box Optimization: Was ist der Unterschied zwischen =standard= und =symmetric=?
+
+9. [ ] In 14.6 laeuft die Simulation nur fuer =delta_T=0.5e-3= und nicht fuer =delta_T=5e-3=. Warum? 
+
+10. [ ] Muss ich genau verstehen, was die Parameter der bonded potentials (Seite 122 und 123) sind? 
+
+11. [ ] Was sind die Zeilen "outvis", "outdata" und "outm" im =*.parameters= file. Fuer was braucht man "T_Delta" *und* "Step_Delta", zum Beispiel in Kapitel 14.7. 
+
+12. [ ] Kapitel 14.7: Verstehe nicht ganz was die "restlichen" Spalten im =*.generalmeas= file sein sollen. 
+
+13. [ ] Welches Programm zum Visualisieren verwenden? Habe ich Programme wie VMD-Viewer, Gnu Units?
+
+14. [ ] Aufgaben zu 14.8: Wie fuegt man eine Relaxation Time hinzu? Einfach zusaetzliche Zeile im Stress-Tensor?
+
+15. [ ] In 14.9: Warum wird der =coulomb= Block in das =*.parameters= File und nicht in das =*.potentials= File geschrieben? 
+
+16. [ ] In 14.12 Was ist mit den Fehlermeldungen?
+
+17. [ ] Probleme mit den Aufgaben bei 14.6 und 14.9.
+
+		
+**** TODO Summary of problems: 
+
+- Kapitel 14.1 :: Programme zum Plotten? Warnung bei der Simulation: =WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.=
+
+- Kapitel 14.2 :: -
+
+- Kapitel 14.3 :: -
+
+- Kapitel 4.4 :: Was ist der Unterschied zwischen Nose-Hoover und Berendsen?
+
+- Kapitel 4.5 :: Verstehe nicht ganz die Unterschiede fuer die =constraint types=. 
+
+- Kapitel 4.6 :: Erhalte Fehler fuer =delta_T=5e-3=: =Process 0: Error in file ../../src/./helpers.c, line 2066 (0): SomeError: HooverEta is NaN! Error with implicitely solved Hoover-Nose-Thermostat. Please check whether structure is sufficiently and satisfactorily optimized ...: No such file or directory=
+				 Dies ist nicht der Fall fuer =delta_T=0.5e3=. 
+
+- Kapitel 4.7 :: Generell: Was ist der Unterschied zwischen /bonded potentials/ und zum Beispiel /lennard jones/?
+
+- Kapitel 4.8 :: in der Aufgabe: wie stellt man die Relaxation-Zeit ein?
+
+- Kapitel 4.9 :: Erhalte keine Werte fuer die Abstaende (Nur nullen). 
+
+- Kapitel 4.10 :: -
+
+- Kapitel 4.11 :: Erhalte Fehlermeldungen: =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external=
+* TODO Repeat this for 14.4
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-01-23 Thu 13:27
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Manual fixes/Check 1.2: Check 0.0005 and 0.005.
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: TODO
+  :END: 
+
+* DONE Check 1.2: Check 0.0005 and 0.005. 
+  SCHEDULED: <2014-01-24 Fri> CLOSED: [2014-01-23 Thu 13:42]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-01-23 Thu 13:42
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Manual fixes
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+
+** DONE Make long simulation for 14.3 and plot energies. 
+   CLOSED: [2014-01-23 Thu 13:26]
+
+* DONE Create new branch for that. 
+  SCHEDULED: <2014-01-20 Mon> CLOSED: [2014-01-19 Sun 13:12]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-01-23 Thu 13:43
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Manual fixes
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+				   
+
+* DONE Check 1.6: Box parameters: What happens for different values in *.parameters and *.data?
+  SCHEDULED: <2014-01-20 Mon> CLOSED: [2014-01-20 Mon 18:11]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-01-23 Thu 13:43
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Manual fixes
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+  Erhalte die folgende Fehlermeldung, wenn die Werte der Box in =*.parameters= und in =*.data= nicht uebereinstimmen: \\
+  =Attention: BOX statement in .data file overwrites domain size data in .parameters file suggest correcting moment and angular moment with Max.-Boltz. distribution=.
+				  
+
+* DONE Manual fixes
+  DEADLINE: <2014-01-25 Sat> CLOSED: [2014-01-23 Thu 13:44]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-01-23 Thu 13:44
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+
+  - Created branch *manual-fix* in tremolo directory. 
+	
+** DONE Fix all things in the Tremolo-Tutorial that are obvious
+   SCHEDULED: <2014-01-24 Fri> CLOSED: [2014-01-23 Thu 13:44]
+
+*** Gemachte Aenderungen:
+	- Page 108 :: /Visuals shall be created every 5 time units or 10 iteration steps, whereas the particle data shall be written every 500 time units or 10 iteration steps./ \\
+				  "Visuals *(argon.vis.####.[xyz,pdb,data])* shall be created ..."
+	- Page 109 :: /The optimized particle positions are written to argon.data.999./ \\
+				  "The optimized particle positions are written to argon.data.999 *9*."
+	- Page 110 :: /For this example we can still ignore the extra lines./ \\
+				  "For this example we can still ignore the extra lines *at the top of the file*."
+	- Page 111 :: /Take a look at the velocity distribution in the argon.histogram file/ \\
+				  "*Plot a histogram displaying the velocity distribution contained in the argon.histogram file*."
+	- Page 112 :: /1.4 An alternative: The Nose-Hoover-thermostat/ \\
+				  "1.4 An alternative: The Nosé-Hoover-thermostat"
+	- Page 112 :: /Thus, when using the Nosé-Hoover-thermostat considerations with respect to equilibration are imperative./ \\
+				  "Thus, when using the Nosé-Hoover-thermostat, considerations with respect to equilibration are imperative." (Komma hinzugefuegt)
+	- Page 113 :: /We begin by modifying the the optimization of the sample .../ \\
+				  "We begin by modifying *the* optimization of the sample..." 
+	- Page 114 :: /Again we work in the =argon.parameter= file and enter the thermostat after (or in place of) the thermostat:/ \\
+				  Again we work in the =argon.parameter= file and enter the *barostat* after (or in place of) the thermostat: \\
+	- Page 115 :: /So go ahead and change the domain in the appropriate line/ \\
+				  "So go ahead and change the domain in the appropriate line *of the argon.parameters* file."
+	- Page 115 :: /Change the extpressure value./ \\
+				  "Change the *Pressure* value."
+	- Page 118 :: /... but this time additionally to the external pressure we also support a custom stress tensor, .../ \\
+				  "... but this time additionally to the external pressure we also support a custom stress tensor \sigma, ..."
+				  Die Spannung mit \sigma zu bezeichnen, scheint Standard zu sein: [[http://en.wikipedia.org/wiki/Stress_%28mechanics%29][Wikipedia(Stress)]]
+	- Page 119 :: /The strain is defined as the length change .../ \\
+				  "The strain \epsilon is defined as the length change ..."
+	- Page 120 :: /Add a 100 [t] relaxation time at the beginning (\sigma = 0)./ \\
+				  "Add a 100 [t] relaxation time (\sigma = 0) at the beginning *of the simulation by inserting an additional line in the =stresstensor= section of the =graphene.parameters= file.*" 
+	- Page 121 :: /As stated earlier the potential should not be cut off but has to to fit the linked cell structure of the domain./
+				  "As stated earlier the potential should not be cut off but has *to* fit the linked cell structure of the domain."
+	- Page 125 :: /TODO/ entfernt (kann keinen Buchstabendreher entdecken). 
+
+
+
+				  
+*** TODO Noch zu machende Aenderungen:				  
+	- Page 110 :: /For the integration of the particle trajectories we choose a standard verlet algorithm with a time step of 0.005 custom time units./ \\
+				  
+				  Kann nicht beurteilen, ob deltaT=0.5e-3 oder deltaT=5e-3 richtig ist. 
+				  Output fuer die Geschwindigkeitsverteilung in Kapitel 1.2: (oben deltaT=0.5e-3, unten deltaT=5.e-3)\\
+				  [[file:pics/argon.histogram.png]] \\
+				  [[file:pics/argon.short.histogram.png]]\\
+				  - [ ] Werde noch Ausgaben fuer Energien etc. erstellen. 
+
+	- Page 114 :: Letzter Punkt in Exercises 14.5.1: Optimierung ist nicht moeglich fuer =constraint=isotropic=, wenn nur eine /secondary axis= geaendert wird. 
+
+	- Page 114 :: Das Listing unterscheidet sich vom File im =/tutorials/=-Ordner. Beispielsweise: =ensemble=NPE= im Listing und =ensemble=NPT= im File im Ornder =6sim_npt=
+
+	- Page 115 :: /Should you attempt to start it right away, you will receive an error message./ \\
+				  Ich erhalte keine Fehlermeldung, allerdings die Warnung: =Attention: BOX statement in .data file overwrites domain size data in .parameters file suggest correcting moment and angular moment with Max.-Boltz. distribution=
+
+	- Page 115 :: Dritter Punkt in Exercises 14.6.1: /In the/ =constraintmap= /change one of the secondary axis entries. Check and compare the new box values./ \\
+				  Hier muss auch der =type= der =constraintmap= geaendert werden. Darueber hinaus muessen bei den sekundaeren Achsen immer Paare geaendert werden. 
+
+	- Page 122 :: Die Simulation ist fehlerhaft: Die meisten Partikel verlassen das Gebiet. Das =*.generalmeas= file enthaelt nur Nullen. 
+
+	- Page 129 :: Erhalte die folgenden Fehlermeldungen: 
+				  =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external= \\
+				  =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.exttypes= \\
+				  In den Kapiteln 14.1 bis 14.11 habe ich diese Meldungen nicht finden koennen. 
+
+* DONE Go through tutorials and manual (find mistakes)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-01-23 Thu 13:45
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+
+** DONE Bemerkungen
+- vielleicht eine Hinweis, wie man an das Manual kommt?
+- page 7 :: Letzter Satz: missing "of" after "... detailed specification"
+- page 11 :: Erster Satz: es heisst =examples/Argon/= nicht =example/Argon/=.
+- page 17 :: Verstehe nicht den Satz in der Klammer im Abschnitt /parallelepiped/
+- page 105 :: Dritter Satz fehlendes "s" in "exist"
+- Erhalte Warnung bei Aufruf von tremolo in Tutorial 14.1: =WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.=
+- page 107 :: oben, es fehlt "use a" in1 /Since that introduces a discontinuity, we also second potential, which .../
+- page 107 :: superfluous colon after /...not a dynamic simulation./ before the second grey box. 
+- page 108 :: do not understand the part about the /optimization/ block.
+- page 108 :: in the part about the /output/ block: what is the difference between visuals and particle data?
+
+			  
+
+** DONE Notizen
+*** Overview
+Das Tremolo Projekt besteht aus zwei Funktionalitaeten:
+a. sequentielle Simulation 
+b. parallele Simulation
+
+1. Different capabilities of tremolo
+   - ensembles
+   - integrators
+   - thermostats
+2. In-depth description of the different potentials
+3. Detailed specification of the syntax of options in the parameter file.
+
+*** First steps
+Start a tremolo simulation. Example:
+Go to =tremole/examples/Argon/= and type =tremolo argon.tremolo=. This starts the simulation specified in the =*.tremolo= file. 
+
+*** Ensembles and Thermostats
+Es gibt unter anderem folgende Funktionalitaeten:
+1. Propagators
+2. Thermostats
+3. Barostats
+
+*** DONE Tutorial
+	Kopie des Ordners =/tremolo/tutorial= befindet sich auf =~/playground/=. 
+
+**** DONE 14.1 Optimizing an initial particle setup
+	 Often optimization of the particle distribution must be done, since the distribution is non-optimal creating local energy spikes which affect stability of the simulation. 
+	 Thus the particle position are slightly modified towards a (static) energy minimum. 
+
+	 1. Write a =*.tremolo=-file containing:
+  - defaultpath (has to be set!)
+  - projectname (all files will carry this name)
+  - comment
+  - systemofunits
+  - base magnitudes for the system of units used. 
+
+	2. Write a =*.potentials=-file containing the potentials. 
+  1. particles : Contains all particle types in the simulation:
+	- particle_type
+	- element_name
+	- mass
+	- sigma, sigma14, epsilon, epsilo14
+  2. potentials to be used in between particles
+
+  3. Write a =*.validates=-file containing:
+  - validates the use of particles
+  - decide which potential should be used
+
+	4. Write a =*.parameters=-file containing
+  - the type of simulation (optimization, dynamic simulation)
+  - parameters concerning the domain and the cells
+  - options for parametrization (? here optimization...)
+  - type and intervals of output
+
+	5. Write a =*.data=-file containing the initial particle positions in a special format
+  - in the first line starting with =# ATOMDATA= the layout of the particle lsit ist set. 
+  - in the second line starting with =# INPUTCONV= some manipulation of the data can be set (here the temperature)
+
+	6. Start the simulation using =tremolo -v *.tremolo=. The optimized particle positions are written to =*.data.9999=. 
+
+***** DONE Exercises:
+	  1. Das Partikel mit ID 12 verlaesst das Gebiet (Positionen mit Koordinaten um die 1e+08). Dies geschiet wahrschenlich dadurch, dass durch den groessen Praefaktor das Partikle direct auf ein benachbartes Partikel gesetzt wird. Durch die Abstossung durch das Potenzial, erhaelt das Partikel ein sehr hohe Geschwindigkeit und verlaesst das Gebiet. 
+	  2. Die Potentielle Energie ist zu Beginn sehr gross (ca. 2.6e+10), allerdings nur wenige Zeitschritte, (hier nur 2.) unmittelbar nach Beginn der Optimierung, nimmt die Energie schlagartig ab (auf ca. -1.78, ab dem 7. Zeitschritt), danach konvigiert die Energie nur noch langsam zu einem Minimum (-1.15e+10). 
+
+
+		 
+**** DONE 14.2 Setting up a basic simulation
+	 After the optimization phase a basic simulation can be done. 
+
+	 1. in the =*.parameters=-file:
+  - change the integration type from "optimization" to "dynamics": =integration: type=dynamics= 
+  - Add new block to file consisting of the parameters of the dynamics:
+	- =ensemble=NVE= particle number, volume, total energy are constant
+	- choose integrator (propagator), e.g. =verlet= 
+	- choose time steps and intervall
+  - Add anlysis sub-block to output-block to analyse velocity distribution of the particles:
+
+	2. make sure to use the optimized =*.data=-files:
+  - always copy original data file somewhere safe
+  - rename =*.data.9999= as =*.data= 
+
+	3. run simulation by the usual command
+
+***** DONE Exercises
+1. Die Gesamtenergie des Ensembles ist fast vollstaendig durch die kinetische Energie gegeben. Die potentielle Energie ist fast null, waehrend die kinetische Energie etwa 2000 ist. Desweiteren gibt es kleinste Schwankungen in den Energien. 
+2. ? Wie kann man das anstaendig plotten?
+3. Die Simulation bricht sofort ab mit der Fehlermeldung =Particle leaving simulation territory! Me:0 Particle-Id:12 (-8.547802e+05,-1.965304e+06,1.373152e+07) Process 0: Error in file ../../src/./update.c, line 1209 (0): SomeError: Particle leaving across a nonopen border. Simulation aborted.  Maybe the ensemble requires additional optimization?=
+4. Die Messung von Durchschnittsenergien, kann duch hinzufuegen von =meanmeasure=on= im =*.parameters=-file aktiviert werden. Die Energien sind wie erwartet gemittelt worden und dabei im wesentlichen konstant. Grob gesehen ergeben sich die gleichen Energien wie schon im ungemittelten Fall. 
+5. Durch die Temperaturerhoehung erhoeht sich auch die kinetische Energie der Teilchen, waehrend die potentielle Energie unveraendert bleibt. Ansonsten gibt es keine Aenderungen. 
+
+
+
+**** DONE 14.3 Using the Berendsen thermostat
+	 Using the first of two defferent thermostats. 
+
+	 1. in =*.parameters=-file: 
+		- change the ensemble from =NVE= to =NVT= in order to hold the temperature constant instead of the total energy. 
+		- add a =thermostat= sub-block in order to supply details for the berendsen thermostat. 
+
+***** DONE Exercises
+1. Zum Startzeitpunkt ist sowohl die Gesamt- als auch die kinetsiche Energie recht hoch (ueber 2300), einen Zeitschritt spaeter sinken beide Energie schlagartig auf unter 2000 ab und bleibt anschliessend konstant. Die potentielle Energie ist konstant fast 0. 
+2. Ich sehe gar keinen Unterschied...
+
+
+**** DONE 14.4 An alternative: The Nose-Hoover-thermostat
+	 Introduce second type of thermostat. 
+
+	 1. in =*.parameters=-file:
+		- Change the propagator (velocity integrator necessary for the Nose-Hoover thermostat)
+		- set state of =berendsen= in the =thermostat= sub-block to off
+		- add =nosehoover=-thermostat to =thermostat= block 
+
+***** DONE Exercises
+1. Die Kinetische und die Gesamtenergie oszillieren jetzt genauso wie die Temperatur. Die potentielle Energie ist weiterhin konstant bei etwa 0. 
+2. Fuer hoehere Temperaturen vergroessern sich die Amplituden. Fuer hoehere virtuelle Massen steigt die Frequenz der Oszillationen (ersten Grades...)
+
+
+**** DONE 14.5 Optimizing the domain
+	 Sometimes it is not possible to determine the optimal size of the domain prior to the simulation. 
+	 We can use the optimization phase to determine the size of the domain. For that we allow to scale the box in order to minimize the potential energy. 
+
+	 1. in =*.parameters=-file
+		- Add =simucell= lines in the =optimization= block. The first line contains the parameters for the cell optimization (in general the as for the particles). The second line can be used to specify some constraints. 
+		- Add a parameter to the =common= block for an external pressure value (=extpressure=).
+	 2. after the simulation is finished the =# Box= line contains a box matrix entry. The values must be transfered to the parameter file (will be described in next lesson).
+
+***** DONE Exercises
+1. Making a small table: 
+   |       extpressure | box coordinates                                                                                                                                       |
+   |-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------|
+   |      0.0024455185 | # Box    7.457397e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.457397e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.457397e+01 |
+   |       0.024455185 | # Box   7.370456e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370456e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370456e+01  |
+   |        0.24455185 | # Box   7.370444e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370444e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370444e+01  |
+   |         2.4455185 | # Box   7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01  |
+   |          24455185 | # Box   7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.370443e+01  |
+   | 0.000000024455185 | # Box  7.774622e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.774622e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.774622e+01   |
+   Also, je groesser =extpressure= desto kleiner die Box. Das heißt Box Größe und =extpressure= sind umgekehrt proportional. 
+2. Setze =XX=0= und erhalte =# Box	7.775000e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.557398e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.557398e+01=. 
+   Es faellt auf, dass die Box nun nicht mehr quadratisch ist. Durch die Änderung kann sich die x-Komponente des ersten Ecken-Vektors nicht mehr veraendern, so dass eine Dimension fixiert ist. (=Xk= bezeichnet die =k= Komponente des =X=-Ecken-Vektors. Hierbei ist =X= \in {=X=, =Y=, =Z=}). 
+3. Setze =XY=1=. Betrachte nun folgende Werte fuer =constraint=
+   - =isotropic= :: Keine Optimierung moeglich, da fuer =isotropic= die sekundären Achsen auf 0 gesetzt werden müssen. Fehlermeldung: =For isotropic box optimization constraintmap entries must be restricted to xx, yy and zz.=
+   - =standard= :: Keine Optimierung moeglich: Fehlermeldung: =Constraintmap entry yx must match xy=. Wenn =XY= und =YX= auf 1 gesetzt werden erhaelt man: =# Box	7.457272e+01	0.000000e+00	0.000000e+00	-7.979795e-04	7.457325e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.457594e+01=. 
+				   Das heisst die Box ist kein Quader mehr, sondern ein Parallelepiped, in der die Kanten =Y= nicht mehr parallel zur Achse verlaufen. 
+   - =symmetric= :: Keine Optimierung moeglich: Fehlermeldung: =Constraintmap entry yx must match xy=. Setze =XY= und =YX= auf 1. Erhalte: =# Box	7.457272e+01	-8.014574e-04	0.000000e+00	-8.014574e-04	7.457325e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.457594e+01=. 
+					Wieder ein Parallepiped. Was ist der Unterschied zu =standard=?
+ 
+
+
+**** DONE 14.6 Introducing barostats. 
+	 Instad of isothermic conditions, one often needs isobaric ones. For this one can allow the volume to change and set a barostat similarly to the thermostat. 
+	 
+	 1. in the =*.parameters=-file: 
+		- add a =barostat= sub-block right under the =thermostat= block. In the block one can set: which barostat is used, if constant pressure is wished (in reduced units!), and constraints regarding the variation of the volume. 
+	 2. in order to start a simulation, the box specifications of the =*.parameters= file and those in the =*.data= file are different. Thus one has to change the box information in the =*.parameters= file. 
+
+
+***** TODO Notes
+	  - Choosing delta_T=5e-3 I get the following error: =Process 0: Error in file ../../src/./helpers.c, line 2066 (0): SomeError: HooverEta is NaN! Error with implicitely solved Hoover-Nose-Thermostat. Please check whether structure is sufficiently and satisfactorily optimized ...: No such file or directory=
+	  - I am not receiving any error messages if I set the size of the cube in =*.parameters= to 1 and do not touch the =*.data= file, even if the values are different!
+
+***** DONE Exercises. 
+	  1. Fuer =Pressure=0.0024455185= erhalte ich die folgenden Werte: =# Box	7.579774e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.579774e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.579774e+01=. Mache wieder eine Tabelle: 
+		 |       Pressure | Box size                                                                                                                                              |
+		 |----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------|
+		 |   0.0024455185 | # Box    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01    0.000000e+00    0.000000e+00    0.000000e+00    7.579774e+01 |
+		 | 0.000024455185 | # Box  4.071469e+02    0.000000e+00    0.000000e+00    0.000000e+00    4.071469e+02    0.000000e+00    0.000000e+00    0.000000e+00    4.071469e+02   |
+		 |    0.024455185 | # Box  5.323637e+01    0.000000e+00    0.000000e+00    0.000000e+00    5.323637e+01    0.000000e+00    0.000000e+00    0.000000e+00    5.323637e+01   |
+		 Je groesser also der Druck, desto kleiner wird die Box. Darueber hinaus dauert die Simulation fuer geringe Druecke deutlich laenger, was wohl auf die erhoehte Anzahl an Zellen zurueckzufuehren ist. Fuer sehr hohe Druecke laeuft die Simulation nicht, da die Box dann zu klein wird. 
+	  2. Setze =xx=0=. Erhalte Fehlermeldung: =For isotropic barostat conditon constraintmap entry xx must be set to 1.=. Setze =type=standard=. Erhalte nun folgende Werte: =7.457398e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.653474e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.544635e+01=.
+		 Stelle fest, dass die Werte der ersten Koordinate (=xx=) sich nicht veraendert haben, waehrend die Werte von =yy= und =zz= etwas groesser sind (und auch etwas groesser als im vorigen Fall). 
+	  3. Setze =xy=1=. Wie schon bei der Box-Optimierung muss dann =yx= auch auf eins gesetzt werden. Erhalte =# Box	9.568149e+01	0.000000e+00	0.000000e+00	-1.643221e+01	7.152647e+01	0.000000e+00	0.000000e+00	0.000000e+00	6.537388e+01=.
+		 In diesem Fall aendert sich auch die =x=-Koordinate des =y=-Vektors. 
+	  4. Setze =f_mass=1000=. Erhalte folgende Werte: =# Box	7.517290e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.517290e+01	0.000000e+00	0.000000e+00	0.000000e+00	7.517290e+01=. 
+		 Die Box ist also etwas kleiner als im Fall =f_mass=1=. Also je groesser die fiktive Masse, (desto hoeher der Druck?), desto kleiner die Box. 
+
+
+
+
+**** DONE 14.7 Bonded potentials and measuring bonds
+Till here, only non-bonded interactions has been covered. In order to introduce connected atoms, one has the following to do:
+1. set the indices in the appropriate column in the =*.data=-file
+2. specify bonded potentials in the =*.potentials=-file. 
+
+The bond type covered here is a harmonic potential named =bond= (can be imagined like a spring between the atoms). 
+This type of bond cannot be broken. It is characterized by a restoring force proportional to the deflection from the minimal energy distance r_0. 	 
+
+In this example: Consider Butane (C_4H_10) and measure bond distances. There are three atom types:
+1. C in CH_3: methyl-carbon
+2. Ci in CH_2: methylene-carbon
+3. H: Hydrogen
+
+We will set up this example. 
+
+1. in =*.data= file
+   - The atoms data is set as usual. 
+   - A fourth column =neighbors=4= is added. This 4 new columns contain the indices of the neighboring atoms. 
+2. in =*.potentials= file
+   - first introduce the Lennard Jones potentials acting between the molecules. Tremolo-X handles Lennard Jones in bonded molecules in a way, that the potential is *not* calculated among direct neighbors. 
+   - second the bonded potentials are set. These are: =bonds=, =angles=, =torsions=. The parameters are taken from AMBER94 force field. 
+3. in =*.parameters= file
+   - in addition to the usual blocks, some bond measurement is introduced in the =analyze= subblock of =output=. Every pair undershooting the specified threshold =distance= is considered bonded. 
+	 The Ids of the bonded pairs are written to the =*.info.bonds= (vis) file. 
+
+***** DONE Exercises
+1. Erhoehe zunaechst die Temperatur: Eine hoehere Temperatur fuehrt dabei zu groesserer Oszillation. Das selbe sollte auch bei geringerer Verbindungskraft zu beobachten sein. 
+2. Erhoehe alle Gleichgewichtsabstaende um 1. Dadurch erhoehen sich auch die gemessenen Abstaende, allerdings nicht um den gleichen Abstand. Warum?
+
+
+
+**** DONE 14.8 Tersoff potential and stress
+
+Aim: Determine Young's Modulus of a single graphene sheet. Instead of defining fixed individual neighbors, the potential function will determine the spatial configuration of surrounding carbon atoms by itself. 
+
+1. in =*.potentials= file
+   - A =tersoff= block is introduced containing all necessary parameters for tersoff potentials. 
+2. in =*.parameters= file
+   - A =NPT=-ensemble is used
+   - additionally to the external pressure a custom stress tensor is set. The stress tensor stretches the domain in =xx=-direction with linearly increasing strength startin from 0 to 1e5. 
+   - the box vectors need to be changed individually (why?)
+   - in order to analyze the stress distribution along individual particles, one needs the =local_stress= feature. 
+
+3. Output: Plotting a *stress-strain diagram*:
+   - The values can be found in the =*.mbox=-file:
+	 - strain: can be found by observing the =xx=-value of the box found in 43rd column
+	 - stress: can be found in 31st column
+	 - the =yy=-length of the box can be read in the 44th column
+
+***** DONE Exercises
+1. Aendere die stress Richtung in =yy= Richtung durch Aenderung an =stresstensor= im =*.parameters= File. 
+   Erhalte fuer E = 1.58273 mit einem asymptotischen Standard Fehler von +/- 0.2419 (15.28%). Insgesamt sieht die Kurve ganz anders aus... Verstehe ich nicht? 
+2. Bin mir nicht sicher, wie man die Relaxation-Zeit einstellt? Habe jetzt im Stresstensor eine dritte Zeile eingefuegt: =(0, 0, linear, 1, 0, 0, 0, 0,), (100, 0, linear, 1, 0, 0, 0, 0, 0), (200, 5e5, linear, 1, 0, 0, 0, 0, 0)];=. 
+   Hoffentlich stimmt's. 
+   Die Kurve des Plots waechst zunaechst sehr schnell an, und faellt schliesslich etwas langsamer auf null. Bruch? Als Moudulus erhalte ich =E=147.655= mit Fehler =+/- 1.273 (0.8624%)=
+
+
+
+**** DONE 14.9 Long ranged potentials 1 - Halley's Comet with coulombic pair interaction
+
+Covers how to set up simulation to use long ranged potentials like gravity or coulomb potential (characteristic: 1/|x|). 
+For these potentials, a cutoff produces significant errors on the forces. 
+Solution: Use an ordinary pair potential. 
+Here as an example we will calculate when Halley's Comet runs through its perihelion point. 
+
+1. Tremolo does not support a gravity potential. Instead of this the Coulomb potential is used (after adapting the units.)
+2. in =*.parameters= file
+   - in order to simulate the conditions of the solar system, a NVE ensemble with verlet propagator is used. 
+   - the box is choosen to be three times larger then the solar system and =leaving= boundary conditions are set. 
+   - the whole system is contained in one single cell, which is not good for parallelization but the only way to obtain accurate results using long ranged potentials. 
+   - a =coulomb= block is set up
+   - in order to measure the distance between the Comet and the Barycenter, the bond distance measurement is used. 
+3. in =*.potentials= file
+   - set up all the objects, note that the charge of the particles is set to its mass. 
+
+***** TODO Exercises
+Problem: Erhalte keine Werte fuer die Abstaende. Es werden nur Nullen ausgegeben. Was geht da schief? Ausserdem wird waehrend der Simulation mitgeteilt, dass mehrere Partikel das Gebiet verlassen. 
+
+
+
+
+**** DONE 14.10 Long ranged potentials 2 - Sodium chloride with SPME
+
+Typical usage scenario of coulomb forces in molecular dynamics with a large number of particles. 
+The potential is split in two parts: 
+- the short ranged part is calculated in a linked cell fashion as before
+- the long ranged part is calculated by Ewald summation in fourier space for father particles 
+This is suitable for periodic systems of particles. 
+In this example solid NaCl is simulated and its radial distribution is measured. 
+
+1. in the =*.potentials= file
+   - set up the short ranged interactions using the Tosi Fumi potential
+2. in the =*.data= file
+   - set up the starting configuration as a NaCl-structure with small random offset for each atom at 20 degrees celsius. 
+3. in the =*.parameters= file 
+   - NPT ensemble, 
+   - 1000hP pressure maintained by the Parrinello-Barostat, with isotropic constraint
+   - Nose-Hoover-Thermostat for fixed temperature
+   - =coulomb=-block: specify the parameters for the =spme= method
+	 - up to =r_cut= the short ranged part of the potential is used (like n2spline)
+	 - from there it is approximated by bell curves with splitting coefficient =G= (?!)
+   - in =analyze=-block the measurement of the radial distribution is set up. 
+
+Since the SPME method is used, the parallel version of Tremolo-X has to be used: =tremolo_mpi -v *.tremolo=. 
+
+***** TODO Exercises
+1. Die radiale Verteilung kann in =*.histogram= abgelesen und dann zum Beispiel mit Excel dargestellt werden. Es zeigt sich, dass es im Anfangszustand nur einzelne winzige Peaks gibt. Im Endzustand wird das Histogramm etwas verwischt. So dass mehrere Bins eine nicht triviale Anzahl von Atomen enthalten. 
+2. Erhoehe zunaechst die Temperatur auf 5 Grad Celsius. Mit hoeherer Temperatur verteilen sich die Werte fuer die radiale Verteilung auf mehr bins (d.h. die Peaks werden noch verwaschener...)
+
+
+
+**** DONE 14.11 Melting point 
+
+Example for a common application of molecular dynamics: Determine the melting point of NaCl.
+We are goint to use the /Voids method/. Explained [[http://scitation.aip.org/docserver/fulltext/aip/journal/jcp/136/14/1.3702587.pdf%3Fexpires%3D1389619185&id%3Did&accname%3D375729&checksum%3D95953424103DE090EC600A7A00E8088C][here (A comparison of methods for melting point calculation using molecular dynamics
+simulations)]]. 
+
+1. The simulation setup is similar to the previous tutorial apart from the thermostat settings and measurement settings.
+2. in the =*.tremolo= file
+   In order to carry out a series of simulations one can make use of the defaultpath-option in =*.tremolo=: 
+   - every simulation is set up in a subdirectory containing only the =*.data= and the =*.parameters= file
+   - the remaining files are saved in the parent directory. 
+   - in this example the subdirectories are named by increasing number of cells with pair defect. 
+
+
+
+**** DONE The EAM potential - Observing phase transition in Metall
+	  CLOSED: [2014-01-23 Thu 13:43]
+
+The "embedded atom method" (EAM) is a standard potential used in the analysis of metalls and alloys. In the following the EAM potential is used to analyze a phase transition. 
+A Fe-Ni nanoparticle is heated from 100K to 800K and the change of its lattice structure from bcc (body-centered cubic) to fcc (face-centered cubic)/ hcp (hexagonal close-packed) is observed. 
+
+1. in order to use EAM potentials, the EAM parameters must be provided by a file either with the "eam/fs" format oder the "eam/alloy" format. 
+   - the unit system of the eam parameters file determines the units which need to be used throughout the simulation. 
+2. in the =*.potentials= file 
+   - the particle parameters are inserted as usual.  
+   - the eam format and the filename is specified. 
+3. in the =*.parameters= file
+   - a =domain= block is set as usual
+   - a =dynamics= block is set as usual
+   - an =ouput= block is set for measuring the radial ditribution
+
+Beim Start der Simulation erhalte ich folgende Fehlermeldungen:
+1. =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external=
+2. =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.exttypes=
+
+**** DONE FRAGEN
+
+1. [ ] Warum genau braucht man die Optimierung bei der Simulation? (Seite 105)
+
+2. [X] Was ist der Unterschied zwischen "optimization" and "dynamic simulation"?
+
+3. [ ] Was heisst, dass Optimierung durch das CG-Verfahren durchgefuehrt werden muss? (Seite 108) Verstehe den ganzen Abschnitt zum Block "optmization" in =*.parameters=-file nicht...
+
+4. [ ] Was sind die pdb files?
+
+5. [ ] Was sind E_kin_group und e_tot+hoover in den ekin bzw. etot files?
+
+6. [ ] Temperaturen koennen im =*.ekin= File betrachtet werden?	   
+
+7. [ ] Kann es sein, dass ab Kapitel 14.3 die Listings im Tutorial und die Dateien aus =/tutorials= nicht ganz uebereinstimmen? Im Ordner fuer Kapitel 14.4 sind schon Einstellungen fuer das naechste Kapitel....
+
+8. [ ] Bei Box Optimization: Was ist der Unterschied zwischen =standard= und =symmetric=?
+
+9. [ ] In 14.6 laeuft die Simulation nur fuer =delta_T=0.5e-3= und nicht fuer =delta_T=5e-3=. Warum? 
+
+10. [ ] Muss ich genau verstehen, was die Parameter der bonded potentials (Seite 122 und 123) sind? 
+
+11. [ ] Was sind die Zeilen "outvis", "outdata" und "outm" im =*.parameters= file. Fuer was braucht man "T_Delta" *und* "Step_Delta", zum Beispiel in Kapitel 14.7. 
+
+12. [ ] Kapitel 14.7: Verstehe nicht ganz was die "restlichen" Spalten im =*.generalmeas= file sein sollen. 
+
+13. [ ] Welches Programm zum Visualisieren verwenden? Habe ich Programme wie VMD-Viewer, Gnu Units?
+
+14. [ ] Aufgaben zu 14.8: Wie fuegt man eine Relaxation Time hinzu? Einfach zusaetzliche Zeile im Stress-Tensor?
+
+15. [ ] In 14.9: Warum wird der =coulomb= Block in das =*.parameters= File und nicht in das =*.potentials= File geschrieben? 
+
+16. [ ] In 14.12 Was ist mit den Fehlermeldungen?
+
+17. [ ] Probleme mit den Aufgaben bei 14.6 und 14.9.
+
+		
+**** DONE Summary of problems: 
+	  CLOSED: [2014-01-23 Thu 13:43]
+
+- Kapitel 14.1 :: Programme zum Plotten? Warnung bei der Simulation: =WARNING: Definition of unit system in the tremolo file is deprecated and may not be supported in future versions of tremolo. Define the unit system in the .potentials file instead.=
+p
+- Kapitel 14.2 :: -
+
+- Kapitel 14.3 :: -
+
+- Kapitel 4.4 :: Was ist der Unterschied zwischen Nose-Hoover und Berendsen?
+
+- Kapitel 4.5 :: Verstehe nicht ganz die Unterschiede fuer die =constraint types=. 
+
+- Kapitel 4.6 :: Erhalte Fehler fuer =delta_T=5e-3=: =Process 0: Error in file ../../src/./helpers.c, line 2066 (0): SomeError: HooverEta is NaN! Error with implicitely solved Hoover-Nose-Thermostat. Please check whether structure is sufficiently and satisfactorily optimized ...: No such file or directory=
+				 Dies ist nicht der Fall fuer =delta_T=0.5e3=. 
+
+- Kapitel 4.7 :: Generell: Was ist der Unterschied zwischen /bonded potentials/ und zum Beispiel /lennard jones/?
+
+- Kapitel 4.8 :: in der Aufgabe: wie stellt man die Relaxation-Zeit ein?
+
+- Kapitel 4.9 :: Erhalte keine Werte fuer die Abstaende (Nur nullen). 
+
+- Kapitel 4.10 :: -
+
+- Kapitel 4.11 :: Erhalte Fehlermeldungen: =Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external=
+
+
+
+
+
+
 

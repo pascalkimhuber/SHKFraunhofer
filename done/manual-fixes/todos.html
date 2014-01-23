@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Manual fixes</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-01-20 18:23:20 CET"/>
+<meta name="author" content="Pascal Huber"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">Manual fixes</h1>
+
+<p><span class="timestamp-wrapper"><span class="timestamp-kwd">DEADLINE: </span> <span class="timestamp">2014-01-23 Thu</span></span><br/>
+</p>
+<ul>
+<li>
+Created branch <b>manual-fix</b> in tremolo directory. 
+
+</li>
+</ul>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Fix all things in the Tremolo-Tutorial that are obvious </a>
+<ul>
+<li><a href="#sec-1.1">1.1 Gemachte Aenderungen: </a></li>
+<li><a href="#sec-1.2">1.2 Noch zu machende Aenderungen: </a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 Check 1.6: Box parameters: What happens for different values in *.parameters and *.data? </a></li>
+<li><a href="#sec-3">3 [ ] Check 1.2: Check 0.0005 and 0.005. </a></li>
+<li><a href="#sec-4">4 Create new branch for that. </a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> <span class="todo TODO"> TODO</span> Fix all things in the Tremolo-Tutorial that are obvious </h2>
+<div class="outline-text-2" id="text-1">
+
+<p><span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-01-20 Mon</span></span><br/>
+</p>
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Gemachte Aenderungen: </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<dl>
+<dt>Page 108</dt><dd>
+<i>Visuals shall be created every 5 time units or 10 iteration steps, whereas the particle data shall be written every 500 time units or 10 iteration steps.</i> <br/>
+"Visuals <b>(argon.vis.####.[xyz,pdb,data])</b> shall be created &hellip;"
+</dd>
+<dt>Page 109</dt><dd>
+<i>The optimized particle positions are written to argon.data.999.</i> <br/>
+"The optimized particle positions are written to argon.data.999 <b>9</b>."
+</dd>
+<dt>Page 110</dt><dd>
+<i>For this example we can still ignore the extra lines.</i> <br/>
+"For this example we can still ignore the extra lines <b>at the top of the file</b>."
+</dd>
+<dt>Page 111</dt><dd>
+<i>Take a look at the velocity distribution in the argon.histogram file</i> <br/>
+"<b>Plot a histogram displaying the velocity distribution contained in the argon.histogram file</b>."
+</dd>
+<dt>Page 112</dt><dd>
+<i>1.4 An alternative: The Nose-Hoover-thermostat</i> <br/>
+"1.4 An alternative: The Nosé-Hoover-thermostat"
+</dd>
+<dt>Page 112</dt><dd>
+<i>Thus, when using the Nosé-Hoover-thermostat considerations with respect to equilibration are imperative.</i> <br/>
+"Thus, when using the Nosé-Hoover-thermostat, considerations with respect to equilibration are imperative." (Komma hinzugefuegt)
+</dd>
+<dt>Page 113</dt><dd>
+<i>We begin by modifying the the optimization of the sample &hellip;</i> <br/>
+"We begin by modifying <b>the</b> optimization of the sample&hellip;" 
+</dd>
+<dt>Page 114</dt><dd>
+<i>Again we work in the =argon.parameter= file and enter the thermostat after (or in place of) the thermostat:</i> <br/>
+Again we work in the <code>argon.parameter</code> file and enter the <b>barostat</b> after (or in place of) the thermostat: <br/>
+</dd>
+<dt>Page 115</dt><dd>
+<i>So go ahead and change the domain in the appropriate line</i> <br/>
+"So go ahead and change the domain in the appropriate line <b>of the argon.parameters</b> file."
+</dd>
+<dt>Page 115</dt><dd>
+<i>Change the extpressure value.</i> <br/>
+"Change the <b>Pressure</b> value."
+</dd>
+<dt>Page 118</dt><dd>
+<i>&hellip; but this time additionally to the external pressure we also support a custom stress tensor, &hellip;</i> <br/>
+"&hellip; but this time additionally to the external pressure we also support a custom stress tensor &sigma;, &hellip;"
+Die Spannung mit &sigma; zu bezeichnen, scheint Standard zu sein: <a href="http://en.wikipedia.org/wiki/Stress_%28mechanics%29">Wikipedia(Stress)</a>
+</dd>
+<dt>Page 119</dt><dd>
+<i>The strain is defined as the length change &hellip;</i> <br/>
+"The strain &epsilon; is defined as the length change &hellip;"
+</dd>
+<dt>Page 120</dt><dd>
+<i>Add a 100 [t] relaxation time at the beginning (&sigma; = 0).</i> <br/>
+"Add a 100 [t] relaxation time (&sigma; = 0) at the beginning <b>of the simulation by inserting an additional line in the =stresstensor= section of the =graphene.parameters= file.</b>" 
+</dd>
+<dt>Page 121</dt><dd>
+<i>As stated earlier the potential should not be cut off but has to to fit the linked cell structure of the domain.</i>
+"As stated earlier the potential should not be cut off but has <b>to</b> fit the linked cell structure of the domain."
+</dd>
+<dt>Page 125</dt><dd>
+<i>TODO</i> entfernt (kann keinen Buchstabendreher entdecken). 
+
+
+
+
+</dd>
+</dl>
+</div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2"><span class="section-number-3">1.2</span> <span class="todo TODO"> TODO</span> Noch zu machende Aenderungen: </h3>
+<div class="outline-text-3" id="text-1.2">
+
+<dl>
+<dt>Page 110</dt><dd>
+<i>For the integration of the particle trajectories we choose a standard verlet algorithm with a time step of 0.005 custom time units.</i> <br/>
+
+<p>
+Kann nicht beurteilen, ob deltaT=0.5e-3 oder deltaT=5e-3 richtig ist. 
+Output fuer die Geschwindigkeitsverteilung in Kapitel 1.2: (oben deltaT=0.5e-3, unten deltaT=5.e-3)<br/>
+<img src="pics/argon.histogram.png"  alt="pics/argon.histogram.png" /> <br/>
+<img src="pics/argon.short.histogram.png"  alt="pics/argon.short.histogram.png" /><br/>
+</p><ul>
+<li>
+<b>[<span style="visibility:hidden;">X</span>]</b> Werde noch Ausgaben fuer Energien etc. erstellen. 
+
+</li>
+</ul>
+</dd>
+<dt>Page 114</dt><dd>
+Letzter Punkt in Exercises 14.5.1: Optimierung ist nicht moeglich fuer <code>constraint=isotropic</code>, wenn nur eine /secondary axis= geaendert wird. 
+
+</dd>
+<dt>Page 114</dt><dd>
+Das Listing unterscheidet sich vom File im <code>/tutorials/</code>-Ordner. Beispielsweise: <code>ensemble=NPE</code> im Listing und <code>ensemble=NPT</code> im File im Ornder <code>6sim_npt</code>
+
+</dd>
+<dt>Page 115</dt><dd>
+<i>Should you attempt to start it right away, you will receive an error message.</i> <br/>
+Ich erhalte keine Fehlermeldung, allerdings die Warnung: <code>Attention: BOX statement in .data file overwrites domain size data in .parameters file suggest correcting moment and angular moment with Max.-Boltz. distribution</code>
+
+</dd>
+<dt>Page 115</dt><dd>
+Dritter Punkt in Exercises 14.6.1: <i>In the</i> <code>constraintmap</code> <i>change one of the secondary axis entries. Check and compare the new box values.</i> <br/>
+Hier muss auch der <code>type</code> der <code>constraintmap</code> geaendert werden. Darueber hinaus muessen bei den sekundaeren Achsen immer Paare geaendert werden. 
+
+</dd>
+<dt>Page 122</dt><dd>
+Die Simulation ist fehlerhaft: Die meisten Partikel verlassen das Gebiet. Das <code>*.generalmeas</code> file enthaelt nur Nullen. 
+
+</dd>
+<dt>Page 129</dt><dd>
+Erhalte die folgenden Fehlermeldungen: 
+<code>Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external</code> <br/>
+<code>Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.exttypes</code> <br/>
+In den Kapiteln 14.1 bis 14.11 habe ich diese Meldungen nicht finden koennen. 
+
+
+</dd>
+</dl>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> <span class="done DONE"> DONE</span> Check 1.6: Box parameters: What happens for different values in *.parameters and *.data? </h2>
+<div class="outline-text-2" id="text-2">
+
+<p><span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-01-20 Mon</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-01-20 Mon 18:11</span></span><br/>
+Erhalte die folgende Fehlermeldung, wenn die Werte der Box in <code>*.parameters</code> und in <code>*.data</code> nicht uebereinstimmen: <br/>
+<code>Attention: BOX statement in .data file overwrites domain size data in .parameters file suggest correcting moment and angular moment with Max.-Boltz. distribution</code>.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> <span class="todo TODO"> TODO</span> [ ] Check 1.2: Check 0.0005 and 0.005. </h2>
+<div class="outline-text-2" id="text-3">
+
+<p><span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-01-20 Mon</span></span><br/>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> <span class="done DONE"> DONE</span> Create new branch for that. </h2>
+<div class="outline-text-2" id="text-4">
+
+<p><span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-01-20 Mon</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-01-19 Sun 13:12</span></span><br/>
+</p></div>
+</div>
+<div id="postamble">
+<p class="author"> Author: Pascal Huber
+<a href="mailto:pascalkimhuber@gmail.com">&lt;pascalkimhuber@gmail.com&gt;</a>
+</p>
+<p class="date"> Date: 2014-01-20 18:23:20 CET</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
+</div>
+</body>
+</html>
