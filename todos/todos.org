@@ -32,6 +32,7 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-01-20 Mon 16:58]--[2014-01-20 Mon 18:30]
 - [2014-01-21 Tue 12:00]--[2014-01-21 Tue 13:55]
 - [2014-01-23 Thu 12:15]--[2014-01-23 Thu 13:55]
+- [2014-01-25 Sat 09:00]--[2014-01-25 Sat 14:00]
 
 
 * Nuetzliches
