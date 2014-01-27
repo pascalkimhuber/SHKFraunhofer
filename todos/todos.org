@@ -5,16 +5,12 @@
 ** TODO Change passwords
 Wait for Mail from IT. Change password if smartcard is there!
 
-** DONE VMD Viewer
-   CLOSED: [2014-01-23 Thu 15:53]
-
-** DONE Colors in git-output [2014-01-05 Sun 14:42]
-
 
 * Emacs
 
 ** TODO Add smart-mode-line to emacs config. 
 ** Language evaluation in org mode (see http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10)
+** TODO Qt Auto complete
 
 
 * Arbeitszeiten
@@ -33,6 +29,8 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-01-21 Tue 12:00]--[2014-01-21 Tue 13:55]
 - [2014-01-23 Thu 12:15]--[2014-01-23 Thu 13:55]
 - [2014-01-25 Sat 09:00]--[2014-01-25 Sat 14:00]
+- [2014-01-27 Mon 10:21]--[2014-01-27 Mon 11:30]
+- [2014-01-27 Mon 13:35]--[2014-01-27 Mon 15:40]
 
 
 * Nuetzliches
