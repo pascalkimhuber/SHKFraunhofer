@@ -21,3 +21,6 @@
 *~
 /todos/pics
 /.emacsConfiguration
+
+*.o
+*.ui

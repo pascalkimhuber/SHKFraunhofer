@@ -33,6 +33,8 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-01-27 Mon 13:35]--[2014-01-27 Mon 15:40]
 - [2014-01-28 Tue 14:44]--[2014-01-28 Tue 17:30]
 - [2014-01-29 Wed 09:19]--[2014-01-29 Wed 12:25]
+- [2014-01-30 Thu 10:30]--[2014-01-30 Thu 11:25]
+- [2014-01-30 Thu 12:20]--[2014-01-30 Thu 15:35]
 
 
 * Nuetzliches
@@ -71,9 +73,13 @@ Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite ge
 
    
 
+** Grep Befehl
+http://www.panix.com/~elflord/unix/grep.html
+
+
 * Aufgaben
 ** TODO Read online tutorial about Qt (signal, slots)
-   DEADLINE: <2014-01-29 Wed> SCHEDULED: <2014-01-26 Sun>
+   DEADLINE: <2014-02-01 Sat> SCHEDULED: <2014-01-30 Thu>
 
    
 
@@ -84,5 +90,17 @@ Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite ge
 
 - [ ] The important files for that are solparallel_gui and solparallel_data. 
 
-
 	  
+** TODO Treffen mit Christian am [2014-01-30 Thu]
+- [ ] Enable auto-complete in emacs and overall configuration
+- [ ] von testing branch ziehen (in separaten lokalen branch testing)
+- [ ] branch in gui machen
+- [ ] Benutze Tremolo-parser für die Coulom-potentials parameters in der GUI, die können in spme.c gefunden (werden in coulomb.c, CoulombInit aufgerufen). 
+
+*** TODO Aufgabenliste für [2014-01-30 Thu]: [2/4]
+1. [X] Qt Tutorial fertig machen
+2. [X] Farbe in grep
+3. [ ] Branches einrichten
+4. [ ] Mit "Arbeit" anfangen
+
+
