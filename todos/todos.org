@@ -71,36 +71,59 @@ Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite ge
    Return to the default tics:      > =unset xtics; set xtics auto= \\ 
    Set output:                      > =set output 'introduction.png'== \\
 
-   
 
 ** Grep Befehl
 http://www.panix.com/~elflord/unix/grep.html
 
 
+** Git Befehle
+
+*** Branches
+- Create a new branch:
+  =git branch -b <name_of_new_branch>=
+- Create a new branch by pulling from a remote branch:
+  =git checkout -b <name_of_new_branch> origin/<name_of_branch>=
+- Delete a local branch:
+  =git branch -d <name_of_branch>=
+
+*** Diff
+- Show differences between <branch1> and <branch2>
+  =git diff <branch1>..<branch2>=
+
+*** Manipulate changes. 
+- Remove untracked files:
+	=git clean -f -d=
+
+
+** Find Befehle
+
+- Find all files with names containing =<pattern>= (wildcards have to be used with a preceeding backslash!):
+  =find -name <pattern>= or e.g. =find -name <pattern>\*=
+
+
 * Aufgaben
-** TODO Read online tutorial about Qt (signal, slots)
-   DEADLINE: <2014-02-01 Sat> SCHEDULED: <2014-01-30 Thu>
-
-   
-
 ** TODO Coulomb-potentials parameters
+   - Note taken on [2014-02-01 Sat 16:26] \\
+	 There is no doxygen documentation in tremologui.
+   - Note taken on [2014-02-01 Sat 15:55] \\
+	 Meeting with Christian on [2014-01-30 Thu]. 
+	 - [X] Enable auto-complete in emacs and overall configuration
+	 - [X] von testing branch ziehen (in separaten lokalen branch testing)
+	 - [X] branch in gui machen
+	 - [X] Benutze Tremolo-parser für die Coulom-potentials parameters in der GUI, die können in spme.c gefunden (werden in coulomb.c, CoulombInit aufgerufen).
+   - Note taken on [2014-02-01 Sat 15:53] \\
+	 Created branch 'fixes' in tremologui and branch 'testing' in tremolo.
 
-- [ ] Replace parameters with potential specific paramters, e.g. cellration for N^2 by N^2 cellratio etc. 
-	  For this all occurences of these parameters must be found and changed. 
+   - [ ] Replace parameters with potential specific paramters, e.g. cellration for N^2 by N^2 cellratio etc. 
+		 For this all occurences of these parameters must be found and changed. 
 
-- [ ] The important files for that are solparallel_gui and solparallel_data. 
+   - [ ] The important files for that are solparallel_gui and solparallel_data.
 
-	  
-** TODO Treffen mit Christian am [2014-01-30 Thu]
-- [ ] Enable auto-complete in emacs and overall configuration
-- [ ] von testing branch ziehen (in separaten lokalen branch testing)
-- [ ] branch in gui machen
-- [ ] Benutze Tremolo-parser für die Coulom-potentials parameters in der GUI, die können in spme.c gefunden (werden in coulomb.c, CoulombInit aufgerufen). 
+   - [ ] Use tremolo-parser for Coulomb-potentials parameters in GUI found in =spme.c= (called in =CoulombInit= in =coulomb.c=).
 
-*** TODO Aufgabenliste für [2014-01-30 Thu]: [2/4]
-1. [X] Qt Tutorial fertig machen
-2. [X] Farbe in grep
-3. [ ] Branches einrichten
-4. [ ] Mit "Arbeit" anfangen
+*** Structure of solparallel_gui and solparallel_data. 
+- solparallel_gui.h/cpp contain everyting that is related to the gui of "Solver and parallelization"
+- solparallel_data.h/cpp contain everything related to the parameters of "Solver and parallelization"
 
+The method writing the parameters to the =*parameters= file is the =QString SolParallel_Data::toParameterFileString() const= in =solparallel_data.cpp=. 
 

@@ -1,3 +1,0 @@
-validate: particle_type=Na, state=on;
-validate: particle_type=Cl, state=on;
-validate: force_type=tbtosifumi, state=on;

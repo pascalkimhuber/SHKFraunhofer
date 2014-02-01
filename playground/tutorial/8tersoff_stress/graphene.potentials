@@ -1,7 +1,0 @@
-particles {
-    particle: particle_type=C0, element_name=C, free=3, mass=12.0107, sigma=3.3611, epsilon=0.09694;
-};
-
-tersoff {
-    tersoffparticle: particle_type=C0, A=32115.7, B=7990.67, lambda=3.4879, mu=2.2119, beta=1.5724e-07, n=0.72751, c=38049, d=4.3484, h=-0.57058, R=1.95, S=2.1;
-};

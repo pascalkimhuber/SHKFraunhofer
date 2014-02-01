@@ -1,7 +1,0 @@
-validate: particle_type=C, state=on;
-validate: particle_type=Ci, state=on;
-validate: particle_type=H, state=on;
-validate: force_type=bond, state=on;
-validate: force_type=angle, state=on;
-validate: force_type=torsion, state=on;
-validate: force_type=ljspline, state=on;

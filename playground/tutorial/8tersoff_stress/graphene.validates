@@ -1,2 +1,0 @@
-validate: particle_type=C0, state=on;
-validate: force_type=tersoff, state=on;
