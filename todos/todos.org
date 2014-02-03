@@ -35,6 +35,7 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-01-29 Wed 09:19]--[2014-01-29 Wed 12:25]
 - [2014-01-30 Thu 10:30]--[2014-01-30 Thu 11:25]
 - [2014-01-30 Thu 12:20]--[2014-01-30 Thu 15:35]
+- [2014-02-03 Mon 13:58]--[2014-02-03 Mon 15:45]
 
 
 * Nuetzliches
@@ -72,7 +73,7 @@ Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite ge
    Set output:                      > =set output 'introduction.png'== \\
 
 
-** Grep Befehl
+** Grep Befehle
 http://www.panix.com/~elflord/unix/grep.html
 
 
@@ -101,8 +102,13 @@ http://www.panix.com/~elflord/unix/grep.html
   =find -name <pattern>= or e.g. =find -name <pattern>\*=
 
 
+** Doxygen Befehle
+
+
 * Aufgaben
-** TODO Coulomb-potentials parameters
+
+** TODO Coulomb-potentials parameters 
+   DEADLINE: <2014-02-12 Wed> SCHEDULED: <2014-02-09 Sun>
    - Note taken on [2014-02-01 Sat 16:26] \\
 	 There is no doxygen documentation in tremologui.
    - Note taken on [2014-02-01 Sat 15:55] \\
@@ -122,8 +128,26 @@ http://www.panix.com/~elflord/unix/grep.html
    - [ ] Use tremolo-parser for Coulomb-potentials parameters in GUI found in =spme.c= (called in =CoulombInit= in =coulomb.c=).
 
 *** Structure of solparallel_gui and solparallel_data. 
-- solparallel_gui.h/cpp contain everyting that is related to the gui of "Solver and parallelization"
+
+**** Overall structure
+- solparallel_gui.h/cpp contain everything that is related to the gui of "Solver and parallelization"
 - solparallel_data.h/cpp contain everything related to the parameters of "Solver and parallelization"
 
-The method writing the parameters to the =*parameters= file is the =QString SolParallel_Data::toParameterFileString() const= in =solparallel_data.cpp=. 
+**** Structure of solparallel_data
 
+***** class =SolParallel_Data=
+
+****** Important methods of this class
+- QStringList getKeyWords() :: Returns a QStringList containing the key words for the Section "Solver and Parallelization" in the =.parameters= file. 
+- QString toParameterFileString() :: Returns a QString containing all information for the Section "Solver and Parallelization" in the =.paramters= file.
+	   The method is called in the =writeParameterFileStream= defined in =simulationparameterdata.cpp=. 
+- QString toString() :: Returns a QString containing information about solver and parallelization (used for debugging purposes). 
+
+****** Membervariables that have to be changed
+- ps :: 
+- mtl :: 
+- cellration :: 
+- G :: 
+- r_l :: 
+- i_degree :: 
+- r_cut ::
