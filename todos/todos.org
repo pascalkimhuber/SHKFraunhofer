@@ -8,9 +8,10 @@ Wait for Mail from IT. Change password if smartcard is there!
 
 * Emacs
 
-** TODO Add smart-mode-line to emacs config. 
 ** Language evaluation in org mode (see http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10)
 ** TODO Qt Auto complete
+
+** TODO Syntax highlighting for doxygen comments in c++ mode. 
 
 
 * Arbeitszeiten
@@ -36,74 +37,103 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-01-30 Thu 10:30]--[2014-01-30 Thu 11:25]
 - [2014-01-30 Thu 12:20]--[2014-01-30 Thu 15:35]
 - [2014-02-03 Mon 13:58]--[2014-02-03 Mon 15:45]
+- [2014-02-05 Wed 09:47]--[2014-02-05 Wed 13:45]
+- [2014-02-06 Thu 10:00]--[2014-02-06 Thu 12:00]
+- [2014-02-06 Thu 13:00]--[2014-02-06 Thu 14:41]
 
 
 * Nuetzliches
 
+** Tremolo aktualisieren
+
+Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden: 
+: cd ~/tremolo/build
+: make && make install
+
 ** Gnuplot Befehle
+
 Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite gefunden werden: http://people.duke.edu/~hpgavin/gnuplot.html
 
 1. Um ein Data-file (zum Beispiel =*.epot*=) mit Gnuplot zu plotten, verwendet man: \\
-   =gnuplot> plot "./argon.epot" using 1:2=. \\
+   : gnuplot> plot "./argon.epot" using 1:2
    Hierbei wird die zweite Spalte gegen die erste Spalte aufgetragen. 
 2. Dies kann auch mit mehreren Files gleichzeitig getan werden: \\
-   =gnuplot> plot "./argon.etot" using 1:2, "./argon.ekin" using 1:2, "./argon.epot" using 1:2=
+   : gnuplot> plot "./argon.etot" using 1:2, "./argon.ekin" using 1:2, "./argon.epot" using 1:2
 3. Um den Achsenabschnitt zu veraendern, verwendet man: \\
-   =gnuplot> plot "./argon.epot" using 1:2; set yrange [-0.1: 2]=
+   : gnuplot> plot "./argon.epot" using 1:2; set yrange [-0.1: 2]
 4. Den urspruenglichen Achsenabschnitt kann man wie folgt wieder herstellen: \\
-   =gnuplot> plot "./argon.epot" using 1:2; set autoscale=
+   : gnuplot> plot "./argon.epot" using 1:2; set autoscale
 5. Mit \\
-   =gnuplot> replot= \\
+   : gnuplot> replot 
    kann der Plot aktualisiert werden. 
 6. Eine Uebersicht von =set= Befehlen: 
-   Create a title:                  > =set title "Force-Deflection Data"== \\
-   Put a label on the x-axis:       > =set xlabel "Deflection (meters)"== \\
-   Put a label on the y-axis:       > =set ylabel "Force (kN)"== \\
-   Change the x-axis range:         > =set xrange [0.001:0.005]= \\
-   Change the y-axis range:         > =set yrange [20:500]= \\
-   Have Gnuplot determine ranges:   > =set autoscale= \\
-   Move the key:                    > =set key 0.01,100= \\
-   Delete the key:                  > =unset key= \\ 
-   Put a label on the plot:         > =set label "yield point" at 0.003, 260= \\
-   Remove all labels:               > =unset label= \\
-   Plot using log-axes:             > =set logscale= \\
-   Plot using log-axes on y-axis:   > =unset logscale; set logscale y= \\
-   Change the tic-marks:            > =set xtics (0.002,0.004,0.006,0.008)= \\
-   Return to the default tics:      > =unset xtics; set xtics auto= \\ 
-   Set output:                      > =set output 'introduction.png'== \\
-
-
+   Create a title:                  
+   : set title "Force-Deflection Data" 
+   Put a label on the x-axis:       
+   : set xlabel "Deflection (meters)" 
+   Put a label on the y-axis:       
+   : set ylabel "Force (kN)"
+   Change the x-axis range:         
+   : set xrange [0.001:0.005]
+   Change the y-axis range:         
+   : set yrange [20:500] 
+   Have Gnuplot determine ranges:   
+   : set autoscale
+   Move the key:                    
+   : set key 0.01,100
+   Delete the key:                  
+   : unset key
+   Put a label on the plot:         
+   : set label "yield point" at 0.003, 260
+   Remove all labels:               
+   : unset label
+   Plot using log-axes:             
+   : set logscale
+   Plot using log-axes on y-axis:   
+   : unset logscale; set logscale y
+   Change the tic-marks:            
+   : set xtics (0.002,0.004,0.006,0.008)
+   Return to the default tics:      
+   : unset xtics; set xtics auto
+   Set output:                      
+   : set output 'introduction.png'
+   
 ** Grep Befehle
-http://www.panix.com/~elflord/unix/grep.html
 
+http://www.panix.com/~elflord/unix/grep.html
 
 ** Git Befehle
 
 *** Branches
 - Create a new branch:
-  =git branch -b <name_of_new_branch>=
+  : git branch -b <name_of_new_branch>
 - Create a new branch by pulling from a remote branch:
-  =git checkout -b <name_of_new_branch> origin/<name_of_branch>=
+  : git checkout -b <name_of_new_branch> origin/<name_of_branch>
 - Delete a local branch:
-  =git branch -d <name_of_branch>=
+  : git branch -d <name_of_branch>
 
 *** Diff
 - Show differences between <branch1> and <branch2>
-  =git diff <branch1>..<branch2>=
+  : git diff <branch1>..<branch2>
 
 *** Manipulate changes. 
 - Remove untracked files:
-	=git clean -f -d=
+  : git clean -f -d
 
+*** Add and remove changes. 
+- Remove deleted files from stack:
+  : git add -u .
 
 ** Find Befehle
 
 - Find all files with names containing =<pattern>= (wildcards have to be used with a preceeding backslash!):
-  =find -name <pattern>= or e.g. =find -name <pattern>\*=
-
+  : find -name <pattern> 
+  or e.g. 
+  : find -name <pattern>\*
 
 ** Doxygen Befehle
 
+- [[http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdc][List of special commands]]
 
 * Aufgaben
 
@@ -127,9 +157,10 @@ http://www.panix.com/~elflord/unix/grep.html
 
    - [ ] Use tremolo-parser for Coulomb-potentials parameters in GUI found in =spme.c= (called in =CoulombInit= in =coulomb.c=).
 
-*** Structure of solparallel_gui and solparallel_data. 
+*** TODO Get an overview of the structure of solparallel_gui and solparallel_data. 
 
 **** Overall structure
+
 - solparallel_gui.h/cpp contain everything that is related to the gui of "Solver and parallelization"
 - solparallel_data.h/cpp contain everything related to the parameters of "Solver and parallelization"
 
@@ -143,11 +174,74 @@ http://www.panix.com/~elflord/unix/grep.html
 	   The method is called in the =writeParameterFileStream= defined in =simulationparameterdata.cpp=. 
 - QString toString() :: Returns a QString containing information about solver and parallelization (used for debugging purposes). 
 
-****** Membervariables that have to be changed
-- ps :: 
-- mtl :: 
-- cellration :: 
-- G :: 
-- r_l :: 
-- i_degree :: 
-- r_cut ::
+*** TODO Determine what have to be done
+
+**** DONE Determine which parameters must be replaced and in what way
+	 CLOSED: [2014-02-05 Wed 14:41]
+
+_In "Longrange Algorithms" section:_
+
+- r_cut :: (N2, N2Spline, Ewald, p3m, pme, spme, barneshut, fmm)
+- r_l :: (N2Spline)
+- splittingCoefficientG :: (Ewald, p3m, pme, spme)
+- MAP :: (fmm)
+- cellratio :: (Ewald, p3m, pme, spme)
+- interpolationDegree :: (N2, N2Spline, Ewald, p3m, pme, spme, barneshut, fmm)
+- maxTreeLevel :: (barneshut, fmm)
+- poissonsolver :: (p3m pme, spme)
+
+Replacement could be done by 
+(- individual variables)
+- vector
+
+**** DONE Replace coulomb parameters in solparallel_data.h
+	 CLOSED: [2014-02-05 Wed 14:42]
+
+***** DONE Initialization of vectors in constructor.
+	  CLOSED: [2014-02-05 Wed 14:41]
+
+**** TODO Make necessary changes in solparallel_data.cpp
+
+The following methods have to be changed in solparallel_data.cpp:
+
+- [X] toString()
+- [X] toParameterFileString()
+- [ ] saveValues()
+  + [ ] What is the method doing exactly?
+  + [ ] What are the arguments?
+  + [ ] Who calls the method?
+- [X] isR_Cut()
+- [X] isR_CutUnit()
+- [X] isR_L()
+- [X] isR_LUnit()
+- [X] isSplittingCoefficientG()
+- [X] isSplittingCoefficientGUnit()
+- [X] isMAP()
+- [X] isMAPUnit()
+- [X] clear()
+  Question is, if the default values have to be changed for all solvers?
+- [X] setR_Cut()
+- [X] setR_L()
+- [X] setSplittingCoefficientG()
+- [X] setMap()
+- [X] setCellratio()
+- [X] setInterpolationDegree()
+- [X] setMaxTreeLevel()
+- [X] setPoisson_solver()
+
+
+**** TODO Make necessary changes in solparallel_gui.h and solparallel_gui.cpp
+
+- Has to be determined!
+
+
+*** Fragen
+
+- [ ] What is the load balancing function?
+- [ ] What is the poissonsolver?
+- [X] What about the parallelization parameters? Do I have to differentiate here too?
+  Maybe later!
+- [X] Why can't I select the remaining longrange solvers? 
+  They are not implemented yet.
+- [X] Can I use the new c++ standard (arrays etc?)
+  Rather not. 

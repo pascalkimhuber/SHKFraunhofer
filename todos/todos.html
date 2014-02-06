@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Manual fixes</title>
+<title>todos</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="todos"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2014-01-20 18:23:20 CET"/>
+<meta name="generated" content="2014-02-06T10:58+0100"/>
 <meta name="author" content="Pascal Huber"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,6 +61,30 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style>
 <script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
 <!--/*--><![CDATA[/*><!--*/
  function CodeHighlightOn(elem, id)
  {
@@ -66,212 +106,727 @@ lang="en" xml:lang="en">
  }
 /*]]>*///-->
 </script>
+
 </head>
 <body>
+
+<div id="preamble">
+
+</div>
+
 <div id="content">
+<h1 class="title">todos</h1>
 
-<h1 class="title">Manual fixes</h1>
 
-<p><span class="timestamp-wrapper"><span class="timestamp-kwd">DEADLINE: </span> <span class="timestamp">2014-01-23 Thu</span></span><br/>
-</p>
-<ul>
-<li>
-Created branch <b>manual-fix</b> in tremolo directory. 
-
-</li>
-</ul>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 Fix all things in the Tremolo-Tutorial that are obvious </a>
+<li><a href="#sec-1">1 Configurations</a>
 <ul>
-<li><a href="#sec-1.1">1.1 Gemachte Aenderungen: </a></li>
-<li><a href="#sec-1.2">1.2 Noch zu machende Aenderungen: </a></li>
+<li><a href="#sec-1-1">1.1 Change passwords</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2 Check 1.6: Box parameters: What happens for different values in *.parameters and *.data? </a></li>
-<li><a href="#sec-3">3 [ ] Check 1.2: Check 0.0005 and 0.005. </a></li>
-<li><a href="#sec-4">4 Create new branch for that. </a></li>
+<li><a href="#sec-2">2 Emacs</a>
+<ul>
+<li><a href="#sec-2-1">2.1 Language evaluation in org mode (see http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10)</a></li>
+<li><a href="#sec-2-2">2.2 Qt Auto complete</a></li>
+<li><a href="#sec-2-3">2.3 Syntax highlighting for doxygen comments in c++ mode.</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3 Arbeitszeiten</a></li>
+<li><a href="#sec-4">4 Nuetzliches</a>
+<ul>
+<li><a href="#sec-4-1">4.1 Tremolo aktualisieren</a></li>
+<li><a href="#sec-4-2">4.2 Gnuplot Befehle</a></li>
+<li><a href="#sec-4-3">4.3 Grep Befehle</a></li>
+<li><a href="#sec-4-4">4.4 Git Befehle</a>
+<ul>
+<li><a href="#sec-4-4-1">4.4.1 Branches</a></li>
+<li><a href="#sec-4-4-2">4.4.2 Diff</a></li>
+<li><a href="#sec-4-4-3">4.4.3 Manipulate changes.</a></li>
+<li><a href="#sec-4-4-4">4.4.4 Add and remove changes.</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-5">4.5 Find Befehle</a></li>
+<li><a href="#sec-4-6">4.6 Doxygen Befehle</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5 Aufgaben</a>
+<ul>
+<li><a href="#sec-5-1">5.1 Coulomb-potentials parameters</a>
+<ul>
+<li><a href="#sec-5-1-1">5.1.1 Get an overview of the structure of solparallel<sub>gui</sub> and solparallel<sub>data</sub>.</a></li>
+<li><a href="#sec-5-1-2">5.1.2 Determine what have to be done</a></li>
+<li><a href="#sec-5-1-3">5.1.3 Fragen</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> <span class="todo TODO"> TODO</span> Fix all things in the Tremolo-Tutorial that are obvious </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> Configurations</h2>
 <div class="outline-text-2" id="text-1">
 
-<p><span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-01-20 Mon</span></span><br/>
+
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Change passwords</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<p>Wait for Mail from IT. Change password if smartcard is there!
 </p>
 
-</div>
-
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Gemachte Aenderungen: </h3>
-<div class="outline-text-3" id="text-1.1">
-
-<dl>
-<dt>Page 108</dt><dd>
-<i>Visuals shall be created every 5 time units or 10 iteration steps, whereas the particle data shall be written every 500 time units or 10 iteration steps.</i> <br/>
-"Visuals <b>(argon.vis.####.[xyz,pdb,data])</b> shall be created &hellip;"
-</dd>
-<dt>Page 109</dt><dd>
-<i>The optimized particle positions are written to argon.data.999.</i> <br/>
-"The optimized particle positions are written to argon.data.999 <b>9</b>."
-</dd>
-<dt>Page 110</dt><dd>
-<i>For this example we can still ignore the extra lines.</i> <br/>
-"For this example we can still ignore the extra lines <b>at the top of the file</b>."
-</dd>
-<dt>Page 111</dt><dd>
-<i>Take a look at the velocity distribution in the argon.histogram file</i> <br/>
-"<b>Plot a histogram displaying the velocity distribution contained in the argon.histogram file</b>."
-</dd>
-<dt>Page 112</dt><dd>
-<i>1.4 An alternative: The Nose-Hoover-thermostat</i> <br/>
-"1.4 An alternative: The Nosé-Hoover-thermostat"
-</dd>
-<dt>Page 112</dt><dd>
-<i>Thus, when using the Nosé-Hoover-thermostat considerations with respect to equilibration are imperative.</i> <br/>
-"Thus, when using the Nosé-Hoover-thermostat, considerations with respect to equilibration are imperative." (Komma hinzugefuegt)
-</dd>
-<dt>Page 113</dt><dd>
-<i>We begin by modifying the the optimization of the sample &hellip;</i> <br/>
-"We begin by modifying <b>the</b> optimization of the sample&hellip;" 
-</dd>
-<dt>Page 114</dt><dd>
-<i>Again we work in the =argon.parameter= file and enter the thermostat after (or in place of) the thermostat:</i> <br/>
-Again we work in the <code>argon.parameter</code> file and enter the <b>barostat</b> after (or in place of) the thermostat: <br/>
-</dd>
-<dt>Page 115</dt><dd>
-<i>So go ahead and change the domain in the appropriate line</i> <br/>
-"So go ahead and change the domain in the appropriate line <b>of the argon.parameters</b> file."
-</dd>
-<dt>Page 115</dt><dd>
-<i>Change the extpressure value.</i> <br/>
-"Change the <b>Pressure</b> value."
-</dd>
-<dt>Page 118</dt><dd>
-<i>&hellip; but this time additionally to the external pressure we also support a custom stress tensor, &hellip;</i> <br/>
-"&hellip; but this time additionally to the external pressure we also support a custom stress tensor &sigma;, &hellip;"
-Die Spannung mit &sigma; zu bezeichnen, scheint Standard zu sein: <a href="http://en.wikipedia.org/wiki/Stress_%28mechanics%29">Wikipedia(Stress)</a>
-</dd>
-<dt>Page 119</dt><dd>
-<i>The strain is defined as the length change &hellip;</i> <br/>
-"The strain &epsilon; is defined as the length change &hellip;"
-</dd>
-<dt>Page 120</dt><dd>
-<i>Add a 100 [t] relaxation time at the beginning (&sigma; = 0).</i> <br/>
-"Add a 100 [t] relaxation time (&sigma; = 0) at the beginning <b>of the simulation by inserting an additional line in the =stresstensor= section of the =graphene.parameters= file.</b>" 
-</dd>
-<dt>Page 121</dt><dd>
-<i>As stated earlier the potential should not be cut off but has to to fit the linked cell structure of the domain.</i>
-"As stated earlier the potential should not be cut off but has <b>to</b> fit the linked cell structure of the domain."
-</dd>
-<dt>Page 125</dt><dd>
-<i>TODO</i> entfernt (kann keinen Buchstabendreher entdecken). 
-
-
-
-
-</dd>
-</dl>
-</div>
-
-</div>
-
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> <span class="todo TODO"> TODO</span> Noch zu machende Aenderungen: </h3>
-<div class="outline-text-3" id="text-1.2">
-
-<dl>
-<dt>Page 110</dt><dd>
-<i>For the integration of the particle trajectories we choose a standard verlet algorithm with a time step of 0.005 custom time units.</i> <br/>
-
-<p>
-Kann nicht beurteilen, ob deltaT=0.5e-3 oder deltaT=5e-3 richtig ist. 
-Output fuer die Geschwindigkeitsverteilung in Kapitel 1.2: (oben deltaT=0.5e-3, unten deltaT=5.e-3)<br/>
-<img src="pics/argon.histogram.png"  alt="pics/argon.histogram.png" /> <br/>
-<img src="pics/argon.short.histogram.png"  alt="pics/argon.short.histogram.png" /><br/>
-</p><ul>
-<li>
-<b>[<span style="visibility:hidden;">X</span>]</b> Werde noch Ausgaben fuer Energien etc. erstellen. 
-
-</li>
-</ul>
-</dd>
-<dt>Page 114</dt><dd>
-Letzter Punkt in Exercises 14.5.1: Optimierung ist nicht moeglich fuer <code>constraint=isotropic</code>, wenn nur eine /secondary axis= geaendert wird. 
-
-</dd>
-<dt>Page 114</dt><dd>
-Das Listing unterscheidet sich vom File im <code>/tutorials/</code>-Ordner. Beispielsweise: <code>ensemble=NPE</code> im Listing und <code>ensemble=NPT</code> im File im Ornder <code>6sim_npt</code>
-
-</dd>
-<dt>Page 115</dt><dd>
-<i>Should you attempt to start it right away, you will receive an error message.</i> <br/>
-Ich erhalte keine Fehlermeldung, allerdings die Warnung: <code>Attention: BOX statement in .data file overwrites domain size data in .parameters file suggest correcting moment and angular moment with Max.-Boltz. distribution</code>
-
-</dd>
-<dt>Page 115</dt><dd>
-Dritter Punkt in Exercises 14.6.1: <i>In the</i> <code>constraintmap</code> <i>change one of the secondary axis entries. Check and compare the new box values.</i> <br/>
-Hier muss auch der <code>type</code> der <code>constraintmap</code> geaendert werden. Darueber hinaus muessen bei den sekundaeren Achsen immer Paare geaendert werden. 
-
-</dd>
-<dt>Page 122</dt><dd>
-Die Simulation ist fehlerhaft: Die meisten Partikel verlassen das Gebiet. Das <code>*.generalmeas</code> file enthaelt nur Nullen. 
-
-</dd>
-<dt>Page 129</dt><dd>
-Erhalte die folgenden Fehlermeldungen: 
-<code>Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.external</code> <br/>
-<code>Error: Cannot open file: /home/neuen/tremolo/tutorial/12eam.exttypes</code> <br/>
-In den Kapiteln 14.1 bis 14.11 habe ich diese Meldungen nicht finden koennen. 
-
-
-</dd>
-</dl>
 </div>
 </div>
 
 </div>
 
 <div id="outline-container-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> <span class="done DONE"> DONE</span> Check 1.6: Box parameters: What happens for different values in *.parameters and *.data? </h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> Emacs</h2>
 <div class="outline-text-2" id="text-2">
 
-<p><span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-01-20 Mon</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-01-20 Mon 18:11</span></span><br/>
-Erhalte die folgende Fehlermeldung, wenn die Werte der Box in <code>*.parameters</code> und in <code>*.data</code> nicht uebereinstimmen: <br/>
-<code>Attention: BOX statement in .data file overwrites domain size data in .parameters file suggest correcting moment and angular moment with Max.-Boltz. distribution</code>.
-</p>
+
+
+</div>
+
+<div id="outline-container-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Language evaluation in org mode (see <a href="http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10">http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10</a>)</h3>
+<div class="outline-text-3" id="text-2-1">
+
+</div>
+
+</div>
+
+<div id="outline-container-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> <span class="todo TODO">TODO</span> Qt Auto complete</h3>
+<div class="outline-text-3" id="text-2-2">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> <span class="todo TODO">TODO</span> Syntax highlighting for doxygen comments in c++ mode.</h3>
+<div class="outline-text-3" id="text-2-3">
+
+
+
+</div>
 </div>
 
 </div>
 
 <div id="outline-container-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> <span class="todo TODO"> TODO</span> [ ] Check 1.2: Check 0.0005 and 0.005. </h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> Arbeitszeiten</h2>
 <div class="outline-text-2" id="text-3">
 
-<p><span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-01-20 Mon</span></span><br/>
-</p>
+<ul>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2013-12-16 Sat 16:30</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2013-12-16 Mon 18:00</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2013-12-18 Wed 17:30</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2013-12-18 Wed 19:56</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2013-12-19 Thu 14:00</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2013-12-19 Thu 17:02</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-05 Sun 14:30</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-05 Sun 19:30</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-07 Tue 12:17</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-07 Tue 14:00</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-09 Thu 12:15</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-09 Thu 14:00</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-11 Sat 09:17</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-11 Tue 13:15</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-12 Sun 13:25</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-12 Wed 17:00</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-13 Mon 13:30</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-13 Mon 15:15</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-16 Thu 14:15</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-16 Thu 16:32</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-19 Sun 09:06</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-19 Sun 13:00</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-20 Mon 16:58</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-20 Mon 18:30</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-21 Tue 12:00</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-21 Tue 13:55</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-23 Thu 12:15</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-23 Thu 13:55</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-25 Sat 09:00</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-25 Sat 14:00</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-27 Mon 10:21</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-27 Mon 11:30</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-27 Mon 13:35</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-27 Mon 15:40</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-28 Tue 14:44</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-28 Tue 17:30</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-29 Wed 09:19</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-29 Wed 12:25</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-30 Thu 10:30</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-30 Thu 11:25</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-30 Thu 12:20</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-30 Thu 15:35</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-03 Mon 13:58</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-03 Mon 15:45</span></span>
+</li>
+<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-05 Wed 09:47</span></span>--
+</li>
+</ul>
+
+
+
 </div>
 
 </div>
 
 <div id="outline-container-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> <span class="done DONE"> DONE</span> Create new branch for that. </h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> Nuetzliches</h2>
 <div class="outline-text-2" id="text-4">
 
-<p><span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-01-20 Mon</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-01-19 Sun 13:12</span></span><br/>
-</p></div>
+
+
 </div>
-<div id="postamble">
-<p class="author"> Author: Pascal Huber
-<a href="mailto:pascalkimhuber@gmail.com">&lt;pascalkimhuber@gmail.com&gt;</a>
+
+<div id="outline-container-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Tremolo aktualisieren</h3>
+<div class="outline-text-3" id="text-4-1">
+
+
+<p>
+Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden: 
+</p><pre class="example">
+cd ~/tremolo/build
+make &amp;&amp; make install
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Gnuplot Befehle</h3>
+<div class="outline-text-3" id="text-4-2">
+
+
+<p>
+Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite gefunden werden: <a href="http://people.duke.edu/~hpgavin/gnuplot.html">http://people.duke.edu/~hpgavin/gnuplot.html</a>
 </p>
-<p class="date"> Date: 2014-01-20 18:23:20 CET</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+<ol>
+<li>Um ein Data-file (zum Beispiel <code>*.epot*</code>) mit Gnuplot zu plotten, verwendet man: <br/>
+<pre class="example">
+gnuplot&gt; plot "./argon.epot" using 1:2
+</pre>
+
+<p>   Hierbei wird die zweite Spalte gegen die erste Spalte aufgetragen. 
+</p></li>
+<li>Dies kann auch mit mehreren Files gleichzeitig getan werden: <br/>
+<pre class="example">
+gnuplot&gt; plot "./argon.etot" using 1:2, "./argon.ekin" using 1:2, "./argon.epot" using 1:2
+</pre>
+
+</li>
+<li>Um den Achsenabschnitt zu veraendern, verwendet man: <br/>
+<pre class="example">
+gnuplot&gt; plot "./argon.epot" using 1:2; set yrange [-0.1: 2]
+</pre>
+
+</li>
+<li>Den urspruenglichen Achsenabschnitt kann man wie folgt wieder herstellen: <br/>
+<pre class="example">
+gnuplot&gt; plot "./argon.epot" using 1:2; set autoscale
+</pre>
+
+</li>
+<li>Mit <br/>
+<pre class="example">
+gnuplot&gt; replot 
+</pre>
+
+<p>   kann der Plot aktualisiert werden. 
+</p></li>
+<li>Eine Uebersicht von <code>set</code> Befehlen: 
+   Create a title:                  
+<pre class="example">
+set title "Force-Deflection Data" 
+</pre>
+
+<p>   Put a label on the x-axis:       
+</p><pre class="example">
+set xlabel "Deflection (meters)" 
+</pre>
+
+<p>   Put a label on the y-axis:       
+</p><pre class="example">
+set ylabel "Force (kN)"
+</pre>
+
+<p>   Change the x-axis range:         
+</p><pre class="example">
+set xrange [0.001:0.005]
+</pre>
+
+<p>   Change the y-axis range:         
+</p><pre class="example">
+set yrange [20:500] 
+</pre>
+
+<p>   Have Gnuplot determine ranges:   
+</p><pre class="example">
+set autoscale
+</pre>
+
+<p>   Move the key:                    
+</p><pre class="example">
+set key 0.01,100
+</pre>
+
+<p>   Delete the key:                  
+</p><pre class="example">
+unset key
+</pre>
+
+<p>   Put a label on the plot:         
+</p><pre class="example">
+set label "yield point" at 0.003, 260
+</pre>
+
+<p>   Remove all labels:               
+</p><pre class="example">
+unset label
+</pre>
+
+<p>   Plot using log-axes:             
+</p><pre class="example">
+set logscale
+</pre>
+
+<p>   Plot using log-axes on y-axis:   
+</p><pre class="example">
+unset logscale; set logscale y
+</pre>
+
+<p>   Change the tic-marks:            
+</p><pre class="example">
+set xtics (0.002,0.004,0.006,0.008)
+</pre>
+
+<p>   Return to the default tics:      
+</p><pre class="example">
+unset xtics; set xtics auto
+</pre>
+
+<p>   Set output:                      
+</p><pre class="example">
+set output 'introduction.png'
+</pre>
+
+</li>
+</ol>
+
+
 </div>
+
+</div>
+
+<div id="outline-container-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Grep Befehle</h3>
+<div class="outline-text-3" id="text-4-3">
+
+
+<p>
+<a href="http://www.panix.com/~elflord/unix/grep.html">http://www.panix.com/~elflord/unix/grep.html</a>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Git Befehle</h3>
+<div class="outline-text-3" id="text-4-4">
+
+
+
+</div>
+
+<div id="outline-container-4-4-1" class="outline-4">
+<h4 id="sec-4-4-1"><span class="section-number-4">4.4.1</span> Branches</h4>
+<div class="outline-text-4" id="text-4-4-1">
+
+<ul>
+<li>Create a new branch:
+<pre class="example">
+git branch -b &lt;name_of_new_branch&gt;
+</pre>
+
+</li>
+<li>Create a new branch by pulling from a remote branch:
+<pre class="example">
+git checkout -b &lt;name_of_new_branch&gt; origin/&lt;name_of_branch&gt;
+</pre>
+
+</li>
+<li>Delete a local branch:
+<pre class="example">
+git branch -d &lt;name_of_branch&gt;
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-4-2" class="outline-4">
+<h4 id="sec-4-4-2"><span class="section-number-4">4.4.2</span> Diff</h4>
+<div class="outline-text-4" id="text-4-4-2">
+
+<ul>
+<li>Show differences between &lt;branch1&gt; and &lt;branch2&gt;
+<pre class="example">
+git diff &lt;branch1&gt;..&lt;branch2&gt;
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-4-3" class="outline-4">
+<h4 id="sec-4-4-3"><span class="section-number-4">4.4.3</span> Manipulate changes.</h4>
+<div class="outline-text-4" id="text-4-4-3">
+
+<ul>
+<li>Remove untracked files:
+<pre class="example">
+git clean -f -d
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-4-4" class="outline-4">
+<h4 id="sec-4-4-4"><span class="section-number-4">4.4.4</span> Add and remove changes.</h4>
+<div class="outline-text-4" id="text-4-4-4">
+
+<ul>
+<li>Remove deleted files from stack:
+<pre class="example">
+git add -u .
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Find Befehle</h3>
+<div class="outline-text-3" id="text-4-5">
+
+
+<ul>
+<li>Find all files with names containing <code>&lt;pattern&gt;</code> (wildcards have to be used with a preceeding backslash!):
+<pre class="example">
+find -name &lt;pattern&gt; 
+</pre>
+
+<p>  or e.g. 
+</p><pre class="example">
+find -name &lt;pattern&gt;\*
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-6" class="outline-3">
+<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Doxygen Befehle</h3>
+<div class="outline-text-3" id="text-4-6">
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Aufgaben</h2>
+<div class="outline-text-2" id="text-5">
+
+
+
+</div>
+
+<div id="outline-container-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> <span class="todo TODO">TODO</span> Coulomb-potentials parameters</h3>
+<div class="outline-text-3" id="text-5-1">
+
+<p>    <span class="timestamp-wrapper"><span class="timestamp-kwd">DEADLINE: </span> <span class="timestamp">2014-02-12 Wed</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-02-09 Sun</span></span><br/>
+</p><ul>
+<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-02-01 Sat 16:26</span></span> <br/>
+     There is no doxygen documentation in tremologui.
+</li>
+<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-02-01 Sat 15:55</span></span> <br/>
+     Meeting with Christian on <span class="timestamp-wrapper"> <span class="timestamp">2014-01-30 Thu</span></span>. 
+<ul>
+<li><code>[X]</code> Enable auto-complete in emacs and overall configuration
+</li>
+<li><code>[X]</code> von testing branch ziehen (in separaten lokalen branch testing)
+</li>
+<li><code>[X]</code> branch in gui machen
+</li>
+<li><code>[X]</code> Benutze Tremolo-parser für die Coulom-potentials parameters in der GUI, die können in spme.c gefunden (werden in coulomb.c, CoulombInit aufgerufen).
+</li>
+</ul>
+
+</li>
+<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-02-01 Sat 15:53</span></span> <br/>
+     Created branch 'fixes' in tremologui and branch 'testing' in tremolo.
+
+</li>
+<li><code>[&nbsp;]</code> Replace parameters with potential specific paramters, e.g. cellration for N<sup>2</sup> by N<sup>2</sup> cellratio etc. 
+         For this all occurences of these parameters must be found and changed. 
+
+</li>
+<li><code>[&nbsp;]</code> The important files for that are solparallel<sub>gui</sub> and solparallel<sub>data</sub>.
+
+</li>
+<li><code>[&nbsp;]</code> Use tremolo-parser for Coulomb-potentials parameters in GUI found in <code>spme.c</code> (called in <code>CoulombInit</code> in <code>coulomb.c</code>).
+</li>
+</ul>
+
+
+
+</div>
+
+<div id="outline-container-5-1-1" class="outline-4">
+<h4 id="sec-5-1-1"><span class="section-number-4">5.1.1</span> <span class="todo TODO">TODO</span> Get an overview of the structure of solparallel<sub>gui</sub> and solparallel<sub>data</sub>.</h4>
+<div class="outline-text-4" id="text-5-1-1">
+
+
+<ul>
+<li id="sec-5-1-1-1">Overall structure<br/>
+
+<ul>
+<li>solparallel<sub>gui</sub>.h/cpp contain everything that is related to the gui of "Solver and parallelization"
+</li>
+<li>solparallel<sub>data</sub>.h/cpp contain everything related to the parameters of "Solver and parallelization"
+</li>
+</ul>
+
+
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-1-2">Structure of solparallel<sub>data</sub><br/>
+
+<ul>
+<li id="sec-5-1-1-2-1">class <code>SolParallel_Data</code><br/>
+
+<ul>
+<li id="sec-5-1-1-2-1-1">Important methods of this class<br/>
+<dl>
+<dt>QStringList getKeyWords()</dt><dd>Returns a QStringList containing the key words for the Section "Solver and Parallelization" in the <code>.parameters</code> file. 
+</dd>
+<dt>QString toParameterFileString()</dt><dd>Returns a QString containing all information for the Section "Solver and Parallelization" in the <code>.paramters</code> file.
+       The method is called in the <code>writeParameterFileStream</code> defined in <code>simulationparameterdata.cpp</code>. 
+</dd>
+<dt>QString toString()</dt><dd>Returns a QString containing information about solver and parallelization (used for debugging purposes). 
+</dd>
+</dl>
+
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5-1-2" class="outline-4">
+<h4 id="sec-5-1-2"><span class="section-number-4">5.1.2</span> <span class="todo TODO">TODO</span> Determine what have to be done</h4>
+<div class="outline-text-4" id="text-5-1-2">
+
+
+<ul>
+<li id="sec-5-1-2-1"><span class="done DONE">DONE</span> Determine which parameters must be replaced and in what way<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-02-05 Wed 14:41</span></span><br/>
+
+<p>
+<span style="text-decoration:underline;">In "Longrange Algorithms" section:</span>
+</p>
+<dl>
+<dt>r<sub>cut</sub></dt><dd>(N2, N2Spline, Ewald, p3m, pme, spme, barneshut, fmm)
+</dd>
+<dt>r<sub>l</sub></dt><dd>(N2Spline)
+</dd>
+<dt>splittingCoefficientG</dt><dd>(Ewald, p3m, pme, spme)
+</dd>
+<dt>MAP</dt><dd>(fmm)
+</dd>
+<dt>cellratio</dt><dd>(Ewald, p3m, pme, spme)
+</dd>
+<dt>interpolationDegree</dt><dd>(N2, N2Spline, Ewald, p3m, pme, spme, barneshut, fmm)
+</dd>
+<dt>maxTreeLevel</dt><dd>(barneshut, fmm)
+</dd>
+<dt>poissonsolver</dt><dd>(p3m pme, spme)
+</dd>
+</dl>
+
+
+<p>
+Replacement could be done by 
+(- individual variables)
+</p><ul>
+<li>vector
+</li>
+</ul>
+
+
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-2-2"><span class="done DONE">DONE</span> Replace coulomb parameters in solparallel<sub>data</sub>.h<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-02-05 Wed 14:42</span></span><br/>
+
+<ul>
+<li id="sec-5-1-2-2-1"><span class="done DONE">DONE</span> Initialization of vectors in constructor.<br/>
+       <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-02-05 Wed 14:41</span></span><br/>
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-2-3"><span class="todo TODO">TODO</span> Make necessary changes in solparallel<sub>data</sub>.cpp<br/>
+
+<p>
+The following methods have to be changed in solparallel<sub>data</sub>.cpp:
+</p>
+<ul>
+<li><code>[&nbsp;]</code> toString()
+</li>
+<li><code>[&nbsp;]</code> toParameterFileString()
+</li>
+<li><code>[&nbsp;]</code> saveValues()
+</li>
+<li><code>[&nbsp;]</code> isR<sub>Cut</sub>()
+</li>
+<li><code>[&nbsp;]</code> isR<sub>CutUnit</sub>()
+</li>
+<li><code>[&nbsp;]</code> isR<sub>L</sub>()
+</li>
+<li><code>[&nbsp;]</code> isR<sub>LUnit</sub>()
+</li>
+<li><code>[&nbsp;]</code> isSplittingCoefficientG()
+</li>
+<li><code>[&nbsp;]</code> isSplittingCoefficientGUnit()
+</li>
+<li><code>[&nbsp;]</code> isMAP()
+</li>
+<li><code>[&nbsp;]</code> isMAPUnit()
+</li>
+<li><code>[&nbsp;]</code> clear()
+  Question is, if the default values have to be changed for all solvers?
+</li>
+<li><code>[X]</code> setR<sub>Cut</sub>()
+</li>
+<li><code>[X]</code> setR<sub>L</sub>()
+</li>
+<li><code>[X]</code> setSplittingCoefficientG()
+</li>
+<li><code>[X]</code> setMap()
+</li>
+<li><code>[X]</code> setCellratio()
+</li>
+<li><code>[X]</code> setInterpolationDegree()
+</li>
+<li><code>[X]</code> setMaxTreeLevel()
+</li>
+<li><code>[X]</code> setPoisson<sub>solver</sub>()
+</li>
+</ul>
+
+
+
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-2-4"><span class="todo TODO">TODO</span> Make necessary changes in solparallel<sub>gui</sub>.h and solparallel<sub>gui</sub>.cpp<br/>
+
+<ul>
+<li>Has to be detemined!
+</li>
+</ul>
+
+
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5-1-3" class="outline-4">
+<h4 id="sec-5-1-3"><span class="section-number-4">5.1.3</span> Fragen</h4>
+<div class="outline-text-4" id="text-5-1-3">
+
+
+<ul>
+<li><code>[&nbsp;]</code> What is the load balancing function?
+</li>
+<li><code>[&nbsp;]</code> What is the poissonsolver?
+</li>
+<li><code>[X]</code> What about the parallelization parameters? Do I have to differentiate here too?
+  Maybe later!
+</li>
+<li><code>[X]</code> Why can't I select the remaining longrange solvers? 
+  They are not implemented yet.
+</li>
+<li><code>[X]</code> Can I use the new c++ standard (arrays etc?)
+  Rather not. 
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2014-02-06T10:58+0100</p>
+<p class="author">Author: Pascal Huber</p>
+<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 </body>
 </html>
