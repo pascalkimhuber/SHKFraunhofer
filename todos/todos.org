@@ -40,6 +40,8 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-02-05 Wed 09:47]--[2014-02-05 Wed 13:45]
 - [2014-02-06 Thu 10:00]--[2014-02-06 Thu 12:00]
 - [2014-02-06 Thu 13:00]--[2014-02-06 Thu 14:41]
+- [2014-02-07 Fri 10:15]--[2014-02-07 Fri 12:00]
+- [2014-02-07 Fri 17:00]--[2014-02-07 Fri 18:28]
 
 
 * Nuetzliches
@@ -48,6 +50,10 @@ Wait for Mail from IT. Change password if smartcard is there!
 
 Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden: 
 : cd ~/tremolo/build
+: make && make install
+
+Das selbe gilt für Tremologui. 
+: cd ~/tremologui/build
 : make && make install
 
 ** Gnuplot Befehle
@@ -134,6 +140,7 @@ http://www.panix.com/~elflord/unix/grep.html
 ** Doxygen Befehle
 
 - [[http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdc][List of special commands]]
+  
 
 * Aufgaben
 
@@ -157,7 +164,8 @@ http://www.panix.com/~elflord/unix/grep.html
 
    - [ ] Use tremolo-parser for Coulomb-potentials parameters in GUI found in =spme.c= (called in =CoulombInit= in =coulomb.c=).
 
-*** TODO Get an overview of the structure of solparallel_gui and solparallel_data. 
+*** DONE Get an overview of the structure of solparallel_gui and solparallel_data. 
+	 CLOSED: [2014-02-07 Fri 11:01]
 
 **** Overall structure
 
@@ -173,8 +181,9 @@ http://www.panix.com/~elflord/unix/grep.html
 - QString toParameterFileString() :: Returns a QString containing all information for the Section "Solver and Parallelization" in the =.paramters= file.
 	   The method is called in the =writeParameterFileStream= defined in =simulationparameterdata.cpp=. 
 - QString toString() :: Returns a QString containing information about solver and parallelization (used for debugging purposes). 
+	 
 
-*** TODO Determine what have to be done
+*** TODO Make changes 
 
 **** DONE Determine which parameters must be replaced and in what way
 	 CLOSED: [2014-02-05 Wed 14:41]
