@@ -1437,3 +1437,144 @@ p
   :ARCHIVE_CATEGORY: todos
   :ARCHIVE_TODO: DONE
   :END:
+
+* DONE What are the remaining problems?
+	  CLOSED: [2014-02-11 Tue 11:26]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-02-11 Tue 11:27
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Coulomb-potentials parameters/Make changes/Make necessary changes in solparallel_gui.h and solparallel_gui.cpp
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+	  - Note taken on [2014-02-08 Sat 12:53] \\
+		There are still some changes missing:
+		- When a different longrang solver is clicked the save values method should be called in order to parse the parameter file and update the parameters. 
+		- When the values are written to the paramter file (by clicking on saving), the parameters of ALL longrange solver should be saved. 
+
+Notes: 
+- Clicking "Save" writes all values to the parameter file: Thus by editing the values of a parameter of a potential, this value is saved to the SolParallel_Data class. 
+  Most likely the SolParallel_GUI::updateGUI_data() slot ist called. 
+
+** DONE When and where is the data written to the SolParallel_Data class.
+	   CLOSED: [2014-02-10 Mon 13:51]
+The data is written to the SolParallel_Data class by the different SolParallel_GUI::*****rp() methods (e.g. R_CLErp()). 
+
+The =connect= statments for this are given by: 
+: connect( r_cutLineEdit, SIGNAL( returnPressed() ), this, SLOT( R_CLErp() ) );
+: connect( r_cutLineEdit, SIGNAL( lostFocus() ), this, SLOT( R_CLErp() ) );
+
+This means, that once I press return or loose the Focus of the specific LineEdit, the value is written to the SolParallel_Data class. 
+
+** TODO What happen i I click on a longrange solver's radio button?
+If a longrange solver's radio button has been clicked, a =hasChanged()= is emitted and the =SolParallel_GUI::updateGUI_data() is called. 
+
+** DONE When does the parameter file is parsed?
+	   CLOSED: [2014-02-11 Tue 11:03]
+The hierarchy for SolParallel_Data class is given by:
+- TremoloGui has member:
+  - SimulationParameterControl has member:
+	- SimulationParameterData has member:
+	  - SolParallel_Data
+
+The =SolParallel_Data::saveValues()= method is called by:
+- SimulationParameterControl::fileOpen()
+  - SimulationParameterData::readFromFile()
+	- ParameterParser::parseFile()
+	  - SolParallel_Data::saveValues()
+
+	  
+
+
+* DONE Check if methods in solparallel_data.cpp are correct.
+  CLOSED: [2014-02-11 Tue 11:26]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-02-11 Tue 11:27
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Coulomb-potentials parameters/Make changes/Make necessary changes in solparallel_gui.h and solparallel_gui.cpp
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+  - Note taken on [2014-02-08 Sat 13:00] \\
+	In the saveValues() method: Only the values of the selected solver are saved in the SolParallel_Data class.
+
+
+
+* DONE Determine which parameters must be replaced and in what way
+	 CLOSED: [2014-02-05 Wed 14:41]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-02-11 Tue 11:27
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Coulomb-potentials parameters/Make changes
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+
+_In "Longrange Algorithms" section:_
+
+- r_cut :: (N2, N2Spline, Ewald, p3m, pme, spme, barneshut, fmm)
+- r_l :: (N2Spline)
+- splittingCoefficientG :: (Ewald, p3m, pme, spme)
+- MAP :: (fmm)
+- cellratio :: (Ewald, p3m, pme, spme)
+- interpolationDegree :: (N2, N2Spline, Ewald, p3m, pme, spme, barneshut, fmm)
+- maxTreeLevel :: (barneshut, fmm)
+- poissonsolver :: (p3m pme, spme)
+				   
+Replacement could be done by 
+(- individual variables)
+- vector
+
+
+* DONE Replace coulomb parameters in solparallel_data.h
+  CLOSED: [2014-02-05 Wed 14:42]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-02-11 Tue 11:27
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Coulomb-potentials parameters/Make changes
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+
+** DONE Initialization of vectors in constructor.
+   CLOSED: [2014-02-05 Wed 14:41]
+
+
+* DONE Make necessary changes in solparallel_data.cpp
+	 CLOSED: [2014-02-08 Sat 11:40]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-02-11 Tue 11:27
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Coulomb-potentials parameters/Make changes
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+
+The following methods have to be changed in solparallel_data.cpp:
+
+- [X] toString()
+- [X] toParameterFileString()
+- [X] saveValues()
+  + [X] What is the method doing exactly?
+  + [X] What are the arguments?
+  + [X] Who calls the method?
+- [X] isR_Cut()
+- [X] isR_CutUnit()
+- [X] isR_L()
+- [X] isR_LUnit()
+- [X] isSplittingCoefficientG()
+- [X] isSplittingCoefficientGUnit()
+- [X] isMAP()
+- [X] isMAPUnit()
+- [X] clear()
+  Question is, if the default values have to be changed for all solvers?
+- [X] setR_Cut()
+- [X] setR_L()
+- [X] setSplittingCoefficientG()
+- [X] setMap()
+- [X] setCellratio()
+- [X] setInterpolationDegree()
+- [X] setMaxTreeLevel()
+- [X] setPoisson_solver()
+
+
