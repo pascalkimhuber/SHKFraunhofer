@@ -59,6 +59,7 @@ Wait for Mail from IT. Change password if smartcard is there!
 
 - [2014-02-10 Mon 12:54]--[2014-02-10 Mon 14:54]
 - [2014-02-11 Tue 10:13]--[2014-02-11 Tue 11:40]
+- [2014-02-12 Wed 12:46]--[2014-02-12 Wed 15:00]
 
   
 * Nuetzliches
@@ -202,9 +203,13 @@ http://www.panix.com/~elflord/unix/grep.html
 
 *** TODO Make changes
 
-**** TODO Write documentation for solparallel_data and solparallel_gui
+**** DONE Write documentation for solparallel_data and solparallel_gui
+	 CLOSED: [2014-02-12 Wed 15:05]
 
 **** TODO Make necessary changes in solparallel_gui.h and solparallel_gui.cpp
+	 - Note taken on [2014-02-12 Wed 14:30] \\
+	   In order to hide widgets, one can maybe use the QStackedWidgets class.
+
 
 ***** TODO Change menu!
 
