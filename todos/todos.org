@@ -61,6 +61,8 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-02-11 Tue 10:13]--[2014-02-11 Tue 11:40]
 - [2014-02-12 Wed 12:46]--[2014-02-12 Wed 15:00]
 - [2014-02-13 Thu 12:57]--[2014-02-13 Thu 14:00]
+- [2014-02-13 Thu 16:12]--[2014-02-13 Thu 18:40]
+- [2014-02-14 Fri 10:53]--[2014-02-14 Fri 11:55]
 
   
 * Nuetzliches
@@ -131,7 +133,7 @@ http://www.panix.com/~elflord/unix/grep.html
 
 *** Branches
 - Create a new branch:
-  : git branch -b <name_of_new_branch>
+  : git branch <name_of_new_branch>
 - Create a new branch by pulling from a remote branch:
   : git checkout -b <name_of_new_branch> origin/<name_of_branch>
 - Delete a local branch:
@@ -149,6 +151,11 @@ http://www.panix.com/~elflord/unix/grep.html
 - Remove deleted files from stack:
   : git add -u .
 
+*** Remote repositories
+- Add remote repository with name /origin/ (e.g. https://pascalkimhuber@bitbucket.org/pascalkimhuber/stacked.git)
+  : git remote add origin <address of remote> 
+- Push a local repository to a remote repository with name /origin/ for the first time
+  : git push -u origin --all
 ** Find Befehle
 
 - Find all files with names containing =<pattern>= (wildcards have to be used with a preceeding backslash!):
@@ -207,7 +214,10 @@ http://www.panix.com/~elflord/unix/grep.html
 **** DONE Write documentation for solparallel_data and solparallel_gui
 	 CLOSED: [2014-02-12 Wed 15:05]
 
+
 **** TODO Make necessary changes in solparallel_gui.h and solparallel_gui.cpp
+	 - Note taken on [2014-02-14 Fri 11:10] \\
+	   Added new branch =solparallel_menu_fix= to local tremologui repository.
 	 - Note taken on [2014-02-12 Wed 14:30] \\
 	   In order to hide widgets, one can maybe use the QStackedWidgets class.
 	   
@@ -229,11 +239,17 @@ The menu in the "Solver and parallelization" section should be changed in the fo
 5. Add connections for the QStackedWidget. The index of the longrange solver radio button should be emitted to the QStackedWidget.
 6. Check if a QListWidget is maybe better then a list of radiobuttons. 
 
+A possible example can be found on "~/Desktop/stacked"...
+
+****** TODO Check which classes and includes in solparallel_gui.h is still necessary. 
+
+
 ***** TODO Create a parameter page for every longrange solver.
 
 
 
 **** TODO Christian fragen, ob in toString() Methode die Parameter von allen Lösern oder nur vom aktuell ausgewählten ausgegeben werden soll.
+
 
 *** Fragen
 
