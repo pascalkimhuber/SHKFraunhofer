@@ -64,6 +64,8 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-02-13 Thu 16:12]--[2014-02-13 Thu 18:40]
 - [2014-02-14 Fri 10:53]--[2014-02-14 Fri 11:55]
 
+- [2014-02-18 Tue 12:54]
+
   
 * Nuetzliches
 
@@ -226,26 +228,16 @@ The menu in the "Solver and parallelization" section should be changed in the fo
 - Only the parameter page of the selected longrange solver should be displayed. This can be done using a *QStackedLayout* or *QStackedWidget*. 
 - The different pages should contain the same LineEdits, Labels etc., e.g. the LineEdit for "r_cut" should be a child widget of the parameter pages of N^2, N^2_Spline etc. 
 
-***** TODO Add a QStackedWidget to the SolParallel_GUI class.
+The QStackedWidget approach does not work since every child widget can only have one parent. So one would have to create e.g. one r_cut LineEdit for every longrange solver etc...
+Instead of this I just changed the visibility options for the different parameters which seems to be enough. 
 
-1. Create a QStackedWidget, Child of LongRangeAndAdditionalValuesLayout. 
-   : QStackedWidget *stackedWidget = new QStackedWidget.
-2. Create for every parameter exactly one GroupBox. Add everything related to this parameter to the appropriate GroupBox.
-3. Create for every longrange solver exactly one parameter page using GroupBox (or Frame?). 
-   - Add the right layout.
-   - Add the right parameter GroupBoxes.
-4. Add the parameter pages to the QStackedWidget. 
-   : stackedWidget->addWidget(...)
-5. Add connections for the QStackedWidget. The index of the longrange solver radio button should be emitted to the QStackedWidget.
-6. Check if a QListWidget is maybe better then a list of radiobuttons. 
+***** TODO Replace Q3GridLayout by QGridLayout
 
-A possible example can be found on "~/Desktop/stacked"...
+***** TODO Set fixed column width in QGridLayout
 
-****** TODO Check which classes and includes in solparallel_gui.h is still necessary. 
+***** TODO Change space management in QGridLayout such that rows appear at the same positions. 
 
-
-***** TODO Create a parameter page for every longrange solver.
-
+***** TODO Check which classes and includes in solparallel_gui.h is still necessary. 
 
 
 **** TODO Christian fragen, ob in toString() Methode die Parameter von allen Lösern oder nur vom aktuell ausgewählten ausgegeben werden soll.
