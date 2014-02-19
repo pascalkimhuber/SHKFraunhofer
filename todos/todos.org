@@ -63,8 +63,10 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-02-13 Thu 12:57]--[2014-02-13 Thu 14:00]
 - [2014-02-13 Thu 16:12]--[2014-02-13 Thu 18:40]
 - [2014-02-14 Fri 10:53]--[2014-02-14 Fri 11:55]
-
-- [2014-02-18 Tue 12:54]
+  
+- [2014-02-18 Tue 12:54]--[2014-02-18 Tue 16:30]
+- [2014-02-19 Wed 09:28]--[2014-02-19 Wed 12:15]
+- [2014-02-19 Wed 13:30]
 
   
 * Nuetzliches
@@ -78,6 +80,7 @@ Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie fo
 Das selbe gilt für Tremologui. 
 : cd ~/tremologui/build
 : make && make install
+
 
 ** Gnuplot Befehle
 
@@ -126,10 +129,12 @@ Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite ge
    : unset xtics; set xtics auto
    Set output:                      
    : set output 'introduction.png'
+
    
 ** Grep Befehle
 
 http://www.panix.com/~elflord/unix/grep.html
+
 
 ** Git Befehle
 
@@ -158,12 +163,20 @@ http://www.panix.com/~elflord/unix/grep.html
   : git remote add origin <address of remote> 
 - Push a local repository to a remote repository with name /origin/ for the first time
   : git push -u origin --all
+
+*** Merging branches
+- Merge <branch1> into <branch2>
+  : git checkout <branch2>
+  : git merge <branch1>
+  
+
 ** Find Befehle
 
 - Find all files with names containing =<pattern>= (wildcards have to be used with a preceeding backslash!):
   : find -name <pattern> 
   or e.g. 
   : find -name <pattern>\*
+
 
 ** Doxygen Befehle
 
@@ -172,84 +185,118 @@ http://www.panix.com/~elflord/unix/grep.html
 
 * Aufgaben
 
-** TODO Coulomb-potentials parameters 
-   DEADLINE: <2014-02-12 Wed> SCHEDULED: <2014-02-09 Sun>
-   - Note taken on [2014-02-01 Sat 16:26] \\
-	 There is no doxygen documentation in tremologui.
-   - Note taken on [2014-02-01 Sat 15:55] \\
-	 Meeting with Christian on [2014-01-30 Thu]. 
-	 - [X] Enable auto-complete in emacs and overall configuration
-	 - [X] von testing branch ziehen (in separaten lokalen branch testing)
-	 - [X] branch in gui machen
-	 - [X] Benutze Tremolo-parser für die Coulom-potentials parameters in der GUI, die können in spme.c gefunden (werden in coulomb.c, CoulombInit aufgerufen).
-   - Note taken on [2014-02-01 Sat 15:53] \\
-	 Created branch 'fixes' in tremologui and branch 'testing' in tremolo.
+** TODO ScaFaCos Bibliothek
+   - Note taken on [2014-02-18 Tue 16:23] \\
+	 Treffen mit Christian:
+	 Funktionalität für ScaFaCoS
+	 - Finde Beispiel und lese Manual dazu durch.
+	 - Füge ScaFaCoS hinzu
+	 - Enable Barnes-Hut etc. 
 	 
-   - [ ] Replace parameters with potential specific paramters, e.g. cellration for N^2 by N^2 cellratio etc. 
-		 For this all occurences of these parameters must be found and changed. 
+	 Danach CMake und Portierung auf Windows.
 
-   - [ ] The important files for that are solparallel_gui and solparallel_data.
+*** TODO Overview
 
-   - [ ] Use tremolo-parser for Coulomb-potentials parameters in GUI found in =spme.c= (called in =CoulombInit= in =coulomb.c=).
+**** The following methods are described in the manual:
+1. Ewald summation
+2. FMM (Fast multipole method)
+3. PEPC (Pretty efficient parallel coulomb solver)
+4. VMG (Versatile multigrid)
+5. P2NFFT (Particle-Particle NFFT)
+6. P3M (Particle-Particle-Particle mesh) (NOT WORKING?)
 
-*** DONE Get an overview of the structure of solparallel_gui and solparallel_data. 
-	 CLOSED: [2014-02-07 Fri 11:01]
+**** Example with the syntax:
+Can be found in 
+: tremolo/tutorial/10Nacl/nacl.parameters
 
-**** Overall structure
+**** Names of the methods (can be found in =fcs_params.c=)
 
-- solparallel_gui.h/cpp contain everything that is related to the gui of "Solver and parallelization"
-- solparallel_data.h/cpp contain everything related to the parameters of "Solver and parallelization"
+USE_GPL:
+- "direct"
+- "ewald"
+- "fmm"
+- "memd"
+- "mmm"
+- "pepc"
+- "p2nfft"
+- "p3m"
+- "pp3mg"
+- "vmg"
 
-**** Structure of solparallel_data
+ELSE:
+- "direct"
+- "ewald"
+- "fmm"
+- "+emd+"
+- "+mmm+"
+- "pepc"
+- "+p2nfft+"
+- "+p3m+"
+- "pp3mg"
+- "vmg"
 
-***** class =SolParallel_Data=
+Note: in =tremolo-fcs.c= in =ReadFCSCoulombRecord()= an error message is displayed for method not supported. 
 
-****** Important methods of this class
-- QStringList getKeyWords() :: Returns a QStringList containing the key words for the Section "Solver and Parallelization" in the =.parameters= file. 
-- QString toParameterFileString() :: Returns a QString containing all information for the Section "Solver and Parallelization" in the =.paramters= file.
-	   The method is called in the =writeParameterFileStream= defined in =simulationparameterdata.cpp=. 
-- QString toString() :: Returns a QString containing information about solver and parallelization (used for debugging purposes). 
-	 
+***** TODO These names should be put in the tutorial. 
 
-*** TODO Make changes
-
-**** DONE Write documentation for solparallel_data and solparallel_gui
-	 CLOSED: [2014-02-12 Wed 15:05]
-
-
-**** TODO Make necessary changes in solparallel_gui.h and solparallel_gui.cpp
-	 - Note taken on [2014-02-14 Fri 11:10] \\
-	   Added new branch =solparallel_menu_fix= to local tremologui repository.
-	 - Note taken on [2014-02-12 Wed 14:30] \\
-	   In order to hide widgets, one can maybe use the QStackedWidgets class.
-	   
-The menu in the "Solver and parallelization" section should be changed in the following way:
-- Every longrange solver should have an own parameter page. 
-- Only the parameter page of the selected longrange solver should be displayed. This can be done using a *QStackedLayout* or *QStackedWidget*. 
-- The different pages should contain the same LineEdits, Labels etc., e.g. the LineEdit for "r_cut" should be a child widget of the parameter pages of N^2, N^2_Spline etc. 
-
-The QStackedWidget approach does not work since every child widget can only have one parent. So one would have to create e.g. one r_cut LineEdit for every longrange solver etc...
-Instead of this I just changed the visibility options for the different parameters which seems to be enough. 
-
-***** TODO Replace Q3GridLayout by QGridLayout
-
-***** TODO Set fixed column width in QGridLayout
-
-***** TODO Change space management in QGridLayout such that rows appear at the same positions. 
-
-***** TODO Check which classes and includes in solparallel_gui.h is still necessary. 
+**** The parameters for the different methods can be found 
+Either in the manual or in different 
+: ***_params.c
+files. 
 
 
-**** TODO Christian fragen, ob in toString() Methode die Parameter von allen Lösern oder nur vom aktuell ausgewählten ausgegeben werden soll.
+*** TODO Implement ScaFaCoS functionality to GUI
+
+**** Vorgabe
+
+Add ScaFaCoS methods to tremologui. The following has to be done for this: 
+1. In SolParallel_Data
+   - determine which parameters have to be added to the SolParallel_Data class.
+   - determine how the data should be saved
+   - determine which methods have to be changed (in particular for writing and parsing)
+   - change appropriate methods
+2. In SolParallel_GUI
+   - determine which Widgets must be added for the LongrangeButtonGroup
+   - determine which Widgets must be added for the LongrangeDataGroup
+   - Add Widgets and connections. 
 
 
-*** Fragen
+**** Funktion von saveValues() in SolParallel_Data
 
-- [ ] What is the load balancing function?
-- [ ] What is the poissonsolver?
-- [X] What about the parallelization parameters? Do I have to differentiate here too?
-  Maybe later!
-- [X] Why can't I select the remaining longrange solvers? 
-  They are not implemented yet.
-- [X] Can I use the new c++ standard (arrays etc?)
-  Rather not. 
+The saveValues() method is called by 
+: ParameterParser::parseFile(). 
+The =parseFile= method passes as arguments a keyword list and an identifier list. 
+Example of the succession of these lists for the N^2 longrange solver:
+1. keyword: coulomb, n2
+   identifier: state
+2. keyword: coulomb, n2
+   identifier: r_cut
+3. keyword: coulomb, n2
+   identifier: i_degree
+
+Thus for the ScaFaCoS methods the succession of lists should be like:
+1. keyword: coulomb, fcs
+   identifier: state
+2. keyword: coulomb, fcs
+   identifier: method
+3. keyword: coulomb, fcs
+   identifier: alpha 
+... 
+
+
+
+**** TODO Add Ewald method
+
+1. Parameters necessary for =ewald= method:
+- alpha;
+- kmax;
+- maxkmax;
+- r_cut
+- tolerance
+- tolerance_type
+
+
+** Questions [0/2]
+
+- [ ] Was ist der Unterschied zwischen GPL und LGPL?
+- [ ] In =fcs_params.c= was soll die Unterscheidung =ifdef USE_GPL= und =else=?

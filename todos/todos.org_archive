@@ -1578,3 +1578,138 @@ The following methods have to be changed in solparallel_data.cpp:
 - [X] setPoisson_solver()
 
 
+
+* DONE Get an overview of the structure of solparallel_gui and solparallel_data. 
+   CLOSED: [2014-02-07 Fri 11:01]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-02-19 Wed 09:28
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Coulomb-potentials parameters
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+
+** Overall structure
+
+- solparallel_gui.h/cpp contain everything that is related to the gui of "Solver and parallelization"
+- solparallel_data.h/cpp contain everything related to the parameters of "Solver and parallelization"
+
+** Structure of solparallel_data
+
+*** class =SolParallel_Data=
+
+**** Important methods of this class
+- QStringList getKeyWords() :: Returns a QStringList containing the key words for the Section "Solver and Parallelization" in the =.parameters= file. 
+- QString toParameterFileString() :: Returns a QString containing all information for the Section "Solver and Parallelization" in the =.paramters= file.
+	   The method is called in the =writeParameterFileStream= defined in =simulationparameterdata.cpp=. 
+- QString toString() :: Returns a QString containing information about solver and parallelization (used for debugging purposes). 
+	 
+
+
+* DONE Coulomb-potentials parameters 
+  CLOSED: [2014-02-19 Wed 10:27] DEADLINE: <2014-02-12 Wed> SCHEDULED: <2014-02-09 Sun>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-02-19 Wed 10:28
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+  - Note taken on [2014-02-01 Sat 16:26] \\
+	There is no doxygen documentation in tremologui.
+  - Note taken on [2014-02-01 Sat 15:55] \\
+	Meeting with Christian on [2014-01-30 Thu]. 
+	- [X] Enable auto-complete in emacs and overall configuration
+	- [X] von testing branch ziehen (in separaten lokalen branch testing)
+	- [X] branch in gui machen
+	- [X] Benutze Tremolo-parser für die Coulom-potentials parameters in der GUI, die können in spme.c gefunden (werden in coulomb.c, CoulombInit aufgerufen).
+  - Note taken on [2014-02-01 Sat 15:53] \\
+	Created branch 'fixes' in tremologui and branch 'testing' in tremolo.
+	
+  - [ ] Replace parameters with potential specific paramters, e.g. cellration for N^2 by N^2 cellratio etc. 
+		For this all occurences of these parameters must be found and changed. 
+
+  - [ ] The important files for that are solparallel_gui and solparallel_data.
+
+  - [ ] Use tremolo-parser for Coulomb-potentials parameters in GUI found in =spme.c= (called in =CoulombInit= in =coulomb.c=).
+
+** DONE Make changes
+	CLOSED: [2014-02-19 Wed 10:27]
+
+*** DONE Write documentation for solparallel_data and solparallel_gui
+	CLOSED: [2014-02-12 Wed 15:05]
+
+
+*** DONE Make necessary changes in solparallel_gui.h and solparallel_gui.cpp
+	 CLOSED: [2014-02-19 Wed 10:22]
+	 - Note taken on [2014-02-19 Wed 10:01] \\
+	   Instead of RadioButtons for the longrange solver selection one could also use:
+	   - QListWidget
+	   - QComboBox
+	 - Note taken on [2014-02-14 Fri 11:10] \\
+	   Added new branch =solparallel_menu_fix= to local tremologui repository.
+	 - Note taken on [2014-02-12 Wed 14:30] \\
+	   In order to hide widgets, one can maybe use the QStackedWidgets class.
+	   
+The menu in the "Solver and parallelization" section should be changed in the following way:
+- Every longrange solver should have an own parameter page. 
+- Only the parameter page of the selected longrange solver should be displayed. This can be done using a *QStackedLayout* or *QStackedWidget*. 
+- The different pages should contain the same LineEdits, Labels etc., e.g. the LineEdit for "r_cut" should be a child widget of the parameter pages of N^2, N^2_Spline etc. 
+
+The QStackedWidget approach does not work since every child widget can only have one parent. So one would have to create e.g. one r_cut LineEdit for every longrange solver etc...
+Instead of this I just changed the visibility options for the different parameters which seems to be enough. 
+
+**** DONE Replace Q3GridLayout by QGridLayout
+	 CLOSED: [2014-02-19 Wed 09:59]
+
+**** DONE Set fixed column width in QGridLayout
+	  CLOSED: [2014-02-19 Wed 10:00]
+Done using 
+: DataGroupLayout->setColumnMinimumWidth(0, 200);
+
+**** DONE Change space management in QGridLayout such that rows appear at the same positions. 
+	  CLOSED: [2014-02-19 Wed 10:00]
+Done using
+: DataGroupLayout->setAlignment(Qt::AlignTop);
+
+
+*** DONE Check if everything is right and add comments in case that they are missing. 
+	CLOSED: [2014-02-19 Wed 10:23]
+
+
+
+* Fragen
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-02-19 Wed 11:53
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben
+  :ARCHIVE_CATEGORY: todos
+  :END:
+
+- [X] What is the load balancing function?
+- [X] What is the poissonsolver?
+- [X] What about the parallelization parameters? Do I have to differentiate here too?
+  Maybe later!
+- [X] Why can't I select the remaining longrange solvers? 
+  They are not implemented yet.
+- [X] Can I use the new c++ standard (arrays etc?)
+  Rather not. 
+
+* Fragen
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-02-19 Wed 12:02
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben
+  :ARCHIVE_CATEGORY: todos
+  :END:
+
+- [ ] Was ist der Unterschied zwischen GPL und L-GPL? 
+
+- [X] What is the load balancing function?
+- [X] What is the poissonsolver?
+- [X] What about the parallelization parameters? Do I have to differentiate here too?
+  Maybe later!
+- [X] Why can't I select the remaining longrange solvers? 
+  They are not implemented yet.
+- [X] Can I use the new c++ standard (arrays etc?)
+  Rather not. 
