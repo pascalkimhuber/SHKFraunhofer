@@ -3,11 +3,11 @@
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>todos</title>
+<title>ScaFaCos Bibliothek</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="todos"/>
+<meta name="title" content="ScaFaCos Bibliothek"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2014-02-13T16:13+0100"/>
+<meta name="generated" content="2014-02-20T09:37+0100"/>
 <meta name="author" content="Pascal Huber"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -115,58 +115,49 @@ for the JavaScript code in this tag.
 </div>
 
 <div id="content">
-<h1 class="title">todos</h1>
+<h1 class="title">ScaFaCos Bibliothek</h1>
+
+<ul>
+<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-02-18 Tue 16:23</span></span> <br/>
+     Treffen mit Christian:
+     Funktionalität für ScaFaCoS
+<ul>
+<li>Finde Beispiel und lese Manual dazu durch.
+</li>
+<li>Füge ScaFaCoS hinzu
+</li>
+<li>Enable Barnes-Hut etc. 
+
+</li>
+</ul>
+
+<p>     Danach CMake und Portierung auf Windows.
+</p></li>
+</ul>
+
 
 
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 Organization</a>
+<li><a href="#sec-1">1 Overview</a>
 <ul>
-<li><a href="#sec-1-1">1.1 Christian wegen Stunden fragen</a></li>
-<li><a href="#sec-1-2">1.2 Urlaub beantragen</a></li>
+<li><a href="#sec-1-1">1.1 The following methods are described in the manual:</a></li>
+<li><a href="#sec-1-2">1.2 Example with the syntax:</a></li>
+<li><a href="#sec-1-3">1.3 Names of the methods (can be found in <code>fcs_params.c</code>)</a>
+<ul>
+<li><a href="#sec-1-3-1">1.3.1 These names should be put in the tutorial.</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2 Configurations</a>
-<ul>
-<li><a href="#sec-2-1">2.1 Change passwords</a></li>
+<li><a href="#sec-1-4">1.4 The parameters for the different methods can be found</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3 Emacs</a>
+<li><a href="#sec-2">2 Implement ScaFaCoS functionality to GUI</a>
 <ul>
-<li><a href="#sec-3-1">3.1 Language evaluation in org mode (see http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10)</a></li>
-<li><a href="#sec-3-2">3.2 Qt Auto complete</a></li>
-<li><a href="#sec-3-3">3.3 Syntax highlighting for doxygen comments in c++ mode.</a></li>
-</ul>
-</li>
-<li><a href="#sec-4">4 Arbeitszeiten</a></li>
-<li><a href="#sec-5">5 Nuetzliches</a>
-<ul>
-<li><a href="#sec-5-1">5.1 Tremolo aktualisieren</a></li>
-<li><a href="#sec-5-2">5.2 Gnuplot Befehle</a></li>
-<li><a href="#sec-5-3">5.3 Grep Befehle</a></li>
-<li><a href="#sec-5-4">5.4 Git Befehle</a>
-<ul>
-<li><a href="#sec-5-4-1">5.4.1 Branches</a></li>
-<li><a href="#sec-5-4-2">5.4.2 Diff</a></li>
-<li><a href="#sec-5-4-3">5.4.3 Manipulate changes.</a></li>
-<li><a href="#sec-5-4-4">5.4.4 Add and remove changes.</a></li>
-</ul>
-</li>
-<li><a href="#sec-5-5">5.5 Find Befehle</a></li>
-<li><a href="#sec-5-6">5.6 Doxygen Befehle</a></li>
-</ul>
-</li>
-<li><a href="#sec-6">6 Aufgaben</a>
-<ul>
-<li><a href="#sec-6-1">6.1 Coulomb-potentials parameters</a>
-<ul>
-<li><a href="#sec-6-1-1">6.1.1 Get an overview of the structure of solparallel<sub>gui</sub> and solparallel<sub>data</sub>.</a></li>
-<li><a href="#sec-6-1-2">6.1.2 Make changes</a></li>
-<li><a href="#sec-6-1-3">6.1.3 Fragen</a></li>
-</ul>
-</li>
+<li><a href="#sec-2-1">2.1 Vorgabe</a></li>
+<li><a href="#sec-2-2">2.2 Funktion von saveValues() in SolParallel<sub>Data</sub></a></li>
+<li><a href="#sec-2-3">2.3 Add Ewald method</a></li>
 </ul>
 </li>
 </ul>
@@ -174,7 +165,7 @@ for the JavaScript code in this tag.
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Organization</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> <span class="todo TODO">TODO</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 
 
@@ -182,8 +173,23 @@ for the JavaScript code in this tag.
 </div>
 
 <div id="outline-container-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Christian wegen Stunden fragen</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> The following methods are described in the manual:</h3>
 <div class="outline-text-3" id="text-1-1">
+
+<ol>
+<li>Ewald summation
+</li>
+<li>FMM (Fast multipole method)
+</li>
+<li>PEPC (Pretty efficient parallel coulomb solver)
+</li>
+<li>VMG (Versatile multigrid)
+</li>
+<li>P2NFFT (Particle-Particle NFFT)
+</li>
+<li>P3M (Particle-Particle-Particle mesh) (NOT WORKING?)
+</li>
+</ol>
 
 
 </div>
@@ -191,10 +197,103 @@ for the JavaScript code in this tag.
 </div>
 
 <div id="outline-container-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Urlaub beantragen</h3>
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Example with the syntax:</h3>
 <div class="outline-text-3" id="text-1-2">
 
+<p>Can be found in 
+</p><pre class="example">
+tremolo/tutorial/10Nacl/nacl.parameters
+</pre>
 
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Names of the methods (can be found in <code>fcs_params.c</code>)</h3>
+<div class="outline-text-3" id="text-1-3">
+
+
+<p>
+USE<sub>GPL</sub>:
+</p><ul>
+<li>"direct"
+</li>
+<li>"ewald"
+</li>
+<li>"fmm"
+</li>
+<li>"memd"
+</li>
+<li>"mmm"
+</li>
+<li>"pepc"
+</li>
+<li>"p2nfft"
+</li>
+<li>"p3m"
+</li>
+<li>"pp3mg"
+</li>
+<li>"vmg"
+</li>
+</ul>
+
+
+<p>
+ELSE:
+</p><ul>
+<li>"direct"
+</li>
+<li>"ewald"
+</li>
+<li>"fmm"
+</li>
+<li>"<del>emd</del>"
+</li>
+<li>"<del>mmm</del>"
+</li>
+<li>"pepc"
+</li>
+<li>"<del>p2nfft</del>"
+</li>
+<li>"<del>p3m</del>"
+</li>
+<li>"pp3mg"
+</li>
+<li>"vmg"
+</li>
+</ul>
+
+
+<p>
+Note: in <code>tremolo-fcs.c</code> in <code>ReadFCSCoulombRecord()</code> an error message is displayed for method not supported. 
+</p>
+
+</div>
+
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> <span class="todo TODO">TODO</span> These names should be put in the tutorial.</h4>
+<div class="outline-text-4" id="text-1-3-1">
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> The parameters for the different methods can be found</h3>
+<div class="outline-text-3" id="text-1-4">
+
+<p>Either in the manual or in different 
+</p><pre class="example">
+***_params.c
+</pre>
+
+<p>files. 
+</p>
 
 </div>
 </div>
@@ -202,665 +301,140 @@ for the JavaScript code in this tag.
 </div>
 
 <div id="outline-container-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Configurations</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> <span class="todo TODO">TODO</span> Implement ScaFaCoS functionality to GUI</h2>
 <div class="outline-text-2" id="text-2">
+
+<ul>
+<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-02-20 Thu 09:37</span></span> <br/>
+      Created new branch 
+<pre class="example">
+incorp_scafacos
+</pre>
+
+</li>
+</ul>
 
 
 
 </div>
 
 <div id="outline-container-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> <span class="todo TODO">TODO</span> Change passwords</h3>
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Vorgabe</h3>
 <div class="outline-text-3" id="text-2-1">
 
-<p>Wait for Mail from IT. Change password if smartcard is there!
-</p>
 
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Emacs</h2>
-<div class="outline-text-2" id="text-3">
-
-
-
-</div>
-
-<div id="outline-container-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Language evaluation in org mode (see <a href="http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10">http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10</a>)</h3>
-<div class="outline-text-3" id="text-3-1">
-
-</div>
-
-</div>
-
-<div id="outline-container-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> <span class="todo TODO">TODO</span> Qt Auto complete</h3>
-<div class="outline-text-3" id="text-3-2">
-
-
-</div>
-
-</div>
-
-<div id="outline-container-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> <span class="todo TODO">TODO</span> Syntax highlighting for doxygen comments in c++ mode.</h3>
-<div class="outline-text-3" id="text-3-3">
-
-
-
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Arbeitszeiten</h2>
-<div class="outline-text-2" id="text-4">
-
+<p>
+Add ScaFaCoS methods to tremologui. The following has to be done for this: 
+</p><ol>
+<li>In SolParallel<sub>Data</sub>
 <ul>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2013-12-16 Sat 16:30</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2013-12-16 Mon 18:00</span></span>
-
+<li>determine which parameters have to be added to the SolParallel<sub>Data</sub> class.
 </li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2013-12-18 Wed 17:30</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2013-12-18 Wed 19:56</span></span>
+<li>determine how the data should be saved
 </li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2013-12-19 Thu 14:00</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2013-12-19 Thu 17:02</span></span>
+<li>determine which methods have to be changed (in particular for writing and parsing)
 </li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-05 Sun 14:30</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-05 Sun 19:30</span></span>
-
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-07 Tue 12:17</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-07 Tue 14:00</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-09 Thu 12:15</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-09 Thu 14:00</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-11 Sat 09:17</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-11 Tue 13:15</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-12 Sun 13:25</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-12 Wed 17:00</span></span>
-
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-13 Mon 13:30</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-13 Mon 15:15</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-16 Thu 14:15</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-16 Thu 16:32</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-19 Sun 09:06</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-19 Sun 13:00</span></span>
-
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-20 Mon 16:58</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-20 Mon 18:30</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-21 Tue 12:00</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-21 Tue 13:55</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-23 Thu 12:15</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-23 Thu 13:55</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-25 Sat 09:00</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-25 Sat 14:00</span></span>
-
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-27 Mon 10:21</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-27 Mon 11:30</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-27 Mon 13:35</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-27 Mon 15:40</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-28 Tue 14:44</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-28 Tue 17:30</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-29 Wed 09:19</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-29 Wed 12:25</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-30 Thu 10:30</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-30 Thu 11:25</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-01-30 Thu 12:20</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-01-30 Thu 15:35</span></span>
-
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-03 Mon 13:58</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-03 Mon 15:45</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-05 Wed 09:47</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-05 Wed 13:45</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-06 Thu 10:00</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-06 Thu 12:00</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-06 Thu 13:00</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-06 Thu 14:41</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-07 Fri 10:15</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-07 Fri 12:00</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-07 Fri 17:00</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-07 Fri 18:28</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-08 Sat 11:20</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-08 Sat 13:00</span></span>
-
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-10 Mon 12:54</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-10 Mon 14:54</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-11 Tue 10:13</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-11 Tue 11:40</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-12 Wed 12:46</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-12 Wed 15:00</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-13 Thu 12:57</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-13 Thu 14:00</span></span>
-</li>
-<li><span class="timestamp-wrapper"> <span class="timestamp">2014-02-13 Thu 16:12</span></span>&ndash; <span class="timestamp-wrapper"> <span class="timestamp">2014-02-13 Thu 17:12</span></span>
+<li>change appropriate methods
 </li>
 </ul>
 
-
-
-</div>
-
-</div>
-
-<div id="outline-container-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> Nuetzliches</h2>
-<div class="outline-text-2" id="text-5">
-
-
-
-</div>
-
-<div id="outline-container-5-1" class="outline-3">
-<h3 id="sec-5-1"><span class="section-number-3">5.1</span> Tremolo aktualisieren</h3>
-<div class="outline-text-3" id="text-5-1">
-
-
-<p>
-Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden: 
-</p><pre class="example">
-cd ~/tremolo/build
-make &amp;&amp; make install
-</pre>
-
-
-<p>
-Das selbe gilt für Tremologui. 
-</p><pre class="example">
-cd ~/tremologui/build
-make &amp;&amp; make install
-</pre>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-5-2" class="outline-3">
-<h3 id="sec-5-2"><span class="section-number-3">5.2</span> Gnuplot Befehle</h3>
-<div class="outline-text-3" id="text-5-2">
-
-
-<p>
-Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite gefunden werden: <a href="http://people.duke.edu/~hpgavin/gnuplot.html">http://people.duke.edu/~hpgavin/gnuplot.html</a>
-</p>
-<ol>
-<li>Um ein Data-file (zum Beispiel <code>*.epot*</code>) mit Gnuplot zu plotten, verwendet man: <br/>
-<pre class="example">
-gnuplot&gt; plot "./argon.epot" using 1:2
-</pre>
-
-<p>   Hierbei wird die zweite Spalte gegen die erste Spalte aufgetragen. 
-</p></li>
-<li>Dies kann auch mit mehreren Files gleichzeitig getan werden: <br/>
-<pre class="example">
-gnuplot&gt; plot "./argon.etot" using 1:2, "./argon.ekin" using 1:2, "./argon.epot" using 1:2
-</pre>
-
 </li>
-<li>Um den Achsenabschnitt zu veraendern, verwendet man: <br/>
-<pre class="example">
-gnuplot&gt; plot "./argon.epot" using 1:2; set yrange [-0.1: 2]
-</pre>
-
+<li>In SolParallel<sub>GUI</sub>
+<ul>
+<li>determine which Widgets must be added for the LongrangeButtonGroup
 </li>
-<li>Den urspruenglichen Achsenabschnitt kann man wie folgt wieder herstellen: <br/>
-<pre class="example">
-gnuplot&gt; plot "./argon.epot" using 1:2; set autoscale
-</pre>
-
+<li>determine which Widgets must be added for the LongrangeDataGroup
 </li>
-<li>Mit <br/>
-<pre class="example">
-gnuplot&gt; replot 
-</pre>
-
-<p>   kann der Plot aktualisiert werden. 
-</p></li>
-<li>Eine Uebersicht von <code>set</code> Befehlen: 
-   Create a title:                  
-<pre class="example">
-set title "Force-Deflection Data" 
-</pre>
-
-<p>   Put a label on the x-axis:       
-</p><pre class="example">
-set xlabel "Deflection (meters)" 
-</pre>
-
-<p>   Put a label on the y-axis:       
-</p><pre class="example">
-set ylabel "Force (kN)"
-</pre>
-
-<p>   Change the x-axis range:         
-</p><pre class="example">
-set xrange [0.001:0.005]
-</pre>
-
-<p>   Change the y-axis range:         
-</p><pre class="example">
-set yrange [20:500] 
-</pre>
-
-<p>   Have Gnuplot determine ranges:   
-</p><pre class="example">
-set autoscale
-</pre>
-
-<p>   Move the key:                    
-</p><pre class="example">
-set key 0.01,100
-</pre>
-
-<p>   Delete the key:                  
-</p><pre class="example">
-unset key
-</pre>
-
-<p>   Put a label on the plot:         
-</p><pre class="example">
-set label "yield point" at 0.003, 260
-</pre>
-
-<p>   Remove all labels:               
-</p><pre class="example">
-unset label
-</pre>
-
-<p>   Plot using log-axes:             
-</p><pre class="example">
-set logscale
-</pre>
-
-<p>   Plot using log-axes on y-axis:   
-</p><pre class="example">
-unset logscale; set logscale y
-</pre>
-
-<p>   Change the tic-marks:            
-</p><pre class="example">
-set xtics (0.002,0.004,0.006,0.008)
-</pre>
-
-<p>   Return to the default tics:      
-</p><pre class="example">
-unset xtics; set xtics auto
-</pre>
-
-<p>   Set output:                      
-</p><pre class="example">
-set output 'introduction.png'
-</pre>
+<li>Add Widgets and connections. 
+</li>
+</ul>
 
 </li>
 </ol>
 
 
-</div>
 
 </div>
 
-<div id="outline-container-5-3" class="outline-3">
-<h3 id="sec-5-3"><span class="section-number-3">5.3</span> Grep Befehle</h3>
-<div class="outline-text-3" id="text-5-3">
+</div>
+
+<div id="outline-container-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Funktion von saveValues() in SolParallel<sub>Data</sub></h3>
+<div class="outline-text-3" id="text-2-2">
 
 
 <p>
-<a href="http://www.panix.com/~elflord/unix/grep.html">http://www.panix.com/~elflord/unix/grep.html</a>
-</p>
-</div>
-
-</div>
-
-<div id="outline-container-5-4" class="outline-3">
-<h3 id="sec-5-4"><span class="section-number-3">5.4</span> Git Befehle</h3>
-<div class="outline-text-3" id="text-5-4">
-
-
-
-</div>
-
-<div id="outline-container-5-4-1" class="outline-4">
-<h4 id="sec-5-4-1"><span class="section-number-4">5.4.1</span> Branches</h4>
-<div class="outline-text-4" id="text-5-4-1">
-
-<ul>
-<li>Create a new branch:
-<pre class="example">
-git branch -b &lt;name_of_new_branch&gt;
-</pre>
-
-</li>
-<li>Create a new branch by pulling from a remote branch:
-<pre class="example">
-git checkout -b &lt;name_of_new_branch&gt; origin/&lt;name_of_branch&gt;
-</pre>
-
-</li>
-<li>Delete a local branch:
-<pre class="example">
-git branch -d &lt;name_of_branch&gt;
-</pre>
-
-</li>
-</ul>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-5-4-2" class="outline-4">
-<h4 id="sec-5-4-2"><span class="section-number-4">5.4.2</span> Diff</h4>
-<div class="outline-text-4" id="text-5-4-2">
-
-<ul>
-<li>Show differences between &lt;branch1&gt; and &lt;branch2&gt;
-<pre class="example">
-git diff &lt;branch1&gt;..&lt;branch2&gt;
-</pre>
-
-</li>
-</ul>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-5-4-3" class="outline-4">
-<h4 id="sec-5-4-3"><span class="section-number-4">5.4.3</span> Manipulate changes.</h4>
-<div class="outline-text-4" id="text-5-4-3">
-
-<ul>
-<li>Remove untracked files:
-<pre class="example">
-git clean -f -d
-</pre>
-
-</li>
-</ul>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-5-4-4" class="outline-4">
-<h4 id="sec-5-4-4"><span class="section-number-4">5.4.4</span> Add and remove changes.</h4>
-<div class="outline-text-4" id="text-5-4-4">
-
-<ul>
-<li>Remove deleted files from stack:
-<pre class="example">
-git add -u .
-</pre>
-
-</li>
-</ul>
-
-
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-5-5" class="outline-3">
-<h3 id="sec-5-5"><span class="section-number-3">5.5</span> Find Befehle</h3>
-<div class="outline-text-3" id="text-5-5">
-
-
-<ul>
-<li>Find all files with names containing <code>&lt;pattern&gt;</code> (wildcards have to be used with a preceeding backslash!):
-<pre class="example">
-find -name &lt;pattern&gt; 
-</pre>
-
-<p>  or e.g. 
+The saveValues() method is called by 
 </p><pre class="example">
-find -name &lt;pattern&gt;\*
+ParameterParser::parseFile(). 
 </pre>
 
+<p>The <code>parseFile</code> method passes as arguments a keyword list and an identifier list. 
+Example of the succession of these lists for the N<sup>2</sup> longrange solver:
+</p><ol>
+<li>keyword: coulomb, n2
+   identifier: state
 </li>
-</ul>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-5-6" class="outline-3">
-<h3 id="sec-5-6"><span class="section-number-3">5.6</span> Doxygen Befehle</h3>
-<div class="outline-text-3" id="text-5-6">
-
-
-<ul>
-<li><a href="http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdc">List of special commands</a>
+<li>keyword: coulomb, n2
+   identifier: r<sub>cut</sub>
 </li>
-</ul>
-
-
-
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> Aufgaben</h2>
-<div class="outline-text-2" id="text-6">
-
-
-
-</div>
-
-<div id="outline-container-6-1" class="outline-3">
-<h3 id="sec-6-1"><span class="section-number-3">6.1</span> <span class="todo TODO">TODO</span> Coulomb-potentials parameters</h3>
-<div class="outline-text-3" id="text-6-1">
-
-<p>    <span class="timestamp-wrapper"><span class="timestamp-kwd">DEADLINE: </span> <span class="timestamp">2014-02-12 Wed</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-02-09 Sun</span></span><br/>
-</p><ul>
-<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-02-01 Sat 16:26</span></span> <br/>
-     There is no doxygen documentation in tremologui.
-</li>
-<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-02-01 Sat 15:55</span></span> <br/>
-     Meeting with Christian on <span class="timestamp-wrapper"> <span class="timestamp">2014-01-30 Thu</span></span>. 
-<ul>
-<li><code>[X]</code> Enable auto-complete in emacs and overall configuration
-</li>
-<li><code>[X]</code> von testing branch ziehen (in separaten lokalen branch testing)
-</li>
-<li><code>[X]</code> branch in gui machen
-</li>
-<li><code>[X]</code> Benutze Tremolo-parser für die Coulom-potentials parameters in der GUI, die können in spme.c gefunden (werden in coulomb.c, CoulombInit aufgerufen).
-</li>
-</ul>
-
-</li>
-<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-02-01 Sat 15:53</span></span> <br/>
-     Created branch 'fixes' in tremologui and branch 'testing' in tremolo.
-
-</li>
-<li><code>[&nbsp;]</code> Replace parameters with potential specific paramters, e.g. cellration for N<sup>2</sup> by N<sup>2</sup> cellratio etc. 
-         For this all occurences of these parameters must be found and changed. 
-
-</li>
-<li><code>[&nbsp;]</code> The important files for that are solparallel<sub>gui</sub> and solparallel<sub>data</sub>.
-
-</li>
-<li><code>[&nbsp;]</code> Use tremolo-parser for Coulomb-potentials parameters in GUI found in <code>spme.c</code> (called in <code>CoulombInit</code> in <code>coulomb.c</code>).
-</li>
-</ul>
-
-
-
-</div>
-
-<div id="outline-container-6-1-1" class="outline-4">
-<h4 id="sec-6-1-1"><span class="section-number-4">6.1.1</span> <span class="done DONE">DONE</span> Get an overview of the structure of solparallel<sub>gui</sub> and solparallel<sub>data</sub>.</h4>
-<div class="outline-text-4" id="text-6-1-1">
-
-<p>      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-02-07 Fri 11:01</span></span><br/>
-</p>
-<ul>
-<li id="sec-6-1-1-1">Overall structure<br/>
-
-<ul>
-<li>solparallel<sub>gui</sub>.h/cpp contain everything that is related to the gui of "Solver and parallelization"
-</li>
-<li>solparallel<sub>data</sub>.h/cpp contain everything related to the parameters of "Solver and parallelization"
-</li>
-</ul>
-
-
-</li>
-</ul>
-<ul>
-<li id="sec-6-1-1-2">Structure of solparallel<sub>data</sub><br/>
-
-<ul>
-<li id="sec-6-1-1-2-1">class <code>SolParallel_Data</code><br/>
-
-<ul>
-<li id="sec-6-1-1-2-1-1">Important methods of this class<br/>
-<dl>
-<dt>QStringList getKeyWords()</dt><dd>Returns a QStringList containing the key words for the Section "Solver and Parallelization" in the <code>.parameters</code> file. 
-</dd>
-<dt>QString toParameterFileString()</dt><dd>Returns a QString containing all information for the Section "Solver and Parallelization" in the <code>.paramters</code> file.
-       The method is called in the <code>writeParameterFileStream</code> defined in <code>simulationparameterdata.cpp</code>. 
-</dd>
-<dt>QString toString()</dt><dd>Returns a QString containing information about solver and parallelization (used for debugging purposes). 
-</dd>
-</dl>
-
-
-
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-
-</div>
-
-<div id="outline-container-6-1-2" class="outline-4">
-<h4 id="sec-6-1-2"><span class="section-number-4">6.1.2</span> <span class="todo TODO">TODO</span> Make changes</h4>
-<div class="outline-text-4" id="text-6-1-2">
-
-
-<ul>
-<li id="sec-6-1-2-1"><span class="done DONE">DONE</span> Write documentation for solparallel<sub>data</sub> and solparallel<sub>gui</sub><br/>
-      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-02-12 Wed 15:05</span></span><br/>
-
-</li>
-</ul>
-<ul>
-<li id="sec-6-1-2-2"><span class="todo TODO">TODO</span> Make necessary changes in solparallel<sub>gui</sub>.h and solparallel<sub>gui</sub>.cpp<br/>
-<ul>
-<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-02-12 Wed 14:30</span></span> <br/>
-       In order to hide widgets, one can maybe use the QStackedWidgets class.
-</li>
-</ul>
-
-
-<p>       
-The menu in the "Solver and parallelization" section should be changed in the following way:
-</p><ul>
-<li>Every longrange solver should have an own parameter page. 
-</li>
-<li>Only the parameter page of the selected longrange solver should be displayed. This can be done using a <b>QStackedLayout</b> or <b>QStackedWidget</b>. 
-</li>
-<li>The different pages should contain the same LineEdits, Labels etc., e.g. the LineEdit for "r<sub>cut</sub>" should be a child widget of the parameter pages of N<sup>2</sup>, N<sup>2</sup><sub>Spline</sub> etc. 
-</li>
-</ul>
-
-
-<ul>
-<li id="sec-6-1-2-2-1"><span class="todo TODO">TODO</span> Add a QStackedWidget to the SolParallel<sub>GUI</sub> class.<br/>
-
-<ol>
-<li>Create a QStackedWidget, Child of LongRangeAndAdditionalValuesLayout. 
-<pre class="example">
-QStackedWidget *stackedWidget = new QStackedWidget.
-</pre>
-
-</li>
-<li>Create for every parameter exactly one GroupBox. Add everything related to this parameter to the appropriate GroupBox.
-</li>
-<li>Create for every longrange solver exactly one parameter page using GroupBox (or Frame?). 
-<ul>
-<li>Add the right layout.
-</li>
-<li>Add the right parameter GroupBoxes.
-</li>
-</ul>
-
-</li>
-<li>Add the parameter pages to the QStackedWidget. 
-<pre class="example">
-stackedWidget-&gt;addWidget(...)
-</pre>
-
-</li>
-<li>Add connections for the QStackedWidget. The index of the longrange solver radio button should be emitted to the QStackedWidget.
-</li>
-<li>Check if a QListWidget is maybe better then a list of radiobuttons. 
+<li>keyword: coulomb, n2
+   identifier: i<sub>degree</sub>
 </li>
 </ol>
 
 
+<p>
+Thus for the ScaFaCoS methods the succession of lists should be like:
+</p><ol>
+<li>keyword: coulomb, fcs
+   identifier: state
 </li>
-</ul>
-<ul>
-<li id="sec-6-1-2-2-2"><span class="todo TODO">TODO</span> Create a parameter page for every longrange solver.<br/>
+<li>keyword: coulomb, fcs
+   identifier: method
+</li>
+<li>keyword: coulomb, fcs
+   identifier: alpha 
+</li>
+</ol>
+
+<p>&hellip; 
+</p>
 
 
-
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li id="sec-6-1-2-3"><span class="todo TODO">TODO</span> Christian fragen, ob in toString() Methode die Parameter von allen Lösern oder nur vom aktuell ausgewählten ausgegeben werden soll.<br/>
-
-</li>
-</ul>
 </div>
 
 </div>
 
-<div id="outline-container-6-1-3" class="outline-4">
-<h4 id="sec-6-1-3"><span class="section-number-4">6.1.3</span> Fragen</h4>
-<div class="outline-text-4" id="text-6-1-3">
+<div id="outline-container-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> <span class="todo TODO">TODO</span> Add Ewald method</h3>
+<div class="outline-text-3" id="text-2-3">
 
 
-<ul>
-<li><code>[&nbsp;]</code> What is the load balancing function?
+<ol>
+<li>Parameters necessary for <code>ewald</code> method:
 </li>
-<li><code>[&nbsp;]</code> What is the poissonsolver?
+<li>alpha;
 </li>
-<li><code>[X]</code> What about the parallelization parameters? Do I have to differentiate here too?
-  Maybe later!
+<li>kmax;
 </li>
-<li><code>[X]</code> Why can't I select the remaining longrange solvers? 
-  They are not implemented yet.
+<li>maxkmax;
 </li>
-<li><code>[X]</code> Can I use the new c++ standard (arrays etc?)
-  Rather not. 
+<li>r<sub>cut</sub>
 </li>
-</ul>
+<li>tolerance
+</li>
+<li>tolerance<sub>type</sub>
+</li>
+</ol>
 
-</div>
 </div>
 </div>
 </div>
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2014-02-13T16:13+0100</p>
+<p class="date">Date: 2014-02-20T09:37+0100</p>
 <p class="author">Author: Pascal Huber</p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>

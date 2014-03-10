@@ -4,8 +4,6 @@
 
 ** TODO Christian wegen Stunden fragen
 
-** TODO Urlaub beantragen
-
 
 * Configurations
 
@@ -67,6 +65,11 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-02-18 Tue 12:54]--[2014-02-18 Tue 16:30]
 - [2014-02-19 Wed 09:28]--[2014-02-19 Wed 12:15]
 - [2014-02-19 Wed 13:30]--[2014-02-19 Wed 16:06]
+- [2014-02-20 Thu 09:28]--[2014-02-20 Thu 11:55]
+
+- [2014-03-06 Thu 08:35]--[2014-03-06 Thu 12:19]
+
+- [2014-03-10 Mon 13:15]--[2014-03-10 Mon 14:15]
 
   
 * Nuetzliches
@@ -186,6 +189,11 @@ http://www.panix.com/~elflord/unix/grep.html
 * Aufgaben
 
 ** TODO ScaFaCos Bibliothek
+   - Note taken on [2014-02-20 Thu 11:43] \\
+	 Absprache mit Christian:
+	 - Gehe von fcs_... Methoden aus.
+	 - Füge nur L-GPL Methoden zur GUI hinzu. (können im README.cmake) eingelesen werden.
+	 - Keine Unterscheidung ob ScaFaCos installiert ist oder nicht in der GUI. 
    - Note taken on [2014-02-18 Tue 16:23] \\
 	 Treffen mit Christian:
 	 Funktionalität für ScaFaCoS
@@ -195,7 +203,8 @@ http://www.panix.com/~elflord/unix/grep.html
 	 
 	 Danach CMake und Portierung auf Windows.
 
-*** TODO Overview
+*** DONE Overview
+	 CLOSED: [2014-02-20 Thu 14:19]
 
 **** The following methods are described in the manual:
 1. Ewald summation
@@ -237,8 +246,6 @@ ELSE:
 
 Note: in =tremolo-fcs.c= in =ReadFCSCoulombRecord()= an error message is displayed for method not supported. 
 
-***** TODO These names should be put in the tutorial. 
-
 **** The parameters for the different methods can be found 
 Either in the manual or in different 
 : ***_params.c
@@ -246,8 +253,11 @@ files.
 
 
 *** TODO Implement ScaFaCoS functionality to GUI
+	- Note taken on [2014-02-20 Thu 09:37] \\
+	  Created new branch 
+	  : incorp_scafacos
 
-**** Vorgabe
+**** Aim
 
 Add ScaFaCoS methods to tremologui. The following has to be done for this: 
 1. In SolParallel_Data
@@ -255,6 +265,7 @@ Add ScaFaCoS methods to tremologui. The following has to be done for this:
    - determine how the data should be saved
    - determine which methods have to be changed (in particular for writing and parsing)
    - change appropriate methods
+   - add error messages in parse-method whenever a parameter does not exist for a fcs method.
 2. In SolParallel_GUI
    - determine which Widgets must be added for the LongrangeButtonGroup
    - determine which Widgets must be added for the LongrangeDataGroup
@@ -274,29 +285,118 @@ Example of the succession of these lists for the N^2 longrange solver:
 3. keyword: coulomb, n2
    identifier: i_degree
 
-Thus for the ScaFaCoS methods the succession of lists should be like:
-1. keyword: coulomb, fcs
-   identifier: state
-2. keyword: coulomb, fcs
-   identifier: method
-3. keyword: coulomb, fcs
-   identifier: alpha 
-... 
+
+**** TODO Add ScaFaCoS methods (only LGPL)
+
+These are: 
+- FMM
+- PEPC
+- PP3MG
+- VMG
+- Ewald
+- direct
+
+Note that the P3M method in the ScaFaCoS-library is not working due to a bug in the code. 
+
+***** DONE Exclude superfluous longrange solver. 
+	  CLOSED: [2014-02-20 Thu 14:18]
+
+The following longrange solvers can be excluded from the gui: 
+- P3M
+- PME
+- Barnes-Hut
+
+***** TODO Add Ewald method
+
+Parameters necessary for =fcs_ewald= method:
+- fcs_float alpha (Ewald splitting parameter);
+- fcs_int kmax (Kspace cutoff);
+- fcs_int maxkmax (maximal Kspace cutoff used by tuning);
+- fcs_float r_cut (near field cutoff)
+- fcs_float tolerance 
+- fcs_int tolerance_type
+
+***** TODO Add direct solver
+
+Parameters necessary for =fcs_direct= method:
+- fcs_int periodic_images[NDIM] = periodic_images_x, periodic_images_y, periodic_images_z
+- fcs_float r_cut (near field cutoff)
+- fcs_float tolerance
+- fcs_int tolerance_type
+
+***** TODO Add FMM method
+
+Parameters necessary for =fcs_fmm= method: 
+- long long balanceload
+- fcs_int dipole_correction
+- long long maxdepth
+- fcs_int potential
+- fcs_float radius
+- long long unroll_limit
+- fcs_float r_cut
+- fcs_float tolerance
+- fcs_int tolerance_type
+
+***** TODO Add PEPC method
+
+Parameters necessary for =fcs_pepc= method:
+- fcs_int debuglevel
+- fcs_int dipole_correction
+- fcs_int epsilon
+- fcs_int load_balancing
+- fcs_float npm
+- fcs_int num_walk_threads
+- fcs_float theta
+- fcs_float r_cut
+- fcs_float tolerance
+- fcs_int tolerance_type
+
+***** TODO Add PP3MG method
+
+Parameters necessary for =fcs_pp3mg= method:
+- fcs_int degree
+- fcs_int ghosts
+- fcs_int gridsize[NDIM] = gridsize_x, gridsize_y, gridsize_z
+- fcs_int max_iterations
+- fcs_float r_cut
+- fcs_float tolerance
+- fcs_int tolerance_type
+
+***** TODO Add VMG method
+
+Parameters necessary for =fcs_ewald=
+- fcs_int cycle_type
+- fcs_int discretization_order
+- fcs_int interpolation_order
+- fcs_int max_iterations
+- fcs_int max_level
+- fcs_int near_field_cells
+- fcs_float precision
+- fcs_int smoothing_steps
+- fcs_float r_cut
+- fcs_float tolerance
+- fcs_int tolerance_type
 
 
+**** TODO Finish all methods in solparallel_data.cpp
+This includes toString(), parseToParameterString(), saveValues(), getter, setter. 
 
-**** TODO Add Ewald method
+***** DONE Add getter methods for all new member data.
+	  CLOSED: [2014-03-06 Thu 13:46]
 
-1. Parameters necessary for =ewald= method:
-- alpha;
-- kmax;
-- maxkmax;
-- r_cut
-- tolerance
-- tolerance_type
+***** TODO Add setter methods for all new member data. 
 
+Wrote all setter declaration in solparallel_data.h. Must still write the definitions. 
+	  
+***** TODO Finish toString().
 
-** Questions [0/2]
+***** TODO Adapt parseToParameterString() method.
+
+***** TODO Adapt saveValues() method.
+  
+
+** Questions [0/3]
 
 - [ ] Was ist der Unterschied zwischen GPL und LGPL?
 - [ ] In =fcs_params.c= was soll die Unterscheidung =ifdef USE_GPL= und =else=?
+- [ ] Is splittingCoefficientG und splittingCoefficientAlpha the same? 
