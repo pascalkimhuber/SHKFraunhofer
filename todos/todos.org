@@ -364,7 +364,7 @@ Parameters necessary for =fcs_pp3mg= method:
 
 ***** TODO Add VMG method
 
-Parameters necessary for =fcs_ewald=
+Parameters necessary for =fcs_vmg=
 - fcs_int cycle_type
 - fcs_int discretization_order
 - fcs_int interpolation_order
@@ -384,13 +384,17 @@ This includes toString(), parseToParameterString(), saveValues(), getter, setter
 ***** DONE Add getter methods for all new member data.
 	  CLOSED: [2014-03-06 Thu 13:46]
 
-***** TODO Add setter methods for all new member data. 
+***** DONE Add setter methods for all new member data. 
+	  CLOSED: [2014-03-19 Wed 11:26]
 
 Wrote all setter declaration in solparallel_data.h. Must still write the definitions. 
 	  
-***** TODO Finish toString().
+***** DONE Finish toString().
+	  CLOSED: [2014-03-19 Wed 14:35]
 
-***** TODO Adapt parseToParameterString() method.
+***** TODO Adapt toParameterString() method.
+- The parameter identifiers are written in this todo-file or in the manual given ~/tremolo_test/
+- Continue after FMM solver with PP3MG_PMG
 
 ***** TODO Adapt saveValues() method.
   
