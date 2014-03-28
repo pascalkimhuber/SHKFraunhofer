@@ -342,7 +342,7 @@ Parameters necessary for =fcs_fmm= method:
 Parameters necessary for =fcs_pepc= method:
 - fcs_int debuglevel
 - fcs_int dipole_correction
-- fcs_int epsilon
+- fcs_float epsilon
 - fcs_int load_balancing
 - fcs_float npm
 - fcs_int num_walk_threads
@@ -392,7 +392,8 @@ Wrote all setter declaration in solparallel_data.h. Must still write the definit
 ***** DONE Finish toString().
 	  CLOSED: [2014-03-19 Wed 14:35]
 
-***** TODO Adapt toParameterString() method.
+***** DONE Adapt toParameterString() method.
+	  CLOSED: [2014-03-27 Thu 14:28]
 - The parameter identifiers are written in this todo-file or in the manual given ~/tremolo_test/
 - Continue after FMM solver with PP3MG_PMG
 
