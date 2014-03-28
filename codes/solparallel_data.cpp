@@ -83,7 +83,7 @@ QStringList SolParallel_Data::getKeyWords() const
 
 QString SolParallel_Data::toString() const
 {
-    // enum longrange_algorithms { OFF = 0, N_2, N_2Spline, SPME, FMM, fcs_direct, fcs_Ewald, fcs_FMM, fcs_PEPC, fcs_PP3MG, fcs_VMG, size_count };
+    // enum longrange_algorithms { OFF = 0, N_2, N_2Spline, SPME, FMM, fcs_direct, fcs_Ewald, fcs_FMM, fcs_PEPC, fcs_PP3MG, fcs_VMG, fcs_P2NFFT, size_count };
 
 	// Initialize output string. 
 	QString t( "" );
@@ -112,6 +112,8 @@ QString SolParallel_Data::toString() const
 	case fcs_PP3MG: t.append( "Solver PP3MG (ScaFaCoS) selected\n" );
 		break;
 	case fcs_VMG: t.append( "Solver VMG (ScaFaCoS) selected\n" );
+		break;
+	case fcs_P2NFFT: t.append( "Solver P2NFFT (ScaFaCoS) selected\n" );
 		break;
 	}
 
@@ -151,8 +153,8 @@ QString SolParallel_Data::toString() const
 	// Output tolerance type of selected solver.
 	t.append( "Tolerance type (ScaFaCoS): " + QString::number( isFCS_tolerance_type() ) + "\n" );
 
-	// Output splitting parameter for Ewald method (ScaFaCoS). 
-	t.append( "Splitting parameter (Ewald, ScaFaCoS): " + QString::number( fcs_splittingCoefficientAlpha.getValue(), 'g') + " " + myConfig->trDisplayUnits_SI( fcs_splittingCoefficientAlpha) + "\n" );
+	// Output splitting parameter for Ewald method and P2NFFT (ScaFaCoS). 
+	t.append( "Splitting parameter (Ewald, ScaFaCoS): " + QString::number( fcs_splittingCoefficientAlpha.at(myLongrangeAlgo).getValue(), 'g') + " " + myConfig->trDisplayUnits_SI( fcs_splittingCoefficientAlpha.at(myLongrangeAlgo)) + "\n" );
 
 	// Output K-space cut-off for Ewald method (ScaFaCoS). 
 	t.append( "K-space cut-off (Ewald, ScaFaCoS): " + QString::number( isFCS_kmax()) + "\n" );
@@ -232,6 +234,18 @@ QString SolParallel_Data::toString() const
 	// Output number of smoothing steps for VMG (ScaFaCoS). 
 	t.append("Number of smoothing steps (VMG, ScaFaCoS): " + QString::number(isFCS_smoothing_steps()) + "\n");
 
+	// Output epsI value for P2NFFT (ScaFaCoS). 
+	t.append("Value of epsI parameter (P2NFFT, ScaFaCoS): " + QString::number(fcs_epsI.getValue(), 'g') + " " + myConfig->trDisplayUnits_SI(fcs_epsI) + "\n");
+
+	// Output value of parameter m for P2NFFT (ScaFaCoS). 
+	t.append("Value of parameter m (P2NFFT, ScaFaCoS): " + QString::number(isFCS_m()) + "\n");
+
+	// Output size of oversampled FFT grid in x-,y-,z-dimension for P2NFFT (ScaFaCoS).
+	t.append("Number of oversampled FFT grid cells in x-, y-, z-dimension (P2NFFT, ScaFaCoS): " + QString::number(isFCS_oversampled_gridsize_x()) + ", " + QString::number(isFCS_oversampled_gridsize_y()) + ", " + QString::number(isFCS_oversampled_gridsize_z()) + "\n");
+
+	// Output value of parameter p for P2NFFT (ScaFaCoS). 
+	t.append("Value of parameter p (P2NFFT, ScaFaCoS): " + QString::number(isFCS_p()) + "\n");
+
 	// Output number of processes. 
 	if (useSingleProcs) 
 	{
@@ -306,7 +320,7 @@ QString SolParallel_Data::toParameterFileString() const
 			  + writeParamValue("r_cut", myConfig->trOut(r_cut.at(fcs_Ewald)) ) + ",\t" 
 			  + writeParamValue("tolerance", myConfig->trOut(fcs_tolerance.at(fcs_Ewald))) + ",\t"
 			  + writeParamValue("tolerance_type", fcs_tolerance_type.at(fcs_Ewald)) + ",\t" 
-			  + writeParamValue("alpha", myConfig->trOut(fcs_splittingCoefficientAlpha)) + ",\t"
+			  + writeParamValue("alpha", myConfig->trOut(fcs_splittingCoefficientAlpha.at(fcs_Ewald))) + ",\t"
 			  + writeParamValue("kmax", fcs_kmax) + ",\t"
 			  + writeParamValue("maxkmax", fcs_maxkmax) + ";\n" );
 
@@ -323,6 +337,65 @@ QString SolParallel_Data::toParameterFileString() const
 			  + writeParamValue("radius", myConfig->trOut(fcs_radius)) + ",\t"
 			  + writeParamValue("unroll_limit", (long) fcs_unroll_limit) + ";\n" );
 
+	// Output parameters of PP3MG_PMG solver (ScaFaCoS). 
+	t.append( "\t\tfcs_pp3mg_pmg:\t"
+			  + writeParamState((myLongrangeAlgo == fcs_PP3MG) ) + ",\t"
+			  + writeParamValue("r_cut", myConfig->trOut(r_cut.at(fcs_PP3MG))) + ",\t"
+			  + writeParamValue("tolerance", myConfig->trOut(fcs_tolerance.at(fcs_PP3MG))) + ",\t"
+			  + writeParamValue("tolerance_type", fcs_tolerance_type.at(fcs_PP3MG)) + ",\t"
+			  + writeParamValue("degree", fcs_degree) + ",\t"
+			  + writeParamValue("ghosts", fcs_ghosts) + ",\t"
+			  + writeParamValue("gridsize_x", fcs_gridsize_x.at(fcs_PP3MG)) + ",\t"
+			  + writeParamValue("gridsize_y", fcs_gridsize_y.at(fcs_PP3MG)) + ",\t"
+			  + writeParamValue("gridsize_z", fcs_gridsize_z.at(fcs_PP3MG)) + ",\t"
+			  + writeParamValue("max_iterations", fcs_max_iterations.at(fcs_PP3MG)) + ";\n");
+
+	// Output parameters of PEPC solver (ScaFaCoS). 
+	t.append( "\t\tfcs_pepc:\t"
+			  + writeParamState((myLongrangeAlgo == fcs_PEPC)) + ",\t"
+			  + writeParamValue("r_cut", myConfig->trOut(r_cut.at(fcs_PEPC))) + ",\t"
+			  + writeParamValue("tolerance", myConfig->trOut(fcs_tolerance.at(fcs_PEPC))) + ",\t"
+			  + writeParamValue("tolerance_type", fcs_tolerance_type.at(fcs_PEPC)) + ",\t"
+			  + writeParamValue("debuglevel", fcs_debuglevel) + ",\t"
+			  + writeParamValue("dipole_correction", fcs_dipole_correction.at(fcs_PEPC)) + ",\t"
+			  + writeParamValue("epsilon", myConfig->trOut(fcs_epsilon)) + ",\t"
+			  + writeParamValue("load_balancing", fcs_load_balancing) + ",\t"
+			  + writeParamValue("npm", myConfig->trOut(fcs_npm)) + ",\t"
+			  + writeParamValue("num_walk_threads", fcs_num_walk_threads) + ",\t"
+			  + writeParamValue("theta", myConfig->trOut(fcs_theta)) + ";\n");
+
+	// Output parameters of VMG solver (ScaFaCoS). 
+	t.append( "\t\tfcs_vmg:\t"
+			  + writeParamState((myLongrangeAlgo == fcs_VMG)) + ",\t"
+			  + writeParamValue("r_cut", myConfig->trOut(r_cut.at(fcs_VMG))) + ",\t"
+			  + writeParamValue("tolerance", myConfig->trOut(fcs_tolerance.at(fcs_VMG))) + ",\t"
+			  + writeParamValue("tolerance_type", fcs_tolerance_type.at(fcs_VMG)) + ",\t"
+			  + writeParamValue("cycle_type", fcs_cycle_type) + ",\t"
+			  + writeParamValue("discretization_order", fcs_discretization_order) + ",\t"
+			  + writeParamValue("interpolation_order", fcs_interpolation_order.at(fcs_VMG)) + ",\t"
+			  + writeParamValue("max_iterations", fcs_max_iterations.at(fcs_VMG)) + ",\t"
+			  + writeParamValue("max_level", fcs_max_level) + ",\t"
+			  + writeParamValue("near_field_cells", fcs_near_field_cells) + ",\t"
+			  + writeParamValue("precision", myConfig->trOut(fcs_precision)) + ",\t"
+			  + writeParamValue("smoothing_steps", fcs_smoothing_steps) + ";\n");
+
+	// Output parameters of P2NFFT solver (ScaFaCoS). 
+	t.append( "\t\tfcs_p2nfft:\t"
+			  + writeParamState((myLongrangeAlgo == fcs_P2NFFT)) + ",\t"
+			  + writeParamValue("r_cut", myConfig->trOut(r_cut.at(fcs_P2NFFT))) + ",\t"
+			  + writeParamValue("tolerance", myConfig->trOut(fcs_tolerance.at(fcs_P2NFFT))) + ",\t"
+			  + writeParamValue("tolerance_type", fcs_tolerance_type.at(fcs_P2NFFT)) + ",\t"
+			  + writeParamValue("alpha", myConfig->trOut(fcs_splittingCoefficientAlpha.at(fcs_P2NFFT))) + ",\t"
+			  + writeParamValue("epsI", myConfig->trOut(fcs_epsI)) + ",\t"
+			  + writeParamValue("gridsize_x", fcs_gridsize_x.at(fcs_P2NFFT)) + ",\t"
+			  + writeParamValue("gridsize_y", fcs_gridsize_y.at(fcs_P2NFFT)) + ",\t"
+			  + writeParamValue("gridsize_z", fcs_gridsize_z.at(fcs_P2NFFT)) + ",\t"
+			  + writeParamValue("interpolation_order", fcs_interpolation_order.at(fcs_P2NFFT)) + ",\t"
+			  + writeParamValue("m", fcs_m) + ",\t"
+			  + writeParamValue("oversampled_gridsize_x", fcs_oversampled_gridsize_x) + ",\t"
+			  + writeParamValue("oversampled_gridsize_y", fcs_oversampled_gridsize_y) + ",\t"
+			  + writeParamValue("oversampled_gridsize_z", fcs_oversampled_gridsize_z) + ",\t"
+			  + writeParamValue("p", fcs_p) + ";\n" );
 
 	// Close "coulomb" section.
 	t.append( "\t\t};\n" );
@@ -665,7 +738,7 @@ QString SolParallel_Data::isFCS_toleranceUnit()
 { return myConfig->trDisplayUnits( fcs_tolerance.at(myLongrangeAlgo) ); }
 
 double SolParallel_Data::isFCS_splittingCoefficientAlpha()
-{ return myConfig->trOut( fcs_splittingCoefficientAlpha); }
+{ return myConfig->trOut( fcs_splittingCoefficientAlpha.at(myLongrangeAlgo)); }
 
 double SolParallel_Data::isFCS_radius()
 { return myConfig->trOut( fcs_radius); }
@@ -690,6 +763,12 @@ double SolParallel_Data::isFCS_precision()
 
 QString SolParallel_Data::isFCS_precisionUnit()
 { return myConfig->trDisplayUnits( fcs_precision); }
+
+double SolParallel_Data::isFCS_epsI()
+{ return myConfig->trOut(fcs_epsI); }
+
+QString SolParallel_Data::isFCS_epsIUnit()
+{ return myConfig->trDisplayUnits(fcs_epsI); }
 
 long SolParallel_Data::isProcessorUsage() const
 { return ( numberOfProcs[0] * numberOfProcs[1] * numberOfProcs[2] ); }
@@ -1044,19 +1123,19 @@ void SolParallel_Data::setFCS_ghosts(int valueIn)
 
 void SolParallel_Data::setFCS_gridsize_x(int valueIn)
 {
-	fcs_gridsize_x = valueIn;
+	fcs_gridsize_x.at(myLongrangeAlgo) = valueIn;
 	emit hasChanged();
 }
 
 void SolParallel_Data::setFCS_gridsize_y(int valueIn)
 {
-	fcs_gridsize_y = valueIn;
+	fcs_gridsize_y.at(myLongrangeAlgo) = valueIn;
 	emit hasChanged();
 }
 
 void SolParallel_Data::setFCS_gridsize_z(int valueIn)
 {
-	fcs_gridsize_z = valueIn;
+	fcs_gridsize_z.at(myLongrangeAlgo) = valueIn;
 	emit hasChanged();
 }
 
@@ -1080,7 +1159,7 @@ void SolParallel_Data::setFCS_discretization_order(int valueIn)
 
 void SolParallel_Data::setFCS_interpolation_order(int valueIn)
 {
-	fcs_interpolation_order = valueIn;
+	fcs_interpolation_order.at(myLongrangeAlgo) = valueIn;
 	emit hasChanged();
 }
 
@@ -1105,6 +1184,42 @@ void SolParallel_Data::setFCS_precision(double valueIn)
 void SolParallel_Data::setFCS_smoothing_steps(int valueIn)
 {
 	fcs_smoothing_steps = valueIn;
+	emit hasChanged();
+}
+
+void SolParallel_Data::setFCS_epsI(double valueIn)
+{
+	fcs_epsI = myConfig->trIn(fcs_epsI, valueIn);
+	emit hasChanged();
+}
+
+void SolParallel_Data::setFCS_m(int valueIn)
+{
+	fcs_m = valueIn;
+	emit hasChanged();
+}
+
+void SolParallel_Data::setFCS_oversampled_gridsize_x(int valueIn)
+{
+	fcs_oversampled_gridsize_x = valueIn;
+	emit hasChanged();
+}
+
+void SolParallel_Data::setFCS_oversampled_gridsize_y(int valueIn)
+{
+	fcs_oversampled_gridsize_y = valueIn;
+	emit hasChanged();
+}
+
+void SolParallel_Data::setFCS_oversampled_gridsize_z(int valueIn)
+{
+	fcs_oversampled_gridsize_z = valueIn;
+	emit hasChanged();
+}
+
+void SolParallel_Data::setFCS_p(int valueIn)
+{
+	fcs_p = valueIn;
 	emit hasChanged();
 }
 

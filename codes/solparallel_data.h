@@ -57,7 +57,7 @@ public:
 	 * @brief Enumeration of all longrange solvers.
 	 *        Note that the last element in the enum is only used to determine the number of longrange solvers!
 	 */
-	enum longrange_algorithms { OFF = 0, N_2, N_2Spline, SPME, FMM, fcs_direct, fcs_Ewald, fcs_FMM, fcs_PEPC, fcs_PP3MG, fcs_VMG, size_count };
+	enum longrange_algorithms { OFF = 0, N_2, N_2Spline, SPME, FMM, fcs_direct, fcs_Ewald, fcs_FMM, fcs_PEPC, fcs_PP3MG, fcs_VMG, fcs_P2NFFT, size_count };
      
 	/**
 	 * @brief Returns the index of the longrange solver that is currently active in this SolParallel_Data object.
@@ -248,16 +248,16 @@ public:
 	int isFCS_tolerance_type() const { return fcs_tolerance_type.at(myLongrangeAlgo); }
 
 	/**
-	 * @brief Returns the splitting coefficient for the Ewald method (ScaFaCoS). 
+	 * @brief Returns the splitting coefficient for the Ewald method and P2NFFT (ScaFaCoS). 
 	 *
-	 * @return Splitting coefficient \f$\alpha\f$ of Ewald method. 
+	 * @return Splitting coefficient \f$\alpha\f$. 
 	 */
 	double isFCS_splittingCoefficientAlpha();
 
 	/**
-	 * @brief Returns the units for the splitting coefficient for the Ewald method (ScaFaCoS). 
+	 * @brief Returns the units for the splitting coefficient for the Ewald method and P2NFFT (ScaFaCoS). 
 	 *
-	 * @return QString containing the units for the splitting coefficient \f$\alpha\f$ of the Ewald method. 
+	 * @return QString containing the units for the splitting coefficient \f$\alpha\f$. 
 	 */
 	QString isFCS_splittingCoefficientAlphaUnit();
 
@@ -308,7 +308,7 @@ public:
 	 *
 	 * @return Dipole correction. 
 	 */
-	int isFCS_dipole_correction() const { return fcs_dipole_correction.at(myLongrangeAlgorithm); }
+	int isFCS_dipole_correction() const { return fcs_dipole_correction.at(myLongrangeAlgo); }
 
 	/**
 	 * @brief Returns the maximum tree depth for FMM (ScaFaCoS). 
@@ -427,28 +427,28 @@ public:
 	 *
 	 * @return Number of grid cells in x-dimension for PP3MG. 
 	 */ 
-	int isFCS_gridsize_x() const { return fcs_gridsize_x; }
+	int isFCS_gridsize_x() const { return fcs_gridsize_x.at(myLonrangeAlgo); }
 
 	/**
 	 * @brief Returns the number of grid cells in y-dimension for PP3MG (ScaFaCoS). 
 	 *
 	 * @return Number of grid cells in y-dimension for PP3MG. 
 	 */ 
-	int isFCS_gridsize_y() const { return fcs_gridsize_y; }
+	int isFCS_gridsize_y() const { return fcs_gridsize_y.at(myLongrangeAlgo); }
 
 	/**
 	 * @brief Returns the number of grid cells in z-dimension for PP3MG (ScaFaCoS). 
 	 *
 	 * @return Number of grid cells in z-dimension for PP3MG. 
 	 */ 
-	int isFCS_gridsize_z() const { return fcs_gridsize_z; }
+	int isFCS_gridsize_z() const { return fcs_gridsize_z.at(myLongrangeAlgo); }
 
 	/**
 	 * @brief Returns the number of iterations for PP3MG and VMG (ScaFaCoS). 
 	 *
 	 * @return Number of iterations for PP3MG and VMG. 
 	 */
-	int isFCS_max_iterations() const { return fcs_max_iterations.at(myLongrangeAlgorithm); }
+	int isFCS_max_iterations() const { return fcs_max_iterations.at(myLongrangeAlgo); }
 
 	/**
 	 * @brief Returns the multi-grid cycle type specifier for VMG (ScaFaCoS). 
@@ -469,7 +469,7 @@ public:
 	 *
 	 * @return Degree of interpolation polynomial. 
 	 */
-	int isFCS_interpolation_order() const { return fcs_interpolation_order; }
+	int isFCS_interpolation_order() const { return fcs_interpolation_order.at(myLongrangeAlgo); }
 
 	/**
 	 * @brief Returns the maximum number of multi-grid levels for VMG (ScaFaCoS). 
@@ -495,9 +495,9 @@ public:
 	/**
 	 * @brief Returns the unit for the residual threshold for solver iteration in VMG (ScaFaCoS). 
 	 *
-	 * @return QString containint the units for the residual threshold. 
+	 * @return QString containing the units for the residual threshold. 
 	 */
-	double isFCS_precisionUnit();
+	QString isFCS_precisionUnit();
 
 	/**
 	 * @brief Returns number of smoothing steps in VMG (ScaFaCoS). 
@@ -505,6 +505,55 @@ public:
 	 * @return Number of (pre- and post-) smoothing steps. 
 	 */
 	int isFCS_smoothing_steps() const { return fcs_smoothing_steps; }
+
+	/**
+	 * @brief Returns value of epsI for P2NFFT (ScaFaCoS). 
+	 *
+	 * @return Value of epsI. 
+	 */
+	double isFCS_epsI();
+
+	/**
+	 * @brief Returns the unit of epsI for P2NFFT (ScaFaCoS). 
+	 *
+	 * @return QString containing the units for the epsI value. 
+	 */
+	double isFCS_epsIUnit();
+
+	/**
+	 * @brief Returns value of parameter m for P2NFFT (ScaFaCoS). 
+	 *
+	 * @return Value of m. 
+	 */
+	int isFCS_m() const { return fcs_m; }
+
+	/**
+	 * @brief Returns size of oversampled FFT grid in x-dimension for P2NFFT (ScaFaCoS). 
+	 *
+	 * @return Size of oversampled FFT grid in x-dimension.
+	 */
+	int isFCS_oversampled_gridsize_x() const {return fcs_oversampled_gridsize_x; }
+
+	/**
+	 * @brief Returns size of oversampled FFT grid in y-dimension for P2NFFT (ScaFaCoS). 
+	 *
+	 * @return Size of oversampled FFT grid in y-dimension.
+	 */
+	int isFCS_oversampled_gridsize_y() const {return fcs_oversampled_gridsize_y; }
+
+	/**
+	 * @brief Returns size of oversampled FFT grid in z-dimension for P2NFFT (ScaFaCoS). 
+	 *
+	 * @return Size of oversampled FFT grid in z-dimension.
+	 */
+	int isFCS_oversampled_gridsize_z() const {return fcs_oversampled_gridsize_z; }
+
+	/**
+	 * @brief Returns value of the parameter p used in P2NFFT (ScaFaCoS). 
+	 *
+	 * @return Value of parameter p.
+	 */
+	int isFCS_p() const {return fcs_p;}
 
 	/**
 	 * @brief Indicates the use of one number of processes, instead of cutting the domain.
@@ -697,7 +746,7 @@ public slots:
 	void setFCS_tolerance_type(int valueIn);
 
 	/**
-	 * @brief Sets the splitting coefficient for Ewald method (ScaFaCoS) and emits a hasChanged() signal. 
+	 * @brief Sets the splitting coefficient for Ewald method/P2NFFT (ScaFaCoS) and emits a hasChanged() signal. 
 	 *
 	 * @param valueIn New value for the splitting coefficient. 
 	 */
@@ -914,6 +963,48 @@ public slots:
 	void setFCS_smoothing_steps(int valueIn);
 
 	/**
+	 * @brief Sets the value of epsI used in P2NFFT (ScaFaCoS) and emits a hasChanged() signal. 
+	 *
+	 * @param valueIn New value for epsI parameter. 
+	 */
+	void setFCS_epsI(double valueIn);
+
+	/**
+	 * @brief Sets the value of parameter m used in P2NFFT (ScaFaCoS) and emits a hasChanged() signal. 
+	 *
+	 * @param valueIn New value for parameter m. 
+	 */
+	void setFCS_m(int valueIn);
+
+	/**
+	 * @brief Sets the size of the oversampled FFT grid in x-dimension for P2NFFT (ScaFaCoS) and emits  a hasChanged() signal. 
+	 *
+	 * @param valueIn New value. 
+	 */
+	void setFCS_oversampled_gridsize_x(int valueIn);
+
+	/**
+	 * @brief Sets the size of the oversampled FFT grid in y-dimension for P2NFFT (ScaFaCoS) and emits  a hasChanged() signal. 
+	 *
+	 * @param valueIn New value. 
+	 */
+	void setFCS_oversampled_gridsize_y(int valueIn);
+
+	/**
+	 * @brief Sets the size of the oversampled FFT grid in z-dimension for P2NFFT (ScaFaCoS) and emits  a hasChanged() signal. 
+	 *
+	 * @param valueIn New value. 
+	 */
+	void setFCS_oversampled_gridsize_z(int valueIn);
+
+	/**
+	 * @brief Sets the value of the parameter p used in P2NFFT (ScaFaCoS) and emits  a hasChanged() signal. 
+	 *
+	 * @param valueIn New value for the parameter p. 
+	 */
+	void setFCS_p(int valueIn);
+
+	/**
 	 * @brief Sets the number of processes in X-direction and emits a hasChanged() signal. 
 	 *
 	 * @param valueIn New number of processes in X-direction. 
@@ -1067,11 +1158,11 @@ private:
 	std::vector<int> fcs_tolerance_type;
 
 	/**
-	 * @brief Splitting parameter /f$alpha/f$ for Ewald method (ScaFaCoS). 
+	 * @brief Splitting parameter /f$alpha/f$ for Ewald method and P2NFFT (ScaFaCoS). 
 	 *
 	 * @todo Determine correct data type! Is this the same parameter as in SPME (splittingCoefficientG)?
 	 */
-	StandardisedDouble fcs_splittingCoefficientAlpha;
+	std::vector<StandardisedDouble> fcs_splittingCoefficientAlpha;
 
 	/**
 	 * @brief K-space cut-off for Ewald method (ScaFaCoS).
@@ -1139,13 +1230,13 @@ private:
 	int fcs_ghosts;
 
 	/// Number of grid cells in x-dimension for PP3MG (ScaFaCoS). 
-	int fcs_gridsize_x;
+	std::vector<int> fcs_gridsize_x;
 
 	/// Number of grid cells in y-dimension for PP3MG (ScaFaCoS). 
-	int fcs_gridsize_y;
+	std::vector<int> fcs_gridsize_y;
 
 	/// Number of grid cells in z-dimension for PP3MG (ScaFaCoS). 
-	int fcs_gridsize_z;
+	std::vector<int> fcs_gridsize_z;
 
 	/// Maximum number of iterations for PP3MG and VMG (ScaFaCoS). 
 	std::vector<int> fcs_max_iterations;
@@ -1157,7 +1248,7 @@ private:
 	int fcs_discretization_order;
 
 	/// Degree of interpolation polynomial for VMG (ScaFaCoS). 
-	int fcs_interpolation_order;
+	std::vector<int> fcs_interpolation_order;
 
 	/// Maximum number of multi-grid levels for VMG (ScaFaCoS). 
 	int fcs_max_level;
@@ -1170,6 +1261,24 @@ private:
 
 	/// Number of pre- and post-smoothing steps for VMG (ScaFaCoS). 
 	int fcs_smoothing_steps; 
+
+	/// epsI parameter for P2NFFT (ScaFaCoS). 
+	StandardisedDouble fcs_epsI;
+
+	/// Parameter m for P2NFFT (ScaFaCoS).
+	int fcs_m;
+
+	/// Size of oversampled FFT grid in x-dimension used in P2NFFT (ScaFaCoS). 
+	int fcs_oversampled_gridsize_x;
+
+	/// Size of oversampled FFT grid in y-dimension used in P2NFFT (ScaFaCoS).  
+	int fcs_oversampled_gridsize_y;
+
+	/// Size of oversampled FFT grid in z-dimension used in P2NFFT (ScaFaCoS). 
+	int fcs_oversampled_gridsize_z;
+
+	/// Parameter p used in P2NFFT (ScaFaCoS.)
+	int fcs_p;
 
 	/*
 	 * All parameters related with the parallelization settings. 
