@@ -71,6 +71,10 @@ Wait for Mail from IT. Change password if smartcard is there!
 
 - [2014-03-10 Mon 13:15]--[2014-03-10 Mon 14:15]
 
+- [2014-03-28 Fri 16:00]--[2014-03-28 Fri 17:30]
+
+- [2014-04-01 Tue 13:38]--[2014-04-01 Tue 17:00]
+
   
 * Nuetzliches
 
@@ -306,7 +310,8 @@ The following longrange solvers can be excluded from the gui:
 - PME
 - Barnes-Hut
 
-***** TODO Add Ewald method
+***** DONE Add Ewald method
+	  CLOSED: [2014-04-01 Tue 16:18]
 
 Parameters necessary for =fcs_ewald= method:
 - fcs_float alpha (Ewald splitting parameter);
@@ -316,7 +321,8 @@ Parameters necessary for =fcs_ewald= method:
 - fcs_float tolerance 
 - fcs_int tolerance_type
 
-***** TODO Add direct solver
+***** DONE Add direct solver
+	  CLOSED: [2014-04-01 Tue 16:18]
 
 Parameters necessary for =fcs_direct= method:
 - fcs_int periodic_images[NDIM] = periodic_images_x, periodic_images_y, periodic_images_z
@@ -324,7 +330,8 @@ Parameters necessary for =fcs_direct= method:
 - fcs_float tolerance
 - fcs_int tolerance_type
 
-***** TODO Add FMM method
+***** DONE Add FMM method
+	  CLOSED: [2014-04-01 Tue 16:18]
 
 Parameters necessary for =fcs_fmm= method: 
 - long long balanceload
@@ -337,7 +344,8 @@ Parameters necessary for =fcs_fmm= method:
 - fcs_float tolerance
 - fcs_int tolerance_type
 
-***** TODO Add PEPC method
+***** DONE Add PEPC method
+	  CLOSED: [2014-04-01 Tue 16:18]
 
 Parameters necessary for =fcs_pepc= method:
 - fcs_int debuglevel
@@ -351,7 +359,8 @@ Parameters necessary for =fcs_pepc= method:
 - fcs_float tolerance
 - fcs_int tolerance_type
 
-***** TODO Add PP3MG method
+***** DONE Add PP3MG method
+	  CLOSED: [2014-04-01 Tue 16:18]
 
 Parameters necessary for =fcs_pp3mg= method:
 - fcs_int degree
@@ -362,7 +371,8 @@ Parameters necessary for =fcs_pp3mg= method:
 - fcs_float tolerance
 - fcs_int tolerance_type
 
-***** TODO Add VMG method
+***** DONE Add VMG method
+	  CLOSED: [2014-04-01 Tue 16:18]
 
 Parameters necessary for =fcs_vmg=
 - fcs_int cycle_type
@@ -378,7 +388,8 @@ Parameters necessary for =fcs_vmg=
 - fcs_int tolerance_type
 
 
-**** TODO Finish all methods in solparallel_data.cpp
+**** DONE Finish all methods in solparallel_data.cpp
+	 CLOSED: [2014-04-01 Tue 16:18]
 This includes toString(), parseToParameterString(), saveValues(), getter, setter. 
 
 ***** DONE Add getter methods for all new member data.
@@ -397,8 +408,64 @@ Wrote all setter declaration in solparallel_data.h. Must still write the definit
 - The parameter identifiers are written in this todo-file or in the manual given ~/tremolo_test/
 - Continue after FMM solver with PP3MG_PMG
 
-***** TODO Adapt saveValues() method.
-  
+***** DONE Adapt saveValues() method.
+	  CLOSED: [2014-04-01 Tue 14:54]
+
+***** TODO Change clear() method (set new Default values?). 
+
+
+**** TODO Add ScaFaCoS methods to solparallel_gui.h
+
+List of all new parameters:
+- tolerance
+- tolerance_type
+- splittingCoefficientAlpha
+- periodic_images_x,y,z
+- kmax
+- maxkmax
+- balanceload
+- dipole_correction
+- maxdepth
+- potential
+- radius
+- unroll_limit
+- degree
+- ghosts
+- gridsize_x,y,z
+- max_iterations
+- debuglevel
+- epsilon
+- load_balancing
+- npm
+- num_walk_threads
+- theta
+- cycle_type
+- discretization_order
+- interpolation_order
+- max_level
+- near_field_cells
+- precision
+- smoothing_steps
+- epsI
+- m
+- p
+- oversampled_gridsize_x,y,z
+
+***** TODO Add slot defintions for all fcs parameter.
+
+***** DONE Add QRadioButtons for fcs solvers. 
+	  CLOSED: [2014-04-01 Tue 16:51]
+
+***** DONE Add labels and line edits for fcs parameter. 
+	  CLOSED: [2014-04-01 Tue 17:29]
+
+**** TODO Add ScaFaCoS methods to solparallel_gui.cpp
+
+***** TODO Adapt languageChange().
+
+***** TODO Adapt updateGui_data(). 
+
+***** TODO Implement solts for all fcs parameter. 
 
 ** Questions [0/3]
 
