@@ -73,7 +73,11 @@ Wait for Mail from IT. Change password if smartcard is there!
 
 - [2014-03-28 Fri 16:00]--[2014-03-28 Fri 17:30]
 
-- [2014-04-01 Tue 13:38]--[2014-04-01 Tue 17:00]
+- [2014-04-01 Tue 13:38]--[2014-04-01 Tue 17:40]
+
+- [2014-04-03 Thu 08:45]--[2014-04-03 Thu 09:45]
+
+- [2014-04-03 Thu 13:30]--[2014-04-03 Thu 17:36]
 
   
 * Nuetzliches
@@ -414,7 +418,8 @@ Wrote all setter declaration in solparallel_data.h. Must still write the definit
 ***** TODO Change clear() method (set new Default values?). 
 
 
-**** TODO Add ScaFaCoS methods to solparallel_gui.h
+**** DONE Add ScaFaCoS methods to solparallel_gui.h
+	 CLOSED: [2014-04-03 Thu 15:47]
 
 List of all new parameters:
 - tolerance
@@ -451,7 +456,8 @@ List of all new parameters:
 - p
 - oversampled_gridsize_x,y,z
 
-***** TODO Add slot defintions for all fcs parameter.
+***** DONE Add slot defintions for all fcs parameter.
+	  CLOSED: [2014-04-03 Thu 09:17]
 
 ***** DONE Add QRadioButtons for fcs solvers. 
 	  CLOSED: [2014-04-01 Tue 16:51]
@@ -461,11 +467,17 @@ List of all new parameters:
 
 **** TODO Add ScaFaCoS methods to solparallel_gui.cpp
 
-***** TODO Adapt languageChange().
+***** DONE Adapt languageChange().
+	  CLOSED: [2014-04-03 Thu 14:52]
 
-***** TODO Adapt updateGui_data(). 
+***** DONE Adapt updateGui_data(). 
+	  CLOSED: [2014-04-03 Thu 15:47]
 
-***** TODO Implement solts for all fcs parameter. 
+***** DONE Implement slots for all fcs parameter.
+	  CLOSED: [2014-04-03 Thu 16:56]
+
+***** TODO Add new buttons, labels and lineEdits to constructor. 
+
 
 ** Questions [0/3]
 
