@@ -203,7 +203,7 @@ public:
 	 *
 	 * @return Maximum tree level of current multipole method. 
 	 */
-	int isMaxTreeLevel() const { return maxTreeLevel.at(myLongrangeAlgo); }
+	int isMaxTreeLevel() const { return maxTreeLevel; }
 
 	/**
 	 * @brief Returns the list of available poisson solver for the currently selected longrange algorithm.  
@@ -217,14 +217,14 @@ public:
 	 *
 	 * @return QString containing the name of the actual selected poissonsolver.
 	 */
-	QString isPoisson_solver() const { return *(poissonsolver.at(myLongrangeAlgo)); }
+	QString isPoisson_solver() const { return *poissonsolver; }
 
 	/**
 	 * @brief Returns the cellratio of the currently selected longrange solver. 
 	 *
 	 * @return Cellratio of current solver.
 	 */
-	int isCellratio() const { return cellratio.at(myLongrangeAlgo); }
+	int isCellratio() const { return cellratio; }
 
 	/**
 	 * @brief Returns the tolerance (for ScaFaCos solvers only) for the current longrange solver. 
@@ -427,7 +427,7 @@ public:
 	 *
 	 * @return Number of grid cells in x-dimension for PP3MG. 
 	 */ 
-	int isFCS_gridsize_x() const { return fcs_gridsize_x.at(myLonrangeAlgo); }
+	int isFCS_gridsize_x() const { return fcs_gridsize_x.at(myLongrangeAlgo); }
 
 	/**
 	 * @brief Returns the number of grid cells in y-dimension for PP3MG (ScaFaCoS). 
@@ -518,7 +518,7 @@ public:
 	 *
 	 * @return QString containing the units for the epsI value. 
 	 */
-	double isFCS_epsIUnit();
+	QString isFCS_epsIUnit();
 
 	/**
 	 * @brief Returns value of parameter m for P2NFFT (ScaFaCoS). 
@@ -1065,16 +1065,55 @@ signals:
 	/*
 	 * Signals used to enable parameters for longrange solvers and parallelization. 
 	 */
-	void enablepoisson_solver( bool enable );
-	void enableR_Cut( bool enable );
-	void enableR_L( bool enable );
-	void enableSplittingCoefficientG( bool enable );
-	void enableMAP( bool enable );
-	void enableMaxTreeLevel( bool enable );
-	void enableInterpolationDegree( bool enable );
-	void enableCellratio( bool enable );
-	void enableLoadBalValues_dyn( bool enable );
-	void enableLoadBalValues_opt( bool enable );
+	void enablepoisson_solver(bool enable);
+	void enableR_Cut(bool enable);
+	void enableR_L(bool enable);
+	void enableSplittingCoefficientG(bool enable);
+	void enableMAP(bool enable);
+	void enableMaxTreeLevel(bool enable);
+	void enableInterpolationDegree(bool enable);
+	void enableCellratio(bool enable);
+	void enableFCS_tolerance(bool enable);
+	void enableFCS_tolerance_type(bool enable);
+	void enableFCS_periodic_images_x(bool enable);
+	void enableFCS_periodic_images_y(bool enable);
+	void enableFCS_periodic_images_z(bool enable);
+	void enableFCS_splittingCoefficientAlpha(bool enable);
+	void enableFCS_kmax(bool enable);
+	void enableFCS_maxkmax(bool enable);
+	void enableFCS_balanceload(bool enable);
+	void enableFCS_dipole_correction(bool enable);
+	void enableFCS_maxdepth(bool enable);
+	void enableFCS_potential(bool enable);
+	void enableFCS_radius(bool enable);
+	void enableFCS_unroll_limit(bool enable);
+	void enableFCS_degree(bool enable);
+	void enableFCS_ghosts(bool enable);
+	void enableFCS_gridsize_x(bool enable);
+	void enableFCS_gridsize_y(bool enable);
+	void enableFCS_gridsize_z(bool enable);
+	void enableFCS_max_iterations(bool enable);
+	void enableFCS_debuglevel(bool enable);
+	void enableFCS_epsilon(bool enable);
+	void enableFCS_load_balancing(bool enable);
+	void enableFCS_npm(bool enable);
+	void enableFCS_num_walk_threads(bool enable);
+	void enableFCS_theta(bool enable);
+	void enableFCS_cycle_type(bool enable);
+	void enableFCS_discretization_order(bool enable);
+	void enableFCS_interpolation_order(bool enable);
+	void enableFCS_max_level(bool enable);
+	void enableFCS_near_field_cells(bool enable);
+	void enableFCS_precision(bool enable);
+	void enableFCS_smoothing_steps(bool enable);
+	void enableFCS_epsI(bool enable);
+	void enableFCS_m(bool enable);
+	void enableFCS_p(bool enable);
+	void enableFCS_oversampled_gridsize_x(bool enable);
+	void enableFCS_oversampled_gridsize_y(bool enable);
+	void enableFCS_oversampled_gridsize_z(bool enable);
+	void enableLoadBalValues_dyn(bool enable);
+	void enableLoadBalValues_opt(bool enable);
 
      
      

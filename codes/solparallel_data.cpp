@@ -37,10 +37,13 @@ SolParallel_Data::SolParallel_Data( simulationParameterData* parent, TremoloGUIC
 	: r_cut(size_count), 
 	  interpolationDegree(size_count), 
 	  fcs_tolerance(size_count), 
-	  fcs_tolerance_type(size_count)
+	  fcs_tolerance_type(size_count),
 	  fcs_dipole_correction(size_count), 
-	  fcs_max_iterations(size_count), 
-	  
+	  fcs_gridsize_x(size_count), 
+	  fcs_gridsize_y(size_count), 
+	  fcs_gridsize_z(size_count), 
+	  fcs_interpolation_order(size_count),
+	  fcs_max_iterations(size_count) 
 {
 	// Set parent and gui configuration.
 	myParent = parent;
@@ -286,16 +289,16 @@ QString SolParallel_Data::toParameterFileString() const
 	t.append( "\t\tn2spline:\t" 
 			  + writeParamState( (myLongrangeAlgo == N_2Spline) ) + ",\t" 
 			  + writeParamValue( "r_cut", myConfig->trOut(r_cut.at(N_2Spline)) ) + ",\t" 
-			  + writeParamValue( "r_l", myConfig->trOut(r_l.at(N_2Spline)) ) + ",\t" 
+			  + writeParamValue( "r_l", myConfig->trOut(r_l)) + ",\t" 
 			  + writeParamValue( "i_degree", interpolationDegree.at(N_2Spline) ) + ";\n" );
 
 	// Output parameters of TSPME solver.
 	t.append( "\t\tspme:\t" 
 			  + writeParamState( (myLongrangeAlgo == SPME) ) + ",\t" 
-			  + writeParamValue( "ps", (*(poissonsolver.at(SPME))).toLower() ) + ",\t" 
+			  + writeParamValue( "ps", (*poissonsolver).toLower() ) + ",\t" 
 			  + writeParamValue( "r_cut", myConfig->trOut(r_cut.at(SPME)) ) + ",\t" 
-			  + writeParamValue( "G", myConfig->trOut(splittingCoefficientG.at(SPME)) ) + ",\t" 
-			  + writeParamValue( "cellratio", cellratio.at(SPME) ) + ",\t" 
+			  + writeParamValue( "G", myConfig->trOut(splittingCoefficientG) ) + ",\t" 
+			  + writeParamValue( "cellratio", cellratio ) + ",\t" 
 			  + writeParamValue( "i_degree", interpolationDegree.at(SPME) ) + ";\n" );
 
 	// Output parameters of TFMM solver. 
@@ -303,8 +306,8 @@ QString SolParallel_Data::toParameterFileString() const
 			  + writeParamState( (myLongrangeAlgo == FMM) ) + ",\t" 
 			  + writeParamValue( "r_cut", myConfig->trOut(r_cut.at(FMM)) ) + ",\t" 
 			  + writeParamValue( "i_degree", interpolationDegree.at(FMM) ) + ",\t" 
-			  + writeParamValue( "mtl", maxTreeLevel.at(FMM) ) + ",\t" 
-			  + writeParamValue( "Map", myConfig->trOut(MAP.at(FMM)) ) + ";\n" );
+			  + writeParamValue( "mtl", maxTreeLevel) + ",\t" 
+			  + writeParamValue( "Map", myConfig->trOut(MAP) ) + ";\n" );
 
 	// Output parameters of direct summation (ScaFaCoS). 
 	t.append( "\t\tfcs_direct:\t"
@@ -503,7 +506,7 @@ bool SolParallel_Data::saveValues( QStringList keywordsIn, QStringList identifie
 				d = getParamDoubleValue( returnValueListIn[0], &ok );
 
 				// If returned value was valid save it to this SolParallel_Data object, else return with error message.
-				if (ok) r_l.at(ensemblelist.indexOf( keywordsIn[1].toLower() ) + 1) = myConfig->trIn(r_l.at(ensemblelist.indexOf( keywordsIn[1].toLower() ) + 1), d );
+				if (ok) r_l = myConfig->trIn(r_l, d );
 				else { myConfig->addLogEntryInvalidParm( TremoloGUIConfig::error, returnValueListIn[0], "invalid format" );  return false; }
 			} 
 			// Save splitting coefficient G identifier.
@@ -516,7 +519,7 @@ bool SolParallel_Data::saveValues( QStringList keywordsIn, QStringList identifie
 				d = getParamDoubleValue( returnValueListIn[0], &ok );
 
 				// If returned value was valid save it to this SolParallel_Data object, else return with error message.
-				if (ok) splittingCoefficientG.at(ensemblelist.indexOf( keywordsIn[1].toLower() ) + 1) =myConfig->trIn(splittingCoefficientG.at(ensemblelist.indexOf( keywordsIn[1].toLower() ) + 1), d );
+				if (ok) splittingCoefficientG = myConfig->trIn(splittingCoefficientG, d );
 				else { myConfig->addLogEntryInvalidParm( TremoloGUIConfig::error, returnValueListIn[0], "invalid format" );  return false; }
 			} 
 			// Save cellratio identifier.
@@ -529,7 +532,7 @@ bool SolParallel_Data::saveValues( QStringList keywordsIn, QStringList identifie
 				i = getParamIntValue( returnValueListIn[0], &ok );
 
 				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
-				if (ok) cellratio.at(ensemblelist.indexOf( keywordsIn[1].toLower() ) + 1) = i;
+				if (ok) cellratio = i;
 				else { myConfig->addLogEntryInvalidParm( TremoloGUIConfig::error, returnValueListIn[0], "invalid format" );  return false; }
 			} 
 			// Save interpolation degree.
@@ -555,7 +558,7 @@ bool SolParallel_Data::saveValues( QStringList keywordsIn, QStringList identifie
 				qs = getParamStringValue( returnValueListIn[0], &ok );
 
 				// If returned value was valid save it to this SolParallel_Data object, else return with error message.
-				if (ok) { if (poissonsolverFileList->contains( qs.toLower() )) *(poissonsolver.at(ensemblelist.indexOf( keywordsIn[1].toLower() ) + 1)) = (*poissonsolverList)[poissonsolverFileList->indexOf( qs.toLower() )]; }
+				if (ok) { if (poissonsolverFileList->contains( qs.toLower() )) *poissonsolver = (*poissonsolverList)[poissonsolverFileList->indexOf( qs.toLower() )]; }
 				else { myConfig->addLogEntryInvalidParm( TremoloGUIConfig::error, returnValueListIn[0], "invalid format" );  return false; }
 			} 
 			// Save maximum tree level. 
@@ -568,7 +571,7 @@ bool SolParallel_Data::saveValues( QStringList keywordsIn, QStringList identifie
 				i = getParamIntValue( returnValueListIn[0], &ok );
 
 				// If returned value was valid save it to this SolParallel_Data object, else return with error message.
-				if (ok) maxTreeLevel.at(ensemblelist.indexOf( keywordsIn[1].toLower() ) + 1) = i;
+				if (ok) maxTreeLevel = i;
 				else { myConfig->addLogEntryInvalidParm( TremoloGUIConfig::error, returnValueListIn[0], "invalid format" );  return false; }
 			} 
 			// Save MAP. 
@@ -581,9 +584,479 @@ bool SolParallel_Data::saveValues( QStringList keywordsIn, QStringList identifie
 				d = getParamDoubleValue( returnValueListIn[0], &ok );
 
                 // If returned value was valid save it to this SolParallel_Data object, else return with error message.
-				if (ok) MAP.at(ensemblelist.indexOf( keywordsIn[1].toLower() ) + 1) = myConfig->trIn(MAP.at(ensemblelist.indexOf( keywordsIn[1].toLower() ) + 1), d );
+				if (ok) MAP = myConfig->trIn(MAP, d );
 				else { myConfig->addLogEntryInvalidParm( TremoloGUIConfig::error, returnValueListIn[0], "invalid format" );  return false; }
 			} 
+			// Save tolerance (ScaFaCoS).
+			else if (identifierListIn[0].toLower() == "tolerance")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for tolerance. 
+				d = getParamDoubleValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_tolerance.at(ensemblelist.indexOf(keywordsIn[1].toLower()) + 1) = myConfig->trIn(fcs_tolerance.at(ensemblelist.indexOf(keywordsIn[1].toLower()) + 1), d);
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "tolerance_type")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for tolerance_type. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_tolerance_type.at(ensemblelist.indexOf(keywordsIn[1].toLower()) + 1) = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "periodic_images_x")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for periodic_images_x.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_periodic_images_x = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+
+			}
+			else if (identifierListIn[0].toLower() == "periodic_images_y")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for periodic_images_y.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_periodic_images_y = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "periodic_images_z")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for periodic_images_z. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_periodic_images_z = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "alpha")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for alpha. 
+				d = getParamDoubleValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_splittingCoefficientAlpha.at(ensemblelist.indexOf(keywordsIn[1].toLower()) + 1) = myConfig->trIn(fcs_splittingCoefficientAlpha.at(ensemblelist.indexOf(keywordsIn[1].toLower()) + 1), d);
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "kmax")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for kmax.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_kmax = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "maxkmax")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for maxkmax. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_maxkmax = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "balanceload")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for balanceload. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_balanceload = (long) i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "dipole_correction")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for dipole_correction. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_dipole_correction.at(ensemblelist.indexOf(keywordsIn[1].toLower() ) + 1) = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "maxdepth")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for maxdepth.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_maxdepth = (long) i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "potential")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for potential. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_potential = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "radius")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for maxdepth.
+				d = getParamDoubleValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_radius = myConfig->trIn(fcs_radius, d);
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "unroll_limit")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for unroll_limit.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_unroll_limit = (long) i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "degree")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for degree. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_degree = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "ghosts")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for ghosts. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_ghosts = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "gridsize_x")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for gridsize_x.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_gridsize_x.at(ensemblelist.indexOf(keywordsIn[1].toLower()) + 1) = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "gridsize_y")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for gridsize_y.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_gridsize_y.at(ensemblelist.indexOf(keywordsIn[1].toLower()) + 1) = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "gridsize_z")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for gridsize_x.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_gridsize_z.at(ensemblelist.indexOf(keywordsIn[1].toLower()) + 1) = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "max_iterations")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for max_iterations.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_max_iterations.at(ensemblelist.indexOf(keywordsIn[1].toLower()) + 1) = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "debuglevel")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for debuglevel. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_debuglevel = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "epsilon")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for epsilon. 
+				d = getParamDoubleValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_epsilon = myConfig->trIn(fcs_epsilon, d);
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "load_balancing")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for load_balancing.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_load_balancing = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "npm")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for npm. 
+				d = getParamDoubleValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_npm = myConfig->trIn(fcs_npm, d);
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "num_walk_threads")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for num_walk_threads.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_num_walk_threads = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "theta")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for load_balancing.
+				d = getParamDoubleValue(returnValueListIn[0], &ok);
+
+				// If returned value was valid save it to this SolParallel_Data object, else return with error message. 
+				if (ok) fcs_theta = myConfig->trIn(fcs_theta, d);
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "cycle_type")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for cycle_type. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_cycle_type = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "discretization_order")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for discretization_order. 
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_discretization_order = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "interpolation_order")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for interpolation_order.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_interpolation_order.at(ensemblelist.indexOf(keywordsIn[1].toLower()) + 1) = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "max_level")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for max_level.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_max_level = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "near_field_cells")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for near_field_cells.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_near_field_cells = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "precision")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for precision. 
+				d = getParamDoubleValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_precision = myConfig->trIn(fcs_precision, d);
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "smoothing_steps")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for smoothing_steps.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_smoothing_steps = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "epsI")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for epsI.
+				d = getParamDoubleValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_smoothing_steps = myConfig->trIn(fcs_smoothing_steps, d);
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "m")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for m.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_m = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "p")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for p.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_p = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "oversampled_gridsize_x")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for oversampled_gridsize_x.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_oversampled_gridsize_x = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "oversampled_gridsize_y")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for oversampled_gridsize_y.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_oversampled_gridsize_y = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
+			else if (identifierListIn[0].toLower() == "oversampled_gridsize_z")
+			{
+				// Initialize control boolean. 
+				ok = false;
+				
+				// Get value for oversampled_gridsize_z.
+				i = getParamIntValue(returnValueListIn[0], &ok);
+					
+				// If returned value was valid save it to this SolParallel_data object, else return with error message. 
+				if (ok) fcs_oversampled_gridsize_z = i;
+				else {myConfig->addLogEntryInvalidParm(TremoloGUIConfig::error, returnValueListIn[0], "invalid format"); return false;}
+			}
 			// Do nothing if no longrange solver is "on". 
 			else if (ensemblelist.contains( keywordsIn[1].toLower() ) && !getParamState(returnValueListIn[0])) 
 			{
@@ -740,6 +1213,9 @@ QString SolParallel_Data::isFCS_toleranceUnit()
 double SolParallel_Data::isFCS_splittingCoefficientAlpha()
 { return myConfig->trOut( fcs_splittingCoefficientAlpha.at(myLongrangeAlgo)); }
 
+QString SolParallel_Data::isFCS_splittingCoefficientAlphaUnit()
+{ return myConfig->trDisplayUnits(fcs_splittingCoefficientAlpha.at(myLongrangeAlgo)); }
+
 double SolParallel_Data::isFCS_radius()
 { return myConfig->trOut( fcs_radius); }
 
@@ -751,6 +1227,12 @@ double SolParallel_Data::isFCS_epsilon()
 
 QString SolParallel_Data::isFCS_epsilonUnit()
 { return myConfig->trDisplayUnits( fcs_epsilon); }
+
+double SolParallel_Data::isFCS_npm()
+{ return myConfig->trOut(fcs_npm); }
+
+QString SolParallel_Data::isFCS_npmUnit()
+{ return myConfig->trDisplayUnits(fcs_npm); }
 
 double SolParallel_Data::isFCS_theta()
 { return myConfig->trOut( fcs_theta); }
@@ -803,24 +1285,24 @@ void SolParallel_Data::clear()
 	for (int solver = 0; solver < size_count; solver++) {
 		
 		// Set default poissonsolver for all longrangre solvers. 
-		*poissonsolver.at(solver) = poissonsolverList->first();
+		*poissonsolver = poissonsolverList->first();
 
 		// Set default values (and unit exponents) for r_cut, r_l, splittingCoefficientG, MAP, cellratio, interpolationDegree and maxTreeLevel. 
 		r_cut.at(solver).set(2.5e-10);
 		r_cut.at(solver).set(1, 0, 0, 0, 0);
 		
-		r_l.at(solver).set(2.2e-10);
-		r_l.at(solver).set(1, 0, 0, 0, 0);
+		r_l.set(2.2e-10);
+		r_l.set(1, 0, 0, 0, 0);
 
-		splittingCoefficientG.at(solver).set(0.35e10);
-		splittingCoefficientG.at(solver).set(-1, 0, 0, 0, 0);
+		splittingCoefficientG.set(0.35e10);
+		splittingCoefficientG.set(-1, 0, 0, 0, 0);
 
-		MAP.at(solver).set(0.577);
-		MAP.at(solver).set(0, 0, 0, 0, 0);
+		MAP.set(0.577);
+		MAP.set(0, 0, 0, 0, 0);
 
-		cellratio.at(solver) = 6;
+		cellratio = 6;
 		interpolationDegree.at(solver) = 5;
-		maxTreeLevel.at(solver) = 6;
+		maxTreeLevel = 6;
 	}
 
 	// Set default values for parallelization parameters. 
@@ -849,14 +1331,53 @@ void SolParallel_Data::setLongrangeAlgo( int algo )
 	switch(algo)
 	{
 	case OFF: myLongrangeAlgo = OFF;
-		emit enablepoisson_solver( false );
-		emit enableR_Cut( false );
-		emit enableR_L( false );
-		emit enableSplittingCoefficientG( false );
-		emit enableMAP( false );
-		emit enableMaxTreeLevel( false );
-		emit enableInterpolationDegree( false );
-		emit enableCellratio( false );
+		emit enablepoisson_solver(false);
+		emit enableR_Cut(false);
+		emit enableR_L(false);
+		emit enableSplittingCoefficientG(false);
+		emit enableMAP(false);
+		emit enableMaxTreeLevel(false);
+		emit enableInterpolationDegree(false);
+		emit enableCellratio(false);
+		emit enableFCS_periodic_images_x(false);
+		emit enableFCS_periodic_images_y(false);
+		emit enableFCS_periodic_images_z(false);
+		emit enableFCS_tolerance(false);
+		emit enableFCS_tolerance_type(false);
+		emit enableFCS_splittingCoefficientAlpha(false);
+		emit enableFCS_kmax(false);
+		emit enableFCS_maxkmax(false);
+		emit enableFCS_balanceload(false);
+		emit enableFCS_dipole_correction(false);
+		emit enableFCS_maxdepth(false);
+		emit enableFCS_potential(false);
+		emit enableFCS_radius(false);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(false);
+		emit enableFCS_gridsize_y(false);
+		emit enableFCS_gridsize_z(false);
+		emit enableFCS_max_iterations(false);
+		emit enableFCS_debuglevel(false);
+		emit enableFCS_epsilon(false);
+		emit enableFCS_load_balancing(false);
+		emit enableFCS_npm(false);
+		emit enableFCS_num_walk_threads(false);
+		emit enableFCS_theta(false);
+		emit enableFCS_cycle_type(false);
+		emit enableFCS_discretization_order(false);
+		emit enableFCS_interpolation_order(false);
+		emit enableFCS_max_level(false);
+		emit enableFCS_near_field_cells(false);
+		emit enableFCS_precision(false);
+		emit enableFCS_smoothing_steps(false);
+		emit enableFCS_epsI(false);
+		emit enableFCS_m(false);
+		emit enableFCS_p(false);
+		emit enableFCS_oversampled_gridsize_x(false);
+		emit enableFCS_oversampled_gridsize_y(false);
+		emit enableFCS_oversampled_gridsize_z(false);
 		useSingleProcs = true;
 		break;
 	case N_2: myLongrangeAlgo = N_2;
@@ -868,6 +1389,45 @@ void SolParallel_Data::setLongrangeAlgo( int algo )
 		emit enableMaxTreeLevel( false );
 		emit enableInterpolationDegree( true );
 		emit enableCellratio( false );
+		emit enableFCS_periodic_images_x(false);
+		emit enableFCS_periodic_images_y(false);
+		emit enableFCS_periodic_images_z(false);
+		emit enableFCS_tolerance(false);
+		emit enableFCS_tolerance_type(false);
+		emit enableFCS_splittingCoefficientAlpha(false);
+		emit enableFCS_kmax(false);
+		emit enableFCS_maxkmax(false);
+		emit enableFCS_balanceload(false);
+		emit enableFCS_dipole_correction(false);
+		emit enableFCS_maxdepth(false);
+		emit enableFCS_potential(false);
+		emit enableFCS_radius(false);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(false);
+		emit enableFCS_gridsize_y(false);
+		emit enableFCS_gridsize_z(false);
+		emit enableFCS_max_iterations(false);
+		emit enableFCS_debuglevel(false);
+		emit enableFCS_epsilon(false);
+		emit enableFCS_load_balancing(false);
+		emit enableFCS_npm(false);
+		emit enableFCS_num_walk_threads(false);
+		emit enableFCS_theta(false);
+		emit enableFCS_cycle_type(false);
+		emit enableFCS_discretization_order(false);
+		emit enableFCS_interpolation_order(false);
+		emit enableFCS_max_level(false);
+		emit enableFCS_near_field_cells(false);
+		emit enableFCS_precision(false);
+		emit enableFCS_smoothing_steps(false);
+		emit enableFCS_epsI(false);
+		emit enableFCS_m(false);
+		emit enableFCS_p(false);
+		emit enableFCS_oversampled_gridsize_x(false);
+		emit enableFCS_oversampled_gridsize_y(false);
+		emit enableFCS_oversampled_gridsize_z(false);
 		useSingleProcs = true;
 		break;
 	case N_2Spline: myLongrangeAlgo = N_2Spline;
@@ -878,18 +1438,46 @@ void SolParallel_Data::setLongrangeAlgo( int algo )
 		emit enableMAP( false );
 		emit enableMaxTreeLevel( false );
 		emit enableInterpolationDegree( true );
-		emit enableCellratio( false );
-		useSingleProcs = true;
-		break;
-	case Ewald: myLongrangeAlgo = fcs_Ewald;
-		emit enablepoisson_solver( false );
-		emit enableR_Cut( true );
-		emit enableR_L( false );
-		emit enableSplittingCoefficientG( true );
-		emit enableMAP( false );
-		emit enableMaxTreeLevel( false );
-		emit enableInterpolationDegree( true );
-		emit enableCellratio( true );
+		emit enableCellratio( false );		
+		emit enableFCS_periodic_images_x(false);
+		emit enableFCS_periodic_images_y(false);
+		emit enableFCS_periodic_images_z(false);
+		emit enableFCS_tolerance(false);
+		emit enableFCS_tolerance_type(false);
+		emit enableFCS_splittingCoefficientAlpha(false);
+		emit enableFCS_kmax(false);
+		emit enableFCS_maxkmax(false);
+		emit enableFCS_balanceload(false);
+		emit enableFCS_dipole_correction(false);
+		emit enableFCS_maxdepth(false);
+		emit enableFCS_potential(false);
+		emit enableFCS_radius(false);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(false);
+		emit enableFCS_gridsize_y(false);
+		emit enableFCS_gridsize_z(false);
+		emit enableFCS_max_iterations(false);
+		emit enableFCS_debuglevel(false);
+		emit enableFCS_epsilon(false);
+		emit enableFCS_load_balancing(false);
+		emit enableFCS_npm(false);
+		emit enableFCS_num_walk_threads(false);
+		emit enableFCS_theta(false);
+		emit enableFCS_cycle_type(false);
+		emit enableFCS_discretization_order(false);
+		emit enableFCS_interpolation_order(false);
+		emit enableFCS_max_level(false);
+		emit enableFCS_near_field_cells(false);
+		emit enableFCS_precision(false);
+		emit enableFCS_smoothing_steps(false);
+		emit enableFCS_epsI(false);
+		emit enableFCS_m(false);
+		emit enableFCS_p(false);
+		emit enableFCS_oversampled_gridsize_x(false);
+		emit enableFCS_oversampled_gridsize_y(false);
+		emit enableFCS_oversampled_gridsize_z(false);
 		useSingleProcs = true;
 		break;
 	case SPME: myLongrangeAlgo = SPME;
@@ -901,6 +1489,45 @@ void SolParallel_Data::setLongrangeAlgo( int algo )
 		emit enableMaxTreeLevel( false );
 		emit enableInterpolationDegree( true );
 		emit enableCellratio( true );
+		emit enableFCS_periodic_images_x(false);
+		emit enableFCS_periodic_images_y(false);
+		emit enableFCS_periodic_images_z(false);
+		emit enableFCS_tolerance(false);
+		emit enableFCS_tolerance_type(false);
+		emit enableFCS_splittingCoefficientAlpha(false);
+		emit enableFCS_kmax(false);
+		emit enableFCS_maxkmax(false);
+		emit enableFCS_balanceload(false);
+		emit enableFCS_dipole_correction(false);
+		emit enableFCS_maxdepth(false);
+		emit enableFCS_potential(false);
+		emit enableFCS_radius(false);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(false);
+		emit enableFCS_gridsize_y(false);
+		emit enableFCS_gridsize_z(false);
+		emit enableFCS_max_iterations(false);
+		emit enableFCS_debuglevel(false);
+		emit enableFCS_epsilon(false);
+		emit enableFCS_load_balancing(false);
+		emit enableFCS_npm(false);
+		emit enableFCS_num_walk_threads(false);
+		emit enableFCS_theta(false);
+		emit enableFCS_cycle_type(false);
+		emit enableFCS_discretization_order(false);
+		emit enableFCS_interpolation_order(false);
+		emit enableFCS_max_level(false);
+		emit enableFCS_near_field_cells(false);
+		emit enableFCS_precision(false);
+		emit enableFCS_smoothing_steps(false);
+		emit enableFCS_epsI(false);
+		emit enableFCS_m(false);
+		emit enableFCS_p(false);
+		emit enableFCS_oversampled_gridsize_x(false);
+		emit enableFCS_oversampled_gridsize_y(false);
+		emit enableFCS_oversampled_gridsize_z(false);
 		useSingleProcs = true;
 		break;
 	case FMM: myLongrangeAlgo = FMM;
@@ -912,7 +1539,346 @@ void SolParallel_Data::setLongrangeAlgo( int algo )
 		emit enableMaxTreeLevel( true );
 		emit enableInterpolationDegree( true );
 		emit enableCellratio( false );
+		emit enableFCS_periodic_images_x(false);
+		emit enableFCS_periodic_images_y(false);
+		emit enableFCS_periodic_images_z(false);
+		emit enableFCS_tolerance(false);
+		emit enableFCS_tolerance_type(false);
+		emit enableFCS_splittingCoefficientAlpha(false);
+		emit enableFCS_kmax(false);
+		emit enableFCS_maxkmax(false);
+		emit enableFCS_balanceload(false);
+		emit enableFCS_dipole_correction(false);
+		emit enableFCS_maxdepth(false);
+		emit enableFCS_potential(false);
+		emit enableFCS_radius(false);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(false);
+		emit enableFCS_gridsize_y(false);
+		emit enableFCS_gridsize_z(false);
+		emit enableFCS_max_iterations(false);
+		emit enableFCS_debuglevel(false);
+		emit enableFCS_epsilon(false);
+		emit enableFCS_load_balancing(false);
+		emit enableFCS_npm(false);
+		emit enableFCS_num_walk_threads(false);
+		emit enableFCS_theta(false);
+		emit enableFCS_cycle_type(false);
+		emit enableFCS_discretization_order(false);
+		emit enableFCS_interpolation_order(false);
+		emit enableFCS_max_level(false);
+		emit enableFCS_near_field_cells(false);
+		emit enableFCS_precision(false);
+		emit enableFCS_smoothing_steps(false);
+		emit enableFCS_epsI(false);
+		emit enableFCS_m(false);
+		emit enableFCS_p(false);
+		emit enableFCS_oversampled_gridsize_x(false);
+		emit enableFCS_oversampled_gridsize_y(false);
+		emit enableFCS_oversampled_gridsize_z(false);
 		useSingleProcs = false;
+		break;
+	case fcs_direct: myLongrangeAlgo = fcs_direct;
+		emit enablepoisson_solver(false);
+		emit enableR_Cut(true);
+		emit enableR_L(false);
+		emit enableSplittingCoefficientG(false);
+		emit enableMAP(false);
+		emit enableMaxTreeLevel(false);
+		emit enableInterpolationDegree(false);
+		emit enableCellratio(false);
+		emit enableFCS_periodic_images_x(true);
+		emit enableFCS_periodic_images_y(true);
+		emit enableFCS_periodic_images_z(true);
+		emit enableFCS_tolerance(true);
+		emit enableFCS_tolerance_type(true);
+		emit enableFCS_splittingCoefficientAlpha(false);
+		emit enableFCS_kmax(false);
+		emit enableFCS_maxkmax(false);
+		emit enableFCS_balanceload(false);
+		emit enableFCS_dipole_correction(false);
+		emit enableFCS_maxdepth(false);
+		emit enableFCS_potential(false);
+		emit enableFCS_radius(false);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(false);
+		emit enableFCS_gridsize_y(false);
+		emit enableFCS_gridsize_z(false);
+		emit enableFCS_max_iterations(false);
+		emit enableFCS_debuglevel(false);
+		emit enableFCS_epsilon(false);
+		emit enableFCS_load_balancing(false);
+		emit enableFCS_npm(false);
+		emit enableFCS_num_walk_threads(false);
+		emit enableFCS_theta(false);
+		emit enableFCS_cycle_type(false);
+		emit enableFCS_discretization_order(false);
+		emit enableFCS_interpolation_order(false);
+		emit enableFCS_max_level(false);
+		emit enableFCS_near_field_cells(false);
+		emit enableFCS_precision(false);
+		emit enableFCS_smoothing_steps(false);
+		emit enableFCS_epsI(false);
+		emit enableFCS_m(false);
+		emit enableFCS_p(false);
+		emit enableFCS_oversampled_gridsize_x(false);
+		emit enableFCS_oversampled_gridsize_y(false);
+		emit enableFCS_oversampled_gridsize_z(false);
+		useSingleProcs = true;
+		break;
+	case fcs_Ewald: myLongrangeAlgo = fcs_Ewald;
+		emit enablepoisson_solver(false);
+		emit enableR_Cut(true);
+		emit enableR_L(false);
+		emit enableSplittingCoefficientG(false);
+		emit enableMAP(false);
+		emit enableMaxTreeLevel(false);
+		emit enableInterpolationDegree(false);
+		emit enableCellratio(false);
+		emit enableFCS_periodic_images_x(false);
+		emit enableFCS_periodic_images_y(false);
+		emit enableFCS_periodic_images_z(false);
+		emit enableFCS_tolerance(true);
+		emit enableFCS_tolerance_type(true);
+		emit enableFCS_splittingCoefficientAlpha(true);
+		emit enableFCS_kmax(true);
+		emit enableFCS_maxkmax(true);
+		emit enableFCS_balanceload(false);
+		emit enableFCS_dipole_correction(false);
+		emit enableFCS_maxdepth(false);
+		emit enableFCS_potential(false);
+		emit enableFCS_radius(false);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(false);
+		emit enableFCS_gridsize_y(false);
+		emit enableFCS_gridsize_z(false);
+		emit enableFCS_max_iterations(false);
+		emit enableFCS_debuglevel(false);
+		emit enableFCS_epsilon(false);
+		emit enableFCS_load_balancing(false);
+		emit enableFCS_npm(false);
+		emit enableFCS_num_walk_threads(false);
+		emit enableFCS_theta(false);
+		emit enableFCS_cycle_type(false);
+		emit enableFCS_discretization_order(false);
+		emit enableFCS_interpolation_order(false);
+		emit enableFCS_max_level(false);
+		emit enableFCS_near_field_cells(false);
+		emit enableFCS_precision(false);
+		emit enableFCS_smoothing_steps(false);
+		emit enableFCS_epsI(false);
+		emit enableFCS_m(false);
+		emit enableFCS_p(false);
+		emit enableFCS_oversampled_gridsize_x(false);
+		emit enableFCS_oversampled_gridsize_y(false);
+		emit enableFCS_oversampled_gridsize_z(false);
+		useSingleProcs = true;
+		break;
+	case fcs_FMM: myLongrangeAlgo = fcs_FMM;
+		emit enablepoisson_solver(false);
+		emit enableR_Cut(true);
+		emit enableR_L(false);
+		emit enableSplittingCoefficientG(false);
+		emit enableMAP(false);
+		emit enableMaxTreeLevel(false);
+		emit enableInterpolationDegree(false);
+		emit enableCellratio(false);
+		emit enableFCS_periodic_images_x(false);
+		emit enableFCS_periodic_images_y(false);
+		emit enableFCS_periodic_images_z(false);
+		emit enableFCS_tolerance(true);
+		emit enableFCS_tolerance_type(true);
+		emit enableFCS_splittingCoefficientAlpha(false);
+		emit enableFCS_kmax(false);
+		emit enableFCS_maxkmax(false);
+		emit enableFCS_balanceload(true);
+		emit enableFCS_dipole_correction(true);
+		emit enableFCS_maxdepth(true);
+		emit enableFCS_potential(true);
+		emit enableFCS_radius(true);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(false);
+		emit enableFCS_gridsize_y(false);
+		emit enableFCS_gridsize_z(false);
+		emit enableFCS_max_iterations(false);
+		emit enableFCS_debuglevel(false);
+		emit enableFCS_epsilon(false);
+		emit enableFCS_load_balancing(false);
+		emit enableFCS_npm(false);
+		emit enableFCS_num_walk_threads(false);
+		emit enableFCS_theta(false);
+		emit enableFCS_cycle_type(false);
+		emit enableFCS_discretization_order(false);
+		emit enableFCS_interpolation_order(false);
+		emit enableFCS_max_level(false);
+		emit enableFCS_near_field_cells(false);
+		emit enableFCS_precision(false);
+		emit enableFCS_smoothing_steps(false);
+		emit enableFCS_epsI(false);
+		emit enableFCS_m(false);
+		emit enableFCS_p(false);
+		emit enableFCS_oversampled_gridsize_x(false);
+		emit enableFCS_oversampled_gridsize_y(false);
+		emit enableFCS_oversampled_gridsize_z(false);
+		useSingleProcs = true;
+		break;
+	case fcs_PEPC: myLongrangeAlgo = fcs_PEPC;
+		emit enablepoisson_solver(false);
+		emit enableR_Cut(true);
+		emit enableR_L(false);
+		emit enableSplittingCoefficientG(false);
+		emit enableMAP(false);
+		emit enableMaxTreeLevel(false);
+		emit enableInterpolationDegree(false);
+		emit enableCellratio(false);
+		emit enableFCS_periodic_images_x(false);
+		emit enableFCS_periodic_images_y(false);
+		emit enableFCS_periodic_images_z(false);
+		emit enableFCS_tolerance(true);
+		emit enableFCS_tolerance_type(true);
+		emit enableFCS_splittingCoefficientAlpha(false);
+		emit enableFCS_kmax(false);
+		emit enableFCS_maxkmax(false);
+		emit enableFCS_balanceload(false);
+		emit enableFCS_dipole_correction(true);
+		emit enableFCS_maxdepth(false);
+		emit enableFCS_potential(false);
+		emit enableFCS_radius(false);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(false);
+		emit enableFCS_gridsize_y(false);
+		emit enableFCS_gridsize_z(false);
+		emit enableFCS_max_iterations(false);
+		emit enableFCS_debuglevel(true);
+		emit enableFCS_epsilon(true);
+		emit enableFCS_load_balancing(true);
+		emit enableFCS_npm(true);
+		emit enableFCS_num_walk_threads(true);
+		emit enableFCS_theta(true);
+		emit enableFCS_cycle_type(false);
+		emit enableFCS_discretization_order(false);
+		emit enableFCS_interpolation_order(false);
+		emit enableFCS_max_level(false);
+		emit enableFCS_near_field_cells(false);
+		emit enableFCS_precision(false);
+		emit enableFCS_smoothing_steps(false);
+		emit enableFCS_epsI(false);
+		emit enableFCS_m(false);
+		emit enableFCS_p(false);
+		emit enableFCS_oversampled_gridsize_x(false);
+		emit enableFCS_oversampled_gridsize_y(false);
+		emit enableFCS_oversampled_gridsize_z(false);
+		useSingleProcs = true;
+		break;
+	case fcs_VMG: myLongrangeAlgo = fcs_VMG;
+		emit enablepoisson_solver(false);
+		emit enableR_Cut(true);
+		emit enableR_L(false);
+		emit enableSplittingCoefficientG(false);
+		emit enableMAP(false);
+		emit enableMaxTreeLevel(false);
+		emit enableInterpolationDegree(false);
+		emit enableCellratio(false);
+		emit enableFCS_periodic_images_x(false);
+		emit enableFCS_periodic_images_y(false);
+		emit enableFCS_periodic_images_z(false);
+		emit enableFCS_tolerance(true);
+		emit enableFCS_tolerance_type(true);
+		emit enableFCS_splittingCoefficientAlpha(false);
+		emit enableFCS_kmax(false);
+		emit enableFCS_maxkmax(false);
+		emit enableFCS_balanceload(false);
+		emit enableFCS_dipole_correction(false);
+		emit enableFCS_maxdepth(false);
+		emit enableFCS_potential(false);
+		emit enableFCS_radius(false);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(false);
+		emit enableFCS_gridsize_y(false);
+		emit enableFCS_gridsize_z(false);
+		emit enableFCS_max_iterations(true);
+		emit enableFCS_debuglevel(false);
+		emit enableFCS_epsilon(false);
+		emit enableFCS_load_balancing(false);
+		emit enableFCS_npm(false);
+		emit enableFCS_num_walk_threads(false);
+		emit enableFCS_theta(false);
+		emit enableFCS_cycle_type(true);
+		emit enableFCS_discretization_order(true);
+		emit enableFCS_interpolation_order(true);
+		emit enableFCS_max_level(true);
+		emit enableFCS_near_field_cells(true);
+		emit enableFCS_precision(true);
+		emit enableFCS_smoothing_steps(true);
+		emit enableFCS_epsI(false);
+		emit enableFCS_m(false);
+		emit enableFCS_p(false);
+		emit enableFCS_oversampled_gridsize_x(false);
+		emit enableFCS_oversampled_gridsize_y(false);
+		emit enableFCS_oversampled_gridsize_z(false);
+		useSingleProcs = true;
+		break;
+	case fcs_P2NFFT: myLongrangeAlgo = fcs_P2NFFT;
+		emit enablepoisson_solver(false);
+		emit enableR_Cut(true);
+		emit enableR_L(false);
+		emit enableSplittingCoefficientG(false);
+		emit enableMAP(false);
+		emit enableMaxTreeLevel(false);
+		emit enableInterpolationDegree(false);
+		emit enableCellratio(false);
+		emit enableFCS_periodic_images_x(false);
+		emit enableFCS_periodic_images_y(false);
+		emit enableFCS_periodic_images_z(false);
+		emit enableFCS_tolerance(true);
+		emit enableFCS_tolerance_type(true);
+		emit enableFCS_splittingCoefficientAlpha(true);
+		emit enableFCS_kmax(false);
+		emit enableFCS_maxkmax(false);
+		emit enableFCS_balanceload(false);
+		emit enableFCS_dipole_correction(false);
+		emit enableFCS_maxdepth(false);
+		emit enableFCS_potential(false);
+		emit enableFCS_radius(false);
+		emit enableFCS_unroll_limit(false);
+		emit enableFCS_degree(false);
+		emit enableFCS_ghosts(false);
+		emit enableFCS_gridsize_x(true);
+		emit enableFCS_gridsize_y(true);
+		emit enableFCS_gridsize_z(true);
+		emit enableFCS_max_iterations(false);
+		emit enableFCS_debuglevel(false);
+		emit enableFCS_epsilon(false);
+		emit enableFCS_load_balancing(false);
+		emit enableFCS_npm(false);
+		emit enableFCS_num_walk_threads(false);
+		emit enableFCS_theta(false);
+		emit enableFCS_cycle_type(false);
+		emit enableFCS_discretization_order(false);
+		emit enableFCS_interpolation_order(true);
+		emit enableFCS_max_level(false);
+		emit enableFCS_near_field_cells(false);
+		emit enableFCS_precision(false);
+		emit enableFCS_smoothing_steps(false);
+		emit enableFCS_epsI(true);
+		emit enableFCS_m(true);
+		emit enableFCS_p(true);
+		emit enableFCS_oversampled_gridsize_x(true);
+		emit enableFCS_oversampled_gridsize_y(true);
+		emit enableFCS_oversampled_gridsize_z(true);
+		useSingleProcs = true;
 		break;
 	}
 	emit hasChanged();
@@ -934,9 +1900,9 @@ void SolParallel_Data::setR_Cut( double valueIn )
 {
 	r_cut.at(myLongrangeAlgo) = myConfig->trIn( r_cut.at(myLongrangeAlgo), valueIn );
 	
-	if (! (r_l.at(myLongrangeAlgo) < r_cut.at(myLongrangeAlgo))) 
+	if ((myLongrangeAlgo == N_2Spline) && (! (r_l < r_cut.at(myLongrangeAlgo)))) 
 	{
-     	r_l.at(myLongrangeAlgo) = r_cut.at(myLongrangeAlgo) * 0.9;
+     	r_l = r_cut.at(myLongrangeAlgo) * 0.9;
      	myConfig->addLogEntry( TremoloGUIConfig::warning, "Reducing r_l to be smaller than r_cut." );
 	}
 	emit hasChanged();
@@ -944,10 +1910,10 @@ void SolParallel_Data::setR_Cut( double valueIn )
 
 void SolParallel_Data::setR_L( double valueIn )
 {
-	StandardisedDouble temp = myConfig->trIn( r_l.at(myLongrangeAlgo), valueIn );
+	StandardisedDouble temp = myConfig->trIn( r_l, valueIn );
 
 	if (temp < r_cut.at(myLongrangeAlgo)) 
-		r_l.at(myLongrangeAlgo) = temp; 
+		r_l = temp; 
 	else 
 		myConfig->addLogEntry( TremoloGUIConfig::warning, "Value for r_l not accepted, since it was bigger than r_cut." );
 	emit hasChanged();
@@ -955,19 +1921,19 @@ void SolParallel_Data::setR_L( double valueIn )
 
 void SolParallel_Data::setSplittingCoefficientG( double valueIn )
 {
-	splittingCoefficientG.at(myLongrangeAlgo) = myConfig->trIn( splittingCoefficientG.at(myLongrangeAlgo), valueIn );
+	splittingCoefficientG = myConfig->trIn( splittingCoefficientG, valueIn );
 	emit hasChanged();
 }
 
 void SolParallel_Data::setMAP( double valueIn )
 {
-	MAP.at(myLongrangeAlgo) = myConfig->trIn( MAP.at(myLongrangeAlgo), valueIn );
+	MAP = myConfig->trIn( MAP, valueIn );
 	emit hasChanged();
 }
 
 void SolParallel_Data::setCellratio( int valueIn )
 {
-	cellratio.at(myLongrangeAlgo) = valueIn;
+	cellratio = valueIn;
 	emit hasChanged();
 }
 
@@ -979,13 +1945,13 @@ void SolParallel_Data::setInterpolationDegree( int valueIn )
 
 void SolParallel_Data::setMaxTreeLevel( int valueIn )
 {
-	maxTreeLevel.at(myLongrangeAlgo) = valueIn;
+	maxTreeLevel = valueIn;
 	emit hasChanged();
 }
 
 void SolParallel_Data::setPoisson_solver( const QString &valueIn )
 {
-	*(poissonsolver.at(myLongrangeAlgo)) = valueIn;
+	*poissonsolver = valueIn;
 	emit hasChanged();
 }
 
@@ -1045,7 +2011,7 @@ void SolParallel_Data::setFCS_balanceload(int valueIn)
 
 void SolParallel_Data::setFCS_dipole_correction(int valueIn)
 {
-	fcs_dipole_correction = valueIn;
+	fcs_dipole_correction.at(myLongrangeAlgo) = valueIn;
 	emit hasChanged();
 }
 
