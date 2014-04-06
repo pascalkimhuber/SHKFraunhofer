@@ -236,225 +236,411 @@ SolParallel_GUI::SolParallel_GUI( SolParallel_Data* DataPart, TremoloGUIConfig* 
 	fcsSplittingCoefficientAlphaLineEdit->setEnabled(false);
 	DataButtonGroupLayout->addWidget(fcsSplittingCoefficientAlphaLineEdit, 8, 1);
 
-	// Set tolerance widges. 
+	// Set tolerance widgets. 
 	fcsToleranceLabel = new QLabel(DataButtonGroup, "fcsToleranceLabel");
 	DataButtonGroupLayout->addWidget(fcsToleranceLabel, 9, 0);
 	fcsToleranceLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_tolerance(), 'g'), DataButtonGroup, "fcsToleranceLineEdit");
+	QDoubleValidator* fcsToleranceLineEditValidator = new QDoubleValidator(DBL_MIN, DBL_MAX, 8, fcsToleranceLineEdit);
+	fcsToleranceLineEdit->setValidator(fcsToleranceLineEditValidator);
+	connect(fcsToleranceLineEdit, SIGNAL(returnPressed()), this, SLOT(fcstoleranceLErp()));
+	connect(fcsToleranceLineEdit, SIGNAL(lostFocus()), this, SLOT(fcstoleranceLErp()));
+	fcsToleranceLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsToleranceLineEdit, 9, 1);
 	
+	// Set tolerance_type widgets.
+	fcsToleranceTypeLabel = new QLabel(DataButtonGroup, "fcsToleranceTypeLabel");
+	DataButtonGroupLayout->addWidget(fcsToleranceTypeLabel, 10, 0);
+	fcsToleranceTypeLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_tolerance_type()), DataButtonGroup, "fcsToleranceTypeLineEdit");
+	QIntValidator* fcsToleranceTypeLineEditValidator = new QIntValidator(0, INT_MAX, fcsToleranceTypeLineEdit);
+	fcsToleranceTypeLineEdit->setValidator(fcsToleranceTypeLineEditValidator);
+	connect(fcsToleranceTypeLineEdit, SIGNAL(returnPressed()), this, SLOT(fcstoleranceTypeLErp()));
+	connect(fcsToleranceTypeLineEdit, SIGNAL(lostFocus()), this, SLOT(fcstoleranceTypeLErp()));
+	fcsToleranceTypeLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsToleranceTypeLineEdit, 10, 1);
 
-	// /// Label for tolerance (ScaFaCoS). 
-	// QLabel* fcsToleranceLabel;
+	// Set periodic_images widgets. 
+	fcsPeriodicImagesLabel = new QLabel(DataButtonGroup, "fcsPeriodicImagesLabel");
+	DataButtonGroupLayout->addWidget(fcsPeriodicImagesLabel, 11, 0);
+	fcsPeriodicImagesXLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_periodic_images_x()), DataButtonGroup, "fcsPeriodicImagesXLineEdit");
+	QIntValidator* fcsPeriodicImagesXLineEditValidator = new QIntValidator(0, INT_MAX, fcsPeriodicImagesXLineEdit);
+	fcsPeriodicImagesXLineEdit->setValidator(fcsPeriodicImagesXLineEditValidator);
+	connect(fcsPeriodicImagesXLineEdit, SIGNAL(returnPressed()), this, SLOT(fcspImagesXLErp()));
+	connect(fcsPeriodicImagesXLineEdit, SIGNAL(lostFocus()), this, SLOT(fcspImagesXLErp()));
+	fcsPeriodicImagesXLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsPeriodicImagesXLineEdit, 11, 1);
 
-	// /// LineEdit for tolerance (ScaFaCoS). 
-	// QLineEdit* fcsToleranceLineEdit;
+	fcsPeriodicImagesYLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_periodic_images_y()), DataButtonGroup, "fcsPeriodicImagesYLineEdit");
+	QIntValidator* fcsPeriodicImagesYLineEditValidator = new QIntValidator(0, INT_MAX, fcsPeriodicImagesYLineEdit);
+	fcsPeriodicImagesYLineEdit->setValidator(fcsPeriodicImagesYLineEditValidator);
+	connect(fcsPeriodicImagesYLineEdit, SIGNAL(returnPressed()), this, SLOT(fcspImagesYLErp()));
+	connect(fcsPeriodicImagesYLineEdit, SIGNAL(lostFocus()), this, SLOT(fcspImagesYLErp()));
+	fcsPeriodicImagesYLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsPeriodicImagesYLineEdit, 11, 2);
 
-	// /// Label for tolerance_type (ScaFaCoS). 
-	// QLabel* fcsToleranceTypeLabel;
+	fcsPeriodicImagesZLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_periodic_images_z()), DataButtonGroup, "fcsPeriodicImagesZLineEdit");
+	QIntValidator* fcsPeriodicImagesZLineEditValidator = new QIntValidator(0, INT_MAX, fcsPeriodicImagesZLineEdit);
+	fcsPeriodicImagesZLineEdit->setValidator(fcsPeriodicImagesZLineEditValidator);
+	connect(fcsPeriodicImagesZLineEdit, SIGNAL(returnPressed()), this, SLOT(fcspImagesZLErp()));
+	connect(fcsPeriodicImagesZLineEdit, SIGNAL(lostFocus()), this, SLOT(fcspImagesZLErp()));
+	fcsPeriodicImagesZLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsPeriodicImagesZLineEdit, 11, 3);
 	
-	// /// LineEdit for tolerance_type (ScaFaCoS). 
-	// QLineEdit* fcsToleranceTypeLineEdit;
+	// Set kmax widgets. 
+	fcsKmaxLabel = new QLabel(DataButtonGroup, "fcsKmaxLabel");
+	DataButtonGroupLayout->addWidget(fcsKmaxLabel, 12, 0);
+	fcsKmaxLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_kmax()), DataButtonGroup, "fcsKmaxLineEdit");
+	QIntValidator* fcsKmaxLineEditValidator = new QIntValidator(0, INT_MAX, fcsKmaxLineEdit);
+	fcsKmaxLineEdit->setValidator(fcsKmaxLineEditValidator);
+	connect(fcsKmaxLineEdit, SIGNAL(returnPressed()), this, SLOT(fcskmaxLErp()));
+	connect(fcsKmaxLineEdit, SIGNAL(lostFocus()), this, SLOT(fcskmaxLErp()));
+	fcsKmaxLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsKmaxLineEdit, 12, 1);
 
-	// /// Label for periodic_images (ScaFaCoS).
-	// QLabel* fcsPeriodicImagesLabel;
-	
-	// /// LineEdit for periodic_images_x (ScaFaCoS). 
-	// QLineEdit* fcsPeriodicImagesXLineEdit;
+	// Set maxkmax widgets. 
+	fcsMaxkmaxLabel = new QLabel(DataButtonGroup, "fcsMaxkmaxLabel");
+	DataButtonGroupLayout->addWidget(fcsMaxkmaxLabel, 13, 0);
+	fcsMaxkmaxLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_maxkmax()), DataButtonGroup, "fcsMaxkmaxLineEdit");
+	QIntValidator* fcsMaxkmaxLineEditValidator = new QIntValidator(0, INT_MAX, fcsMaxkmaxLineEdit);
+	fcsMaxkmaxLineEdit->setValidator(fcsmaxKmaxLineEditValidator);
+	connect(fcsMaxkmaxLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsmaxkmaxLErp()));
+	connect(fcsMaxkmaxLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsmaxkmaxLErp()));
+	fcsMaxkmaxLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsMaxkmaxLineEdit, 13, 1);
 
-	// /// LineEdit for periodic_images_y (ScaFaCoS). 
-	// QLineEdit* fcsPeriodicImagesYLineEdit;
+	// Set balanceload widgets.
+	fcsBalanceloadLabel = new QLabel(DataButtonGroup, "fcsBalanceloadLabel");
+	DataButtonGroupLayout->addWidget(fcsBalanceloadLabel, 14, 0);
+	fcsBalanceloadLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_balanceload()), DataButtonGroup, "fcsBalanceloadLineEdit");
+	QIntValidator* fcsBalanceloadLineEditValidator = new QIntValidator(0, INT_MAX, fcsBalanceloadLineEdit);
+	fcsBalanceloadLineEdit->setValidator(fcsBalanceloadLineEditValidator);
+	connect(fcsBalanceloadLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsbalanceloadLErp()));
+	connect(fcsBalanceloadLineEdit, SIGNAL(lostFocus()), this, SLOT((fcsbalanceloadLErp())));
+	fcsBalanceloadLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsBalanceloadLineEdit, 14, 1);
 
-	// /// LineEdit for periodic_images_z (ScaFaCoS). 
-	// QLineEdit* fcsPeriodicImagesZLineEdit;
+	// Set dipole_correction widgets.
+	fcsDipoleCorrectionLabel = new QLabel(DataButtonGroup, "fcsDipoleCorrectionLabel");
+	DataButtonGroupLayout->addWidget(fcsDipoleCorrectionLabel, 15, 0);
+	fcsDipoleCorrectionLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_dipole_correction()), DataButtonGroup, "fcsDipoleCorrectionLineEdit");
+	QIntValidator* fcsDipoleCorrectionLineEditValidator = new QIntValidator(0, INT_MAX, fcsDipoleCorrectionLineEdit);
+	fcsDipoleCorrectionLineEdit->setValidator(fcsDipoleCorrectionLineEditValidator);
+	connect(fcsDipoleCorrectionLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsdipoleCLErp()));
+	connect(fcsDipoleCorrectionLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsdipoleCLErp()));
+	fcsDipoleCorrectionLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsDipoleCorrectionLineEdit, 15, 1);
 
-	// /// Label for kmax (ScaFaCoS). 
-	// QLabel* fcsKmaxLabel;
-	
-	// /// LineEdit for kmax (ScaFaCoS). 
-	// QLineEdit* fcsKmaxLineEdit;
+	// Set maxdepth widgets. 
+	fcsMaxdepthLabel= new QLabel(DataButtonGroup, "fcsMaxdepthLabel");
+	DataButtonGroupLayout->addWidget(fcsMaxdepthLabel, 16, 0);
+	fcsMaxdepthLineEdit= new QLineEdit(QString::number(myDataPart->isFCS_maxdepth()), DataButtonGroup, "fcsMaxdepthLineEdit");
+	QIntValidator* fcsMaxdepthLineEditValidator = new QIntValidator(0, INT_MAX, fcsMaxdepthLineEdit);
+	fcsMaxdepthLineEdit->setValidator(fcsMaxdepthLineEditValidator);
+	connect(fcsMaxdepthLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsmaxdepthLErp()));
+	connect(fcsMaxdepthLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsmaxdepthLErp()));
+	fcsMaxdepthLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsMaxdepthLineEdit, 16, 1);
 
-	// /// Label for maxkmax (ScaFaCoS). 
-	// QLabel* fcsMaxkmaxLabel;
+	// Set potential widgets. 
+	fcsPotentialLabel = new QLabel(DataButtonGroup, "fcsPotentialLabel");
+	DataButtonGroupLayout->addWidget(fcsPotentialLabel, 17, 0);
+	fcsPotentialLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_potential()), DataButtonGroup, "fcsPotentialLineEdit");
+	QIntValidator* fcsPotentialLineEditValidator = new QIntValidator(0, INT_MAX, fcsPotentialLineEdit);
+	fcsPotentialLineEdit->setValidator(fcsPotentialLineEditValidator);
+	connect(fcsPotentialLineEdit, SIGNAL(returnPressed()), this, SLOT(fcspotentialLErp()));
+	connect(fcsPotentialLineEdit, SIGNAL(lostFocus()), this, SLOT(fcspotentialLErp()));
+	fcsPotentialLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsPotentialLineEdit, 17, 1);
 
-	// /// LineEdit for maxkmax (ScaFaCoS).
-	// QLineEdit* fcsMaxkmaxLineEdit;
+	// Set radius widgets.
+	fcsRadiusLabel = new QLabel(DataButtonGroup, "fcsRadiusLabel");
+	DataButtonGroupLayout->addWidget(fcsRadiusLabel, 18, 0);
+	fcsRadiusLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_radius(), 'g'), DataButtonGroup, "fcsRadiusLineEdit");
+	QDoubleValidator* fcsRadiusLineEditValidator = new QDoubleValidator(0, DBL_MAX, 8, fcsRadiusLineEdit);
+	fcsRadiusLineEdit->setValidator(fcsRadiusLineEditValidator);
+	connect(fcsRadiusLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsradiusLErp()));
+	connect(fcsRadiusLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsradiusLErp()));
+	fcsRadiusLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsRadiusLineEdit, 18, 1);
 
-	// /// Label for balanceload (ScaFaCoS). 
-	// QLabel* fcsBalanceloadLabel;
+	// Set unroll_limit widgets. 
+	fcsUnrollLimitLabel = new QLabel(DataButtonGroup, "fcsUnrollLimitLabel");
+	DataButtonGroupLayout->addWidget(fcsUnrollLimitLabel, 19, 0);
+	fcsUnrollLimitLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_unroll_limit()), DataButtonGroup, "fcsUnrollLimitLineEdit");
+	QIntValidator* fcsUnrollLimitLineEditValidator = new QIntValidator(0, INT_MAX, fcsUnrollLimitLineEdit);
+	fcsUnrollLimitLineEdit->setValidator(fcsUnrollLimitLineEditValidator);
+	connect(fcsUnrollLimitLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsuLimitLErp()));
+	connect(fcsUnrollLimitLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsuLimitLErp()));
+	fcsUnrollLimitLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsUnrollLimitLineEdit, 19, 1);
 
-	// /// LineEdit for balanceload (ScaFaCoS). 
-	// QLineEdit* fcsBalanceloadLineEdit;
+	// Set degree widgets. 
+	fcsDegreeLabel = new QLabel(DataButtonGroup, "fcsDegreeLabel");
+	DataButtonGroupLayout->addWidget(fcsDegreeLabel, 20, 0);
+	fcsDegreeLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_degree()), DataButtonGroup, "fcsDegreeLineEdit");
+	QIntValidator* fcsDegreeLineEditValidator = new QIntValidator(0, INT_MAX, fcsDegreeLineEdit);
+	fcsDegreeLineEdit->setValidator(fcsDegreeLineEditValidator);
+	connect(fcsDegreeLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsdegreeLErp()));
+	connect(fcsDegreeLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsdegreeLErp()));
+	fcsDegreeLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsDegreeLineEdit, 20, 1);
 
-	// /// Label for dipole_correction (ScaFaCoS). 
-	// QLabel* fcsDipoleCorrectionLabel;
-	
-	// /// LineEdit for dipole_correction (ScaFaCoS). 
-	// QLineEdit* fcsDipoleCorrectionLineEdit;
+	// Set ghosts widgets. 
+	fcsGhostsLabel = new QLabel(DataButtonGroup, "fcsGhostsLabel");
+	DataButtonGroupLayout->addWidget(fcsGhostsLabel, 21, 0);
+	fcsGhostsLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_ghosts()), DataButtonGroup, "fcsGhostsLineEdit");
+	QIntValidator* fcsGhostsLineEditValidator = new QIntValidator(0, INT_MAX, fcsGhostsLineEdit);
+	fcsGhostsLineEdit->setValidator(fcsGhostsLineEditValidator);
+	connect(fcsGhostsLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsghostsLErp()));
+	connect(fcsGhostsLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsghostsLErp()));
+	fcsGhostsLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsGhostsLineEdit, 21, 1);
 
-	// /// Label for maxdepth (ScaFaCoS). 
-	// QLabel* fcsMaxdepthLabel;
+	// Set gridsize widgets. 
+	fcsGridsizeLabel = new QLabel(DataButtonGroup, "fcsGridsizeLabel");
+	DataButtonGroupLayout->addWidget(fcsGridsizeLabel, 22, 0);
+	// x-axis
+	fcsGridsizeXLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_gridsize_x()), DataButtonGroup, "fcsGridsizeXLineEdit");
+	QIntValidator* fcsGridsizeXLineEditValidator = new QIntValidator(0, INT_MAX, fcsGridsizeXLineEdit);
+	fcsGridsizeXLineEdit->setValidator(fcsGridsizeXLineEditValidator);
+	connect(fcsGridsizeXLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsgSizeXLErp()));
+	connect(fcsGridsizeXLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsgSizeXLErp()));
+	fcsGridsizeXLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsGridsizeXLineEdit, 22, 1);
+	// y-axis
+	fcsGridsizeYLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_gridsize_y()), DataButtonGroup, "fcsGridsizeYLineEdit");
+	QIntValidator* fcsGridsizeYLineEditValidator = new QIntValidator(0, INT_MAX, fcsGridsizeYLineEdit);
+	fcsGridsizeYLineEdit->setValidator(fcsGridsizeYLineEditValidator);
+	connect(fcsGridsizeYLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsgSizeYLErp()));
+	connect(fcsGridsizeYLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsgSizeYLErp()));
+	fcsGridsizeYLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsGridsizeYLineEdit, 22, 2);
+	// z-axis
+	fcsGridsizeZLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_gridsize_z()), DataButtonGroup, "fcsGridsizeZLineEdit");
+	QIntValidator* fcsGridsizeZLineEditValidator = new QIntValidator(0, INT_MAX, fcsGridsizeZLineEdit);
+	fcsGridsizeZLineEdit->setValidator(fcsGridsizeZLineEditValidator);
+	connect(fcsGridsizeZLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsgSizeZLErp()));
+	connect(fcsGridsizeZLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsgSizeZLErp()));
+	fcsGridsizeZLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsGridsizeZLineEdit, 22, 3);
 
-	// /// LineEdit for maxdepth (ScaFaCoS). 
-	// QLineEdit* fcsMaxdepthLineEdit;
+	// Set max_iterations widgets. 
+	fcsMaxIterationsLabel = new QLabel(DataButtonGroup, "fcsMaxIterationsLabel");
+	DataButtonGroupLayout->addWidget(fcsMaxIterationsLabel, 23, 0);
+	fcsMaxIterationsLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_max_iterations()), DataButtonGroup, "fcsMaxIterationsLineEdit");
+	QIntValidator* fcsMaxIterationsLineEditValidator = new QIntValidator(0, INT_MAX, fcsMaxIterationsLineEdit);
+	fcsMaxIterationsLineEdit->setValidator(fcsMaxIterationsLineEditValidator);
+	connect(fcsMaxIterationsLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsmIterationsLErp()));
+	connect(fcsMaxIterationsLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsmIterationsLErp()));
+	fcsMaxIterationsLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsMaxIterationsLineEdit, 23, 1);
 
-	// /// Label for potential (ScaFaCoS). 
-	// QLabel* fcsPotentialLabel;
+	// Set debuglevel widgets. 
+	fcsDebuglevelLabel = new QLabel(DataButtonGroup, "fcsDebuglevelLabel");
+	DataButtonGroupLayout->addWidget(fcsDebuglevelLabel, 24, 0);
+	fcsDebuglevelLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_debuglevel()), DataButtonGroup, "fcsDebuglevelLineEdit");
+	QIntValidator* fcsDebuglevelLineEditValidator = new QIntValidator(0, INT_MAX, fcsDebuglevelLineEdit);
+	fcsDebuglevelLineEdit->setValidator(fcsDebuglevelLineEditValidator);
+	connect(fcsDebuglevelLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsdebuglevelLErp()));
+	connect(fcsDebuglevelLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsdebuglevelLErp()));
+	fcsDebuglevelLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsDebuglevelLineEdit, 24, 1);
 
-	// /// LineEdit for potential (ScaFaCoS). 
-	// QLineEdit* fcsPotentialLineEdit;
+	// Set epsilon widgets. 
+	fcsEpsilonLabel = new QLabel(DataButtonGroup, "fcsEpsilonLabel");
+	DataButtonGroupLayout->addWidget(fcsEpsilonLabel, 25, 0);
+	fcsEpsilonLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_epsilon(), 'g'), DataButtonGroup, "fcsEpsilonLineEdit");
+	QDoubleValidator* fcsEpsilonLineEditValidator = new QDoubleValidator(0, DBL_MAX, 8, fcsEpsilonLineEdit);
+	fcsEpsilonLineEdit->setValidator(fcsEpsilonLineEditValidator);
+	connect(fcsEpsilonLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsepsilonLErp()));
+	connect(fcsEpsilonLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsepsilonLErp()));
+	fcsEpsilonLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsEpsilonLineEdit, 25, 1);
 
-	// /// Label for radius (ScaFaCoS). 
-	// QLabel* fcsRadiusLabel;
-	
-	// /// LineEdit for radius (ScaFaCoS). 
-	// QLineEdit* fcsRadiusLineEdit;
+	// Set load_balancing widgets.
+	fcsLoadBalancingLabel = new QLabel(DataButtonGroup, "fcsLoadBalancingLabel");
+	DataButtonGroupLayout->addWidget(fcsLoadBalancingLabel, 26, 0);
+	fcsLoadBalancingLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_load_balancing()), DataButtonGroup, "fcsLoadBalancingLineEdit");
+	QIntValidator* fcsLoadBalancingLineEditValidator = new QIntValidator(0, INT_MAX, fcsLoadBalancingLineEdit);
+	fcsLoadBalancingLineEdit->setValidator(fcsLoadBalancingLineEditValidator);
+	connect(fcsLoadBalancingLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsloadbalancingLErp()));
+	connect(fcsLoadBalancingLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsloadbalancingLErp()));
+	fcsLoadBalancingLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsLoadBalancingLineEdit, 26, 1);
 
-	// /// Label for unroll_limit (ScaFaCoS). 
-	// QLabel* fcsUnrollLimitLabel;
+	// Set npm widgets. 
+	fcsNpmLabel = new QLabel(DataButtonGroup, "fcsNpmLabel");
+	DataButtonGroupLayout->addWidget(fcsNpmLabel, 27, 0);
+	fcsNpmLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_npm(), 'g'), DataButtonGroup, "fcsNpmLineEdit");
+	QDoubleValidator* fcsNpmLineEditValidator = new QDoubleValidator(DBL_MIN, DBL_MAX, 8, fcsNpmLineEdit);
+	fcsNpmLineEdit->setValidator(fcsNpmLineEditValidator);
+	connect(fcsNpmLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsnpmLErp()));
+	connect(fcsNpmLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsnpmLErp()));
+	fcsNpmLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsNpmLineEdit, 27, 1);
 
-	// /// LineEdit for unroll_limit (ScaFaCoS). 
-	// QLineEdit* fcsUnrollLimitLineEdit;
+	// Set num_walk_threads widgets. 
+	fcsNumWalkThreadsLabel = new QLabel(DataButtonGroup, "fcsNumWalkThreadsLabel");
+	DataButtonGroupLayout->addWidget(fcsNumWalkThreadsLabel, 28, 0);
+	fcsNumWalkThreadsLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_num_walk_threads()), DataButtonGroup, "fcsNumWalkThreadsLineEdit");
+	QIntValidator* fcsNumWalkThreadsLineEditValidator = new QIntValidator(0, INT_MAX, fcsNumWalkThreadsLineEdit);
+	fcsNumWalkThreadsLineEdit->setValidator(fcsNumWalkThreadsLineEditValidator);
+	connect(fcsNumWalkThreadsLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsnwthreadsLErp()));
+	connect(fcsNumWalkThreadsLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsnwthreadsLErp()));
+	fcsNumWalkThreadsLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsNumWalkThreadsLineEdit, 28, 1);
 
-	// /// Label for degree (ScaFaCoS). 
-	// QLabel* fcsDegreeLabel;
+	// Set theta widgets. 
+	fcsThetaLabel = new QLabel(DataButtonGroup, "fcsThetaLabel");
+	DataButtonGroupLayout->addWidget(fcsThetaLabel, 29, 0);
+	fcsThetaLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_theta(), 'g'), DataButtonGroup, "fcsThetaLineEdit");
+	QDoubleValidator* fcsThetaLineEditValidator = new QDoubleValidator(DBL_MIN, DBL_MAX, 8, fcsThetaLineEdit);
+	fcsThetaLineEdit->setValidator(fcsThetaLineEditValidator);
+	connect(fcsThetaLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsthetaLErp()));
+	connect(fcsThetaLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsthetaLErp()));
+	fcsThetaLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsThetaLineEdit, 29, 1);
 
-	// /// LineEdit for degree (ScaFaCoS). 
-	// QLineEdit* fcsDegreeLineEdit;
+	// Set cycle_type widgets. 
+	fcsCycleTypeLabel = new QLabel(DataButtonGroup, "fcsCycleTypeLabel");
+	DataButtonGroupLayout->addWidget(fcsCycleTypeLabel, 30, 0);
+	fcsCycleTypeLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_cycle_type()), DataButtonGroup, "fcsCycleTypeLineEdit");
+	QIntValidator* fcsCycleTypeLineEditValidator = new QIntValidator(0, INT_MAX, fcsCycleTypeLineEdit);
+	fcsCycleTypeLineEdit->setValidator(fcsCycleTypeLineEditValidator);
+	connect(fcsCycleTypeLineEdit, SIGNAL(returnPressed()), this, SLOT(fcscycletypeLErp()));
+	connect(fcsCycleTypeLineEdit, SIGNAL(lostFocus()), this, SLOT(fcscycletypeLErp()));
+	fcsCycleTypeLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsCycleTypeLineEdit, 30, 1);
 
-	// /// Label for ghosts (ScaFaCoS). 
-	// QLabel* fcsGhostsLabel;
+	// Set discretization_order widgets. 
+	fcsDiscretizationOrderLabel = new QLabel(DataButtonGroup, "fcsDiscretizationOrderLabel");
+	DataButtonGroupLayout->addWidget(fcsDiscretizationOrderLabel, 31, 0);
+	fcsDiscretizationOrderLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_discretization_order()), DataButtonGroup, "fcsDiscretizationOrderLineEdit");
+	QIntValidator* fcsDiscretizationOrderLineEditValidator = new QIntValidator(0, INT_MAX, fcsDiscretizationOrderLineEdit);
+	fcsDiscretizationOrderLineEdit->setValidator(fcsDiscretizationOrderLineEditValidator);
+	connect(fcsDiscretizationOrderLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsdisOrderLErp()));
+	connect(fcsDiscretizationOrderLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsdisOrderLErp()));
+	fcsDiscretizationOrderLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsDiscretizationOrderLineEdit, 31, 1);
 
-	// /// LineEdit for ghosts (ScaFaCoS). 
-	// QLineEdit* fcsGhostsLineEdit;
+	// Set interpolation_order widgets. 
+	fcsInterpolationOrderLabel = new QLabel(DataButtonGroup, "fcsInterpolationOrderLabel");
+	DataButtonGroupLayout->addWidget(fcsInterpolationOrderLabel, 32, 0);
+	fcsInterpolationOrderLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_interpolation_order()), DataButtonGroup, "fcsInterpolationOrderLineEdit");
+	QIntValidator* fcsInterpolationOrderLineEditValidator = new QIntValidator(0, INT_MAX, fcsInterpolationOrderLineEdit);
+	fcsInterpolationOrderLineEdit->setValidator(fcsInterpolationOrderLineEditValidator);
+	connect(fcsInterpolationOrderLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsintOrderLErp()));
+	connect(fcsInterpolationOrderLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsintOrderLErp()));
+	fcsInterpolationOrderLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsInterpolationOrderLineEdit, 32, 1);
 
-	// /// Label for gridsize (ScaFaCoS). 
-	// QLabel* fcsGridsizeLabel;
+	// Set max_level widgets. 
+	fcsMaxLevelLabel = new QLabel(DataButtonGroup, "fcsMaxLevelLabel");
+	DataButtonGroupLayout->addWidget(fcsMaxLevelLabel, 33, 0);
+	fcsMaxLevelLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_max_level()), DataButtonGroup, "fcsMaxLevelLineEdit");
+	QIntValidator* fcsMaxLevelLineEditValidator = new QIntValidator(0, INT_MAX, fcsMaxLevelLineEdit);
+	fcsMaxLevelLineEdit->setValidator(fcsMaxLevelLineEditValidator);
+	connect(fcsMaxLevelLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsMaxLevelLineEdit));
+	connect(fcsMaxLevelLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsMaxLevelLineEdit));
+	fcsMaxLevelLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsMaxLevelLineEdit, 33, 1);
 
-	// /// LineEdit for gridsize_x (ScaFaCoS). 
-	// QLineEdit* fcsGridsizeXLineEdit;
+	// Set near_field_cells widgets. 
+	fcsNearFieldCellsLabel = new QLabel(DataButtonGroup, "fcsNearFieldCellsLabel");
+	DataButtonGroupLayout->addWidget(fcsNearFieldCellsLabel, 34, 0);
+	fcsNearFieldCellsLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_near_field_cells()), DataButtonGroup, "fcsNearFieldCellsLineEdit");
+	QIntValidator* fcsNearFieldCellsLineEditValidator = new QIntValidator(0, INT_MAX, fcsNearFieldCellsLineEdit);
+	fcsNearFieldCellsLineEdit->setValidator(fcsNearFieldCellsLineEditValidator);
+	connect(fcsNearFieldCellsLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsnfcellsLErp()));
+	connect(fcsNearFieldCellsLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsnfcellsLErp()));
+	fcsNearFieldCellsLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsNearFieldCellsLineEdit, 34, 1);
 
-	// /// LineEdit for gridsize_y (ScaFaCoS). 
-	// QLineEdit* fcsGridsizeYLineEdit;
+	// Set precision widgets. 
+	fcsPrecisionLabel = new QLabel(DataButtonGroup, "fcsPrecisionLabel");
+	DataButtonGroupLayout->addWidget(fcsPrecisionLabel, 35, 0);
+	fcsPrecisionLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_precision(), 'g'), DataButtonGroup, "fcsPrecisionLineEdit");
+	QDoubleValidator* fcsPrecisionLineEditValidator = new QDoubleValidator(0, DBL_MAX, fcsPrecisionLineEdit);
+	fcsPrecisionLineEdit->setValidator(fcsPrecisionLineEditValidator);
+	connect(fcsPrecisionLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsprecisionLErp()));
+	connect(fcsPrecisionLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsprecisionLErp()));
+	fcsPrecisionLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsPrecisionLineEdit, 35, 1);
 
-	// /// LineEdit for gridsize_z (ScaFaCoS). 
-	// QLineEdit* fcsGridsizeZLineEdit;
+	// Set smoothing_steps widgets. 
+	fcsSmoothingStepsLabel = new QLabel(DataButtonGroup, "fcsSmoothingStepsLabel");
+	DataButtonGroupLayout->addWidget(fcsSmoothingStepsLabel, 36, 0);
+	fcsSmoothingStepsLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_smoothing_steps()), DataButtonGroup, "fcsSmoothingStepsLineEdit");
+	QIntValidator* fcsSmoothingStepsLineEditValidator = new QIntValidator(0, INT_MAX, fcsSmoothingStepsLineEdit);
+	fcsSmoothingStepsLineEdit->setValidator(fcsSmoothingStepsLineEditValidator);
+	connect(fcsSmoothingStepsLineEdit, SIGNAL(returnPressed()), this, SLOT(fcssStepsLErp()));
+	connect(fcsSmoothingStepsLineEdit, SIGNAL(lostFocus()), this, SLOT(fcssStepsLErp()));
+	fcsSmoothingStepsLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsSmoothingStepsLineEdit, 36, 1);
 
-	// /// Label for max_iterations (ScaFaCoS). 
-	// QLabel* fcsMaxIterationsLabel;
+	// Set epsI widgets. 
+	fcsEpsILabel= new QLabel(DataButtonGroup, "fcsEpsILabel");
+	DataButtonGroupLayout->addWidget(fcsEpsILabel, 37, 0);
+	fcsEpsILineEdit= new QLineEdit(QString::number(myDataPart->isFCS_epsI(), 'g'), DataButtonGroup, "fcsEpsILineEdit");
+	QDoubleValidator* fcsEpsILineEditValidator = new QDoubleValidator(0, DBL_MAX, 8, fcsEpsILineEdit);
+	fcsEpsILineEdit->setValidator(fcsEpsILineEditValidator);
+	connect(fcsEpsILineEdit, SIGNAL(returnPressed()), this, SLOT(fcsepsILErp()));
+	connect(fcsEpsILineEdit, SIGNAL(lostFocus()), this, SLOT(fcsepsILErp()));
+	fcsEpsILineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsEpsILineEdit, 37, 1);
 
-	// /// LineEdit for max_iterations (ScaFaCoS). 
-	// QLineEdit* fcsMaxInterationsLineEdit;
+	// Set m widgets. 
+	fcsMLabel = new QLabel(DataButtonGroup, "fcsMLabel");
+	DataButtonGroupLayout->addWidget(fcsMLabel, 38, 0);
+	fcsMLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_m()), DataButtonGroup, "fcsMLineEdit");
+	QIntValidator* fcsMLineEditValidator = new QIntValidator(INT_MIN, INT_MAX, fcsMLineEdit);
+	fcsMLineEdit->setValidator(fcsMLineEditValidator);
+	connect(fcsMLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsmLErp()));
+	connect(fcsMLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsmLErp()));
+	fcsMLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsMLineEdit, 38, 1);
 
-	// /// Label for debuglevel (ScaFaCoS). 
-	// QLabel* fcsDebuglevelLabel;
+	// Set p widgets. 
+	fcsPLabel = new QLabel(DataButtonGroup, "fcsPLabel");
+	DataButtonGroupLayout->addWidget(fcsPLabel, 39, 0);
+	fcsPLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_p()), DataButtonGroup, "fcsPLineEdit");
+	QIntValidator* fcsPLineEditValidator = new QIntValidator(INT_MIN, INT_MAX, fcsPLineEdit);
+	fcsPLineEdit->setValidator(fcsPLineEditValidator);
+	connect(fcsPLineEdit, SIGNAL(returnPressed()), this, SLOT(fcspLErp()));
+	connect(fcsPLineEdit, SIGNAL(lostFocus()), this, SLOT(fcspLErp()));
+	fcsPLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsPLineEdit, 39, 1);
 
-	// /// LineEdit for debuglevel (ScaFaCoS). 
-	// QLineEdit* fcsDebuglevelLineEdit;
-
-	// /// Label for epsilon (ScaFaCoS). 
-	// QLabel* fcsEpsilonLabel;
-
-	// /// LineEdit for epsilon (ScaFaCoS). 
-	// QLineEdit* fcsEpsilonLineEdit;
-
-	// /// Label for load_balancing (ScaFaCoS). 
-	// QLabel* fcsLoadBalancingLabel;
-
-	// /// LineEdit for load_balancing (ScaFaCoS). 
-	// QLineEdit* fcsLoadBalancingLineEdit;
-
-	// /// Label for npm (ScaFaCoS). 
-	// QLabel* fcsNpmLabel;
-
-	// /// LineEdit for npm (ScaFaCoS). 
-	// QLineEdit* fcsNpmLineEdit;
-
-	// /// Label for num_walk_threads (ScaFaCoS). 
-	// QLabel* fcsNumWalkThreadsLabel;
-
-	// /// LineEdit for num_walk_threads (ScaFaCoS). 
-	// QLineEdit* fcsNumWalkThreadsLineEdit;
-
-	// /// Label for theta (ScaFaCoS). 
-	// QLabel* fcsThetaLabel;
-
-	// /// LineEdit for theta (ScaFaCoS). 
-	// QLineEdit* fcsThetaLineEdit;
-
-	// /// Label for cycle_type (ScaFaCoS). 
-	// QLabel* fcsCycleTypeLabel;
-
-	// /// LineEdit for cycle_type (ScaFaCoS). 
-	// QLineEdit* fcsCycleTypeLineEdit;
-
-	// /// Label for discretization_order (ScaFaCoS). 
-	// QLabel* fcsDiscretizationOrderLabel;
-
-	// /// LineEdit for discretization_order (ScaFaCoS). 
-	// QLineEdit* fcsDiscretizationOrderLineEdit;
-
-	// /// Label for interpolation_order (ScaFaCoS). 
-	// QLabel* fcsInterpolationOrderLabel;
-
-	// /// LineEdit for interpolation_order (ScaFaCoS). 
-	// QLineEdit* fcsInterpolationOrderLineEdit;
-
-	// /// Label for max_level (ScaFaCoS). 
-	// QLabel* fcsMaxLevelLabel;
-
-	// /// LineEdit for max_level (ScaFaCoS). 
-	// QLineEdit* fcsMaxLevelLineEdit;
-
-	// /// Label for near_field_cells (ScaFaCoS). 
-	// QLabel* fcsNearFieldCellsLabel;
-
-	// /// LineEdit for near_field_cells (ScaFaCoS). 
-	// QLineEdit* fcsNearFieldCellsLineEdit;
-
-	// /// Label for precision (ScaFaCoS). 
-	// QLabel* fcsPrecisionLabel;
-	
-	// /// LineEdit for precision (ScaFaCoS). 
-	// QLineEdit* fcsPrecisionLineEdit;
-
-	// /// Label for smoothing_steps (ScaFaCoS). 
-	// QLabel* fcsSmoothingStepsLabel;
-
-	// /// LineEdit for smoothing_steps (ScaFaCoS). 
-	// QLineEdit* fcsSmoothingStepsLineEdit;
-
-	// /// Label for epsI (ScaFaCoS). 
-	// QLabel* fcsEpsILabel;
-
-	// /// LineEdit for epsI (ScaFaCoS). 
-	// QLineEdit* fcsEpsILineEdit;
-
-	// /// Label for m (ScaFaCoS). 
-	// QLabel* fcsMLabel;
-
-	// /// LineEdit for m (ScaFaCoS). 
-	// QLineEdit* fcsMLineEdit;
-
-	// /// Label for p (ScaFaCoS). 
-	// QLabel* fcsPLabel;
-
-	// /// LineEdit for p (ScaFaCoS). 
-	// QLineEdit* fcsPLineEdit;
-
-	// /// Label for oversampled_gridsize (ScaFaCoS). 
-	// QLabel* fcsOversampledGridsizeLabel;
-
-	// /// LineEdit for oversampled_gridsize_x (ScaFaCoS). 
-	// QLineEdit* fcsOversampledGridsizeXLineEdit;
-
-	// /// LineEdit for oversampled_gridsize_y (ScaFaCoS). 
-	// QLineEdit* fcsOversampledGridsizeYLineEdit;
-
-	// /// LineEdit for oversampled_gridsize_z (ScaFaCoS). 
-	// QLineEdit* fcsOversampledGridsizeZLineEdit;
+	// Set oversampled_gridsize widgets. 
+	fcsOversampledGridsizeLabel = new QLabel(DataButtonGroup, "fcsOversampledGridsizeLabel");
+	DataButtonGroupLayout->addWidget(fcsOversampledGridsizeLabel, 40, 0);
+	// x-axis
+	fcsOversampledGridsizeXLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_oversampled_gridsize_x()), DataButtonGroup, "fcsOversampledGridsizeXLineEdit");
+	QIntValidator* fcsOversampledGridsizeXLineEditValidator = new QIntValidator(0, INT_MAX, "fcsOversampledGridsizeXLineEdit");
+	fcsOversampledGridsizeXLineEdit->setValidator(fcsOversampledGridsizeXLineEditValidator);
+	connect(fcsOversampledGridsizeXLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsoversampledGsXLErp()));
+	connect(fcsOversampledGridsizeXLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsoversampledGsXLErp()));
+	fcsOversampledGridsizeXLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsOversampledGridsizeXLineEdit, 40, 1);
+	// y-axis
+	fcsOversampledGridsizeYLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_oversampled_gridsize_y()), DataButtonGroup, "fcsOversampledGridsizeYLineEdit");
+	QIntValidator* fcsOversampledGridsizeYLineEditValidator = new QIntValidator(0, INT_MAX, "fcsOversampledGridsizeYLineEdit");
+	fcsOversampledGridsizeYLineEdit->setValidator(fcsOversampledGridsizeYLineEditValidator);
+	connect(fcsOversampledGridsizeYLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsoversampledGsYLErp()));
+	connect(fcsOversampledGridsizeYLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsoversampledGsYLErp()));
+	fcsOversampledGridsizeYLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsOversampledGridsizeYLineEdit, 40, 1);
+	// z-axis
+	fcsOversampledGridsizeZLineEdit = new QLineEdit(QString::number(myDataPart->isFCS_oversampled_gridsize_z()), DataButtonGroup, "fcsOversampledGridsizeZLineEdit");
+	QIntValidator* fcsOversampledGridsizeZLineEditValidator = new QIntValidator(0, INT_MAX, "fcsOversampledGridsizeZLineEdit");
+	fcsOversampledGridsizeZLineEdit->setValidator(fcsOversampledGridsizeZLineEditValidator);
+	connect(fcsOversampledGridsizeZLineEdit, SIGNAL(returnPressed()), this, SLOT(fcsoversampledGsZLErp()));
+	connect(fcsOversampledGridsizeZLineEdit, SIGNAL(lostFocus()), this, SLOT(fcsoversampledGsZLErp()));
+	fcsOversampledGridsizeZLineEdit->setEnabled(false);
+	DataButtonGroupLayout->addWidget(fcsOversampledGridsizeZLineEdit, 40, 1);
 
      
 	// Configure visibility and enabling of poisson solver widgets.
-	connect( myDataPart, SIGNAL( enablepoisson_solver( bool ) ), poisson_solverComboBox, SLOT( setEnabled( bool ) ) );
+	connect(myDataPart, SIGNAL( enablepoisson_solver( bool ) ), poisson_solverComboBox, SLOT( setEnabled( bool ) ) );
 	connect(myDataPart, SIGNAL(enablepoisson_solver(bool)), poisson_solverComboBox, SLOT(setVisible(bool)));
 	connect(myDataPart, SIGNAL(enablepoisson_solver(bool)), poisson_solverLabel, SLOT(setVisible(bool)));
 
@@ -488,11 +674,195 @@ SolParallel_GUI::SolParallel_GUI( SolParallel_Data* DataPart, TremoloGUIConfig* 
 	connect( myDataPart, SIGNAL( enableInterpolationDegree( bool ) ), interpolationLineEdit, SLOT( setVisible( bool ) ) );
 	connect( myDataPart, SIGNAL( enableInterpolationDegree( bool ) ), interpolationLabel, SLOT( setVisible( bool ) ) );
 
-	// Configure visibility and enabling of cellration widgets. 
+	// Configure visibility and enabling of cellratio widgets. 
 	connect( myDataPart, SIGNAL( enableCellratio( bool ) ), cellratioLineEdit, SLOT( setEnabled( bool ) ) );
 	connect( myDataPart, SIGNAL( enableCellratio( bool ) ), cellratioLineEdit, SLOT( setVisible( bool ) ) );
 	connect( myDataPart, SIGNAL( enableCellratio( bool ) ), cellratioLabel, SLOT( setVisible( bool ) ) );
-     
+
+	// Configure visibility and enabling of tolerance widgets.
+	connect(myDataPart, SIGNAL(enableFCS_tolerance(bool)), fcsToleranceLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_tolerance(bool)), fcsToleranceLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_tolerance(bool)), fcsToleranceLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of tolerance_type widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_tolerance_type(bool)), fcsToleranceTypeLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_tolerance_type(bool)), fcsToleranceTypeLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_tolerance_type(bool)), fcsToleranceTypeLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of periodic_images widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_periodic_images_x(bool)), fcsPeriodicImagesXLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_periodic_images_x(bool)), fcsPeriodicImagesXLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_periodic_images_y(bool)), fcsPeriodicImagesYLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_periodic_images_y(bool)), fcsPeriodicImagesYLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_periodic_images_z(bool)), fcsPeriodicImagesZLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_periodic_images_z(bool)), fcsPeriodicImagesZLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_periodic_images_x(bool)), fcsPeriodicImagesLabel, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_periodic_images_y(bool)), fcsPeriodicImagesLabel, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_periodic_images_z(bool)), fcsPeriodicImagesLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of splittingCoefficientAlpha widgets.
+	connect(myDataPart, SIGNAL(enableFCS_splittingCoefficientAlpha(bool)), fcsSplittingCoefficientAlphaLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_splittingCoefficientAlpha(bool)), fcsSplittingCoefficientAlphaLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_splittingCoefficientAlpha(bool)), fcsSplittingCoefficientAlphaLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of kmax widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_kmax(bool)), fcsKmaxLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_kmax(bool)), fcsKmaxLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_kmax(bool)), fcsKmaxLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of maxkmax widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_maxkmax(bool)), fcsMaxkmaxLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_maxkmax(bool)), fcsMaxkmaxLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_maxkmax(bool)), fcsMaxkmaxLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of balanceload widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_balanceload(bool)), fcsBalanceloadLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_balanceload(bool)), fcsBalanceloadLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_balanceload(bool)), fcsBalanceloadLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of dipole_correction widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_dipole_correction(bool)), fcsDipoleCorrectionLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_dipole_correction(bool)), fcsDipoleCorrectionLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_dipole_correction(bool)), fcsDipoleCorrectionLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of maxdepts widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_maxdepth(bool)), fcsMaxdepthLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_maxdepth(bool)), fcsMaxdepthLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_maxdepth(bool)), fcsMaxdepthLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of potential widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_potential(bool)), fcsPotentialLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_potential(bool)), fcsPotentialLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_potential(bool)), fcsPotentialLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of radius widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_radius(bool)), fcsRadiusLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_radius(bool)), fcsRadiusLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_radius(bool)), fcsRadiusLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of unroll_limit widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_unroll_limit(bool)), fcsUnrollLimitLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_unroll_limit(bool)), fcsUnrollLimitLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_unroll_limit(bool)), fcsUnrollLimitLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of degree widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_degree(bool)), fcsDegreeLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_degree(bool)), fcsDegreeLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_degree(bool)), fcsDegreeLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of ghosts widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_ghosts(bool)), fcsGhostsLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_ghosts(bool)), fcsGhostsLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_ghosts(bool)), fcsGhostsLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of gridsize widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_gridsize_x(bool)), fcsGridsizeXLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_gridsize_x(bool)), fcsGridsizeXLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_gridsize_x(bool)), fcsGridsizeLabel, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_gridsize_y(bool)), fcsGridsizeYLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_gridsize_y(bool)), fcsGridsizeYLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_gridsize_y(bool)), fcsGridsizeLabel, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_gridsize_z(bool)), fcsGridsizeZLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_gridsize_z(bool)), fcsGridsizeZLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_gridsize_z(bool)), fcsGridsizeLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of max_iterations widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_max_iterations(bool)), fcsMaxIterationsLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_max_iterations(bool)), fcsMaxIterationsLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_max_iterations(bool)), fcsMaxIterationsLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of debuglevel widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_debuglevel(bool)), fcsDebuglevelLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_debuglevel(bool)), fcsDebuglevelLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_debuglevel(bool)), fcsDebuglevelLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of epsilon widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_epsilon(bool)), fcsEpsilonLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_epsilon(bool)), fcsEpsilonLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_epsilon(bool)), fcsEpsilonLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of load_balancing widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_load_balancing(bool)), fcsLoadBalancingLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_load_balancing(bool)), fcsLoadBalancingLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_load_balancing(bool)), fcsLoadBalancingLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of NPM widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_npm(bool)), fcsNpmLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_npm(bool)), fcsNpmLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_npm(bool)), fcsNpmLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of num_walk_threads widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_num_walk_threads(bool)), fcsNumWalkThreadsLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_num_walk_threads(bool)), fcsNumWalkThreadsLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_num_walk_threads(bool)), fcsNumWalkThreadsLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of theta widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_theta(bool)), fcsThetaLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_theta(bool)), fcsThetaLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_theta(bool)), fcsThetaLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of cycle_type widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_cycle_type(bool)), fcsCycleTypeLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_cycle_type(bool)), fcsCycleTypeLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_cycle_type(bool)), fcsCycleTypeLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of discretization_order widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_discretization_order(bool)), fcsDiscretizationOrderLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_discretization_order(bool)), fcsDiscretizationOrderLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_discretization_order(bool)), fcsDipoleCorrectionLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of interpolation_order widgers. 
+	connect(myDataPart, SIGNAL(enableFCS_interpolation_order(bool)), fcsInterpolationOrderLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_interpolation_order(bool)), fcsInterpolationOrderLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_interpolation_order(bool)), fcsInterpolationOrderLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of max_level widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_max_level(bool)), fcsMaxLevelLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_max_level(bool)), fcsMaxLevelLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_max_level(bool)), fcsMaxLevelLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of near_field_cells widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_near_field_cells(bool)), fcsNearFieldCellsLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_near_field_cells(bool)), fcsNearFieldCellsLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_near_field_cells(bool)), fcsNearFieldCellsLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of precision widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_precision(bool)), fcsPrecisionLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_precision(bool)), fcsPrecisionLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_precision(bool)), fcsPrecisionLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of smoothing_steps widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_smoothing_steps(bool)), fcsSmoothingStepsLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_smoothing_steps(bool)), fcsSmoothingStepsLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_smoothing_steps(bool)), fcsSmoothingStepsLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of epsI widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_epsI(bool)), fcsEpsILineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_epsI(bool)), fcsEpsILineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_epsI(bool)), fcsEpsILabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of m widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_m(bool)), fcsMLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_m(bool)), fcsMLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_m(bool)), fcsMLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of p widgets.
+	connect(myDataPart, SIGNAL(enableFCS_p(bool)), fcsPLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_p(bool)), fcsPLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_p(bool)), fcsPLabel, SLOT(setVisible(bool)));
+
+	// Configure visibility and enabling of oversampled_gridsize widgets. 
+	connect(myDataPart, SIGNAL(enableFCS_oversampled_gridsize_x(bool)), fcsOversampledGridsizeXLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_oversampled_gridsize_x(bool)), fcsOversampledGridsizeXLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_oversampled_gridsize_x(bool)), fcsOversampledGridsizeLabel, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_oversampled_gridsize_y(bool)), fcsOversampledGridsizeYLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_oversampled_gridsize_y(bool)), fcsOversampledGridsizeYLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_oversampled_gridsize_y(bool)), fcsOversampledGridsizeLabel, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_oversampled_gridsize_z(bool)), fcsOversampledGridsizeZLineEdit, SLOT(setEnabled(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_oversampled_gridsize_z(bool)), fcsOversampledGridsizeZLineEdit, SLOT(setVisible(bool)));
+	connect(myDataPart, SIGNAL(enableFCS_oversampled_gridsize_z(bool)), fcsOversampledGridsizeLabel, SLOT(setVisible(bool)));
+
+
 	// Add buttongroup for the parameters to the longrange solver's layout. 
 	longRangeAndAdditionalValuesLayout->addWidget(DataButtonGroup);
 	longRangeAndAdditionalValuesLayout->addStretch();

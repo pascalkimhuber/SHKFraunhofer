@@ -330,7 +330,7 @@ private:
 	QLabel* fcsMaxIterationsLabel;
 
 	/// LineEdit for max_iterations (ScaFaCoS). 
-	QLineEdit* fcsMaxInterationsLineEdit;
+	QLineEdit* fcsMaxIterationsLineEdit;
 
 	/// Label for debuglevel (ScaFaCoS). 
 	QLabel* fcsDebuglevelLabel;

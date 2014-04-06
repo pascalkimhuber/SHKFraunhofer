@@ -79,6 +79,8 @@ Wait for Mail from IT. Change password if smartcard is there!
 
 - [2014-04-03 Thu 13:30]--[2014-04-03 Thu 17:36]
 
+- [2014-04-06 Sun 16:30]--[2014-04-06 Sun 19:38]
+
   
 * Nuetzliches
 
@@ -476,8 +478,12 @@ List of all new parameters:
 ***** DONE Implement slots for all fcs parameter.
 	  CLOSED: [2014-04-03 Thu 16:56]
 
-***** TODO Add new buttons, labels and lineEdits to constructor. 
-
+***** DONE Add new buttons, labels and lineEdits to constructor. 
+	  CLOSED: [2014-04-06 Sun 19:37]
+***** TODO Check buttons, labels and lineEdits in constructor. 
+Check Validators. 
+- range
+- type (long long and int)
 
 ** Questions [0/3]
 
