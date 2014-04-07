@@ -82,6 +82,7 @@ Wait for Mail from IT. Change password if smartcard is there!
 
 - [2014-04-07 Mon 13:57]--[2014-04-07 Mon 18:00]
 
+
   
 * Nuetzliches
 
@@ -498,6 +499,12 @@ Ask Johannes about that. Is this a consequence of the implementation of fcs_solv
 - long long unroll_limit
 
 ***** TODO Find origin of method toString(). 
+
+***** TODO Check buttons, labels and lineEdits in constructor. 
+Check Validators. 
+- range
+- type (long long and int)
+
 
 ** Questions [0/3]
 
