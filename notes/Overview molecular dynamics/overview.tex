@@ -1,0 +1,72 @@
+\documentclass{scrartcl}
+
+\usepackage{mathtools}
+\usepackage{amssymb}
+
+\begin{document}
+
+\section{The basics}
+\label{sec:basics}
+
+\begin{itemize}
+\item Hamilton's equation of motion:
+\[ \dot{x} = \nabla_p \mathcal{H}(x,p) \hspace{1cm} \dot{p} = \nabla_x \mathcal{H}(x,p) \]
+\item Hamiltonian \(\mathcal{H}\) with conservative potential \(U\)
+  (\(U=U(x), \partial_t U = 0\)): 
+\[\mathcal{H}(x,p) = \frac{1}{2} \sum_{i=1}^N \frac{p_i^T p_i}{m_i} + U(x_1, \dots, x_N) = E_{kin} + E_{pot} \]
+\item \(\frac{d}{dt} \mathcal{H}(x,p) = 0\) microcanonical ensemble. 
+\end{itemize}
+
+
+
+\section{The ensembles}
+\label{sec:ensembles}
+
+A statistical ensemble is an idealization consisting of a large number of virtual copies (sometimes infinitely many) of a system, considered all at once, each of which represents a possible state that the real system might be in. In other words, a statistical ensemble is a probability distribution for the state of the system.
+
+\subsection{The microcanonical ensemble (NVE)}
+\label{sec:micr-ensemble-nve}
+
+Statistical ensemble that is used to represent the possible states of
+a mechanical system which has an exactly specified total energy. 
+\begin{itemize}
+\item isolated system: energy remains constant
+\item Number, Volume, Energy are constant
+\item the microcanonical ensemble is defined by assigning an equal
+  probability to every microstate whose energy falls within a range
+  centered at E. 
+\end{itemize}
+
+\subsection{The canonical ensemble (NVT)}
+\label{sec:canon-ensemble-nvt}
+
+Statistical ensemble that is used to represent the possible states of
+a mechanical system which is in thermal equilibrium with a heat bath. 
+\begin{itemize}
+\item energy can vary
+\item Number, Volume, Temperature remain constant
+\item the canonical ensemble assigns a probability P to each
+  microstate given by the following exponential: \(P =
+  \exp(\frac{A-E}{kT})\). 
+\end{itemize}
+
+\subsection{The isothermal-isobaric ensemble (NPT)}
+\label{sec:isoth-isob-ensemble}
+
+Statistical ensemble that is used to represent the possible states of a
+mechanical system which maintains constant temperature and constant
+pressure. 
+
+\subsection{The grand canonical ensemble (\(\mu\)VT)}
+\label{sec:grand-canon-ensemble}
+
+Statistical ensemble that is used to represent the possible states of a
+mechanical system of particles that is being maintained in
+thermodynamic equilibrium (thermal and chemical) with a reservoir. 
+\begin{itemize}
+\item can exchange energy and particles
+\item chemical potential \(\mu\), Volume, Temperature are constant.
+\end{itemize}
+
+
+\end{document}
