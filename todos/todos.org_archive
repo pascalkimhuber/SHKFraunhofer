@@ -2062,3 +2062,22 @@ Check Validators.
 	 CLOSED: [2014-04-08 Tue 14:43]
 
 
+
+* Aufgaben
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-04-16 Wed 15:57
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_CATEGORY: todos
+  :END:
+  - Note taken on [2014-04-09 Wed 14:56] \\
+	Besprechung mit Christian: 
+	
+	Ziel: Hinzufügen einer strain timeline zu tremolo
+	
+	Was ich mir anschauen soll: 
+	1. Code von timeline und external
+	2. Paper zu Strain/Stress ensembles
+	3. timeline feature
+	
+	Was ich langfristig machen soll:
+	1. Timeline parser für strain

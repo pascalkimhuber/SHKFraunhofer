@@ -55,7 +55,25 @@ a mechanical system which is in thermal equilibrium with a heat bath.
 
 Statistical ensemble that is used to represent the possible states of a
 mechanical system which maintains constant temperature and constant
-pressure. 
+pressure. \\
+
+\paragraph{Formulation of the isothermal-isobaric ensemble}
+In order to get a formulation for the (NPT) ensemble the following
+steps are carried out: 
+\begin{itemize}
+\item Consider the whole system together with the heat bath and the
+  external piston as a NVE ensemble.\\
+  This leads to 10 additional degrees of freedom (9 for the box-matrix
+  entries and one for time scaling) by defining fictious potentials
+  and additional dynamics: 
+\item Use virtual variables for space and time (\(\tilde{h}_{i,j}, \gamma\)) and define
+  fictious potentials (\(U_P, U_T\)), the so called Parrinello-Rahman
+  barostat and the Nose thermostat. This gives the additional
+  degrees of freedom.
+\item By this one can define the Parrinello-Rahman-Nose Hamiltonian.
+\item Transform back to real time (to get equidistant timesteps). 
+  By this transformation the system becomes a non-Hamiltonian system. 
+\end{itemize}
 
 \subsection{The grand canonical ensemble (\(\mu\)VT)}
 \label{sec:grand-canon-ensemble}
@@ -66,6 +84,54 @@ thermodynamic equilibrium (thermal and chemical) with a reservoir.
 \begin{itemize}
 \item can exchange energy and particles
 \item chemical potential \(\mu\), Volume, Temperature are constant.
+\end{itemize}
+
+
+\section{Stress and strain}
+
+\subsection{Stress \(\sigma = \frac{|\vec{F}|}{A}\)}
+
+\begin{itemize}
+\item Physical quantity expressing the internal forces that
+  neighbouring particles of a continuous material exert on each other.
+\item Stress is defined as the average force per unit area that some
+  particle of a body exerts on an adjacent particle. (It is a
+  macroscopic concept.)
+\item Any strain (deformation) of a solid material generates an
+  internal elastic stress. The relation between mechanical stress, deformation and the rate
+  of change of deformation can be quite complicated.
+\item The stress state of the material must be described by a tensor
+  (Cauchy stress tensor \(\sigma\)). The stress tensor defines the
+  state of stress at a point inside a material in the deformed
+  placement or configuration. One has the relation \(\vec{T} =
+  \sigma\cdot \vec{n}\), where \(\vec{T}\) is the stress vector for
+  the plane described by the normal \(\vec{n}\). 
+\end{itemize}
+
+\subsection{Strain \(\sigma_{ij} = \sum_{k,l} C_{ijkl}
+  \epsilon_{kl}\)}
+
+\begin{itemize}
+\item The strain describes the transformation of a body from a
+  reference configuration to a current configuration. It describes the
+  deformation in terms of relative displacement of particles in the
+  body.
+\item In a continuous material a deformation field results from a
+  stress field. The relation between stresses and induced strains is
+  expressed by constitutive equations (e.g. Hooke's law).
+\item The strain tensor \(\epsilon\) describes what?
+\end{itemize}
+
+\subsection{Stress - Strain relation}
+
+\begin{itemize}
+\item Reference state: use matrix \(h_0\) (used to transform virtuel
+  coordinates in real coordinates). A homogeneous distortion is then
+  given by \(h_0 \leadsto h\).
+\item This creates a displacement \(u\) which again yields in a
+  formula for the strain tensor \(\epsilon\).
+\item The coupling of strain and stress is given by ``Hooke's law'':
+  \(\sigma_{ij} = \sum_{kl} C_{ijkl} \epsilon_{kl}\). 
 \end{itemize}
 
 

@@ -2,7 +2,10 @@
 
 * Organization
 
-** TODO Christian wegen Stunden fragen
+** Commit conventions
+1. Name branch I am working in.
+2. Be explicit about what has been done.
+3. Mark if a "project" is finished.
 
 
 * Configurations
@@ -14,9 +17,12 @@ Wait for Mail from IT. Change password if smartcard is there!
 * Emacs
 
 ** Language evaluation in org mode (see http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10)
-** TODO Qt Auto complete
+** DONE Qt Auto complete
+   CLOSED: [2014-04-16 Wed 15:04]
 
 ** TODO Syntax highlighting for doxygen comments in c++ mode. 
+
+** TODO Setter and getter methods. 
 
 
 * Arbeitszeiten
@@ -84,8 +90,13 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-04-08 Tue 12:59]--[2014-04-08 Tue 15:00]
 - [2014-04-09 Wed 13:00]--[2014-04-09 Wed 14:54]
 
+- [2014-04-21 Mon 14:00]--[2014-04-21 Mon 18:00]
+- [2014-04-15 Tue 14:44]--[2014-04-15 Tue 15:44]
+- [2014-04-16 Wed 14:00]--[2014-04-16 Wed 15:30]
 
+- [2014-04-23 Wed 13:28]--[2014-04-23 Wed 16:00]
   
+
 * Nuetzliches
 
 ** Tremolo aktualisieren
@@ -201,16 +212,158 @@ http://www.panix.com/~elflord/unix/grep.html
   
 
 * Aufgaben
-  - Note taken on [2014-04-09 Wed 14:56] \\
-	Besprechung mit Christian: 
+  - Note taken on [2014-04-16 Wed 15:57] \\
+	Besprechung mit Christian um [2014-04-16 Wed 15:57]
 	
-	Ziel: Hinzufügen einer strain timeline zu tremolo
-	
-	Was ich mir anschauen soll: 
-	1. Code von timeline und external
-	2. Paper zu Strain/Stress ensembles
-	3. timeline feature
-	
-	Was ich langfristig machen soll:
-	1. Timeline parser für strain
+	Zwei Aufgabenziele: 
+	1. Kurzfristiges Ziel:
+	   Überarbeitung des "potentials" tabs
+	   - Übernehme Elemente von "Datafile" tab
+	   - Obere 2/3 des Tabs: Editor-Fenster in das ein Potentials-file geladen werden soll
+		 - der Editor soll die Funktionen "open" and "save" bereitstellen
+		 - open-button:
+		   + soll erweiterbar sein (d.h. es sollen noch mögliche "Suchfunktionen" eingebunden werden können -> handler)
+		   + vorerst: einen beliebigen Ordner öffnen
+		   + nach .potential files filtern
+		   + nachdem der Nutzer ein file ausgewählt hat, soll eine Kopie des files in den Projekt-Ordner gelegt werden mit dem Namen "PROJECTNAME.potentials"
+		   + falls nach Sicherung eines .potential-files ein weiteres file geöffnet wird, soll eine Warnung zum "Datenverlust" abgegeben werden.
+		 - save-button: 
+		   + speichert die Änderungen im .potentials file.
+	   - Stelle sicher, dass immer ein .validates-file erzeugt wird (notfalls auch leer (default)). 
+	2. Langfristiges Ziel: 
+	   - Verifizieren von Ensembles 
+	   - etwas mit Monte-Carlo Methoden (siehe folgende Links)
+		 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
+		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
 
+** TODO Create new branch
+  
+
+** TODO Determine which files have to be modified
+
+*** Files for Potential-tab
+potential.cpp                
+potential.h                  
+potentialparameter_data.cpp  
+potentialparameter_data.h    
+potentialparametertable.cpp  
+potentialparametertable.h
+potentialparameterui.cpp
+potentialparameterui.h
+potentialparameteruisuper.cpp
+potentialparameteruisuper.h
+potentialparameterwidget.cpp
+potentialparameterwidget.h
+
+*** Files for Datafile-tab
+parametertextedit.h
+parametertextedit.cpp
+
+*** Description of parametertextedit.h and parametertextedit.cpp
+- Two classes
+  1. class textEditStatusBar : public QWidget
+  2. class parameterTextEdit : public QMainWindow
+
+**** Description of textEditStatusBar class
+
+Implements the status bar in the "Datafile"-tab (just at the lower end of the window). 
+
+The status bar consists of 4 different frames (QFrame) containing each a QLabel with
++ the current position of the cursor
++ a indicator that shows if the file has been changed
++ the type of the file
++ the name of the file
+
+The layout is managed by a QHBoxLayout for the statusbar itself and for different GridLayouts for each of the frames. 
+
+The following slots are implemented:
++ changeCurrentPos
++ setFilename
++ setEditMode
++ languageChange
+
+**** Description of parameterTextEdit class
+
+Implements a texteditor for datafiles in the "Datafile"-tab. It is essentially a QMainWindow with a QTextEdit. Moreover the class has a textEditStatusBar as child object.
+
+The class contains the following children:
++ QTextEdit for the texteditor window
++ QToolBar a toolbar for the texteditor
++ QActions for all buttons on the toolbar
++ QStrings to save the parameter file and a suffix
++ textEditStatusBar 
++ bools for different indications
+
+The layout is managed by only one QVBoxLayout. 
+
+There are only a few method implemented in the class: 
++ bool isSaved() const // returns true if the file is saved
++ void setSavedStatus(bool status) // sets the status of the file
++ void fileLoad(QString File) // loads the file that is supposed to be edited
++ void renewTextEdit2() // ?
+
+Slots:
++ void fileSave() // saves the file
++ void reloadfile(QString parameterFileIn) // reload the file
++ void clearBuffer(bool ask=true) // ?
++ void setLoadingfileStatus(bool status) // ?
++ void enableFileSaveAction(void) // ?
++ void changeCurrentPos (void) // ?
++ void fileOpen() // open new file
++ fileSaveAs() // save file as
++ textEditChanged // action if textEdit has been changed
++ virtual void languageChange() // set language
+
+Signals:
++ void newSaveState() // is send if the save-state of the file changes
+
+
+** TODO Draft for new "Potentials" tab
+
+*** Class potentialEditStatusBar : public QWidget
+
+Analogously to the textEditStatusBar in the parameterTextEdit class. 
+
+*** Class potentialTextEdit : public QMainWindow
+
+Child objects:
++ QTextEdit for the texteditor window
++ QToolBar for a toolbar
++ QActions for the buttons of the toolbar
++ potentialEditStatusBar for the statusbar
++ QString to save the path of the current file
++ QString to save the suffix of the file (not necessary?)
++ bool to keep track of the enabled status
++ bool to keep track of the loadingfile status
++ bool to keep track of the saved status
++ QVBoxLayout for the overall layout
+
+Methods: 
++ bool isSaved() const // returns true if the file is saved
++ void setSavedStatus(bool status) // sets the saved status
++ void fileLoad(QString file) // load specified file into the texteditor
++ ???? void renewTextEdit2() // renew the whole text editor (never used?) 
+
+Slots:
++ void fileOpen() // open new file - should be extendible for more functionality
++ void fileSave() // save file
++ void reloadfile(QString parameterFileIn) // reload the file
++ void clearBuffer(bool ask=true) // clears the buffer (used in fileOpen())
++ void setLoadingfileStatus(bool status) // sets loadingfile to the specified status
++ void enableFileSaveAction(void) // enables save button
++ void changeCurrentPos(void) // sync statusbar with textcursor position
++ void textEditChanged() // sync everything after changing
++ virtual void languageChange() // set language
+
+Signals: 
++ void newSaveState() 
+
+
+* Fragen
+
+1. [ ] Wann können branches aus dem Repository gelöscht werden?
+2. [ ] Die Methode void parameterTextEdit::renewTextEdit2() wird nie verwendet!?
+3. [ ] Option "Save as" in potentials tab? Evtl. Speichere schon verwendete Potentiale in extra Struktur? 
+
+
+ 
