@@ -24,6 +24,8 @@ Wait for Mail from IT. Change password if smartcard is there!
 
 ** TODO Setter and getter methods. 
 
+** TODO Rewrite Arbeitszeiten section
+
 
 * Arbeitszeiten
 - [2013-12-16 Sat 16:30]--[2013-12-16 Mon 18:00]
@@ -95,6 +97,11 @@ Wait for Mail from IT. Change password if smartcard is there!
 - [2014-04-16 Wed 14:00]--[2014-04-16 Wed 15:30]
 
 - [2014-04-23 Wed 13:28]--[2014-04-23 Wed 16:00]
+- [2014-04-24 Thu 16:47]--[2014-04-24 Thu 18:30]
+- [2014-04-27 Sun 11:21]--[2014-04-27 Sun 14:00]
+
+- [2014-04-28 Mon]--[2014-05-04 Sun]
+  - [2014-04-28 Mon 10:37]--[2014-04-28 Mon 11:40]
   
 
 * Nuetzliches
@@ -173,6 +180,12 @@ http://www.panix.com/~elflord/unix/grep.html
   : git checkout -b <name_of_new_branch> origin/<name_of_branch>
 - Delete a local branch:
   : git branch -d <name_of_branch>
+- Naming convention: use well defined tokes like 
+  : feature
+  : bugfix
+  : test
+  followed by a slash '/' and a describing name, e.g.:
+  : feature/potentials
 
 *** Diff
 - Show differences between <branch1> and <branch2>
@@ -236,35 +249,138 @@ http://www.panix.com/~elflord/unix/grep.html
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
 
-** TODO Create new branch
-  
+** TODO Refactoring of "Potentials" page [1/9]
 
-** TODO Determine which files have to be modified
+*** DONE Create new branch
+	 CLOSED: [2014-04-27 Sun 11:53]
+**** DONE First pull all changes from remote repository. 
+	 CLOSED: [2014-04-27 Sun 11:49]
+**** DONE Create new branch
+	 CLOSED: [2014-04-27 Sun 11:53]
+Created new branch with name
+: feature/potentials	 
 
-*** Files for Potential-tab
-potential.cpp                
-potential.h                  
-potentialparameter_data.cpp  
-potentialparameter_data.h    
-potentialparametertable.cpp  
-potentialparametertable.h
-potentialparameterui.cpp
-potentialparameterui.h
-potentialparameteruisuper.cpp
-potentialparameteruisuper.h
-potentialparameterwidget.cpp
-potentialparameterwidget.h
 
-*** Files for Datafile-tab
+*** TODO Which source files have to be modified?
+**** Overview of all files related to the "Potentials tab"
+***** potential.h
+****** Implements: 
+class Potential
+typedef Potentials
+****** Description:	   
+Base class for all potential types. 	  
+****** Derived classes:
+class Bond
+****** Questions:
+Is this really used nowhere else? 
+****** Must be changed? 
+No. 
+
+***** potentialparameter_data.h 
+****** Implements:
+****** Description:
+****** Derived classes:
+****** Questions:
+****** Must be changed?
+
+potentialparametertable.cpp     // Superclass for the tables used in the potential parameter UI (these are displayed in the second half of the main window). 
+potentialparametertable.h       // Superclass for the tables used in the potential parameter UI (these are displayed in the second half of the main window). 
+potentialparameterui.cpp        // Derived class from PotentialParameterUISuperClass. Main class for the "Potentials" tab. 
+potentialparameterui.h          // Derived class from PotentialParameterUISuperClass. Main class for the "Potentials" tab. 
+potentialparameteruisuper.cpp   // Super class for PotentialParameterUI. 
+potentialparameteruisuper.h     // Super class for PotentialParameterUI. 
+potentialparameterwidget.cpp    // Super class for a lot of widget (children can be found in the next widget).
+potentialparameterwidget.h      // Super class for a lot of widget (children can be found in the next widget).
+
+***** Children of PotentialParameterWidget
+
+anglewidget.h:26:class AngleWidget : public PotentialParameterWidget
+bn3bodywidget.h:25:class BN3bodyWidget : public PotentialParameterWidget
+bonddistancewidget.h:28:class BondDistanceWidget : public PotentialParameterWidget
+bondswidget.h:25:class BondsWidget : public PotentialParameterWidget
+coulomb_erfcwidget.h:23:class Coulomb_ERFCWidget : public PotentialParameterWidget
+dampeddispwidget.h:23:class DampedDispWidget : public PotentialParameterWidget
+improperwidget.h:28:class ImproperWidget : public PotentialParameterWidget
+lennardjoneswidget.h:23:class LennardJonesWidget : public PotentialParameterWidget
+ljspline2widget.h:23:class LJSpline2Widget : public PotentialParameterWidget
+ljsplinewidget.h:23:class LJSplineWidget : public PotentialParameterWidget
+m_n_lennardjoneswidget.h:23:class M_N_LennardJonesWidget : public PotentialParameterWidget
+msdwidget.h:28:class MsdWidget : public PotentialParameterWidget
+particlewidget.h:26:class ParticleWidget : public PotentialParameterWidget
+qtaperwidget.h:24:class QTaperWidget : public PotentialParameterWidget
+radialdistancewidget.h:29:class RadialDistanceWidget : public PotentialParameterWidget
+rsl2widget.h:23:class RSL2Widget : public PotentialParameterWidget
+stiwe3bodywidget.h:25:class StiWe3BodyWidget : public PotentialParameterWidget
+stiwewidget.h:23:class StiWeWidget : public PotentialParameterWidget
+suttonchenwidget.h:23:class SuttonChenWidget : public PotentialParameterWidget
+tbbuckinghamwidget.h:23:class TBBuckinghamWidget : public PotentialParameterWidget
+tbmorsewidget.h:25:class TBMorseWidget : public PotentialParameterWidget
+tbtaperedgen1widget.h:23:class TBTaperedGen1Widget : public PotentialParameterWidget
+tbtaperedgen2widget.h:25:class TBTaperedGen2Widget : public PotentialParameterWidget
+tersoffmixitwidget.h:23:class TersoffMixitWidget : public PotentialParameterWidget
+tersoffwidget.h:23:class TersoffWidget : public PotentialParameterWidget
+torsionwidget.h:27:class TorsionWidget : public PotentialParameterWidget
+
+**** TODO Which source files have to be replaced?
+**** TODO Which source files can be deleted?
+**** TODO Which source files have to be written?
+
+
+
+*** TODO What interfaces are given? 
+**** TODO Where is the "Potentials" tab created?
+The PotentialParameterUI object is created in the constructor of the main window (see tremologui.h). It is a child object of TremoloGUI:
+: PotentialParameterUI* potentialparametertab;
+The potentialtab object is used in the following lines of tremologui.cpp
+- l.106-109 :: Initialization of potentialparametertab and addition to the maintab widget
+- l.110 :: Connect the isChanged(bool) signal of myProject to the setEnabled(bool) signal of potentialparametertab (derived from QWidget)
+- l.112 :: Create a new PotentialParameter_Data object from the one saved in potentialparametertab. The copy is then used to construct the simulation tab.
+- l.290 :: Connect the newSaveState() signal of potentialparametertab to the dataUpdateSavedStatus slot updating the state of the saveallbutton
+- l.459 :: Checks save state of potentialparametertab
+- l.651 :: TremoloGUI::projectChanged() sends update requests to all dataclasses. In potentialparametertab the reloadfile() method is called which is doing nothing??
+- l.711 :: TremoloGUI::dataUpdateSavedStatus() updates the state of the saveallbutton
+- l.719 :: TremoloGUI::dataSaveAllSlot() calls the saveslots from every dataclass. In potentialparametertab the fileSave() method is called.
+- l.739,753,764 :: TremoloGUI::checkAndLoad/checkSavedStatusAndNewProject/checkSavedStatusAndOpenProject() set the save state of potentialparametertab. 
+**** TODO What signals/slots are given?
+In PotentialParameterUI the following slots are needed within tremologui.cpp:
+- setEnabled(bool) exists by default (since derived from QWidget)
+The following signals are needed within tremologui.cpp:
+- newSaveState() 
+**** TODO Where are all the other classes created?
+**** TODO List of functions that must be present
+- bool issaved storing the save-state
+- bool isSaved() 
+  returns issaved 
+  used in TremoloGUI::unsavedData() (see line 459 of tremologui.cpp)
+  used in TremoloGUI::unsavedData() (see line 711 of tremologui.cpp)
+- void setSavedStatus(bool status)
+  sets the issaved variable to status
+  used in TremoloGUI::checkandload/checkSavedStatusAndNewProject/checkSavedStatusAndOpenProject (see lines 739, 753 and 764 of tremologui.cpp)
+- void reloadfile(QString filename)
+  reload potentials file
+  used in TremoloGUI::projectChanged() (see line 651 of tremologui.cpp)
+- bool fileSave() (slot)
+  save file and return true if everything is ok, false otherwise, ask for validity?
+  used in TremoloGUI::dataSaveAllSlot() (see line 719 of tremologui.cpp)
+- void newSaveState() (signal)
+  should be emitted if the save state changes
+
+
+*** TODO What functionality is needed for the new "Potentials" page?
+**** TODO Which functionality is needed for the page?
+**** TODO Make a Draft for the new "Potentials" tab
+
+
+*** TODO Implementation of new "Potentials" tab
+***** Example: Files for Datafile-tab
 parametertextedit.h
 parametertextedit.cpp
-
-*** Description of parametertextedit.h and parametertextedit.cpp
+****** Description of parametertextedit.h and parametertextedit.cpp
 - Two classes
   1. class textEditStatusBar : public QWidget
   2. class parameterTextEdit : public QMainWindow
 
-**** Description of textEditStatusBar class
+***** Description of textEditStatusBar class
 
 Implements the status bar in the "Datafile"-tab (just at the lower end of the window). 
 
@@ -282,7 +398,7 @@ The following slots are implemented:
 + setEditMode
 + languageChange
 
-**** Description of parameterTextEdit class
+***** Description of parameterTextEdit class
 
 Implements a texteditor for datafiles in the "Datafile"-tab. It is essentially a QMainWindow with a QTextEdit. Moreover the class has a textEditStatusBar as child object.
 
@@ -316,54 +432,93 @@ Slots:
 
 Signals:
 + void newSaveState() // is send if the save-state of the file changes
+  
 
 
-** TODO Draft for new "Potentials" tab
+*** TODO Get overview over all source files that are used for the "Potentials" tab
+**** Main Window : PotentialParameterUI
+Can be found in 
+- potentialparameterui.h
+- potentialparameterui.cpp
 
-*** Class potentialEditStatusBar : public QWidget
+The class is derived from the PotentialParameterUISuperClass. 
+It contains 
+1. =ParticleWidget* particleWidget : public PotentialParameterWidget=
+   Widget containing the upper half of the main window ("Particle types"). 
+   The Widget contains
+   - ParticleTable* particleTable : public PotentialParameterTable
+   - PotentialParameter_Data* myPotentialParameter_Data
+   - TremoloGUIConfig* myConfig
+   - QPushButtons* disableParticleTypeButton and enableParticleTypeButton
+   - QLabel* warningLabel
+2. =QTabWidget* potentialsTabWidget=
+   This tab widget is the main tab bar for the second half of the main window (potential selection).
+   It hosts the following tabs: 
+   - "Non-bonded Potentials" (-> nonBondedTabWidget)
+   - "Bonded Potentials (off)" (-> bondedTabWidget)
+   - "TB tapered Potentials (off)" (-> tbTaperedWidget and tbTaperedTabWidget)
+3. =QTabWidget* bondedTabWidget=
+   This tab widget is the main tab bar for the "Bonded Potentials (off)" page. 
+   It contains the following widgets (all child objects of the PotentialParamerUI class): 
+   - AngleWidget* angleWidget
+   - BondsWidget* bondsWidget
+   - ImproperWidget* improperWidget
+4. =QTabWidget* nonBondedTabWidget=
+   This tab widget is the main tab bar for the "Non-bonded Potentials" page. 
+   It contains all widgets for the different potentials (all child objects of the PotentialParameterUI class):
+   - QWidget* brennerWidget and Q3Table* brennerTable;
+   - EamWidget* eamWidget;
+   - Q3VBox* coulomb_ERFCBox and Coulomb_ERFCWidget* coulomb_ERFCWidget;
+   - LennardJonesWidget* lennardJonesWidget;
+   - M_N_LennardJonesWidget* m_n_lennardJonesWidget;
+   - LJSplineWidget* ljSplineWidget;
+   - LJSpline2Widget* ljSpline2Widget;
+   - RSL2Widget* rsl2Widget;
+   - StiWeWidget* stiWeWidget;
+   - StiWe3BodyWidget* stiWe3BodyWidget;
+   - SuttonChenWidget* suttonChenWidget;
+   - Q3VBox* tersoffBox;
+5. =QTabWidget* tbTaperedTabWidget=
+   This tab widget is the main tab bar for the "TB tapered Potentials (off)". 
+   It is contained in the QWidget* tbTaperedWidget and contains the following widges (all child object of the PotentialParameterUI class):
+   - TBBuckinghamWidget* tbBuckinghamWidget;
+   - TBTaperedGen1Widget* tbTaperedGen1Widget;
+   - TBTaperedGen2Widget* tbTaperedGen2Widget;
+   - TBMorseWidget* tbmorseWidget;
+   - BN3bodyWidget* bn3bodyWidget;
+   - DampedDispWidget* dampedDispWidget;
 
-Analogously to the textEditStatusBar in the parameterTextEdit class. 
+*** TODO Determine which files have to be deleted. 
 
-*** Class potentialTextEdit : public QMainWindow
+**** Superclass: PotentialParameterUISuperClass
 
-Child objects:
-+ QTextEdit for the texteditor window
-+ QToolBar for a toolbar
-+ QActions for the buttons of the toolbar
-+ potentialEditStatusBar for the statusbar
-+ QString to save the path of the current file
-+ QString to save the suffix of the file (not necessary?)
-+ bool to keep track of the enabled status
-+ bool to keep track of the loadingfile status
-+ bool to keep track of the saved status
-+ QVBoxLayout for the overall layout
+This class provides only one virtual method: 
+: virtual void setLoadingFileStatus(bool loadingFileStatus);
+It constitutes the superclass for the main window of the "Potentials" tab. 
 
-Methods: 
-+ bool isSaved() const // returns true if the file is saved
-+ void setSavedStatus(bool status) // sets the saved status
-+ void fileLoad(QString file) // load specified file into the texteditor
-+ ???? void renewTextEdit2() // renew the whole text editor (never used?) 
 
-Slots:
-+ void fileOpen() // open new file - should be extendible for more functionality
-+ void fileSave() // save file
-+ void reloadfile(QString parameterFileIn) // reload the file
-+ void clearBuffer(bool ask=true) // clears the buffer (used in fileOpen())
-+ void setLoadingfileStatus(bool status) // sets loadingfile to the specified status
-+ void enableFileSaveAction(void) // enables save button
-+ void changeCurrentPos(void) // sync statusbar with textcursor position
-+ void textEditChanged() // sync everything after changing
-+ virtual void languageChange() // set language
 
-Signals: 
-+ void newSaveState() 
+
 
 
 * Fragen
 
 1. [ ] Wann können branches aus dem Repository gelöscht werden?
 2. [ ] Die Methode void parameterTextEdit::renewTextEdit2() wird nie verwendet!?
-3. [ ] Option "Save as" in potentials tab? Evtl. Speichere schon verwendete Potentiale in extra Struktur? 
+3. [ ] Option "Save as" in potentials tab? Evtl. Speichere schon verwendete Potentiale in extra Struktur?
+4. [ ] Was soll im unteren 1/3 der "Potentials" Seite stehen?
+5. [ ] Was ist mit PotentialParameterData? Dies muss an den simulationtab übergeben werden (see tremologui.cpp, line 112)
+       Braucht die Potentials Seite einen Parser, damit ein PotentialParameterData Objekt erstellt werden kann?
+6. [ ] PotentialParameterUI::reloadfile() tut überhaupt nichts (wird zum Beispiel von TremoloGUI::projectChanged() aufgerufen, see tremologui.cpp, line 651)
+
+
+* Summary
+** Bisher getan:
+Angefangen PotentialParameter_Data zu verstehen. 
+** Was getan werden muss:
+1. Verstehe den Rest von PotentialParameter_Data (ab toValidatesFileString() in potentialparameter_data.h)
+2. Verstehe, für was die PotentialParameter_Data verwendet wird. Und erschließe, ob sie weiterhin benötigt wird, und wie das klappen soll.
+3. Gehe PotentialParameterUI durch und kläre, welche Klassen/source files nicht mehr benötigt werden. 
 
 
  
