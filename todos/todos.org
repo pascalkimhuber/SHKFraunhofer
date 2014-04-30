@@ -102,7 +102,8 @@ Wait for Mail from IT. Change password if smartcard is there!
 
 - [2014-04-28 Mon]--[2014-05-04 Sun]
   - [2014-04-28 Mon 10:37]--[2014-04-28 Mon 11:40]
-  
+  - [2014-04-30 Wed 09:58]--[2014-04-30 Wed 11:58]
+  - [2014-04-30 Wed 13:00]--[2014-04-30 Wed 15:30]
 
 * Nuetzliches
 
@@ -249,7 +250,7 @@ http://www.panix.com/~elflord/unix/grep.html
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
 
-** TODO Refactoring of "Potentials" page [1/9]
+** TODO Refactoring of "Potentials" page [1/8]
 
 *** DONE Create new branch
 	 CLOSED: [2014-04-27 Sun 11:53]
@@ -278,15 +279,53 @@ No.
 
 ***** potentialparameter_data.h 
 ****** Implements:
+class PotentialParameter_Data	   
+****** Description:
+The class contains all data that is necessary to write the potentials and the validates file. 
+******* Members (only important ones)
+- instances of all potentials 
+- pointer to the project (Project_Control* myProject)
+- pointer to the configuration (TremoloGUIConfig* myConfig)
+- a parser (ParameterParser* myParser)
+- pointer to the PotentialParameterUI parent class (PotentialParameterUISuperClass* parentUI)
+- booleans to indicate which potentials are going to be used
+- boolean loadingFile (if true some tests are skipped -> faster loading)
+******* Member functions (only important ones)
+- getter and setter methods for all potentials
+- saveValues(): uses the Output of the parser and saves all data from the file into the data structure - this method is called within ParameterParser::parseFile()
+- writeToFile(): Opens a file for writing, calls toParameterFileString() and writes all data to the file
+- writeToValidatesFile(): Analougously to writeToFile() but for the validates data.
+- readFromFile(): starts the parser for the given file and then saves all data to the data structure
+- projectHasChanged(): important SLOT that is called whenever something in the project changed (sinal of Project_Control* myProject) - it calls clear() and readFromFile()
+- SIGNALS: signals that indicate if a potential changed
+- SLOTS: slots for removing/setting potential data
+- some helper methods for file writing (getPOTENTIALNAMEDataFileString()) for each potential
+******* Constructor
+1. Set myConfing, myProject, p_parent_UI
+2. Create all potential objects
+3. Set all m_usePOTENTIALNAME booleans to false
+4. Set loadingFile boolean to false
+5. Initialize myParser and register data class of this in parser
+6. Add some connections 
+****** Derived classes:
+None. 
+****** Questions:
+- By which classes is the PotentialParameter_Data class used? 
+****** Must be changed?
+Yes. 
+This class reads from the file and writes the potentials/validats files. 
+- The writing functionality must be deleted
+- The parsing functionality must be maintained
+***** potentialparameterui.h
+****** Implements:
 ****** Description:
 ****** Derived classes:
 ****** Questions:
 ****** Must be changed?
-
+Definitely. 
+***** Rest
 potentialparametertable.cpp     // Superclass for the tables used in the potential parameter UI (these are displayed in the second half of the main window). 
 potentialparametertable.h       // Superclass for the tables used in the potential parameter UI (these are displayed in the second half of the main window). 
-potentialparameterui.cpp        // Derived class from PotentialParameterUISuperClass. Main class for the "Potentials" tab. 
-potentialparameterui.h          // Derived class from PotentialParameterUISuperClass. Main class for the "Potentials" tab. 
 potentialparameteruisuper.cpp   // Super class for PotentialParameterUI. 
 potentialparameteruisuper.h     // Super class for PotentialParameterUI. 
 potentialparameterwidget.cpp    // Super class for a lot of widget (children can be found in the next widget).
@@ -324,7 +363,6 @@ torsionwidget.h:27:class TorsionWidget : public PotentialParameterWidget
 **** TODO Which source files have to be replaced?
 **** TODO Which source files can be deleted?
 **** TODO Which source files have to be written?
-
 
 
 *** TODO What interfaces are given? 
@@ -488,6 +526,7 @@ It contains
    - BN3bodyWidget* bn3bodyWidget;
    - DampedDispWidget* dampedDispWidget;
 
+
 *** TODO Determine which files have to be deleted. 
 
 **** Superclass: PotentialParameterUISuperClass
@@ -501,24 +540,29 @@ It constitutes the superclass for the main window of the "Potentials" tab.
 
 
 
+*** TODO Change Makefile? 
+
 * Fragen
 
-1. [ ] Wann können branches aus dem Repository gelöscht werden?
+1. [ ] Wann können branches aus dem Repository gelöscht werden? Von welchem Branch soll ich jetzt abzweigen? 
 2. [ ] Die Methode void parameterTextEdit::renewTextEdit2() wird nie verwendet!?
 3. [ ] Option "Save as" in potentials tab? Evtl. Speichere schon verwendete Potentiale in extra Struktur?
 4. [ ] Was soll im unteren 1/3 der "Potentials" Seite stehen?
 5. [ ] Was ist mit PotentialParameterData? Dies muss an den simulationtab übergeben werden (see tremologui.cpp, line 112)
        Braucht die Potentials Seite einen Parser, damit ein PotentialParameterData Objekt erstellt werden kann?
 6. [ ] PotentialParameterUI::reloadfile() tut überhaupt nichts (wird zum Beispiel von TremoloGUI::projectChanged() aufgerufen, see tremologui.cpp, line 651)
+7. [ ] void PotentialParameterUI::noLongerSaved() and void PotentialParameterUI::dataHasChanged() are doing exactly the same thing?!
+8. [ ] virtual void PotentialParameterUI::languageChange() tut überhaupt nichts?? Ist das gewollt? 
 
 
 * Summary
 ** Bisher getan:
-Angefangen PotentialParameter_Data zu verstehen. 
+PotentialParameter_Data durchgegangen. Die wichtigsten Funktionalitäten zusammengefasst. PotentialParameterUI durchgegangen. 
 ** Was getan werden muss:
-1. Verstehe den Rest von PotentialParameter_Data (ab toValidatesFileString() in potentialparameter_data.h)
-2. Verstehe, für was die PotentialParameter_Data verwendet wird. Und erschließe, ob sie weiterhin benötigt wird, und wie das klappen soll.
-3. Gehe PotentialParameterUI durch und kläre, welche Klassen/source files nicht mehr benötigt werden. 
+1. Mache Übersicht zu PotentialParameterUI (besonders wichtig, was passiert, wenn ich ein Potentials file schreibe, speichere, wann wird es eingelesen).
+2. Mache Gesamtübersicht zu PotentialParameterUI - PotentialParameter_Data - TremoloGUI
+3. Überlege, wie ich das alles übertragen kann. 
+4. Verstehe, für was die PotentialParameter_Data verwendet wird. Und erschließe, ob sie weiterhin benötigt wird, und wie das klappen soll.
 
 
  
