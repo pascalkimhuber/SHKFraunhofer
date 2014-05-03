@@ -104,6 +104,8 @@ Wait for Mail from IT. Change password if smartcard is there!
   - [2014-04-28 Mon 10:37]--[2014-04-28 Mon 11:40]
   - [2014-04-30 Wed 09:58]--[2014-04-30 Wed 11:58]
   - [2014-04-30 Wed 13:00]--[2014-04-30 Wed 15:30]
+  - [2014-05-03 Sat 09:00]--[2014-05-03 Sat 11:00]
+
 
 * Nuetzliches
 
@@ -542,6 +544,7 @@ It constitutes the superclass for the main window of the "Potentials" tab.
 
 *** TODO Change Makefile? 
 
+
 * Fragen
 
 1. [ ] Wann können branches aus dem Repository gelöscht werden? Von welchem Branch soll ich jetzt abzweigen? 
@@ -557,12 +560,19 @@ It constitutes the superclass for the main window of the "Potentials" tab.
 
 * Summary
 ** Bisher getan:
-PotentialParameter_Data durchgegangen. Die wichtigsten Funktionalitäten zusammengefasst. PotentialParameterUI durchgegangen. 
+Herausgefunden, was passiert, wenn ein potentials-file geladen und gespeichert wird und was passiert, wenn ein Parameter eines Potentials geändert wird. 
 ** Was getan werden muss:
-1. Mache Übersicht zu PotentialParameterUI (besonders wichtig, was passiert, wenn ich ein Potentials file schreibe, speichere, wann wird es eingelesen).
-2. Mache Gesamtübersicht zu PotentialParameterUI - PotentialParameter_Data - TremoloGUI
-3. Überlege, wie ich das alles übertragen kann. 
-4. Verstehe, für was die PotentialParameter_Data verwendet wird. Und erschließe, ob sie weiterhin benötigt wird, und wie das klappen soll.
+1. Mache Gesamtübersicht zu PotentialParameterUI - PotentialParameter_Data - TremoloGUI
+   - Finde heraus in welcher Form PotentialParameter_Data benötigt wird: 
+	 - welche Daten müssen in der Datenstruktur gespeichert werden (welche anderen Klassen brauchen diese)
+	 - welche Slots werden noch benötigt (alle Slots zur Interaktion von Datenstruktur und Gui können z.B. weg)
+	 - welche Funktionalitäten zum speichern und laden der potential-files wird noch benötigt
+   - Worin besteht die Interaktion von PotentialParameterUI und TremoloGUI?
+   - Worin besteht die Interaktion von PotentialParemeterUI und PotentialParameter_Data?
+   - Besteht eine Interaktion von PotentialParameter_Data und TremoloGUI?
+   - Werden die ganzen Potential-Klassen noch benötigt (z.B. lennardjones.h)?
+2. Mache einen ersten Entwurf
+3. Bereite Fragen für Christian vor. 
 
 
  
