@@ -106,6 +106,10 @@ Wait for Mail from IT. Change password if smartcard is there!
   - [2014-04-30 Wed 13:00]--[2014-04-30 Wed 15:30]
   - [2014-05-03 Sat 09:00]--[2014-05-03 Sat 11:00]
 
+- [2014-05-05 Mon]--[2014-05-11 Sun]
+  - [2014-05-05 Mon 10:07]--[2014-05-05 Mon 11:40]
+  - [2014-05-05 Mon 15:02]--[2014-05-05 Mon 17:30]
+
 
 * Nuetzliches
 
@@ -560,19 +564,19 @@ It constitutes the superclass for the main window of the "Potentials" tab.
 
 * Summary
 ** Bisher getan:
-Herausgefunden, was passiert, wenn ein potentials-file geladen und gespeichert wird und was passiert, wenn ein Parameter eines Potentials geändert wird. 
+PotentialParameter_Data durchgegangen. 
 ** Was getan werden muss:
-1. Mache Gesamtübersicht zu PotentialParameterUI - PotentialParameter_Data - TremoloGUI
-   - Finde heraus in welcher Form PotentialParameter_Data benötigt wird: 
-	 - welche Daten müssen in der Datenstruktur gespeichert werden (welche anderen Klassen brauchen diese)
-	 - welche Slots werden noch benötigt (alle Slots zur Interaktion von Datenstruktur und Gui können z.B. weg)
-	 - welche Funktionalitäten zum speichern und laden der potential-files wird noch benötigt
-   - Worin besteht die Interaktion von PotentialParameterUI und TremoloGUI?
-   - Worin besteht die Interaktion von PotentialParemeterUI und PotentialParameter_Data?
-   - Besteht eine Interaktion von PotentialParameter_Data und TremoloGUI?
-   - Werden die ganzen Potential-Klassen noch benötigt (z.B. lennardjones.h)?
-2. Mache einen ersten Entwurf
-3. Bereite Fragen für Christian vor. 
+1. [-] Mache Gesamtübersicht zu PotentialParameterUI - PotentialParameter_Data - TremoloGUI
+   - [X] Finde heraus in welcher Form PotentialParameter_Data benötigt wird: 
+	 - [X] welche Daten müssen in der Datenstruktur gespeichert werden (welche anderen Klassen brauchen diese) -> fast keine mehr (evtl ParticleTypes?)
+	 - [X] welche Slots werden noch benötigt (alle Slots zur Interaktion von Datenstruktur und Gui können z.B. weg) -> siehe Übersicht
+	 - [X] welche Funktionalitäten zum speichern und laden der potential-files wird noch benötigt -> Laden von potential-files evtl. nur noch rudimentär (für ParticleTypes)
+   - [ ] Worin besteht die Interaktion von PotentialParameterUI und TremoloGUI?
+   - [ ] Worin besteht die Interaktion von PotentialParemeterUI und PotentialParameter_Data?
+   - [ ] Besteht eine Interaktion von PotentialParameter_Data und TremoloGUI?
+   - [X] Werden die ganzen Potential-Klassen noch benötigt (z.B. lennardjones.h)? -> NEIN
+2. [ ] Mache einen ersten Entwurf
+3. [ ] Bereite Fragen für Christian vor. 
 
 
  
