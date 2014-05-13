@@ -27,91 +27,6 @@ Wait for Mail from IT. Change password if smartcard is there!
 ** TODO Rewrite Arbeitszeiten section
 
 
-* Arbeitszeiten
-- [2013-12-16 Sat 16:30]--[2013-12-16 Mon 18:00]
-
-- [2013-12-18 Wed 17:30]--[2013-12-18 Wed 19:56]
-- [2013-12-19 Thu 14:00]--[2013-12-19 Thu 17:02]
-- [2014-01-05 Sun 14:30]--[2014-01-05 Sun 19:30]
-
-- [2014-01-07 Tue 12:17]--[2014-01-07 Tue 14:00]
-- [2014-01-09 Thu 12:15]--[2014-01-09 Thu 14:00]
-- [2014-01-11 Sat 09:17]--[2014-02-11 Tue 13:15]
-- [2014-01-12 Sun 13:25]--[2014-02-12 Wed 17:00]
-
-- [2014-01-13 Mon 13:30]--[2014-01-13 Mon 15:15]
-- [2014-01-16 Thu 14:15]--[2014-01-16 Thu 16:32]
-- [2014-01-19 Sun 09:06]--[2014-01-19 Sun 13:00]
-
-- [2014-01-20 Mon 16:58]--[2014-01-20 Mon 18:30]
-- [2014-01-21 Tue 12:00]--[2014-01-21 Tue 13:55]
-- [2014-01-23 Thu 12:15]--[2014-01-23 Thu 13:55]
-- [2014-01-25 Sat 09:00]--[2014-01-25 Sat 14:00]
-
-- [2014-01-27 Mon 10:21]--[2014-01-27 Mon 11:30]
-- [2014-01-27 Mon 13:35]--[2014-01-27 Mon 15:40]
-- [2014-01-28 Tue 14:44]--[2014-01-28 Tue 17:30]
-- [2014-01-29 Wed 09:19]--[2014-01-29 Wed 12:25]
-- [2014-01-30 Thu 10:30]--[2014-01-30 Thu 11:25]
-- [2014-01-30 Thu 12:20]--[2014-01-30 Thu 15:35]
-
-- [2014-02-03 Mon 13:58]--[2014-02-03 Mon 15:45]
-- [2014-02-05 Wed 09:47]--[2014-02-05 Wed 13:45]
-- [2014-02-06 Thu 10:00]--[2014-02-06 Thu 12:00]
-- [2014-02-06 Thu 13:00]--[2014-02-06 Thu 14:41]
-- [2014-02-07 Fri 10:15]--[2014-02-07 Fri 12:00]
-- [2014-02-07 Fri 17:00]--[2014-02-07 Fri 18:28]
-- [2014-02-08 Sat 11:20]--[2014-02-08 Sat 13:00]
-
-- [2014-02-10 Mon 12:54]--[2014-02-10 Mon 14:54]
-- [2014-02-11 Tue 10:13]--[2014-02-11 Tue 11:40]
-- [2014-02-12 Wed 12:46]--[2014-02-12 Wed 15:00]
-- [2014-02-13 Thu 12:57]--[2014-02-13 Thu 14:00]
-- [2014-02-13 Thu 16:12]--[2014-02-13 Thu 18:40]
-- [2014-02-14 Fri 10:53]--[2014-02-14 Fri 11:55]
-  
-- [2014-02-18 Tue 12:54]--[2014-02-18 Tue 16:30]
-- [2014-02-19 Wed 09:28]--[2014-02-19 Wed 12:15]
-- [2014-02-19 Wed 13:30]--[2014-02-19 Wed 16:06]
-- [2014-02-20 Thu 09:28]--[2014-02-20 Thu 11:55]
-
-- [2014-03-06 Thu 08:35]--[2014-03-06 Thu 12:19]
-
-- [2014-03-10 Mon 13:15]--[2014-03-10 Mon 14:15]
-
-- [2014-03-28 Fri 16:00]--[2014-03-28 Fri 17:30]
-
-- [2014-04-01 Tue 13:38]--[2014-04-01 Tue 17:40]
-
-- [2014-04-03 Thu 08:45]--[2014-04-03 Thu 09:45]
-
-- [2014-04-03 Thu 13:30]--[2014-04-03 Thu 17:36]
-- [2014-04-06 Sun 16:30]--[2014-04-06 Sun 19:38]
-
-- [2014-04-07 Mon 13:57]--[2014-04-07 Mon 18:00]
-- [2014-04-08 Tue 12:59]--[2014-04-08 Tue 15:00]
-- [2014-04-09 Wed 13:00]--[2014-04-09 Wed 14:54]
-
-- [2014-04-21 Mon 14:00]--[2014-04-21 Mon 18:00]
-- [2014-04-15 Tue 14:44]--[2014-04-15 Tue 15:44]
-- [2014-04-16 Wed 14:00]--[2014-04-16 Wed 15:30]
-
-- [2014-04-23 Wed 13:28]--[2014-04-23 Wed 16:00]
-- [2014-04-24 Thu 16:47]--[2014-04-24 Thu 18:30]
-- [2014-04-27 Sun 11:21]--[2014-04-27 Sun 14:00]
-
-- [2014-04-28 Mon]--[2014-05-04 Sun]
-  - [2014-04-28 Mon 10:37]--[2014-04-28 Mon 11:40]
-  - [2014-04-30 Wed 09:58]--[2014-04-30 Wed 11:58]
-  - [2014-04-30 Wed 13:00]--[2014-04-30 Wed 15:30]
-  - [2014-05-03 Sat 09:00]--[2014-05-03 Sat 11:00]
-
-- [2014-05-05 Mon]--[2014-05-11 Sun]
-  - [2014-05-05 Mon 10:07]--[2014-05-05 Mon 11:40]
-  - [2014-05-05 Mon 15:02]--[2014-05-05 Mon 17:30]
-  - [2014-05-07 Wed 14:00]--[2014-05-07 Wed 16:30]
-
-
 * Nuetzliches
 
 ** Tremolo aktualisieren
@@ -266,7 +181,8 @@ http://www.panix.com/~elflord/unix/grep.html
 		 - ruft Parser auf und updated data
 		 - erstellt zugehöriges $Project.validates file
 	3. "Save-All" button
-	   Rufe slot des "Save"-Buttons auf, wenn der "Save-All" button des Main Windows angeklickt wurde. 
+	   Rufe slot des "Save"-Buttons auf, wenn der "Save-All" button des Main Windows angeklickt wurde.
+	4. Eventuell noch "Undo" and "Redo" Buttons? 
   - Note taken on [2014-04-16 Wed 15:57] \\
 	Besprechung mit Christian um [2014-04-16 Wed 15:57]
 	
@@ -292,16 +208,7 @@ http://www.panix.com/~elflord/unix/grep.html
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
 
 ** TODO Refactoring of "Potentials" page [5/7]
-
-*** DONE Create new branch
-	 CLOSED: [2014-04-27 Sun 11:53]
-**** DONE First pull all changes from remote repository. 
-	 CLOSED: [2014-04-27 Sun 11:49]
-**** DONE Create new branch
-	 CLOSED: [2014-04-27 Sun 11:53]
-Created new branch with name
-: feature/potentials	 
-
+   CLOCK: [2014-05-13 Tue 17:26]--[2014-05-13 Tue 19:03] =>  1:37
 *** DONE What interfaces are given? 
 	 CLOSED: [2014-05-07 Wed 15:12]
 **** DONE Where is the "Potentials" tab created?
@@ -503,8 +410,34 @@ This class reads from the file and writes the potentials/validats files.
 - The parsing functionality must be maintained
 
 *** TODO Change Makefile? 
-
 *** TODO Draft for the new "Potentials" tab
+	- Note taken on [2014-05-13 Tue 19:00] \\
+	  Questions: 
+	  - How is the content of a file stored in QTextEdit?
+	  - Does it needs the underlying file?
+	  - Can a file be savely loaded by QTextEdit and changes made in the QTextEdit without modifying the initial file? 
+	  Answers: 
+	  It seems that QTextEdit does not need an underlying file: 
+	  The text of a QFile is loaded in the QTextEdit using setText() which only needs a QString. 
+	  The underlying file can be closed after loading and is not modified afterwards. This only depends on the save method.
+	- Note taken on [2014-05-13 Tue 17:28] \\
+	  1. At creation of a new project -> create empty .potentials and .validates files.
+	  2. Warning at "Save" button: try to avoid warnings at "New" and "Open" buttons. 
+	     - For the "New" button: NO warning necessary -> only warning when hitting "Save" button
+	     - For the "Open" button: Depends how the editor loads the file.
+
+* Arbeitszeit
+#+BEGIN: clocktable :maxlevel 2 :scope file :block thisweek
+Clock summary at [2014-05-13 Tue 19:03], for week 2014-W20.
+
+| Headline                                     | Time   |      |
+|----------------------------------------------+--------+------|
+| *Total time*                                 | *1:37* |      |
+|----------------------------------------------+--------+------|
+| Aufgaben                                     | 1:37   |      |
+| \__ TODO Refactoring of "Potentials" page... |        | 1:37 |
+#+END:
+
 
 * Fragen
 
@@ -525,19 +458,15 @@ This class reads from the file and writes the potentials/validats files.
 
 * Summary
 ** Bisher getan:
-PotentialParameter_Data durchgegangen. 
+Erster Entwurf für die PotentialParameter_GUI geschrieben (siehe handschriftliche Notizen). 
 ** Was getan werden muss:
-1. [-] Mache Gesamtübersicht zu PotentialParameterUI - PotentialParameter_Data - TremoloGUI
-   - [X] Finde heraus in welcher Form PotentialParameter_Data benötigt wird: 
-	 - [X] welche Daten müssen in der Datenstruktur gespeichert werden (welche anderen Klassen brauchen diese) -> fast keine mehr (evtl ParticleTypes?)
-	 - [X] welche Slots werden noch benötigt (alle Slots zur Interaktion von Datenstruktur und Gui können z.B. weg) -> siehe Übersicht
-	 - [X] welche Funktionalitäten zum speichern und laden der potential-files wird noch benötigt -> Laden von potential-files evtl. nur noch rudimentär (für ParticleTypes)
-   - [ ] Worin besteht die Interaktion von PotentialParameterUI und TremoloGUI?
-   - [ ] Worin besteht die Interaktion von PotentialParemeterUI und PotentialParameter_Data?
-   - [ ] Besteht eine Interaktion von PotentialParameter_Data und TremoloGUI?
-   - [X] Werden die ganzen Potential-Klassen noch benötigt (z.B. lennardjones.h)? -> NEIN
-2. [ ] Schreibe Liste mit wichtigsten Maßnahmen für das neue Potential-Tab 
-3. [ ] Bereite Fragen für Christian vor. 
+1. Füge connects und slots hinzu
+   - innerhalb PotentialParameter_GUI
+   - innerhalb PotentialParameter_Data
+   - zwischen PotentialParameter_GUI und PotentialParameter_Data
+   - zu TremoloGUI
+   - zu weiteren Klassen ? 
+
 
 
  
