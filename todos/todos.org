@@ -185,7 +185,6 @@ http://www.panix.com/~elflord/unix/grep.html
 	4. Eventuell noch "Undo" and "Redo" Buttons? 
   - Note taken on [2014-04-16 Wed 15:57] \\
 	Besprechung mit Christian um [2014-04-16 Wed 15:57]
-	
 	Zwei Aufgabenziele: 
 	1. Kurzfristiges Ziel:
 	   Überarbeitung des "potentials" tabs
@@ -208,6 +207,9 @@ http://www.panix.com/~elflord/unix/grep.html
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
 
 ** TODO Refactoring of "Potentials" page [5/7]
+   CLOCK: [2014-05-14 Wed 16:51]--[2014-05-14 Wed 18:34] =>  1:43
+   CLOCK: [2014-05-14 Wed 14:46]--[2014-05-14 Wed 15:37] =>  0:51
+   CLOCK: [2014-05-14 Wed 14:30]--[2014-05-14 Wed 14:46] =>  0:16
    CLOCK: [2014-05-13 Tue 17:26]--[2014-05-13 Tue 19:03] =>  1:37
 *** DONE What interfaces are given? 
 	 CLOSED: [2014-05-07 Wed 15:12]
@@ -425,18 +427,48 @@ This class reads from the file and writes the potentials/validats files.
 	  2. Warning at "Save" button: try to avoid warnings at "New" and "Open" buttons. 
 	     - For the "New" button: NO warning necessary -> only warning when hitting "Save" button
 	     - For the "Open" button: Depends how the editor loads the file.
+**** DONE Draft for PotentialTextEditStatusBar : public QWidget
+	 CLOSED: [2014-05-14 Wed 18:05]
+***** Specifications: 
+Status bar having the following fields: (from left to right)
+1. Current position in line and column
+2. Save status
+3. Current status (File loaded + name, file saved, created new file, file modified)
+4. Name of the file
+***** Members:
+QHBoxLayout* textEditStatusBarLayout
+QGridLayout* frame1Layout
+QGridLayout* frame2Layout
+QGridLayout* frame3Layout
+QGridLayout* frame4Layout
+QFrame* frame1 // for current position
+QFrame* frame2 // for save status
+QFrame* frame3 // for current status
+QFrame* frame4 // for name of the file
+QLabel* label1 // for current position
+QLabel* label2 // for save status
+QLabel* label3 // for current status
+QLabel* label4 // for name of the file
+***** Slots: 
+void setCurrentPos(int lin = 0, int col = 0)
+void setSaveStatus(bool saved = true)
+void setCurrentStatus(QString message)
+void setFileName(QString filename)
+void languageChange()
+
 
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 2 :scope file :block thisweek
-Clock summary at [2014-05-13 Tue 19:03], for week 2014-W20.
+Clock summary at [2014-05-14 Wed 18:34], for week 2014-W20.
 
 | Headline                                     | Time   |      |
 |----------------------------------------------+--------+------|
-| *Total time*                                 | *1:37* |      |
+| *Total time*                                 | *4:27* |      |
 |----------------------------------------------+--------+------|
-| Aufgaben                                     | 1:37   |      |
-| \__ TODO Refactoring of "Potentials" page... |        | 1:37 |
+| Aufgaben                                     | 4:27   |      |
+| \__ TODO Refactoring of "Potentials" page... |        | 4:27 |
 #+END:
+
 
 
 * Fragen
@@ -458,14 +490,12 @@ Clock summary at [2014-05-13 Tue 19:03], for week 2014-W20.
 
 * Summary
 ** Bisher getan:
-Erster Entwurf für die PotentialParameter_GUI geschrieben (siehe handschriftliche Notizen). 
+Wrote Status bar for PotentialParameter_GUI class. 
 ** Was getan werden muss:
-1. Füge connects und slots hinzu
-   - innerhalb PotentialParameter_GUI
-   - innerhalb PotentialParameter_Data
-   - zwischen PotentialParameter_GUI und PotentialParameter_Data
-   - zu TremoloGUI
-   - zu weiteren Klassen ? 
+1. Decide which methods must be written for PotentialParameter_GUI class. 
+2. Make Draft for PotentialParameter_Data class.
+3. Implement PotentialParameter_Data class.
+4. Implement PotentialParameter_GUI class. 
 
 
 
