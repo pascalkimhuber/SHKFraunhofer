@@ -207,6 +207,8 @@ http://www.panix.com/~elflord/unix/grep.html
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
 
 ** TODO Refactoring of "Potentials" page [4/7]
+   CLOCK: [2014-05-21 Wed 16:20]--[2014-05-21 Wed 17:20] =>  1:00
+   CLOCK: [2014-05-21 Wed 14:31]--[2014-05-21 Wed 16:11] =>  1:40
    CLOCK: [2014-05-16 Fri 17:44]--[2014-05-16 Fri 19:16] =>  1:32
    CLOCK: [2014-05-16 Fri 14:31]--[2014-05-16 Fri 16:36] =>  2:05
    CLOCK: [2014-05-15 Thu 12:33]--[2014-05-15 Thu 13:56] =>  1:23
@@ -475,9 +477,10 @@ This concerns the methods:
 	 CLOSED: [2014-05-16 Fri 17:44]
 Keep only the element name and the particle type. 	
 
+
 * Arbeitszeit
-#+BEGIN: clocktable :maxlevel 2 :scope file :block thisweek
-Clock summary at [2014-05-16 Fri 19:17], for week 2014-W20.
+#+BEGIN: clocktable :maxlevel 2 :scope file :block lastweek
+Clock summary at [2014-05-21 Wed 14:27], for week 2014-W20.
 
 | Headline                                     | Time    |       |
 |----------------------------------------------+---------+-------|
@@ -485,6 +488,17 @@ Clock summary at [2014-05-16 Fri 19:17], for week 2014-W20.
 |----------------------------------------------+---------+-------|
 | Aufgaben                                     | 10:32   |       |
 | \__ TODO Refactoring of "Potentials" page... |         | 10:32 |
+#+END:
+
+#+BEGIN: clocktable :maxlevel 2 :scope file :block thisweek
+Clock summary at [2014-05-21 Wed 17:20], for week 2014-W21.
+
+| Headline                                     | Time   |      |
+|----------------------------------------------+--------+------|
+| *Total time*                                 | *2:40* |      |
+|----------------------------------------------+--------+------|
+| Aufgaben                                     | 2:40   |      |
+| \__ TODO Refactoring of "Potentials" page... |        | 2:40 |
 #+END:
 
 
@@ -509,10 +523,10 @@ Clock summary at [2014-05-16 Fri 19:17], for week 2014-W20.
 
 * SUMMARY
 ** Bisher getan:
-Wrote Status bar for PotentialParameter_GUI class. 
+Finished PotentialParameter_Data. Added members to PotentialParameter_GUI. 
 ** Was getan werden muss:
-1. Finish PotentialParameter_Data class (e.g. getAParticleType...) and make short overview.
-2. Implement PotentialParameter_GUI class. 
+1. Determine which methods have to be implemented. 
+2. Implement PotentialParameter_GUI class.
 
 
 
