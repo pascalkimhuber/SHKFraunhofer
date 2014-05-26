@@ -207,6 +207,8 @@ http://www.panix.com/~elflord/unix/grep.html
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
 
 ** TODO Refactoring of "Potentials" page [4/9]
+   CLOCK: [2014-05-26 Mon 10:48]--[2014-05-26 Mon 11:48] =>  1:00
+   CLOCK: [2014-05-23 Fri 13:43]--[2014-05-23 Fri 15:27] =>  1:44
    CLOCK: [2014-05-22 Thu 16:58]--[2014-05-22 Thu 18:11] =>  1:13
    CLOCK: [2014-05-22 Thu 12:39]--[2014-05-22 Thu 16:10] =>  3:31
    CLOCK: [2014-05-21 Wed 16:20]--[2014-05-21 Wed 17:20] =>  1:00
@@ -481,28 +483,51 @@ Keep only the element name and the particle type.
 
 *** TODO Determine if QFileDialog::openFileName() works properly (in particular the filter)
 
-* Arbeitszeit
-#+BEGIN: clocktable :maxlevel 2 :scope file :block lastweek
-Clock summary at [2014-05-21 Wed 14:27], for week 2014-W20.
 
-| Headline                                     | Time    |       |
-|----------------------------------------------+---------+-------|
-| *Total time*                                 | *10:32* |       |
-|----------------------------------------------+---------+-------|
-| Aufgaben                                     | 10:32   |       |
-| \__ TODO Refactoring of "Potentials" page... |         | 10:32 |
-#+END:
+** TODO Find bugs in displaying of units
+   CLOCK: [2014-05-26 Mon 17:26]--[2014-05-26 Mon 18:58] =>  1:32
+   - Note taken on [2014-05-26 Mon 10:58] \\
+	 Aufgabe von Johannes
+	 Bei der Portierung von Tremologui auf Windows werden manche Einheiten nicht korrekt angezeigt. 
+	 Das betrifft zum einen das Angstrom-Zeichen und zum anderen underscores.
+	 Hier sind zwei Screenshots: 
+     - [[file:pics/Screenshot.png][TremoloGUI - buggy unit display in Windows]]
+	 - [[file:pics/Screenshot2.png][TremoloGUI - working unit display in Windows]]
+
+*** Unit display for TB Taper x_i(A) in Potentials
+- PotentialParameter_Data: getttbTaperxiUnit
+- TremologuiConfig: trDisplayUnits(StandardisedDouble)
+- UnitsMap[].displayString
+- TremoloGUI_CommonTypes: Angstroem.setUtf16(&b,1)
+
+*** Unit display for particles table in Potentials
+- ParticleType: 
+
+
+* Arbeitszeit
 
 #+BEGIN: clocktable :maxlevel 2 :scope file :block thisweek
-Clock summary at [2014-05-22 Thu 18:11], for week 2014-W21.
+Clock summary at [2014-05-26 Mon 18:58], for week 2014-W22.
 
 | Headline                                     | Time   |      |
 |----------------------------------------------+--------+------|
-| *Total time*                                 | *7:24* |      |
+| *Total time*                                 | *2:32* |      |
 |----------------------------------------------+--------+------|
-| Aufgaben                                     | 7:24   |      |
-| \__ TODO Refactoring of "Potentials" page... |        | 7:24 |
+| Aufgaben                                     | 2:32   |      |
+| \__ TODO Refactoring of "Potentials" page... |        | 1:00 |
+| \__ TODO Find bugs in displaying of units    |        | 1:32 |
 #+END:
+
+** Überstunden
+| Week     |     Time |  Overtime |
+|----------+----------+-----------|
+| 2014-W20 |    10:32 |  01:32:00 |
+| 2014-W21 |    09:08 |  00:08:00 |
+| 2014-W22 |     7:32 | -01:28:00 |
+|----------+----------+-----------|
+| Total    | 27:12:00 |  00:12:00 |
+#+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
+
 
 
 * Fragen [5/10]
