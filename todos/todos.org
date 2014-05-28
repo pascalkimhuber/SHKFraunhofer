@@ -206,7 +206,11 @@ http://www.panix.com/~elflord/unix/grep.html
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
 
-** TODO Refactoring of "Potentials" page [4/9]
+** TODO Refactoring of "Potentials" page [5/10]
+   CLOCK: [2014-05-28 Wed 14:03]--[2014-05-28 Wed 16:38] =>  2:35
+   CLOCK: [2014-05-28 Wed 12:04]--[2014-05-28 Wed 12:45] =>  0:41
+   CLOCK: [2014-05-27 Tue 15:15]--[2014-05-27 Tue 15:50] =>  0:35
+   CLOCK: [2014-05-27 Tue 12:43]--[2014-05-27 Tue 14:15] =>  1:32
    CLOCK: [2014-05-26 Mon 10:48]--[2014-05-26 Mon 11:48] =>  1:00
    CLOCK: [2014-05-23 Fri 13:43]--[2014-05-23 Fri 15:27] =>  1:44
    CLOCK: [2014-05-22 Thu 16:58]--[2014-05-22 Thu 18:11] =>  1:13
@@ -422,13 +426,13 @@ This class reads from the file and writes the potentials/validats files.
 - The parsing functionality must be maintained
 
 *** TODO Change Makefile? 
-*** TODO Draft for the new "Potentials" tab
 	- Note taken on [2014-05-15 Thu 13:51] \\
 	  In order to add/remove source files of cmake configuration. 
 	  1. Go to cmake folder. 
 	  2. in CMakeLists.txt add/remove corresponding source files. 
 	  3. call ccmake and add local installation path. 
 	  4. run cmake, make, and make install.
+*** TODO Draft for the new "Potentials" tab
 	- Note taken on [2014-05-13 Tue 19:00] \\
 	  Questions: 
 	  - How is the content of a file stored in QTextEdit?
@@ -484,6 +488,81 @@ Keep only the element name and the particle type.
 *** TODO Determine if QFileDialog::openFileName() works properly (in particular the filter)
 
 
+*** DONE Make a list of all files that are not needed anymore
+	 CLOSED: [2014-05-28 Wed 15:30]
+	1. [X] anglewidget.h
+	2. [X] angletable.h
+	3. [X] angle.h
+	4. [X] bn3bodywidget.h
+	5. [X] bn3bodytable.h
+	6. [X] bn3body.h
+	7. [X] bondswidget.h
+	8. [X] bondtable.h
+	9. [X] bond.h
+	10. [X] eamwidget.h
+	11. [X] eam.h
+	12. [X] dampeddispwidget.h
+	13. [X] dampeddisptable.h
+	14. [X] dampeddisp.h
+	15. [X] particlewidget.h
+	16. [X] particletable.h
+	17. [X] torsionwidget.h
+	18. [X] torsiontable.h
+	19. [X] torsion.h
+	20. [X] m_n_lennardjoneswidget.h
+	21. [X] m_n_lennardjonestable.h
+	22. [X] m_n_lennardjones.h
+	23. [X] lennardjoneswidget.h
+	24. [X] lennardjonestable.h
+	25. [X] lennardjones.h
+	26. [X] ljsplinewidget.h
+	27. [X] ljsplinetable.h
+	28. [X] ljspline.h
+	29. [X] ljspline2widget.h
+	30. [X] ljspline2table.h
+	31. [X] ljspline2.h
+	32. [X] improperwidget.h
+	33. [X] impropertable.h
+	34. [X] improper_datatype.h
+	35. [X] coulomb_erfcwidget.h
+	36. [X] coulomb_erfctable.h
+	37. [X] coulomb_erfc_datatype.h
+	38. [X] qtaperwidget.h
+	39. [X] qtapertable.h
+	40. [X] qtaper_datatype.h
+	41. [X] rsl2widget.h
+	42. [X] rsl2table.h
+	43. [X] rsl2.h
+	44. [X] stiwewidget.h
+	45. [X] stiwetable.h
+	46. [X] stiwe.h
+	47. [X] stiwe3bodywidget.h
+	48. [X] stiwe3bodytable.h
+	49. [X] stiwe3body.h
+	50. [X] suttonchenwidget.h
+	51. [X] suttonchentable.h
+	52. [X] suttonchen.h
+	53. [X] tbbuckinghamwidget.h
+	54. [X] tbbuckinghamtable.h
+	55. [X] tbbuckingham.h
+	56. [X] tbmorsewidget.h
+	57. [X] tbmorsetable.h
+	58. [X] morse.h
+	59. [X] tbtaperedgen1widget.h
+	60. [X] tbtaperedgen1table.h
+	61. [X] tbtaperedgen1.h
+	62. [X] tbtaperedgen2widget.h
+	63. [X] tbtaperedgen2table.h
+	64. [X] tbtaperedgen2.h
+	65. [X] tersoffwidget.h
+	66. [X] tersoffparticletable.h
+	67. [X] tersoffparticle.h
+	68. [X] tersoffmixitwidget.h
+	69. [X] tersoffmixittable.h
+	70. [X] tersoffmixit.h 
+					   
+
+
 ** TODO Find bugs in displaying of units
    CLOCK: [2014-05-26 Mon 17:26]--[2014-05-26 Mon 18:58] =>  1:32
    - Note taken on [2014-05-26 Mon 10:58] \\
@@ -507,14 +586,14 @@ Keep only the element name and the particle type.
 * Arbeitszeit
 
 #+BEGIN: clocktable :maxlevel 2 :scope file :block thisweek
-Clock summary at [2014-05-26 Mon 18:58], for week 2014-W22.
+Clock summary at [2014-05-28 Wed 16:38], for week 2014-W22.
 
 | Headline                                     | Time   |      |
 |----------------------------------------------+--------+------|
-| *Total time*                                 | *2:32* |      |
+| *Total time*                                 | *7:55* |      |
 |----------------------------------------------+--------+------|
-| Aufgaben                                     | 2:32   |      |
-| \__ TODO Refactoring of "Potentials" page... |        | 1:00 |
+| Aufgaben                                     | 7:55   |      |
+| \__ TODO Refactoring of "Potentials" page... |        | 6:23 |
 | \__ TODO Find bugs in displaying of units    |        | 1:32 |
 #+END:
 
@@ -523,9 +602,9 @@ Clock summary at [2014-05-26 Mon 18:58], for week 2014-W22.
 |----------+----------+-----------|
 | 2014-W20 |    10:32 |  01:32:00 |
 | 2014-W21 |    09:08 |  00:08:00 |
-| 2014-W22 |     7:32 | -01:28:00 |
+| 2014-W22 |    07:55 | -01:05:00 |
 |----------+----------+-----------|
-| Total    | 27:12:00 |  00:12:00 |
+| Total    | 27:35:00 |  00:35:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
 
 
@@ -552,12 +631,14 @@ Clock summary at [2014-05-26 Mon 18:58], for week 2014-W22.
 
 * SUMMARY
 ** Bisher getan:
-Finished PotentialParameter_Data. Added members to PotentialParameter_GUI. 
+Edited CMakeFiles.txt. Get some linker errors because of missing methods in outputmeasurement. 
 ** Was getan werden muss:
-1. Implement PotentialParameter_GUI class. Still missing are: 
+1. Resolve linking errors and adapt interfaces. 
+2. Implement PotentialParameter_GUI class. Still missing are: 
    - constructor
    - destructor
    - languageChange()
+3. Change CMakeFiles.txt file and clean all headers and includes. 
 
 
 
