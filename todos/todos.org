@@ -206,7 +206,10 @@ http://www.panix.com/~elflord/unix/grep.html
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
 		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
 
-** TODO Refactoring of "Potentials" page [5/10]
+** TODO Refactoring of "Potentials" page [6/11]
+   CLOCK: [2014-06-03 Tue 12:12]--[2014-06-03 Tue 13:57] =>  1:45
+   CLOCK: [2014-06-02 Mon 12:11]--[2014-06-02 Mon 13:22] =>  1:11
+   CLOCK: [2014-06-02 Mon 10:21]--[2014-06-02 Mon 11:25] =>  1:04
    CLOCK: [2014-05-28 Wed 14:03]--[2014-05-28 Wed 16:38] =>  2:35
    CLOCK: [2014-05-28 Wed 12:04]--[2014-05-28 Wed 12:45] =>  0:41
    CLOCK: [2014-05-27 Tue 15:15]--[2014-05-27 Tue 15:50] =>  0:35
@@ -423,16 +426,9 @@ None.
 Yes. 
 This class reads from the file and writes the potentials/validats files. 
 - The writing functionality must be deleted
-- The parsing functionality must be maintained
-
-*** TODO Change Makefile? 
-	- Note taken on [2014-05-15 Thu 13:51] \\
-	  In order to add/remove source files of cmake configuration. 
-	  1. Go to cmake folder. 
-	  2. in CMakeLists.txt add/remove corresponding source files. 
-	  3. call ccmake and add local installation path. 
-	  4. run cmake, make, and make install.
-*** TODO Draft for the new "Potentials" tab
+- The parsing functionality must be maintained		 
+*** DONE Draft for the new "Potentials" tab
+	 CLOSED: [2014-06-02 Mon 10:23]
 	- Note taken on [2014-05-13 Tue 19:00] \\
 	  Questions: 
 	  - How is the content of a file stored in QTextEdit?
@@ -475,19 +471,7 @@ void setSaveStatus(bool saved = true)
 void setCurrentStatus(QString message)
 void setFileName(QString filename)
 void languageChange()
-
-*** TODO Adapt Manual
 *** DONE Change ParticleType class
-*** TODO Proper error handling in PotentialParameter_Data class. 
-This concerns the methods: 
-- void PotentialParameter_Data::writeValidatesFile(QString filename)
-- bool PotentialParameter_Data::saveValues( QStringList keywordsIn, QStringList identifierListIn, ParseReturnList returnValueListIn )
-	 CLOSED: [2014-05-16 Fri 17:44]
-Keep only the element name and the particle type. 	
-
-*** TODO Determine if QFileDialog::openFileName() works properly (in particular the filter)
-
-
 *** DONE Make a list of all files that are not needed anymore
 	 CLOSED: [2014-05-28 Wed 15:30]
 	1. [X] anglewidget.h
@@ -560,6 +544,47 @@ Keep only the element name and the particle type.
 	68. [X] tersoffmixitwidget.h
 	69. [X] tersoffmixittable.h
 	70. [X] tersoffmixit.h 
+*** TODO Change Makefile? 
+	- Note taken on [2014-05-15 Thu 13:51] \\
+	  In order to add/remove source files of cmake configuration. 
+	  1. Go to cmake folder. 
+	  2. in CMakeLists.txt add/remove corresponding source files. 
+	  3. call ccmake and add local installation path. 
+	  4. run cmake, make, and make install.
+*** TODO Adapt all interfaces to PotentialParameterUI
+**** DONE In tremologui.cpp
+	 CLOSED: [2014-06-02 Mon 11:11]
+
+**** TODO Outputmeasurement?
+*** TODO Debugging [1/7]
+	CLOCK: [2014-06-03 Tue 15:24]--[2014-06-03 Tue 15:58] =>  0:34
+**** DONE Load file at startup
+	 CLOSED: [2014-06-03 Tue 15:44]
+**** TODO Fix status bar
+- Adapt size of status bar.
+- Add connections for the status bar. 
+**** TODO Set connections. 
+**** TODO createFile() slot
+After starting tremologui and loading a project. The newFileAction does not give a warning when unsaved data is given in the textedit. (Only at the first time!)
+**** TODO Need some sort of undo-Action or some option to revert a new potentials file. 
+If one has opened a potentials file and makes some changes. And then push either the createNewFile button or the openNewFile-button, there is no possibility to go back to the last file. 
+**** TODO Rewrite warning dialogs
+The warning is displayed whenever:
+- the save button is activated
+- the saveAll button is activated
+- a new project is created
+- a project is opened
+**** TODO Do I need enable/disable handling?
+*** TODO Proper error handling in PotentialParameter_Data class. 
+This concerns the methods: 
+- void PotentialParameter_Data::writeValidatesFile(QString filename)
+- bool PotentialParameter_Data::saveValues( QStringList keywordsIn, QStringList identifierListIn, ParseReturnList returnValueListIn )
+	 CLOSED: [2014-05-16 Fri 17:44]
+Keep only the element name and the particle type. 	
+
+*** TODO Determine if QFileDialog::openFileName() works properly (in particular the filter)
+
+*** TODO Adapt Manual
 					   
 
 
@@ -586,15 +611,14 @@ Keep only the element name and the particle type.
 * Arbeitszeit
 
 #+BEGIN: clocktable :maxlevel 2 :scope file :block thisweek
-Clock summary at [2014-05-28 Wed 16:38], for week 2014-W22.
+Clock summary at [2014-06-03 Tue 15:58], for week 2014-W23.
 
 | Headline                                     | Time   |      |
 |----------------------------------------------+--------+------|
-| *Total time*                                 | *7:55* |      |
+| *Total time*                                 | *4:34* |      |
 |----------------------------------------------+--------+------|
-| Aufgaben                                     | 7:55   |      |
-| \__ TODO Refactoring of "Potentials" page... |        | 6:23 |
-| \__ TODO Find bugs in displaying of units    |        | 1:32 |
+| Aufgaben                                     | 4:34   |      |
+| \__ TODO Refactoring of "Potentials" page... |        | 4:34 |
 #+END:
 
 ** Überstunden
@@ -602,18 +626,20 @@ Clock summary at [2014-05-28 Wed 16:38], for week 2014-W22.
 |----------+----------+-----------|
 | 2014-W20 |    10:32 |  01:32:00 |
 | 2014-W21 |    09:08 |  00:08:00 |
-| 2014-W22 |    07:55 | -01:05:00 |
+| 2014-W22 |    12:55 |  03:55:00 |
+| 2014-W23 |     4:34 | -04:26:00 |
 |----------+----------+-----------|
-| Total    | 27:35:00 |  00:35:00 |
+| Total    | 37:09:00 |  01:09:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
 
 
 
-* Fragen [5/10]
+* Fragen [5/7]
 
 1. [X] Wann können branches aus dem Repository gelöscht werden? Von welchem Branch soll ich jetzt abzweigen? 
    /Immer vom master-Branch abzweigen. Im Zweifelsfall nochmal nachfragen./
-2. [ ] Die Methode void parameterTextEdit::renewTextEdit2() wird nie verwendet!?
+2. [X] Frage an Christian: Sollen particles im validates file auch disabled werden können?
+   /Nein./
 3. [X] Option "Save as" in potentials tab? Evtl. Speichere schon verwendete Potentiale in extra Struktur?
    /Nein./
 4. [X] Was soll im unteren 1/3 der "Potentials" Seite stehen?
@@ -621,17 +647,14 @@ Clock summary at [2014-05-28 Wed 16:38], for week 2014-W22.
 5. [X] Was ist mit PotentialParameterData? Dies muss an den simulationtab übergeben werden (see tremologui.cpp, line 112)
        Braucht die Potentials Seite einen Parser, damit ein PotentialParameterData Objekt erstellt werden kann?
    /Parser soll vorhanden sein. Auch das PotentialParameter_Data Objekt soll weiterhin bestehen bleiben./
-6. [ ] PotentialParameterUI::reloadfile() tut überhaupt nichts (wird zum Beispiel von TremoloGUI::projectChanged() aufgerufen, see tremologui.cpp, line 651)
-7. [ ] void PotentialParameterUI::noLongerSaved() and void PotentialParameterUI::dataHasChanged() are doing exactly the same thing?!
-8. [ ] virtual void PotentialParameterUI::languageChange() tut überhaupt nichts?? Ist das gewollt?
-9. [ ] Underscores for members? 
-10. [X] Frage an Christian: Sollen particles im validates file auch disabled werden können?
-	/Nein./
+6. [ ] virtual void PotentialParameterUI::languageChange() tut überhaupt nichts?? Ist das gewollt?
+7. [ ] Underscores for members?
+8. [ ] Öffnet man ein neues Projekt, wenn man bei einem vorangegangenen Projekt nicht gesicherte Änderungen hat, dann erscheint zunächst eine Warnung, dass man noch ungesicherte Daten hat. Klickt man auf "Speichern" erscheint dann nochmals eine Warnung für den Potentialstab. Soll ich das ändern? (Eine Möglichkeit wäre evtl. im saveAll slot in tremologui.cpp den savestate des potentialstab auf true zu setzen). 
 
 
 * SUMMARY
 ** Bisher getan:
-Edited CMakeFiles.txt. Get some linker errors because of missing methods in outputmeasurement. 
+Resolved some of the linking errors. 
 ** Was getan werden muss:
 1. Resolve linking errors and adapt interfaces. 
 2. Implement PotentialParameter_GUI class. Still missing are: 
