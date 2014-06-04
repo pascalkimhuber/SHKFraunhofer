@@ -2432,3 +2432,57 @@ This class reads from the file and writes the potentials/validats files.
 Created new branch with name
 : feature/potentials	 
 
+
+* TODO Debugging [1/7]
+  CLOCK: [2014-06-03 Tue 15:24]--[2014-06-03 Tue 15:58] =>  0:34
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-06-04 Wed 12:45
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Refactoring of "Potentials" page [6/11]
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: TODO
+  :END:
+** DONE Load file at startup
+   CLOSED: [2014-06-03 Tue 15:44]
+** TODO Fix status bar
+- Adapt size of status bar.
+- Add connections for the status bar. 
+** TODO Set connections. 
+** TODO createFile() slot
+After starting tremologui and loading a project. The newFileAction does not give a warning when unsaved data is given in the textedit. (Only at the first time!)
+** TODO Need some sort of undo-Action or some option to revert a new potentials file. 
+If one has opened a potentials file and makes some changes. And then push either the createNewFile button or the openNewFile-button, there is no possibility to go back to the last file. 
+** TODO Rewrite warning dialogs
+The warning is displayed whenever:
+- the save button is activated
+- the saveAll button is activated
+- a new project is created
+- a project is opened
+** TODO Do I need enable/disable handling?
+
+* TODO Debugging [1/7]
+  CLOCK: [2014-06-03 Tue 15:24]--[2014-06-03 Tue 15:58] =>  0:34
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-06-04 Wed 12:46
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Refactoring of "Potentials" page [6/11]
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: TODO
+  :END:
+** DONE Load file at startup
+   CLOSED: [2014-06-03 Tue 15:44]
+** TODO Fix status bar
+- Adapt size of status bar.
+- Add connections for the status bar. 
+** TODO Set connections. 
+** TODO createFile() slot
+After starting tremologui and loading a project. The newFileAction does not give a warning when unsaved data is given in the textedit. (Only at the first time!)
+** TODO Need some sort of undo-Action or some option to revert a new potentials file. 
+If one has opened a potentials file and makes some changes. And then push either the createNewFile button or the openNewFile-button, there is no possibility to go back to the last file. 
+** TODO Rewrite warning dialogs
+The warning is displayed whenever:
+- the save button is activated
+- the saveAll button is activated
+- a new project is created
+- a project is opened
+** TODO Do I need enable/disable handling?
