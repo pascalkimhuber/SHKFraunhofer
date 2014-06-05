@@ -556,7 +556,9 @@ void languageChange()
 	 CLOSED: [2014-06-02 Mon 11:11]
 
 **** TODO Outputmeasurement?
-*** TODO Debugging [3/9]
+*** TODO Debugging [6/9]
+	CLOCK: [2014-06-05 Thu 12:19]--[2014-06-05 Thu 13:21] =>  1:02
+	CLOCK: [2014-06-05 Thu 10:28]--[2014-06-05 Thu 11:30] =>  1:02
 	CLOCK: [2014-06-04 Wed 15:00]--[2014-06-04 Wed 18:02] =>  3:02
 	CLOCK: [2014-06-04 Wed 12:48]--[2014-06-04 Wed 13:57] =>  1:09
 	CLOCK: [2014-06-03 Tue 15:24]--[2014-06-03 Tue 15:58] =>  0:34
@@ -572,17 +574,21 @@ The warning is displayed whenever:
 - the saveAll button is activated
 - a new project is created
 - a project is opened
-**** TODO Fix status bar
+**** DONE Fix status bar
+	 CLOSED: [2014-06-05 Thu 13:12]
 - [X] Adapt size of status bar.
-- [ ] Add connections for the status bar. 
-**** TODO Set connections. 
+- [X] Add connections for the status bar. 
+**** DONE Set connections. 
+	 CLOSED: [2014-06-05 Thu 13:12]
 Missing connections: 
-- [ ] file name in status bar
-- [ ] connection for dataChanged() signal
-**** TODO Need some sort of undo-Action or some option to revert a new potentials file. 
-If one has opened a potentials file and makes some changes. And then push either the createNewFile button or the openNewFile-button, there is no possibility to go back to the last file. 
-**** TODO Rewrite tooltips for buttons
+- [X] file name in status bar
+- [X] connection for dataChanged() signal
+**** DONE Rewrite tooltips for buttons
+	 CLOSED: [2014-06-05 Thu 13:12]
 **** TODO Do I need enable/disable handling?
+**** TODO Line numbering and highlighting
+**** TODO Undo and Redo action
+**** TODO Remove all TODOs in source code
 *** TODO Proper error handling in PotentialParameter_Data class. 
 This concerns the methods: 
 - void PotentialParameter_Data::writeValidatesFile(QString filename)
@@ -619,25 +625,25 @@ Keep only the element name and the particle type.
 * Arbeitszeit
 
 #+BEGIN: clocktable :maxlevel 2 :scope file :block thisweek
-Clock summary at [2014-06-04 Wed 18:02], for week 2014-W23.
+Clock summary at [2014-06-05 Thu 13:21], for week 2014-W23.
 
-| Headline                                     | Time   |      |
-|----------------------------------------------+--------+------|
-| *Total time*                                 | *8:45* |      |
-|----------------------------------------------+--------+------|
-| Aufgaben                                     | 8:45   |      |
-| \__ TODO Refactoring of "Potentials" page... |        | 8:45 |
+| Headline                                     | Time    |       |
+|----------------------------------------------+---------+-------|
+| *Total time*                                 | *10:49* |       |
+|----------------------------------------------+---------+-------|
+| Aufgaben                                     | 10:49   |       |
+| \__ TODO Refactoring of "Potentials" page... |         | 10:49 |
 #+END:
 
 ** Überstunden
-| Week     |     Time |  Overtime |
-|----------+----------+-----------|
-| 2014-W20 |    10:32 |  01:32:00 |
-| 2014-W21 |    09:08 |  00:08:00 |
-| 2014-W22 |    12:55 |  03:55:00 |
-| 2014-W23 |     8:45 | -00:15:00 |
-|----------+----------+-----------|
-| Total    | 41:20:00 |  05:20:00 |
+| Week     |     Time | Overtime |
+|----------+----------+----------|
+| 2014-W20 |    10:32 | 01:32:00 |
+| 2014-W21 |    09:08 | 00:08:00 |
+| 2014-W22 |    12:55 | 03:55:00 |
+| 2014-W23 |    10:49 | 01:49:00 |
+|----------+----------+----------|
+| Total    | 43:24:00 | 07:24:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
 
 
@@ -655,7 +661,6 @@ Clock summary at [2014-06-04 Wed 18:02], for week 2014-W23.
 5. [X] Was ist mit PotentialParameterData? Dies muss an den simulationtab übergeben werden (see tremologui.cpp, line 112)
        Braucht die Potentials Seite einen Parser, damit ein PotentialParameterData Objekt erstellt werden kann?
    /Parser soll vorhanden sein. Auch das PotentialParameter_Data Objekt soll weiterhin bestehen bleiben./
-6. [ ] virtual void PotentialParameterUI::languageChange() tut überhaupt nichts?? Ist das gewollt?
 7. [ ] Underscores for members?
 8. [ ] Öffnet man ein neues Projekt, wenn man bei einem vorangegangenen Projekt nicht gesicherte Änderungen hat, dann erscheint zunächst eine Warnung, dass man noch ungesicherte Daten hat. Klickt man auf "Speichern" erscheint dann nochmals eine Warnung für den Potentialstab. Soll ich das ändern? (Eine Möglichkeit wäre evtl. im saveAll slot in tremologui.cpp den savestate des potentialstab auf true zu setzen).
 9. [ ] Statt des "save" symbols vielleicht lieber einen Haken oder so?
@@ -664,14 +669,9 @@ Clock summary at [2014-06-04 Wed 18:02], for week 2014-W23.
 
 * SUMMARY
 ** Bisher getan:
-Resolved some of the linking errors. 
+Nearly finished tab. 
 ** Was getan werden muss:
-1. Resolve linking errors and adapt interfaces. 
-2. Implement PotentialParameter_GUI class. Still missing are: 
-   - constructor
-   - destructor
-   - languageChange()
-3. Change CMakeFiles.txt file and clean all headers and includes. 
+1. Change CMakeFiles.txt file and clean all headers and includes. 
 
 
 
