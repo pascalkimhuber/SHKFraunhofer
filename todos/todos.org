@@ -148,6 +148,58 @@ http://www.panix.com/~elflord/unix/grep.html
   
 
 * Aufgaben
+  - Note taken on [2014-04-16 Wed 15:57] \\
+	Besprechung mit Christian um [2014-04-16 Wed 15:57]
+	Zwei Aufgabenziele: 
+	1. Kurzfristiges Ziel:
+	   Überarbeitung des "potentials" tabs
+	   - Übernehme Elemente von "Datafile" tab
+	   - Obere 2/3 des Tabs: Editor-Fenster in das ein Potentials-file geladen werden soll
+		 - der Editor soll die Funktionen "open" and "save" bereitstellen
+		 - open-button:
+		   + soll erweiterbar sein (d.h. es sollen noch mögliche "Suchfunktionen" eingebunden werden können -> handler)
+		   + vorerst: einen beliebigen Ordner öffnen
+		   + nach .potential files filtern
+		   + nachdem der Nutzer ein file ausgewählt hat, soll eine Kopie des files in den Projekt-Ordner gelegt werden mit dem Namen "PROJECTNAME.potentials"
+		   + falls nach Sicherung eines .potential-files ein weiteres file geöffnet wird, soll eine Warnung zum "Datenverlust" abgegeben werden.
+		 - save-button: 
+		   + speichert die Änderungen im .potentials file.
+	   - Stelle sicher, dass immer ein .validates-file erzeugt wird (notfalls auch leer (default)). 
+	2. Langfristiges Ziel: 
+	   - Verifizieren von Ensembles 
+	   - etwas mit Monte-Carlo Methoden (siehe folgende Links)
+		 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
+		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
+
+** TODO Refactoring of "Potentials" page [16/16]
+   CLOCK: [2014-06-03 Tue 12:12]--[2014-06-03 Tue 13:57] =>  1:45
+   CLOCK: [2014-06-02 Mon 12:11]--[2014-06-02 Mon 13:22] =>  1:11
+   CLOCK: [2014-06-02 Mon 10:21]--[2014-06-02 Mon 11:25] =>  1:04
+   CLOCK: [2014-05-28 Wed 14:03]--[2014-05-28 Wed 16:38] =>  2:35
+   CLOCK: [2014-05-28 Wed 12:04]--[2014-05-28 Wed 12:45] =>  0:41
+   CLOCK: [2014-05-27 Tue 15:15]--[2014-05-27 Tue 15:50] =>  0:35
+   CLOCK: [2014-05-27 Tue 12:43]--[2014-05-27 Tue 14:15] =>  1:32
+   CLOCK: [2014-05-26 Mon 10:48]--[2014-05-26 Mon 11:48] =>  1:00
+   CLOCK: [2014-05-23 Fri 13:43]--[2014-05-23 Fri 15:27] =>  1:44
+   CLOCK: [2014-05-22 Thu 16:58]--[2014-05-22 Thu 18:11] =>  1:13
+   CLOCK: [2014-05-22 Thu 12:39]--[2014-05-22 Thu 16:10] =>  3:31
+   CLOCK: [2014-05-21 Wed 16:20]--[2014-05-21 Wed 17:20] =>  1:00
+   CLOCK: [2014-05-21 Wed 14:31]--[2014-05-21 Wed 16:11] =>  1:40
+   CLOCK: [2014-05-16 Fri 17:44]--[2014-05-16 Fri 19:16] =>  1:32
+   CLOCK: [2014-05-16 Fri 14:31]--[2014-05-16 Fri 16:36] =>  2:05
+   CLOCK: [2014-05-15 Thu 12:33]--[2014-05-15 Thu 13:56] =>  1:23
+   CLOCK: [2014-05-15 Thu 10:19]--[2014-05-15 Thu 11:24] =>  1:05
+   CLOCK: [2014-05-14 Wed 16:51]--[2014-05-14 Wed 18:34] =>  1:43
+   CLOCK: [2014-05-14 Wed 14:46]--[2014-05-14 Wed 15:37] =>  0:51
+   CLOCK: [2014-05-14 Wed 14:30]--[2014-05-14 Wed 14:46] =>  0:16
+   CLOCK: [2014-05-13 Tue 17:26]--[2014-05-13 Tue 19:03] =>  1:37
+  - Note taken on [2014-06-16 Mon 13:36] \\
+	Besprechung mit Christian
+	Folgende Änderungen müssen noch durchgeführt werden: 
+	1. Hinzufügen von "undo/redo" buttons
+	2. Anpassen des "Solvers and Parallelization" tabs:
+	   - Benenne tab in "Parallelization" um
+	   - Entferne alles was mit den Solvern zu tun hat
   - Note taken on [2014-05-07 Wed 15:17] \\
 	Besprechung mit Christian am [2014-05-07 Wed]
 	
@@ -183,51 +235,6 @@ http://www.panix.com/~elflord/unix/grep.html
 	3. "Save-All" button
 	   Rufe slot des "Save"-Buttons auf, wenn der "Save-All" button des Main Windows angeklickt wurde.
 	4. Eventuell noch "Undo" and "Redo" Buttons? 
-  - Note taken on [2014-04-16 Wed 15:57] \\
-	Besprechung mit Christian um [2014-04-16 Wed 15:57]
-	Zwei Aufgabenziele: 
-	1. Kurzfristiges Ziel:
-	   Überarbeitung des "potentials" tabs
-	   - Übernehme Elemente von "Datafile" tab
-	   - Obere 2/3 des Tabs: Editor-Fenster in das ein Potentials-file geladen werden soll
-		 - der Editor soll die Funktionen "open" and "save" bereitstellen
-		 - open-button:
-		   + soll erweiterbar sein (d.h. es sollen noch mögliche "Suchfunktionen" eingebunden werden können -> handler)
-		   + vorerst: einen beliebigen Ordner öffnen
-		   + nach .potential files filtern
-		   + nachdem der Nutzer ein file ausgewählt hat, soll eine Kopie des files in den Projekt-Ordner gelegt werden mit dem Namen "PROJECTNAME.potentials"
-		   + falls nach Sicherung eines .potential-files ein weiteres file geöffnet wird, soll eine Warnung zum "Datenverlust" abgegeben werden.
-		 - save-button: 
-		   + speichert die Änderungen im .potentials file.
-	   - Stelle sicher, dass immer ein .validates-file erzeugt wird (notfalls auch leer (default)). 
-	2. Langfristiges Ziel: 
-	   - Verifizieren von Ensembles 
-	   - etwas mit Monte-Carlo Methoden (siehe folgende Links)
-		 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
-		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
-
-** TODO Refactoring of "Potentials" page [10/12]
-   CLOCK: [2014-06-03 Tue 12:12]--[2014-06-03 Tue 13:57] =>  1:45
-   CLOCK: [2014-06-02 Mon 12:11]--[2014-06-02 Mon 13:22] =>  1:11
-   CLOCK: [2014-06-02 Mon 10:21]--[2014-06-02 Mon 11:25] =>  1:04
-   CLOCK: [2014-05-28 Wed 14:03]--[2014-05-28 Wed 16:38] =>  2:35
-   CLOCK: [2014-05-28 Wed 12:04]--[2014-05-28 Wed 12:45] =>  0:41
-   CLOCK: [2014-05-27 Tue 15:15]--[2014-05-27 Tue 15:50] =>  0:35
-   CLOCK: [2014-05-27 Tue 12:43]--[2014-05-27 Tue 14:15] =>  1:32
-   CLOCK: [2014-05-26 Mon 10:48]--[2014-05-26 Mon 11:48] =>  1:00
-   CLOCK: [2014-05-23 Fri 13:43]--[2014-05-23 Fri 15:27] =>  1:44
-   CLOCK: [2014-05-22 Thu 16:58]--[2014-05-22 Thu 18:11] =>  1:13
-   CLOCK: [2014-05-22 Thu 12:39]--[2014-05-22 Thu 16:10] =>  3:31
-   CLOCK: [2014-05-21 Wed 16:20]--[2014-05-21 Wed 17:20] =>  1:00
-   CLOCK: [2014-05-21 Wed 14:31]--[2014-05-21 Wed 16:11] =>  1:40
-   CLOCK: [2014-05-16 Fri 17:44]--[2014-05-16 Fri 19:16] =>  1:32
-   CLOCK: [2014-05-16 Fri 14:31]--[2014-05-16 Fri 16:36] =>  2:05
-   CLOCK: [2014-05-15 Thu 12:33]--[2014-05-15 Thu 13:56] =>  1:23
-   CLOCK: [2014-05-15 Thu 10:19]--[2014-05-15 Thu 11:24] =>  1:05
-   CLOCK: [2014-05-14 Wed 16:51]--[2014-05-14 Wed 18:34] =>  1:43
-   CLOCK: [2014-05-14 Wed 14:46]--[2014-05-14 Wed 15:37] =>  0:51
-   CLOCK: [2014-05-14 Wed 14:30]--[2014-05-14 Wed 14:46] =>  0:16
-   CLOCK: [2014-05-13 Tue 17:26]--[2014-05-13 Tue 19:03] =>  1:37
 *** DONE What interfaces are given? 
 	 CLOSED: [2014-05-07 Wed 15:12]
 **** DONE Where is the "Potentials" tab created?
@@ -567,9 +574,8 @@ This concerns the methods:
 
 *** DONE Determine if QFileDialog::openFileName() works properly (in particular the filter)
 	 CLOSED: [2014-06-11 Wed 12:30]
-
-*** TODO Adapt Manual
-*** TODO Debugging [7/9]
+*** DONE Debugging [7/7]
+	 CLOSED: [2014-06-16 Mon 18:02]
 	CLOCK: [2014-06-11 Wed 10:00]--[2014-06-11 Wed 12:41] =>  2:41
 	CLOCK: [2014-06-05 Thu 12:19]--[2014-06-05 Thu 13:21] =>  1:02
 	CLOCK: [2014-06-05 Thu 10:28]--[2014-06-05 Thu 11:30] =>  1:02
@@ -601,42 +607,86 @@ Missing connections:
 	 CLOSED: [2014-06-05 Thu 13:12]
 **** DONE Write getter and setter for lastError member. 
 	 CLOSED: [2014-06-11 Wed 12:10]
-**** TODO Line numbering and highlighting
-**** TODO Undo and Redo action
-					   
+*** DONE Add "open project file" action
+	 CLOSED: [2014-06-18 Wed 16:42]
+	CLOCK: [2014-06-18 Wed 16:00]--[2014-06-18 Wed 16:42] =>  0:42
+*** DONE Add "undo/redo" actions
+	 CLOSED: [2014-06-18 Wed 16:42]
+	CLOCK: [2014-06-16 Mon 18:03]--[2014-06-16 Mon 18:46] =>  0:43
+	CLOCK: [2014-06-16 Mon 13:30]--[2014-06-16 Mon 13:55] =>  0:25
+*** DONE Clean "Solvers and Parallelization tab"
+	 CLOSED: [2014-06-18 Wed 17:54]
+	CLOCK: [2014-06-18 Wed 16:43]--[2014-06-18 Wed 17:54] =>  1:11
+*** DONE Change font in text edit (for example in ubuntu)
+	 CLOSED: [2014-06-24 Tue 13:31]
+*** DONE Adapt Manual
+	 CLOSED: [2014-06-30 Mon 11:03]
+	CLOCK: [2014-06-25 Wed 16:01]--[2014-06-25 Wed 17:50] =>  1:49
+	CLOCK: [2014-06-25 Wed 13:31]--[2014-06-25 Wed 15:00] =>  1:29
+	CLOCK: [2014-06-24 Tue 13:34]--[2014-06-24 Tue 13:58] =>  0:24
+	CLOCK: [2014-06-24 Tue 12:10]--[2014-06-24 Tue 13:34] =>  1:24
+The source files for the manual are written in file:~/tremologui/doc/. 
+**** Example text for the manual
+The potential parameter tab provides a text editor for editing the potential file of your current project. 
+<figure1>
+The text editor allows basic text editing functionalities. 
+The statusbar at the foot of the editor displays information about the cursor position, whether the file is modified or not, status messages and the path to the potential file. 
+The toolbar provides loading and saving functionalities for potential files. 
+- Revert To Project Stage: loads the potential file of your current project directory to the text editor. 
+- Clear File: Deletes all the text in the text editor. Note that the undo/redo history is cleared by this action. 
+- Open File: Opens a dialog window for potential file selection.
+- Save File To Project: Saves the current state of the text editor to the potential file of your current project. Note that your current potential file is overwritten by this action. 
+
+Additional information about the structure of potential files can be found in the Tremolo manual. 
 
 
-** TODO Find bugs in displaying of units
-   CLOCK: [2014-05-26 Mon 17:26]--[2014-05-26 Mon 18:58] =>  1:32
-   - Note taken on [2014-05-26 Mon 10:58] \\
-	 Aufgabe von Johannes
-	 Bei der Portierung von Tremologui auf Windows werden manche Einheiten nicht korrekt angezeigt. 
-	 Das betrifft zum einen das Angstrom-Zeichen und zum anderen underscores.
-	 Hier sind zwei Screenshots: 
-     - [[file:pics/Screenshot.png][TremoloGUI - buggy unit display in Windows]]
-	 - [[file:pics/Screenshot2.png][TremoloGUI - working unit display in Windows]]
+*** TODO Change screenshot in Tremolo-Manual
 
-*** Unit display for TB Taper x_i(A) in Potentials
-- PotentialParameter_Data: getttbTaperxiUnit
-- TremologuiConfig: trDisplayUnits(StandardisedDouble)
-- UnitsMap[].displayString
-- TremoloGUI_CommonTypes: Angstroem.setUtf16(&b,1)
-
-*** Unit display for particles table in Potentials
-- ParticleType: 
-
-
+** TODO Enable mpi-capable simulation in tremologui. 
+   CLOCK: [2014-07-07 Mon 13:56]
+   CLOCK: [2014-07-02 Wed 14:08]--[2014-07-02 Wed 16:05] =>  1:57
+   CLOCK: [2014-06-30 Mon 12:02]--[2014-06-30 Mon 12:35] =>  0:33
+   CLOCK: [2014-06-30 Mon 11:00]--[2014-06-30 Mon 12:01] =>  1:01
+   CLOCK: [2014-06-23 Mon 14:35]--[2014-06-23 Mon 14:50] =>  0:15
+   - Note taken on [2014-06-23 Mon 14:41] \\
+	 Enable parallel-simulation functionality to tremologui. 
+	 The following tasks have to be done: 
+	 - Add option for local MPI-command to preference panel (has to be investigated) s.t. the local MPI command can be stated (xxx)
+	 - The "Start" button on the simulation tab should be capable to differentiate between the sequentiel and the parallel simulation by means of the number of processes given in the parallelization tab. 
+	   The starting command is =xxx -np x*y*z tremolo_mpi -p x,y,z, (-vx) project.tremolo=.
+*** TODO Add text edit for local MPI-command to preference panel 
+	- Note taken on [2014-07-07 Mon 13:58] \\
+	  The interface for the preference panel is stored in the class TGCCange in tgcchange.h
+For this the following has to be done: 
+1. [X] in tgCCange: 
+   - [X] add appropriate members
+   - [X] add appropriate slot -> /not necessary/
+   - [X] adapt constructor and languageChange()
+2. [-] in TremoloGUIConfig: 
+   - [ ] maybe add an extern variable
+   - [X] add appropriate members and key for QSettings object
+   - [ ] slot for testing the command?
+   - [X] appropriate signals
+   - [X] adapt constructor
+   - [X] adapt destructor
+   - [X] appropriate getter and setter methods
+   - [ ] adapt changeConfig()
+*** DONE Fix storing of "Parallel simulation executable" in the Preference Panel
+	 CLOSED: [2014-07-03 Thu 14:47]
+	CLOCK: [2014-07-03 Thu 12:35]--[2014-07-03 Thu 14:47] =>  2:12
+	
+*** TODO Add checking routine if line edit with local MPI-command is empty or not valid
+*** TODO Ask Christian about default value of local MPI command. Should there be a hint in which order the flags are supposed to be used? 
+*** TODO Add parallel simulation functionality to tremologui using the given MPI command and the number of processes indicated in the "Parallelization" tab. 
+	
 * Arbeitszeit
 
-#+BEGIN: clocktable :maxlevel 2 :scope file :block thisweek
-Clock summary at [2014-06-11 Wed 12:42], for week 2014-W24.
+#+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
+Clock summary at [2014-07-07 Mon 13:55], for week 2014-W28.
 
-| Headline                                     | Time   |      |
-|----------------------------------------------+--------+------|
-| *Total time*                                 | *2:41* |      |
-|----------------------------------------------+--------+------|
-| Aufgaben                                     | 2:41   |      |
-| \__ TODO Refactoring of "Potentials" page... |        | 2:41 |
+| Headline     | Time   |
+|--------------+--------|
+| *Total time* | *0:00* |
 #+END:
 
 ** Überstunden
@@ -647,8 +697,12 @@ Clock summary at [2014-06-11 Wed 12:42], for week 2014-W24.
 | 2014-W22 |    12:55 |  03:55:00 |
 | 2014-W23 |    10:49 |  01:49:00 |
 | 2014-W24 |     7:41 | -01:19:00 |
+| 2014-W25 |     8:01 | -00:59:00 |
+| 2014-W26 |     5:21 | -03:39:00 |
+| 2014-W27 |     5:43 | -03:17:00 |
+| 2014-W28 |          | -09:00:00 |
 |----------+----------+-----------|
-| Total    | 51:05:00 |  06:05:00 |
+| Total    | 70:10:00 | -10:50:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
 
 
@@ -671,11 +725,4 @@ Clock summary at [2014-06-11 Wed 12:42], for week 2014-W24.
 
 
 * SUMMARY
-** Bisher getan:
-Nearly finished tab. 
-** Was getan werden muss:
-1. Change CMakeFiles.txt file and clean all headers and includes. 
-
-
-
- 
+1. How and where is the simulation run?
