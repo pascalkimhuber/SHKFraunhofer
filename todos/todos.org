@@ -643,7 +643,9 @@ Additional information about the structure of potential files can be found in th
 *** TODO Change screenshot in Tremolo-Manual
 
 ** TODO Enable mpi-capable simulation in tremologui. 
-   CLOCK: [2014-07-07 Mon 13:56]
+   CLOCK: [2014-07-09 Wed 14:12]--[2014-07-09 Wed 15:47] =>  1:35
+   CLOCK: [2014-07-08 Tue 12:28]--[2014-07-08 Tue 14:03] =>  1:35
+   CLOCK: [2014-07-07 Mon 13:56]--[2014-07-07 Mon 15:19] =>  1:23
    CLOCK: [2014-07-02 Wed 14:08]--[2014-07-02 Wed 16:05] =>  1:57
    CLOCK: [2014-06-30 Mon 12:02]--[2014-06-30 Mon 12:35] =>  0:33
    CLOCK: [2014-06-30 Mon 11:00]--[2014-06-30 Mon 12:01] =>  1:01
@@ -654,7 +656,8 @@ Additional information about the structure of potential files can be found in th
 	 - Add option for local MPI-command to preference panel (has to be investigated) s.t. the local MPI command can be stated (xxx)
 	 - The "Start" button on the simulation tab should be capable to differentiate between the sequentiel and the parallel simulation by means of the number of processes given in the parallelization tab. 
 	   The starting command is =xxx -np x*y*z tremolo_mpi -p x,y,z, (-vx) project.tremolo=.
-*** TODO Add text edit for local MPI-command to preference panel 
+*** DONE Add text edit for local MPI-command to preference panel 
+	 CLOSED: [2014-07-08 Tue 12:29]
 	- Note taken on [2014-07-07 Mon 13:58] \\
 	  The interface for the preference panel is stored in the class TGCCange in tgcchange.h
 For this the following has to be done: 
@@ -670,23 +673,30 @@ For this the following has to be done:
    - [X] adapt constructor
    - [X] adapt destructor
    - [X] appropriate getter and setter methods
-   - [ ] adapt changeConfig()
+   - [X] adapt changeConfig()
 *** DONE Fix storing of "Parallel simulation executable" in the Preference Panel
 	 CLOSED: [2014-07-03 Thu 14:47]
 	CLOCK: [2014-07-03 Thu 12:35]--[2014-07-03 Thu 14:47] =>  2:12
-	
+*** DONE Continue to edit runsimulationui.h and runsimulationui.cpp
+	 CLOSED: [2014-07-09 Wed 15:06]
+*** TODO Review runsimulation.h and runsimulation.cpp
 *** TODO Add checking routine if line edit with local MPI-command is empty or not valid
 *** TODO Ask Christian about default value of local MPI command. Should there be a hint in which order the flags are supposed to be used? 
-*** TODO Add parallel simulation functionality to tremologui using the given MPI command and the number of processes indicated in the "Parallelization" tab. 
-	
+*** TODO Add parallel simulation functionality to tremologui using the given MPI command and the number of processes indicated in the "Parallelization" tab.
+
+** TODO Change all author details and email adresses
+*** TODO change email adress in tremologuiconfig.cpp (ask Christian again). 
+
 * Arbeitszeit
-
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-07-07 Mon 13:55], for week 2014-W28.
+Clock summary at [2014-07-09 Wed 15:47], for week 2014-W28.
 
-| Headline     | Time   |
-|--------------+--------|
-| *Total time* | *0:00* |
+| Headline                                     | Time   |      |
+|----------------------------------------------+--------+------|
+| *Total time*                                 | *4:33* |      |
+|----------------------------------------------+--------+------|
+| Aufgaben                                     | 4:33   |      |
+| \__ TODO Enable mpi-capable simulation in... |        | 4:33 |
 #+END:
 
 ** Überstunden
@@ -700,9 +710,9 @@ Clock summary at [2014-07-07 Mon 13:55], for week 2014-W28.
 | 2014-W25 |     8:01 | -00:59:00 |
 | 2014-W26 |     5:21 | -03:39:00 |
 | 2014-W27 |     5:43 | -03:17:00 |
-| 2014-W28 |          | -09:00:00 |
+| 2014-W28 |     4:33 | -04:27:00 |
 |----------+----------+-----------|
-| Total    | 70:10:00 | -10:50:00 |
+| Total    | 74:43:00 | -06:17:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
 
 
