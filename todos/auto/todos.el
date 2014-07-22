@@ -1,13 +1,5 @@
 (TeX-add-style-hook "todos"
  (lambda ()
-    (LaTeX-add-labels
-     "sec-1"
-     "sec-2"
-     "sec-2-1"
-     "sec-2-2"
-     "sec-2-3"
-     "sec-2-3-1"
-     "sec-2-3-2")
     (TeX-add-symbols
      '("alert" 1))
     (TeX-run-style-hooks

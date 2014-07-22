@@ -20,9 +20,9 @@ Wait for Mail from IT. Change password if smartcard is there!
 ** DONE Qt Auto complete
    CLOSED: [2014-04-16 Wed 15:04]
 
-** TODO Syntax highlighting for doxygen comments in c++ mode. 
+** TODO Syntax highlighting for doxygen comments in c++ mode.
 
-** TODO Setter and getter methods. 
+** TODO Setter and getter methods.
 
 ** TODO Rewrite Arbeitszeiten section
 
@@ -31,11 +31,11 @@ Wait for Mail from IT. Change password if smartcard is there!
 
 ** Tremolo aktualisieren
 
-Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden: 
+Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden:
 : cd ~/tremolo/build
 : make && make install
 
-Das selbe gilt für Tremologui. 
+Das selbe gilt für Tremologui.
 : cd ~/tremologui/build
 : make && make install
 
@@ -46,7 +46,7 @@ Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite ge
 
 1. Um ein Data-file (zum Beispiel =*.epot*=) mit Gnuplot zu plotten, verwendet man: \\
    : gnuplot> plot "./argon.epot" using 1:2
-   Hierbei wird die zweite Spalte gegen die erste Spalte aufgetragen. 
+   Hierbei wird die zweite Spalte gegen die erste Spalte aufgetragen.
 2. Dies kann auch mit mehreren Files gleichzeitig getan werden: \\
    : gnuplot> plot "./argon.etot" using 1:2, "./argon.ekin" using 1:2, "./argon.epot" using 1:2
 3. Um den Achsenabschnitt zu veraendern, verwendet man: \\
@@ -54,41 +54,41 @@ Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite ge
 4. Den urspruenglichen Achsenabschnitt kann man wie folgt wieder herstellen: \\
    : gnuplot> plot "./argon.epot" using 1:2; set autoscale
 5. Mit \\
-   : gnuplot> replot 
-   kann der Plot aktualisiert werden. 
-6. Eine Uebersicht von =set= Befehlen: 
-   Create a title:                  
-   : set title "Force-Deflection Data" 
-   Put a label on the x-axis:       
-   : set xlabel "Deflection (meters)" 
-   Put a label on the y-axis:       
+   : gnuplot> replot
+   kann der Plot aktualisiert werden.
+6. Eine Uebersicht von =set= Befehlen:
+   Create a title:
+   : set title "Force-Deflection Data"
+   Put a label on the x-axis:
+   : set xlabel "Deflection (meters)"
+   Put a label on the y-axis:
    : set ylabel "Force (kN)"
-   Change the x-axis range:         
+   Change the x-axis range:
    : set xrange [0.001:0.005]
-   Change the y-axis range:         
-   : set yrange [20:500] 
-   Have Gnuplot determine ranges:   
+   Change the y-axis range:
+   : set yrange [20:500]
+   Have Gnuplot determine ranges:
    : set autoscale
-   Move the key:                    
+   Move the key:
    : set key 0.01,100
-   Delete the key:                  
+   Delete the key:
    : unset key
-   Put a label on the plot:         
+   Put a label on the plot:
    : set label "yield point" at 0.003, 260
-   Remove all labels:               
+   Remove all labels:
    : unset label
-   Plot using log-axes:             
+   Plot using log-axes:
    : set logscale
-   Plot using log-axes on y-axis:   
+   Plot using log-axes on y-axis:
    : unset logscale; set logscale y
-   Change the tic-marks:            
+   Change the tic-marks:
    : set xtics (0.002,0.004,0.006,0.008)
-   Return to the default tics:      
+   Return to the default tics:
    : unset xtics; set xtics auto
-   Set output:                      
+   Set output:
    : set output 'introduction.png'
 
-   
+
 ** Grep Befehle
 
 http://www.panix.com/~elflord/unix/grep.html
@@ -103,7 +103,7 @@ http://www.panix.com/~elflord/unix/grep.html
   : git checkout -b <name_of_new_branch> origin/<name_of_branch>
 - Delete a local branch:
   : git branch -d <name_of_branch>
-- Naming convention: use well defined tokes like 
+- Naming convention: use well defined tokes like
   : feature
   : bugfix
   : test
@@ -114,17 +114,17 @@ http://www.panix.com/~elflord/unix/grep.html
 - Show differences between <branch1> and <branch2>
   : git diff <branch1>..<branch2>
 
-*** Manipulate changes. 
+*** Manipulate changes.
 - Remove untracked files:
   : git clean -f -d
 
-*** Add and remove changes. 
+*** Add and remove changes.
 - Remove deleted files from stack:
   : git add -u .
 
 *** Remote repositories
 - Add remote repository with name /origin/ (e.g. https://pascalkimhuber@bitbucket.org/pascalkimhuber/stacked.git)
-  : git remote add origin <address of remote> 
+  : git remote add origin <address of remote>
 - Push a local repository to a remote repository with name /origin/ for the first time
   : git push -u origin --all
 
@@ -132,571 +132,77 @@ http://www.panix.com/~elflord/unix/grep.html
 - Merge <branch1> into <branch2>
   : git checkout <branch2>
   : git merge <branch1>
-  
+
 
 ** Find Befehle
 
 - Find all files with names containing =<pattern>= (wildcards have to be used with a preceeding backslash!):
-  : find -name <pattern> 
-  or e.g. 
+  : find -name <pattern>
+  or e.g.
   : find -name <pattern>\*
 
 
 ** Doxygen Befehle
 
 - [[http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdc][List of special commands]]
-  
+
 
 * Aufgaben
   - Note taken on [2014-04-16 Wed 15:57] \\
-	Besprechung mit Christian um [2014-04-16 Wed 15:57]
-	Zwei Aufgabenziele: 
-	1. Kurzfristiges Ziel:
-	   Überarbeitung des "potentials" tabs
-	   - Übernehme Elemente von "Datafile" tab
-	   - Obere 2/3 des Tabs: Editor-Fenster in das ein Potentials-file geladen werden soll
-		 - der Editor soll die Funktionen "open" and "save" bereitstellen
-		 - open-button:
-		   + soll erweiterbar sein (d.h. es sollen noch mögliche "Suchfunktionen" eingebunden werden können -> handler)
-		   + vorerst: einen beliebigen Ordner öffnen
-		   + nach .potential files filtern
-		   + nachdem der Nutzer ein file ausgewählt hat, soll eine Kopie des files in den Projekt-Ordner gelegt werden mit dem Namen "PROJECTNAME.potentials"
-		   + falls nach Sicherung eines .potential-files ein weiteres file geöffnet wird, soll eine Warnung zum "Datenverlust" abgegeben werden.
-		 - save-button: 
-		   + speichert die Änderungen im .potentials file.
-	   - Stelle sicher, dass immer ein .validates-file erzeugt wird (notfalls auch leer (default)). 
-	2. Langfristiges Ziel: 
-	   - Verifizieren von Ensembles 
-	   - etwas mit Monte-Carlo Methoden (siehe folgende Links)
-		 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
-		 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
+        Besprechung mit Christian um [2014-04-16 Wed 15:57]
+        Zwei Aufgabenziele:
+        1. Kurzfristiges Ziel:
+           Überarbeitung des "potentials" tabs
+           - Übernehme Elemente von "Datafile" tab
+           - Obere 2/3 des Tabs: Editor-Fenster in das ein Potentials-file geladen werden soll
+                 - der Editor soll die Funktionen "open" and "save" bereitstellen
+                 - open-button:
+                   + soll erweiterbar sein (d.h. es sollen noch mögliche "Suchfunktionen" eingebunden werden können -> handler)
+                   + vorerst: einen beliebigen Ordner öffnen
+                   + nach .potential files filtern
+                   + nachdem der Nutzer ein file ausgewählt hat, soll eine Kopie des files in den Projekt-Ordner gelegt werden mit dem Namen "PROJECTNAME.potentials"
+                   + falls nach Sicherung eines .potential-files ein weiteres file geöffnet wird, soll eine Warnung zum "Datenverlust" abgegeben werden.
+                 - save-button:
+                   + speichert die Änderungen im .potentials file.
+           - Stelle sicher, dass immer ein .validates-file erzeugt wird (notfalls auch leer (default)).
+        2. Langfristiges Ziel:
+           - Verifizieren von Ensembles
+           - etwas mit Monte-Carlo Methoden (siehe folgende Links)
+                 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
+                 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
 
-** TODO Refactoring of "Potentials" page [16/16]
-   CLOCK: [2014-06-03 Tue 12:12]--[2014-06-03 Tue 13:57] =>  1:45
-   CLOCK: [2014-06-02 Mon 12:11]--[2014-06-02 Mon 13:22] =>  1:11
-   CLOCK: [2014-06-02 Mon 10:21]--[2014-06-02 Mon 11:25] =>  1:04
-   CLOCK: [2014-05-28 Wed 14:03]--[2014-05-28 Wed 16:38] =>  2:35
-   CLOCK: [2014-05-28 Wed 12:04]--[2014-05-28 Wed 12:45] =>  0:41
-   CLOCK: [2014-05-27 Tue 15:15]--[2014-05-27 Tue 15:50] =>  0:35
-   CLOCK: [2014-05-27 Tue 12:43]--[2014-05-27 Tue 14:15] =>  1:32
-   CLOCK: [2014-05-26 Mon 10:48]--[2014-05-26 Mon 11:48] =>  1:00
-   CLOCK: [2014-05-23 Fri 13:43]--[2014-05-23 Fri 15:27] =>  1:44
-   CLOCK: [2014-05-22 Thu 16:58]--[2014-05-22 Thu 18:11] =>  1:13
-   CLOCK: [2014-05-22 Thu 12:39]--[2014-05-22 Thu 16:10] =>  3:31
-   CLOCK: [2014-05-21 Wed 16:20]--[2014-05-21 Wed 17:20] =>  1:00
-   CLOCK: [2014-05-21 Wed 14:31]--[2014-05-21 Wed 16:11] =>  1:40
-   CLOCK: [2014-05-16 Fri 17:44]--[2014-05-16 Fri 19:16] =>  1:32
-   CLOCK: [2014-05-16 Fri 14:31]--[2014-05-16 Fri 16:36] =>  2:05
-   CLOCK: [2014-05-15 Thu 12:33]--[2014-05-15 Thu 13:56] =>  1:23
-   CLOCK: [2014-05-15 Thu 10:19]--[2014-05-15 Thu 11:24] =>  1:05
-   CLOCK: [2014-05-14 Wed 16:51]--[2014-05-14 Wed 18:34] =>  1:43
-   CLOCK: [2014-05-14 Wed 14:46]--[2014-05-14 Wed 15:37] =>  0:51
-   CLOCK: [2014-05-14 Wed 14:30]--[2014-05-14 Wed 14:46] =>  0:16
-   CLOCK: [2014-05-13 Tue 17:26]--[2014-05-13 Tue 19:03] =>  1:37
-  - Note taken on [2014-06-16 Mon 13:36] \\
-	Besprechung mit Christian
-	Folgende Änderungen müssen noch durchgeführt werden: 
-	1. Hinzufügen von "undo/redo" buttons
-	2. Anpassen des "Solvers and Parallelization" tabs:
-	   - Benenne tab in "Parallelization" um
-	   - Entferne alles was mit den Solvern zu tun hat
-  - Note taken on [2014-05-07 Wed 15:17] \\
-	Besprechung mit Christian am [2014-05-07 Wed]
-	
-	Überarbeitung des "Potentials" tab - Zusammenfassung: 
-	1. Behalte Trennung von Data und GUI bei: 
-	   - PotentialParameter_Data enthält:
-		 + Parser
-		 + QStringList mit particle types
-		 + ggfs. weitere Data
-	   - PotentialParameter_GUI enthält alle benötigten Widgets: 
-		 + Menüleiste mit "New", "Open", "Save" Button
-		 + Editor-Fenster
-		 + Platz für spätere Widgets
-	2. Beschreibung der 3 Buttons: 
-	   - "New" :: 
-		 - gibt Warnung aus
-		 - erstellt leeres $Project.potentials file
-		 - ruft Parser auf und updated data (particle types etc.)
-		 - erstellt zugehöriges $Project.validates file
-	   - "Open" :: 
-		 - öffnet eine Öffnen-Dialog
-		 - gibt Warnung aus (nach Wahl eines files)
-		 - erstellt lokale Kopie des ausgewählten files im Projekt-Ordner
-		 - ruft Parser auf und updated data
-		 - erstellt zugehöriges $Project.validates file
-		 - WICHTIG: soll erweiterbar sein
-	   - "Save" :: 
-		 - nur enabled wenn $Project.potentials file sich geändert hat
-		 - gibt Warnung aus
-		 - speichert Änderungen im $Project.potentials file
-		 - ruft Parser auf und updated data
-		 - erstellt zugehöriges $Project.validates file
-	3. "Save-All" button
-	   Rufe slot des "Save"-Buttons auf, wenn der "Save-All" button des Main Windows angeklickt wurde.
-	4. Eventuell noch "Undo" and "Redo" Buttons? 
-*** DONE What interfaces are given? 
-	 CLOSED: [2014-05-07 Wed 15:12]
-**** DONE Where is the "Potentials" tab created?
-	 CLOSED: [2014-05-07 Wed 15:12]
-The PotentialParameterUI object is created in the constructor of the main window (see tremologui.h). It is a child object of TremoloGUI:
-: PotentialParameterUI* potentialparametertab;
-The potentialtab object is used in the following lines of tremologui.cpp
-- l.106-109 :: Initialization of potentialparametertab and addition to the maintab widget
-- l.110 :: Connect the isChanged(bool) signal of myProject to the setEnabled(bool) signal of potentialparametertab (derived from QWidget)
-- l.112 :: Create a new PotentialParameter_Data object from the one saved in potentialparametertab. The copy is then used to construct the simulation tab.
-- l.290 :: Connect the newSaveState() signal of potentialparametertab to the dataUpdateSavedStatus slot updating the state of the saveallbutton
-- l.459 :: Checks save state of potentialparametertab
-- l.651 :: TremoloGUI::projectChanged() sends update requests to all dataclasses. In potentialparametertab the reloadfile() method is called which is doing nothing??
-- l.711 :: TremoloGUI::dataUpdateSavedStatus() updates the state of the saveallbutton
-- l.719 :: TremoloGUI::dataSaveAllSlot() calls the saveslots from every dataclass. In potentialparametertab the fileSave() method is called.
-- l.739,753,764 :: TremoloGUI::checkAndLoad/checkSavedStatusAndNewProject/checkSavedStatusAndOpenProject() set the save state of potentialparametertab. 
-**** DONE What signals/slots are given?
-	 CLOSED: [2014-05-07 Wed 15:12]
-In PotentialParameterUI the following slots are needed within tremologui.cpp:
-- setEnabled(bool) exists by default (since derived from QWidget)
-The following signals are needed within tremologui.cpp:
-- newSaveState() 
-**** DONE Where are all the other classes created?
-	 CLOSED: [2014-05-07 Wed 15:12]
-**** DONE List of functions that must be present
-	 CLOSED: [2014-05-07 Wed 15:12]
-- bool issaved storing the save-state
-- bool isSaved() 
-  returns issaved 
-  used in TremoloGUI::unsavedData() (see line 459 of tremologui.cpp)
-  used in TremoloGUI::unsavedData() (see line 711 of tremologui.cpp)
-- void setSavedStatus(bool status)
-  sets the issaved variable to status
-  used in TremoloGUI::checkandload/checkSavedStatusAndNewProject/checkSavedStatusAndOpenProject (see lines 739, 753 and 764 of tremologui.cpp)
-- void reloadfile(QString filename)
-  reload potentials file
-  used in TremoloGUI::projectChanged() (see line 651 of tremologui.cpp)
-- bool fileSave() (slot)
-  save file and return true if everything is ok, false otherwise, ask for validity?
-  used in TremoloGUI::dataSaveAllSlot() (see line 719 of tremologui.cpp)
-- void newSaveState() (signal)
-  should be emitted if the save state changes
+** TODO Learn Dakota
+   - Note taken on [2014-07-22 Tue 17:11] \\
+     Aufgabenbeschreibung:
 
-*** DONE Implementation of new "Potentials" tab
-	 CLOSED: [2014-05-07 Wed 15:12]
-***** Example: Files for Datafile-tab
-parametertextedit.h
-parametertextedit.cpp
-****** Description of parametertextedit.h and parametertextedit.cpp
-- Two classes
-  1. class textEditStatusBar : public QWidget
-  2. class parameterTextEdit : public QMainWindow
+     Im Zuge einer Software zur Ionen-Migration (Berechnung über die Poisson-Nernst-Planck Gleichung) soll ein script geschrieben werden, dass als Input Diffusionswerte, chemisches Potential und erwartete Fehler entgegennimmt und anschließend den elektrischen Fluß bestimmt.
+     Dazu soll das Optimierungsprogramm DAKOTA (Design Analysis Kit for Optimization and Terascale Applications) von den SNL verwendet werden.
 
-***** Description of textEditStatusBar class
+     Meine Aufgabe ist es nun
+     1. Mache mich Dakota vertraut
+        + Lese das gesamte Manual (Version 5.4).
+        + Schaue, was für das obige Problem wichtig sein kann.
+     2. Schreibe ein Script (nach Absprache mit Christian)
 
-Implements the status bar in the "Datafile"-tab (just at the lower end of the window). 
+     _Poisson-Nernst-Planck Gleichung_
+     \partial_t c = \nabla [D (\nabla c + \alpha \nabla \phi + \beta c \nabla \mu )]
+     \Delta \phi = \sum_i z_i c_i
+   CLOCK: [2014-07-22 Tue 14:00]--[2014-07-22 Tue 17:22] =>  3:22
+*** TODO Installiere Dakota
+Problem: Falsche Boost Version?
 
-The status bar consists of 4 different frames (QFrame) containing each a QLabel with
-+ the current position of the cursor
-+ a indicator that shows if the file has been changed
-+ the type of the file
-+ the name of the file
-
-The layout is managed by a QHBoxLayout for the statusbar itself and for different GridLayouts for each of the frames. 
-
-The following slots are implemented:
-+ changeCurrentPos
-+ setFilename
-+ setEditMode
-+ languageChange
-
-***** Description of parameterTextEdit class
-
-Implements a texteditor for datafiles in the "Datafile"-tab. It is essentially a QMainWindow with a QTextEdit. Moreover the class has a textEditStatusBar as child object.
-
-The class contains the following children:
-+ QTextEdit for the texteditor window
-+ QToolBar a toolbar for the texteditor
-+ QActions for all buttons on the toolbar
-+ QStrings to save the parameter file and a suffix
-+ textEditStatusBar 
-+ bools for different indications
-
-The layout is managed by only one QVBoxLayout. 
-
-There are only a few method implemented in the class: 
-+ bool isSaved() const // returns true if the file is saved
-+ void setSavedStatus(bool status) // sets the status of the file
-+ void fileLoad(QString File) // loads the file that is supposed to be edited
-+ void renewTextEdit2() // ?
-
-Slots:
-+ void fileSave() // saves the file
-+ void reloadfile(QString parameterFileIn) // reload the file
-+ void clearBuffer(bool ask=true) // ?
-+ void setLoadingfileStatus(bool status) // ?
-+ void enableFileSaveAction(void) // ?
-+ void changeCurrentPos (void) // ?
-+ void fileOpen() // open new file
-+ fileSaveAs() // save file as
-+ textEditChanged // action if textEdit has been changed
-+ virtual void languageChange() // set language
-
-Signals:
-+ void newSaveState() // is send if the save-state of the file changes
-  
-*** DONE Get overview over all source files that are used for the "Potentials" tab
-	 CLOSED: [2014-05-07 Wed 15:13]
-**** Main Window : PotentialParameterUI
-Can be found in 
-- potentialparameterui.h
-- potentialparameterui.cpp
-
-The class is derived from the PotentialParameterUISuperClass. 
-It contains 
-1. =ParticleWidget* particleWidget : public PotentialParameterWidget=
-   Widget containing the upper half of the main window ("Particle types"). 
-   The Widget contains
-   - ParticleTable* particleTable : public PotentialParameterTable
-   - PotentialParameter_Data* myPotentialParameter_Data
-   - TremoloGUIConfig* myConfig
-   - QPushButtons* disableParticleTypeButton and enableParticleTypeButton
-   - QLabel* warningLabel
-2. =QTabWidget* potentialsTabWidget=
-   This tab widget is the main tab bar for the second half of the main window (potential selection).
-   It hosts the following tabs: 
-   - "Non-bonded Potentials" (-> nonBondedTabWidget)
-   - "Bonded Potentials (off)" (-> bondedTabWidget)
-   - "TB tapered Potentials (off)" (-> tbTaperedWidget and tbTaperedTabWidget)
-3. =QTabWidget* bondedTabWidget=
-   This tab widget is the main tab bar for the "Bonded Potentials (off)" page. 
-   It contains the following widgets (all child objects of the PotentialParamerUI class): 
-   - AngleWidget* angleWidget
-   - BondsWidget* bondsWidget
-   - ImproperWidget* improperWidget
-4. =QTabWidget* nonBondedTabWidget=
-   This tab widget is the main tab bar for the "Non-bonded Potentials" page. 
-   It contains all widgets for the different potentials (all child objects of the PotentialParameterUI class):
-   - QWidget* brennerWidget and Q3Table* brennerTable;
-   - EamWidget* eamWidget;
-   - Q3VBox* coulomb_ERFCBox and Coulomb_ERFCWidget* coulomb_ERFCWidget;
-   - LennardJonesWidget* lennardJonesWidget;
-   - M_N_LennardJonesWidget* m_n_lennardJonesWidget;
-   - LJSplineWidget* ljSplineWidget;
-   - LJSpline2Widget* ljSpline2Widget;
-   - RSL2Widget* rsl2Widget;
-   - StiWeWidget* stiWeWidget;
-   - StiWe3BodyWidget* stiWe3BodyWidget;
-   - SuttonChenWidget* suttonChenWidget;
-   - Q3VBox* tersoffBox;
-5. =QTabWidget* tbTaperedTabWidget=
-   This tab widget is the main tab bar for the "TB tapered Potentials (off)". 
-   It is contained in the QWidget* tbTaperedWidget and contains the following widges (all child object of the PotentialParameterUI class):
-   - TBBuckinghamWidget* tbBuckinghamWidget;
-   - TBTaperedGen1Widget* tbTaperedGen1Widget;
-   - TBTaperedGen2Widget* tbTaperedGen2Widget;
-   - TBMorseWidget* tbmorseWidget;
-   - BN3bodyWidget* bn3bodyWidget;
-   - DampedDispWidget* dampedDispWidget;
-
-**** Corresponding data file: PotentialParameter_Data
-****** Implements:
-class PotentialParameter_Data	   
-****** Description:
-The class contains all data that is necessary to write the potentials and the validates file. 
-******* Members (only important ones)
-- instances of all potentials 
-- pointer to the project (Project_Control* myProject)
-- pointer to the configuration (TremoloGUIConfig* myConfig)
-- a parser (ParameterParser* myParser)
-- pointer to the PotentialParameterUI parent class (PotentialParameterUISuperClass* parentUI)
-- booleans to indicate which potentials are going to be used
-- boolean loadingFile (if true some tests are skipped -> faster loading)
-******* Member functions (only important ones)
-- getter and setter methods for all potentials
-- saveValues(): uses the Output of the parser and saves all data from the file into the data structure - this method is called within ParameterParser::parseFile()
-- writeToFile(): Opens a file for writing, calls toParameterFileString() and writes all data to the file
-- writeToValidatesFile(): Analougously to writeToFile() but for the validates data.
-- readFromFile(): starts the parser for the given file and then saves all data to the data structure
-- projectHasChanged(): important SLOT that is called whenever something in the project changed (sinal of Project_Control* myProject) - it calls clear() and readFromFile()
-- SIGNALS: signals that indicate if a potential changed
-- SLOTS: slots for removing/setting potential data
-- some helper methods for file writing (getPOTENTIALNAMEDataFileString()) for each potential
-******* Constructor
-1. Set myConfing, myProject, p_parent_UI
-2. Create all potential objects
-3. Set all m_usePOTENTIALNAME booleans to false
-4. Set loadingFile boolean to false
-5. Initialize myParser and register data class of this in parser
-6. Add some connections 
-****** Derived classes:
-None. 
-****** Questions:
-- By which classes is the PotentialParameter_Data class used? 
-****** Must be changed?
-Yes. 
-This class reads from the file and writes the potentials/validats files. 
-- The writing functionality must be deleted
-- The parsing functionality must be maintained		 
-*** DONE Draft for the new "Potentials" tab
-	 CLOSED: [2014-06-02 Mon 10:23]
-	- Note taken on [2014-05-13 Tue 19:00] \\
-	  Questions: 
-	  - How is the content of a file stored in QTextEdit?
-	  - Does it needs the underlying file?
-	  - Can a file be savely loaded by QTextEdit and changes made in the QTextEdit without modifying the initial file? 
-	  Answers: 
-	  It seems that QTextEdit does not need an underlying file: 
-	  The text of a QFile is loaded in the QTextEdit using setText() which only needs a QString. 
-	  The underlying file can be closed after loading and is not modified afterwards. This only depends on the save method.
-	- Note taken on [2014-05-13 Tue 17:28] \\
-	  1. At creation of a new project -> create empty .potentials and .validates files.
-	  2. Warning at "Save" button: try to avoid warnings at "New" and "Open" buttons. 
-	     - For the "New" button: NO warning necessary -> only warning when hitting "Save" button
-	     - For the "Open" button: Depends how the editor loads the file.
-**** DONE Draft for PotentialTextEditStatusBar : public QWidget
-	 CLOSED: [2014-05-14 Wed 18:05]
-***** Specifications: 
-Status bar having the following fields: (from left to right)
-1. Current position in line and column
-2. Save status
-3. Current status (File loaded + name, file saved, created new file, file modified)
-4. Name of the file
-***** Members:
-QHBoxLayout* textEditStatusBarLayout
-QGridLayout* frame1Layout
-QGridLayout* frame2Layout
-QGridLayout* frame3Layout
-QGridLayout* frame4Layout
-QFrame* frame1 // for current position
-QFrame* frame2 // for save status
-QFrame* frame3 // for current status
-QFrame* frame4 // for name of the file
-QLabel* label1 // for current position
-QLabel* label2 // for save status
-QLabel* label3 // for current status
-QLabel* label4 // for name of the file
-***** Slots: 
-void setCurrentPos(int lin = 0, int col = 0)
-void setSaveStatus(bool saved = true)
-void setCurrentStatus(QString message)
-void setFileName(QString filename)
-void languageChange()
-*** DONE Change ParticleType class
-*** DONE Make a list of all files that are not needed anymore
-	 CLOSED: [2014-05-28 Wed 15:30]
-	1. [X] anglewidget.h
-	2. [X] angletable.h
-	3. [X] angle.h
-	4. [X] bn3bodywidget.h
-	5. [X] bn3bodytable.h
-	6. [X] bn3body.h
-	7. [X] bondswidget.h
-	8. [X] bondtable.h
-	9. [X] bond.h
-	10. [X] eamwidget.h
-	11. [X] eam.h
-	12. [X] dampeddispwidget.h
-	13. [X] dampeddisptable.h
-	14. [X] dampeddisp.h
-	15. [X] particlewidget.h
-	16. [X] particletable.h
-	17. [X] torsionwidget.h
-	18. [X] torsiontable.h
-	19. [X] torsion.h
-	20. [X] m_n_lennardjoneswidget.h
-	21. [X] m_n_lennardjonestable.h
-	22. [X] m_n_lennardjones.h
-	23. [X] lennardjoneswidget.h
-	24. [X] lennardjonestable.h
-	25. [X] lennardjones.h
-	26. [X] ljsplinewidget.h
-	27. [X] ljsplinetable.h
-	28. [X] ljspline.h
-	29. [X] ljspline2widget.h
-	30. [X] ljspline2table.h
-	31. [X] ljspline2.h
-	32. [X] improperwidget.h
-	33. [X] impropertable.h
-	34. [X] improper_datatype.h
-	35. [X] coulomb_erfcwidget.h
-	36. [X] coulomb_erfctable.h
-	37. [X] coulomb_erfc_datatype.h
-	38. [X] qtaperwidget.h
-	39. [X] qtapertable.h
-	40. [X] qtaper_datatype.h
-	41. [X] rsl2widget.h
-	42. [X] rsl2table.h
-	43. [X] rsl2.h
-	44. [X] stiwewidget.h
-	45. [X] stiwetable.h
-	46. [X] stiwe.h
-	47. [X] stiwe3bodywidget.h
-	48. [X] stiwe3bodytable.h
-	49. [X] stiwe3body.h
-	50. [X] suttonchenwidget.h
-	51. [X] suttonchentable.h
-	52. [X] suttonchen.h
-	53. [X] tbbuckinghamwidget.h
-	54. [X] tbbuckinghamtable.h
-	55. [X] tbbuckingham.h
-	56. [X] tbmorsewidget.h
-	57. [X] tbmorsetable.h
-	58. [X] morse.h
-	59. [X] tbtaperedgen1widget.h
-	60. [X] tbtaperedgen1table.h
-	61. [X] tbtaperedgen1.h
-	62. [X] tbtaperedgen2widget.h
-	63. [X] tbtaperedgen2table.h
-	64. [X] tbtaperedgen2.h
-	65. [X] tersoffwidget.h
-	66. [X] tersoffparticletable.h
-	67. [X] tersoffparticle.h
-	68. [X] tersoffmixitwidget.h
-	69. [X] tersoffmixittable.h
-	70. [X] tersoffmixit.h 
-*** DONE Change Makefile? 
-	 CLOSED: [2014-06-11 Wed 12:31]
-	- Note taken on [2014-05-15 Thu 13:51] \\
-	  In order to add/remove source files of cmake configuration. 
-	  1. Go to cmake folder. 
-	  2. in CMakeLists.txt add/remove corresponding source files. 
-	  3. call ccmake and add local installation path. 
-	  4. run cmake, make, and make install.
-*** DONE Adapt all interfaces to PotentialParameterUI
-	 CLOSED: [2014-06-11 Wed 12:31]
-**** DONE In tremologui.cpp
-	 CLOSED: [2014-06-02 Mon 11:11]
-
-**** DONE Outputmeasurement?
-	 CLOSED: [2014-06-11 Wed 12:31]
-*** DONE Proper error handling in PotentialParameter_Data class. 
-	 CLOSED: [2014-06-11 Wed 12:30]
-This concerns the methods: 
-- void PotentialParameter_Data::writeValidatesFile(QString filename)
-- bool PotentialParameter_Data::saveValues( QStringList keywordsIn, QStringList identifierListIn, ParseReturnList returnValueListIn )
-
-*** DONE Determine if QFileDialog::openFileName() works properly (in particular the filter)
-	 CLOSED: [2014-06-11 Wed 12:30]
-*** DONE Debugging [7/7]
-	 CLOSED: [2014-06-16 Mon 18:02]
-	CLOCK: [2014-06-11 Wed 10:00]--[2014-06-11 Wed 12:41] =>  2:41
-	CLOCK: [2014-06-05 Thu 12:19]--[2014-06-05 Thu 13:21] =>  1:02
-	CLOCK: [2014-06-05 Thu 10:28]--[2014-06-05 Thu 11:30] =>  1:02
-	CLOCK: [2014-06-04 Wed 15:00]--[2014-06-04 Wed 18:02] =>  3:02
-	CLOCK: [2014-06-04 Wed 12:48]--[2014-06-04 Wed 13:57] =>  1:09
-	CLOCK: [2014-06-03 Tue 15:24]--[2014-06-03 Tue 15:58] =>  0:34
-**** DONE Load file at startup
-	 CLOSED: [2014-06-03 Tue 15:44]
-**** DONE createFile() slot
-	 CLOSED: [2014-06-04 Wed 16:38]
-After starting tremologui and loading a project. The newFileAction does not give a warning when unsaved data is given in the textedit. (Only at the first time!)
-**** DONE Rewrite warning dialogs
-	 CLOSED: [2014-06-04 Wed 17:51]
-The warning is displayed whenever:
-- the save button is activated
-- the saveAll button is activated
-- a new project is created
-- a project is opened
-**** DONE Fix status bar
-	 CLOSED: [2014-06-05 Thu 13:12]
-- [X] Adapt size of status bar.
-- [X] Add connections for the status bar. 
-**** DONE Set connections. 
-	 CLOSED: [2014-06-05 Thu 13:12]
-Missing connections: 
-- [X] file name in status bar
-- [X] connection for dataChanged() signal
-**** DONE Rewrite tooltips for buttons
-	 CLOSED: [2014-06-05 Thu 13:12]
-**** DONE Write getter and setter for lastError member. 
-	 CLOSED: [2014-06-11 Wed 12:10]
-*** DONE Add "open project file" action
-	 CLOSED: [2014-06-18 Wed 16:42]
-	CLOCK: [2014-06-18 Wed 16:00]--[2014-06-18 Wed 16:42] =>  0:42
-*** DONE Add "undo/redo" actions
-	 CLOSED: [2014-06-18 Wed 16:42]
-	CLOCK: [2014-06-16 Mon 18:03]--[2014-06-16 Mon 18:46] =>  0:43
-	CLOCK: [2014-06-16 Mon 13:30]--[2014-06-16 Mon 13:55] =>  0:25
-*** DONE Clean "Solvers and Parallelization tab"
-	 CLOSED: [2014-06-18 Wed 17:54]
-	CLOCK: [2014-06-18 Wed 16:43]--[2014-06-18 Wed 17:54] =>  1:11
-*** DONE Change font in text edit (for example in ubuntu)
-	 CLOSED: [2014-06-24 Tue 13:31]
-*** DONE Adapt Manual
-	 CLOSED: [2014-06-30 Mon 11:03]
-	CLOCK: [2014-06-25 Wed 16:01]--[2014-06-25 Wed 17:50] =>  1:49
-	CLOCK: [2014-06-25 Wed 13:31]--[2014-06-25 Wed 15:00] =>  1:29
-	CLOCK: [2014-06-24 Tue 13:34]--[2014-06-24 Tue 13:58] =>  0:24
-	CLOCK: [2014-06-24 Tue 12:10]--[2014-06-24 Tue 13:34] =>  1:24
-The source files for the manual are written in file:~/tremologui/doc/. 
-**** Example text for the manual
-The potential parameter tab provides a text editor for editing the potential file of your current project. 
-<figure1>
-The text editor allows basic text editing functionalities. 
-The statusbar at the foot of the editor displays information about the cursor position, whether the file is modified or not, status messages and the path to the potential file. 
-The toolbar provides loading and saving functionalities for potential files. 
-- Revert To Project Stage: loads the potential file of your current project directory to the text editor. 
-- Clear File: Deletes all the text in the text editor. Note that the undo/redo history is cleared by this action. 
-- Open File: Opens a dialog window for potential file selection.
-- Save File To Project: Saves the current state of the text editor to the potential file of your current project. Note that your current potential file is overwritten by this action. 
-
-Additional information about the structure of potential files can be found in the Tremolo manual. 
-
-
-*** TODO Change screenshot in Tremolo-Manual
-
-** TODO Enable mpi-capable simulation in tremologui. 
-   CLOCK: [2014-07-09 Wed 14:12]--[2014-07-09 Wed 15:47] =>  1:35
-   CLOCK: [2014-07-08 Tue 12:28]--[2014-07-08 Tue 14:03] =>  1:35
-   CLOCK: [2014-07-07 Mon 13:56]--[2014-07-07 Mon 15:19] =>  1:23
-   CLOCK: [2014-07-02 Wed 14:08]--[2014-07-02 Wed 16:05] =>  1:57
-   CLOCK: [2014-06-30 Mon 12:02]--[2014-06-30 Mon 12:35] =>  0:33
-   CLOCK: [2014-06-30 Mon 11:00]--[2014-06-30 Mon 12:01] =>  1:01
-   CLOCK: [2014-06-23 Mon 14:35]--[2014-06-23 Mon 14:50] =>  0:15
-   - Note taken on [2014-06-23 Mon 14:41] \\
-	 Enable parallel-simulation functionality to tremologui. 
-	 The following tasks have to be done: 
-	 - Add option for local MPI-command to preference panel (has to be investigated) s.t. the local MPI command can be stated (xxx)
-	 - The "Start" button on the simulation tab should be capable to differentiate between the sequentiel and the parallel simulation by means of the number of processes given in the parallelization tab. 
-	   The starting command is =xxx -np x*y*z tremolo_mpi -p x,y,z, (-vx) project.tremolo=.
-*** DONE Add text edit for local MPI-command to preference panel 
-	 CLOSED: [2014-07-08 Tue 12:29]
-	- Note taken on [2014-07-07 Mon 13:58] \\
-	  The interface for the preference panel is stored in the class TGCCange in tgcchange.h
-For this the following has to be done: 
-1. [X] in tgCCange: 
-   - [X] add appropriate members
-   - [X] add appropriate slot -> /not necessary/
-   - [X] adapt constructor and languageChange()
-2. [-] in TremoloGUIConfig: 
-   - [ ] maybe add an extern variable
-   - [X] add appropriate members and key for QSettings object
-   - [ ] slot for testing the command?
-   - [X] appropriate signals
-   - [X] adapt constructor
-   - [X] adapt destructor
-   - [X] appropriate getter and setter methods
-   - [X] adapt changeConfig()
-*** DONE Fix storing of "Parallel simulation executable" in the Preference Panel
-	 CLOSED: [2014-07-03 Thu 14:47]
-	CLOCK: [2014-07-03 Thu 12:35]--[2014-07-03 Thu 14:47] =>  2:12
-*** DONE Continue to edit runsimulationui.h and runsimulationui.cpp
-	 CLOSED: [2014-07-09 Wed 15:06]
-*** TODO Review runsimulation.h and runsimulation.cpp
-*** TODO Add checking routine if line edit with local MPI-command is empty or not valid
-*** TODO Ask Christian about default value of local MPI command. Should there be a hint in which order the flags are supposed to be used? 
-*** TODO Add parallel simulation functionality to tremologui using the given MPI command and the number of processes indicated in the "Parallelization" tab.
-
-** TODO Change all author details and email adresses
-*** TODO change email adress in tremologuiconfig.cpp (ask Christian again). 
 
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-07-09 Wed 15:47], for week 2014-W28.
+Clock summary at [2014-07-22 Tue 17:22], for week 2014-W30.
 
 | Headline                                     | Time   |      |
 |----------------------------------------------+--------+------|
-| *Total time*                                 | *4:33* |      |
+| *Total time*                                 | *8:22* |      |
 |----------------------------------------------+--------+------|
-| Aufgaben                                     | 4:33   |      |
-| \__ TODO Enable mpi-capable simulation in... |        | 4:33 |
+| Aufgaben                                     | 8:22   |      |
+| \__ DONE Enable mpi-capable simulation in... |        | 5:00 |
+| \__ TODO Learn Dakota                        |        | 3:22 |
 #+END:
 
 ** Überstunden
@@ -711,28 +217,8 @@ Clock summary at [2014-07-09 Wed 15:47], for week 2014-W28.
 | 2014-W26 |     5:21 | -03:39:00 |
 | 2014-W27 |     5:43 | -03:17:00 |
 | 2014-W28 |     4:33 | -04:27:00 |
+| 2014-W29 |     0:23 | -08:37:00 |
+| 2014-W30 |     8:22 | -00:38:00 |
 |----------+----------+-----------|
-| Total    | 74:43:00 | -06:17:00 |
+| Total    | 83:28:00 | -15:32:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
-
-
-
-* Fragen [5/8]
-
-1. [X] Wann können branches aus dem Repository gelöscht werden? Von welchem Branch soll ich jetzt abzweigen? 
-   /Immer vom master-Branch abzweigen. Im Zweifelsfall nochmal nachfragen./
-2. [X] Frage an Christian: Sollen particles im validates file auch disabled werden können?
-   /Nein./
-3. [X] Option "Save as" in potentials tab? Evtl. Speichere schon verwendete Potentiale in extra Struktur?
-   /Nein./
-4. [X] Was soll im unteren 1/3 der "Potentials" Seite stehen?
-   /Voerst leer lassen. Soll nachher Platz für weitere Funktionalitäten bieten./
-5. [X] Was ist mit PotentialParameterData? Dies muss an den simulationtab übergeben werden (see tremologui.cpp, line 112)
-       Braucht die Potentials Seite einen Parser, damit ein PotentialParameterData Objekt erstellt werden kann?
-   /Parser soll vorhanden sein. Auch das PotentialParameter_Data Objekt soll weiterhin bestehen bleiben./
-6. [ ] Öffnet man ein neues Projekt, wenn man bei einem vorangegangenen Projekt nicht gesicherte Änderungen hat, dann erscheint zunächst eine Warnung, dass man noch ungesicherte Daten hat. Klickt man auf "Speichern" erscheint dann nochmals eine Warnung für den Potentialstab. Soll ich das ändern? (Eine Möglichkeit wäre evtl. im saveAll slot in tremologui.cpp den savestate des potentialstab auf true zu setzen).
-8. [ ] Sollte es einen Button geben, mit dem man das aktuelle Potentialsfile laden kann? 
-
-
-* SUMMARY
-1. How and where is the simulation run?

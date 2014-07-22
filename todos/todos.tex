@@ -1,4 +1,4 @@
-% Created 2014-04-23 Wed 15:21
+% Created 2014-07-22 Tue 17:22
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -17,7 +17,7 @@
 \tolerance=1000
 \providecommand{\alert}[1]{\textbf{#1}}
 
-\title{Aufgaben}
+\title{todos}
 \author{Pascal Huber}
 \date{\today}
 \hypersetup{
@@ -33,147 +33,25 @@
 \tableofcontents
 \vspace*{1cm}
 \begin{itemize}
-\item Note taken on \textit{2014-04-16 Wed 15:57} \\
-Besprechung mit Christian um \textit{2014-04-16 Wed 15:57}
-    
-    Zwei Aufgabenziele:
+\item Note taken on \textit{2014-07-22 Tue 17:11} \\
+Aufgabenbeschreibung:
+
+     Im Zuge einer Software zur Ionen-Migration (Berechnung über die Poisson-Nernst-Planck Gleichung) soll ein script geschrieben werden, dass als Input Diffusionswerte, chemisches Potential und erwartete Fehler entgegennimmt und anschließend den elektrischen Fluß bestimmt.
+     Dazu soll das Optimierungsprogramm DAKOTA (Design Analysis Kit for Optimization and Terascale Applications) von den SNL verwendet werden.
+
+     Meine Aufgabe ist es nun
 \begin{enumerate}
-\item Kurzfristiges Ziel:
-       Überarbeitung des ``potentials'' tabs
+\item Mache mich Dakota vertraut
 \begin{itemize}
-\item Übernehme Elemente von ``Datafile'' tab
-\item Obere 2/3 des Tabs: Editor-Fenster in das ein Potentials-file geladen werden soll
-\begin{itemize}
-\item der Editor soll die Funktionen ``open'' and ``save'' bereitstellen
-\item open-button:
-\begin{itemize}
-\item soll erweiterbar sein (d.h. es sollen noch mögliche ``Suchfunktionen'' eingebunden werden können -> handler)
-\item vorerst: einen beliebigen Ordner öffnen
-\item nach .potential files filtern
-\item nachdem der Nutzer ein file ausgewählt hat, soll eine Kopie des files in den Projekt-Ordner gelegt werden mit dem Namen ``PROJECTNAME.potentials''
-\item falls nach Sicherung eines .potential-files ein weiteres file geöffnet wird, soll eine Warnung zum ``Datenverlust'' abgegeben werden.
-\end{itemize}
-\item save-button:
-\begin{itemize}
-\item speichert die Änderungen im .potentials file.
-\end{itemize}
-\end{itemize}
-\item Stelle sicher, dass immer ein .validates-file erzeugt wird (notfalls auch leer (default)).
-\end{itemize}
-\item Langfristiges Ziel:
-\begin{itemize}
-\item Verifizieren von Ensembles
-\item etwas mit Monte-Carlo Methoden (siehe folgende Links)
-\begin{itemize}
-\item \href{file:///home/huber/Work/literature/Possible Master topics/Combining molecular dynamics with Monte Carlo simulations.pdf}{Combining molecular dynamics and Monte Carlo methods}
-\item \href{file:///home/huber/Work/literature/Possible Master topics/Uniform-acceptance force-bias Monte Carlo method with time scale to study solid-state diffusion.pdf}{Uniform-acceptance force-bias Monte Carlo method}
-\end{itemize}
+\item Lese das gesamte Manual (Version 5.4).
+\item Schaue, was für das obige Problem wichtig sein kann.
 \end{itemize}
 \end{enumerate}
-\end{itemize}
+Poisson-Nernst-Planck Gleichung
 
-\section{\textbf{TODO} Create new branch}
-\label{sec-1}
+     $\partial$$_t$ c = $\nabla$ [D ($\nabla$ c + $\alpha$ $\nabla$ $\phi$ + $\beta$ c $\nabla$ $\mu$ )]
 
-  
-\section{\textbf{TODO} Determine which files have to be modified}
-\label{sec-2}
-\subsection{Files for Potential-tab}
-\label{sec-2-1}
-
-potential.cpp                
-potential.h                  
-potentialparameter$_{\mathrm{data}}$.cpp  
-potentialparameter$_{\mathrm{data}}$.h    
-potentialparametertable.cpp  
-potentialparametertable.h
-potentialparameterui.cpp
-potentialparameterui.h
-potentialparameteruisuper.cpp
-potentialparameteruisuper.h
-potentialparameterwidget.cpp
-potentialparameterwidget.h
-\subsection{Files for Datafile-tab}
-\label{sec-2-2}
-
-parametertextedit.h
-parametertextedit.cpp
-\subsection{Description of parametertextedit.h and parametertextedit.cpp}
-\label{sec-2-3}
-
-\begin{itemize}
-\item Two classes
-\begin{enumerate}
-\item class textEditStatusBar : public QWidget
-\item class parameterTextEdit : public QMainWindow
-\end{enumerate}
-\end{itemize}
-\subsubsection{Description of textEditStatusBar class}
-\label{sec-2-3-1}
-
-
-Implements the status bar in the ``Datafile''-tab (just at the lower end of the window). 
-
-The status bar consists of 4 different frames (QFrame) containing each a QLabel with
-\begin{itemize}
-\item the current position of the cursor
-\item a indicator that shows if the file has been changed
-\item the type of the file
-\item the name of the file
-\end{itemize}
-
-The layout is managed by a QHBoxLayout for the statusbar itself and for different GridLayouts for each of the frames. 
-
-The following slots are implemented:
-\begin{itemize}
-\item changeCurrentPos
-\item setFilename
-\item setEditMode
-\item languageChange
-\end{itemize}
-\subsubsection{Description of parameterTextEdit class}
-\label{sec-2-3-2}
-
-
-Implements a texteditor for datafiles in the ``Datafile''-tab. It is essentially a QMainWindow with a QTextEdit. Moreover the class has a textEditStatusBar as child object.
-
-The class contains the following children:
-\begin{itemize}
-\item QTextEdit for the texteditor window
-\item QToolBar a toolbar for the texteditor
-\item QActions for all buttons on the toolbar
-\item QStrings to save the parameter file and a suffix
-\item textEditStatusBar
-\item bools for different indications
-\end{itemize}
-
-The layout is managed by only one QVBoxLayout. 
-
-There are only a few method implemented in the class: 
-\begin{itemize}
-\item bool isSaved() const // returns true if the file is saved
-\item void setSavedStatus(bool status) // sets the status of the file
-\item void fileLoad(QString File) // loads the file that is supposed to be edited
-\item void renewTextEdit2() // ?
-\end{itemize}
-
-Slots:
-\begin{itemize}
-\item void fileSave() // saves the file
-\item void reloadfile(QString parameterFileIn) // reload the file
-\item void clearBuffer(bool ask=true) // ?
-\item void setLoadingfileStatus(bool status) // ?
-\item void enableFileSaveAction(void) // ?
-\item void changeCurrentPos (void) // ?
-\item void fileOpen() // open new file
-\item fileSaveAs() // save file as
-\item textEditChanged // action if textEdit has been changed
-\item virtual void languageChange() // set language
-\end{itemize}
-
-Signals:
-\begin{itemize}
-\item void newSaveState() // is send if the save-state of the file changes
+     $\Delta$ $\phi$ = $\sum$$_i$ z$_i$ c$_i$
 \end{itemize}
 
 \end{document}
