@@ -22,6 +22,8 @@
 /todos/pics
 /.emacsConfiguration
 /notes/C---ABC/
+/notes/Bash-ABC/
+/notes/Git-Cheat-Sheet/
 
 *.o
 *.ui
