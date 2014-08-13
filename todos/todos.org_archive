@@ -4525,3 +4525,44 @@ For this the following has to be done:
 
 ** DONE Ask Christian about default value of local MPI command. Should there be a hint in which order the flags are supposed to be used?
    CLOSED: [2014-07-22 Tue 17:10]
+
+* DONE Installiere Dakota
+    CLOSED: [2014-07-23 Wed 16:56]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-08-07 Thu 09:06
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Learn Dakota
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+Problem: Falsche Boost Version?
+
+* DONE Make short overview about Dakota
+  CLOSED: [2014-08-05 Tue 10:13] SCHEDULED: <2014-07-24 Thu>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-08-07 Thu 09:07
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Learn Dakota
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+** DONE Do Second Part of Dakota Tutorial (Chapter two of the manual)
+   CLOSED: [2014-08-04 Mon 10:43] SCHEDULED: <2014-07-31 Thu 8:00-12:00>
+   CLOCK: [2014-08-04 Mon 10:19]--[2014-08-04 Mon 10:43] =>  0:24
+   CLOCK: [2014-07-31 Thu 10:04]--[2014-07-31 Thu 11:55] =>  1:51
+   CLOCK: [2014-07-30 Wed 17:52]--[2014-07-30 Wed 19:34] =>  1:42
+   CLOCK: [2014-07-30 Wed 15:45]--[2014-07-30 Wed 16:25] =>  0:40
+   CLOCK: [2014-07-30 Wed 15:20]--[2014-07-30 Wed 15:30] =>  0:10
+   CLOCK: [2014-07-30 Wed 14:34]--[2014-07-30 Wed 15:20] =>  0:46
+
+* DONE Learn about the Poisson-Nernst-Planck Equation and ionic migration
+    CLOSED: [2014-08-06 Wed 09:08] SCHEDULED: <2014-08-02 Sat>
+    CLOCK: [2014-08-04 Mon 09:09]--[2014-08-04 Mon 10:12] =>  1:03
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-08-07 Thu 09:07
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben/Learn Dakota
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+The theory can be found in [[file:~/dakota/dakota-notes/diplom_neuen.pdf][Christians diploma thesis]].

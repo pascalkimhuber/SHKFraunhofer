@@ -175,6 +175,30 @@ http://www.panix.com/~elflord/unix/grep.html
    CLOCK: [2014-07-29 Tue 14:09]--[2014-07-29 Tue 17:48] =>  3:39
    CLOCK: [2014-07-23 Wed 14:00]--[2014-07-23 Wed 16:56] =>  2:56
    CLOCK: [2014-07-22 Tue 14:00]--[2014-07-22 Tue 17:22] =>  3:22
+   - Note taken on [2014-08-13 Wed 15:38] \\
+     Besprechung mit Christian am 13.08.2014, 15:00 Uhr
+     1. Festlegung der Parameter Variablen und Response functions.
+        Wird die Simulation als Blackbox betrachtet, ist folgender Input für die Analyse von Bedeutung:
+        - (1 - n) Diffusionskoeffizienten + Unschärfe, d.h.
+          D_0 + \Delta D_0, D_1 + \Delta D_1, D_2 + \Delta D_2, ... ,
+          wobei n wahrscheinlich bei 1 - 10 liegt.
+        - (1 - n) Gradienten von Chemischen Potenzialen + Unschärfe, d.h.
+          \nable \mu_0 + \Delta \nabla \mu_0, \nable \mu_1 + \Delta \nabla \mu_1, \nable \mu_2 + \Delta \nabla \mu_2,...
+        Als Output erhalten wir den (elektrischen) Fluss.
+        Notizen: Die Diffusionskoeffizienten sind in der Simulation von der Konzentration abhängig. Wir erhalten als Datensätze die Werte von Diffusionskoeffizient+Unschärfe und vom chemischen Potenzial+Unschärfe für verschiedene Konzentrationswerte.
+        Die Anzahl der Input Variablen hängt somit auch von der Genauigkeit der Datensätze ab: Bei geringer Genauigkeit kann es sein, dass eine Änderung der Konzentration nicht einen anderen Wert des Diffusionskoeffizienten erfordert.
+        Mögliches Szenario wäre also z. Bsp.
+        - Input:
+          - D_0, D_1, D_2, D_3
+          - mu_0, mu_1, mu_2
+        - Output:
+          - Fluss
+        Die Samples müssen dann dem durch die Unschärfen definierten Bereichen entnommen werden.
+     2. Aufgabe.
+        Ich soll die von Dakota bereitgestellten Methoden von UQ, Parameter Studies, DoE, Sensitivity Analysis durchsuchen und nach geeigneten Methoden suchen.
+        Es sollen folgende Aussagen gemacht werden können:
+        - Welche Parameter (welche Diffusionskoeffizienten, welche Potentiale) sind entscheidend für den Fluss?
+        - Wie sensibel ist der Output gegenüber den Veränderungen an den Input Variablen?
    - Note taken on [2014-07-23 Wed 17:00] \\
      All notes can be found in [[file:~/dakota/dakota-notes/notes.org][this]] org file.
    - Note taken on [2014-07-22 Tue 17:11] \\
@@ -206,6 +230,10 @@ Problem: Falsche Boost Version?
      CLOCK: [2014-07-30 Wed 15:45]--[2014-07-30 Wed 16:25] =>  0:40
      CLOCK: [2014-07-30 Wed 15:20]--[2014-07-30 Wed 15:30] =>  0:10
      CLOCK: [2014-07-30 Wed 14:34]--[2014-07-30 Wed 15:20] =>  0:46
+*** DONE Learn about the Poisson-Nernst-Planck Equation and ionic migration
+    CLOSED: [2014-08-06 Wed 09:08] SCHEDULED: <2014-08-02 Sat>
+    CLOCK: [2014-08-04 Mon 09:09]--[2014-08-04 Mon 10:12] =>  1:03
+The theory can be found in [[file:~/dakota/dakota-notes/diplom_neuen.pdf][Christians diploma thesis]].
 
 *** TODO Read Chapter about Parameter studies and UQ
     SCHEDULED: <2014-08-04 Mon 8:00-12:00>
@@ -223,34 +251,35 @@ Problem: Falsche Boost Version?
 **** DONE Finish Chapter about Parameter Studies (do some examples)
      CLOSED: [2014-08-05 Tue 12:44] SCHEDULED: <2014-08-05 Tue 8:00-13:00>
      CLOCK: [2014-08-05 Tue 10:00]--[2014-08-05 Tue 12:43] =>  2:43
+**** DONE What does the correlation matrices mean?
+     CLOSED: [2014-08-13 Wed 15:58]
+     CLOCK: [2014-08-13 Wed 13:20]--[2014-08-13 Wed 15:58] =>  2:38
+     CLOCK: [2014-08-13 Wed 10:35]--[2014-08-13 Wed 12:20] =>  1:45
+     Notes can be found in the [[file:~/dakota/dakota-notes/notes.org][Dakota-Notes-file]].
+**** TODO Read Chapter 5 about Uncertainty Quantification Capabilites
+     SCHEDULED: <2014-08-14 Thu 8:00-13:00>
+     CLOCK: [2014-08-13 Wed 16:43]--[2014-08-13 Wed 16:47] =>  0:04
+     CLOCK: [2014-08-13 Wed 16:00]--[2014-08-13 Wed 16:43] =>  0:43
+     Continue with Chapter 5.1.1
 **** TODO Read Chapter 4 about Design of Experiments (do some examples)
      SCHEDULED: <2014-08-07 Thu 08:00-13:00>
-     CLOCK: [2014-08-06 Wed 09:49]--[2014-08-06 Wed 12:50] =>  3:01
-**** TODO Prepare questions and answers for Christian
-     SCHEDULED: <2014-08-07 Thu 10:00-11:00>
+     CLOCK: [2014-08-06 Wed 09:49]--[2014-08-06 Wed 12:00] =>  2:11
 **** TODO Read userguidlines for sampling, DACE, see Chapter 4.7, Table 4.4
-**** TODO What does the correlation matrices mean?
 **** TODO How good are the star sampling methods of Dakota?
 **** TODO Are there any star correlation matrices?
-*** DONE Learn about the Poisson-Nernst-Planck Equation and ionic migration
-    CLOSED: [2014-08-06 Wed 09:08] SCHEDULED: <2014-08-02 Sat>
-    CLOCK: [2014-08-04 Mon 09:09]--[2014-08-04 Mon 10:12] =>  1:03
-The theory can be found in [[file:~/dakota/dakota-notes/diplom_neuen.pdf][Christians diploma thesis]].
 
 
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-08-06 Wed 14:38], for week 2014-W32.
+Clock summary at [2014-08-13 Wed 16:47], for week 2014-W33.
 
-| Headline                                     | Time   |      |      |
-|----------------------------------------------+--------+------+------|
-| *Total time*                                 | *9:25* |      |      |
-|----------------------------------------------+--------+------+------|
-| Aufgaben                                     | 9:25   |      |      |
-| \__ TODO Learn Dakota                        |        | 9:25 |      |
-| \_____ DONE Make short overview about Dakota |        |      | 0:24 |
-| \_____ TODO Read Chapter about Parameter...  |        |      | 7:58 |
-| \_____ DONE Learn about the...               |        |      | 1:03 |
+| Headline                                    | Time   |      |      |
+|---------------------------------------------+--------+------+------|
+| *Total time*                                | *5:10* |      |      |
+|---------------------------------------------+--------+------+------|
+| Aufgaben                                    | 5:10   |      |      |
+| \__ TODO Learn Dakota                       |        | 5:10 |      |
+| \_____ TODO Read Chapter about Parameter... |        |      | 5:10 |
 #+END:
 
 ** Überstunden
@@ -268,7 +297,8 @@ Clock summary at [2014-08-06 Wed 14:38], for week 2014-W32.
 | 2014-W29 |      0:23 | -08:37:00 |
 | 2014-W30 |     11:18 |  02:18:00 |
 | 2014-W31 |      8:48 | -00:12:00 |
-| 2014-W32 |      9:25 |  00:25:00 |
+| 2014-W32 |     11:48 |  02:48:00 |
+| 2014-W33 |      5:10 | -03:50:00 |
 |----------+-----------+-----------|
-| Total    | 104:37:00 | -12:23:00 |
+| Total    | 112:10:00 | -13:50:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
