@@ -311,6 +311,7 @@ The theory can be found in [[file:~/dakota/dakota-notes/diplom_neuen.pdf][Christ
 
 ** TODO Write Dakota Files for CCD/BB and interval analysis
    SCHEDULED: <2014-09-16 Tue>
+   CLOCK: [2014-09-18 Thu 15:00]--[2014-09-18 Thu 16:05] =>  1:05
 Write two dakota input files with good documentation
 - one for sensitivity analysis CCD or BB
 - one for interval analysis
@@ -322,15 +323,14 @@ Furthermore I should investigate if both analysis can be combined.
 
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-08-28 Thu 17:10], for week 2014-W35.
+Clock summary at [2014-09-18 Thu 16:05], for week 2014-W38.
 
-| Headline                                    | Time    |       |       |
-|---------------------------------------------+---------+-------+-------|
-| *Total time*                                | *11:23* |       |       |
-|---------------------------------------------+---------+-------+-------|
-| Aufgaben                                    | 11:23   |       |       |
-| \__ TODO Learn Dakota`                      |         | 11:23 |       |
-| \_____ TODO Read Chapter about Parameter... |         |       | 11:23 |
+| Headline                                  | Time   |      |
+|-------------------------------------------+--------+------|
+| *Total time*                              | *1:05* |      |
+|-------------------------------------------+--------+------|
+| Aufgaben                                  | 1:05   |      |
+| \__ TODO Write Dakota Files for CCD/BB... |        | 1:05 |
 #+END:
 
 | Week     |      Time |  Overtime |
@@ -351,7 +351,8 @@ Clock summary at [2014-08-28 Thu 17:10], for week 2014-W35.
 | 2014-W33 |     11:04 |  02:04:00 |
 | 2014-W34 |     15:04 |  06:04:00 |
 | 2014-W35 |     11:23 |  02:23:00 |
-| 2014-W37 |      4:00 | -05:00:00 |
+| 2014-W37 |      6:00 | -03:00:00 |
+| 2014-W38 |      0:00 | -09:00:00 |
 |----------+-----------+-----------|
-| Total    | 148:31:00 | -04:29:00 |
+| Total    | 150:31:00 | -11:29:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
