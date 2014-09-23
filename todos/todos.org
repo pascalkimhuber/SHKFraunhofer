@@ -312,6 +312,7 @@ The theory can be found in [[file:~/dakota/dakota-notes/diplom_neuen.pdf][Christ
 
 ** TODO Write Dakota Files for CCD/BB and interval analysis
    SCHEDULED: <2014-09-16 Tue>
+   CLOCK: [2014-09-23 Tue 14:30]--[2014-09-23 Tue 15:35] =>  1:05
    CLOCK: [2014-09-22 Mon 13:30]--[2014-09-22 Mon 17:30] =>  4:00
    CLOCK: [2014-09-22 Mon 10:55]--[2014-09-22 Mon 12:30] =>  1:35
    CLOCK: [2014-09-21 Sun 19:00]--[2014-09-21 Sun 20:50] =>  1:50
@@ -326,19 +327,22 @@ Furthermore I should investigate if both analysis can be combined.
 It seems that both methods can be written into one file. See this example [[file:~/dummi/rosen_ccd.in][here]].
 *** TODO Examine differences between hybrid etc.
 
-** TODO Add Hessians to tremolo
 
+** TODO Add Hessians to tremolo
+   CLOCK: [2014-09-23 Tue 15:35]--[2014-09-23 Tue 17:23] =>  1:48
+*** TODO Understand what potentials exist, how and where they are computed.
 
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-09-22 Mon 17:28], for week 2014-W39.
+Clock summary at [2014-09-23 Tue 17:24], for week 2014-W39.
 
 | Headline                                  | Time   |      |
 |-------------------------------------------+--------+------|
-| *Total time*                              | *5:35* |      |
+| *Total time*                              | *8:28* |      |
 |-------------------------------------------+--------+------|
-| Aufgaben                                  | 5:35   |      |
-| \__ TODO Write Dakota Files for CCD/BB... |        | 5:35 |
+| Aufgaben                                  | 8:28   |      |
+| \__ TODO Write Dakota Files for CCD/BB... |        | 6:40 |
+| \__ TODO Add Hessians to tremolo          |        | 1:48 |
 #+END:
 
 | Week     |      Time |  Overtime |
@@ -361,7 +365,7 @@ Clock summary at [2014-09-22 Mon 17:28], for week 2014-W39.
 | 2014-W35 |     11:23 |  02:23:00 |
 | 2014-W37 |      6:00 | -03:00:00 |
 | 2014-W38 |      8:09 | -00:51:00 |
-| 2014-W39 |      5:35 | -03:25:00 |
+| 2014-W39 |      8:28 | -00:32:00 |
 |----------+-----------+-----------|
-| Total    | 164:15:00 | -06:45:00 |
+| Total    | 167:08:00 | -03:52:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
