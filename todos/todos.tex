@@ -1,4 +1,4 @@
-% Created 2014-07-22 Tue 17:22
+% Created 2014-10-01 Wed 11:01
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -32,26 +32,13 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 \vspace*{1cm}
-\begin{itemize}
-\item Note taken on \textit{2014-07-22 Tue 17:11} \\
-Aufgabenbeschreibung:
-
-     Im Zuge einer Software zur Ionen-Migration (Berechnung über die Poisson-Nernst-Planck Gleichung) soll ein script geschrieben werden, dass als Input Diffusionswerte, chemisches Potential und erwartete Fehler entgegennimmt und anschließend den elektrischen Fluß bestimmt.
-     Dazu soll das Optimierungsprogramm DAKOTA (Design Analysis Kit for Optimization and Terascale Applications) von den SNL verwendet werden.
-
-     Meine Aufgabe ist es nun
-\begin{enumerate}
-\item Mache mich Dakota vertraut
-\begin{itemize}
-\item Lese das gesamte Manual (Version 5.4).
-\item Schaue, was für das obige Problem wichtig sein kann.
-\end{itemize}
-\end{enumerate}
-Poisson-Nernst-Planck Gleichung
-
-     $\partial$$_t$ c = $\nabla$ [D ($\nabla$ c + $\alpha$ $\nabla$ $\phi$ + $\beta$ c $\nabla$ $\mu$ )]
-
-     $\Delta$ $\phi$ = $\sum$$_i$ z$_i$ c$_i$
-\end{itemize}
+Dabei ist \(\partial_{\vec{r}_i} \partial_{\vec{r}_j} V(\vec{r}_1, \dots, \vec{r}_N)\) eine \(3\times 3\)-Matrix der Form
+\[
+\begin{pmatrix}
+\partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots) & \dots & \partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots) \\
+\vdots & & \vdots \\
+\partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots) & \dots & \partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots)
+\end{pmatrix}
+\]
 
 \end{document}

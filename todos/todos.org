@@ -329,6 +329,20 @@ It seems that both methods can be written into one file. See this example [[file
 
 
 ** TODO Add Hessians to tremolo
+   - Note taken on [2014-10-01 Wed 15:00] \\
+     Aufgabenbesprechung mit Christian am [2014-10-01 Wed 15:00]
+
+     1. Grundaufgabe:
+        - Füge Datenstrukturen für lokale Hesse-Matrizen und zugehörige particle-Matrix-Map (Hashmap) zum Particle-struct hinzu.
+        - Die Berechnung der Hesse-Matrix sollte für das Lennard-Jones-Potential in CalcLCForceForParticle aus lcforces.c geschehen. Beachte dabei:
+          + Flag-Abfrage: Hessian or noHessian?
+          + Finde heraus was und wo die Registrierung der Kraftfunktion dabei ist.
+
+     2. Anmerkungen:
+        - hash-tables etc. finden sich in [[file:~/tremolo/src/hash/hashtab.h]]
+
+     3. Sonstiges:
+        - Vertragsverlängerung: Christian und ich haben jetzt erst einmal eine Vertragsverlängerung von 3 Monaten festgelegt. Wir wraten jetzt zunächst die nächsten 2 Wochen zum endgültigen Entschluss ab.
    CLOCK: [2014-09-23 Tue 15:35]--[2014-09-23 Tue 17:23] =>  1:48
 *** Overview
 **** Basics:
@@ -350,30 +364,37 @@ where \(U_{i,j}\) is the pair potential between the particles \(i\) and \(j\).
 2. [ ] Which operations should be possible for the Hessians?
 
 *** DONE Understand what potentials exist, how and where they are computed.
-    CLOSED: [2014-09-24 Wed 13:39]
+    CLOSED: [2014-10-01 Wed 15:05]
+    CLOCK: [2014-10-01 Wed 09:00]--[2014-10-01 Wed 13:19] =>  4:19
     CLOCK: [2014-09-24 Wed 10:00]--[2014-09-24 Wed 12:45] =>  2:45
-
+A summary can be found [[file:hessians.pdf][here. ]]
 *** TODO Overview of Particle struct and force computation in tremolo.
     CLOCK: [2014-09-24 Wed 13:30]--[2014-09-24 Wed 14:30] =>  1:00
 
 **** TODO Have a look at particle.c and particle.h
+     CLOCK: [2014-10-01 Wed 14:25]--[2014-10-01 Wed 15:06] =>  0:41
 
 **** TODO Have a look at the force computation in tremolo.
 
 
+*** TODO Have a look at the hash-table implementation in tremololo and hash-map implementations in general
+
+*** TODO Add data structures to Particle struct in data.h
+
+*** TODO Write Hessian calculation in lcforces.c
+
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-09-24 Wed 14:30], for week 2014-W39.
+Clock summary at [2014-10-01 Wed 15:07], for week 2014-W40.
 
-| Headline                                       | Time    |      |      |
-|------------------------------------------------+---------+------+------|
-| *Total time*                                   | *12:13* |      |      |
-|------------------------------------------------+---------+------+------|
-| Aufgaben                                       | 12:13   |      |      |
-| \__ DONE Write Dakota Files for CCD/BB...      |         | 6:40 |      |
-| \__ TODO Add Hessians to tremolo               |         | 5:33 |      |
-| \_____ DONE Understand what potentials...      |         |      | 2:45 |
-| \_____ TODO Overview of Particle struct and... |         |      | 1:00 |
+| Headline                                       | Time   |      |      |
+|------------------------------------------------+--------+------+------|
+| *Total time*                                   | *5:00* |      |      |
+|------------------------------------------------+--------+------+------|
+| Aufgaben                                       | 5:00   |      |      |
+| \__ TODO Add Hessians to tremolo               |        | 5:00 |      |
+| \_____ DONE Understand what potentials...      |        |      | 4:19 |
+| \_____ TODO Overview of Particle struct and... |        |      | 0:41 |
 #+END:
 
 | Week     |      Time |  Overtime |
@@ -397,6 +418,7 @@ Clock summary at [2014-09-24 Wed 14:30], for week 2014-W39.
 | 2014-W37 |      6:00 | -03:00:00 |
 | 2014-W38 |      8:09 | -00:51:00 |
 | 2014-W39 |     12:13 |  03:13:00 |
+| 2014-W40 |      5:00 | -04:00:00 |
 |----------+-----------+-----------|
-| Total    | 170:53:00 | -00:07:00 |
+| Total    | 175:53:00 | -04:07:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
