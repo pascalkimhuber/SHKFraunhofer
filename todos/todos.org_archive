@@ -4566,3 +4566,274 @@ Problem: Falsche Boost Version?
   :ARCHIVE_TODO: DONE
   :END:
 The theory can be found in [[file:~/dakota/dakota-notes/diplom_neuen.pdf][Christians diploma thesis]].
+
+* Aufgaben
+  CLOCK: [2014-08-20 Wed 15:55]--[2014-08-20 Wed 15:55] =>  0:00
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-10-07 Tue 14:25
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_CATEGORY: todos
+  :END:
+  - Note taken on [2014-04-16 Wed 15:57] \\
+        Besprechung mit Christian um [2014-04-16 Wed 15:57]
+        Zwei Aufgabenziele:
+        1. Kurzfristiges Ziel:
+           Überarbeitung des "potentials" tabs
+           - Übernehme Elemente von "Datafile" tab
+           - Obere 2/3 des Tabs: Editor-Fenster in das ein Potentials-file geladen werden soll
+                 - der Editor soll die Funktionen "open" and "save" bereitstellen
+                 - open-button:
+                   + soll erweiterbar sein (d.h. es sollen noch mögliche "Suchfunktionen" eingebunden werden können -> handler)
+                   + vorerst: einen beliebigen Ordner öffnen
+                   + nach .potential files filtern
+                   + nachdem der Nutzer ein file ausgewählt hat, soll eine Kopie des files in den Projekt-Ordner gelegt werden mit dem Namen "PROJECTNAME.potentials"
+                   + falls nach Sicherung eines .potential-files ein weiteres file geöffnet wird, soll eine Warnung zum "Datenverlust" abgegeben werden.
+                 - save-button:
+                   + speichert die Änderungen im .potentials file.
+           - Stelle sicher, dass immer ein .validates-file erzeugt wird (notfalls auch leer (default)).
+        2. Langfristiges Ziel:
+           - Verifizieren von Ensembles
+           - etwas mit Monte-Carlo Methoden (siehe folgende Links)
+                 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
+                 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
+
+** DONE Learn Dakota
+   CLOSED: [2014-09-12 Fri 11:27]
+   CLOCK: [2014-07-29 Tue 14:09]--[2014-07-29 Tue 17:48] =>  3:39
+   CLOCK: [2014-07-23 Wed 14:00]--[2014-07-23 Wed 16:56] =>  2:56
+   CLOCK: [2014-07-22 Tue 14:00]--[2014-07-22 Tue 17:22] =>  3:22
+   - Note taken on [2014-08-20 Wed 15:56] \\
+     Treffen mit Christian am 20.08.2014
+
+     Weiteres Vorgehen:
+     1. Abschluss der Sampling Methoden
+     2. Details zu den Intervall-Methoden:
+        - Kosten
+        - Lokale vs. Global (beides ausprobieren)
+     3. Weitere Recherche zu sensitivity analysis: Main variables...
+   - Note taken on [2014-08-13 Wed 15:38] \\
+     Besprechung mit Christian am 13.08.2014, 15:00 Uhr
+     1. Festlegung der Parameter Variablen und Response functions.
+        Wird die Simulation als Blackbox betrachtet, ist folgender Input für die Analyse von Bedeutung:
+        - (1 - n) Diffusionskoeffizienten + Unschärfe, d.h.
+          D_0 + \Delta D_0, D_1 + \Delta D_1, D_2 + \Delta D_2, ... ,
+          wobei n wahrscheinlich bei 1 - 10 liegt.
+        - (1 - n) Gradienten von Chemischen Potenzialen + Unschärfe, d.h.
+          \nable \mu_0 + \Delta \nabla \mu_0, \nable \mu_1 + \Delta \nabla \mu_1, \nable \mu_2 + \Delta \nabla \mu_2,...
+        Als Output erhalten wir den (elektrischen) Fluss.
+        Notizen: Die Diffusionskoeffizienten sind in der Simulation von der Konzentration abhängig. Wir erhalten als Datensätze die Werte von Diffusionskoeffizient+Unschärfe und vom chemischen Potenzial+Unschärfe für verschiedene Konzentrationswerte.
+        Die Anzahl der Input Variablen hängt somit auch von der Genauigkeit der Datensätze ab: Bei geringer Genauigkeit kann es sein, dass eine Änderung der Konzentration nicht einen anderen Wert des Diffusionskoeffizienten erfordert.
+        Mögliches Szenario wäre also z. Bsp.
+        - Input:
+          - D_0, D_1, D_2, D_3
+          - mu_0, mu_1, mu_2
+        - Output:
+          - Fluss
+        Die Samples müssen dann dem durch die Unschärfen definierten Bereichen entnommen werden.
+     2. Aufgabe.
+        Ich soll die von Dakota bereitgestellten Methoden von UQ, Parameter Studies, DoE, Sensitivity Analysis durchsuchen und nach geeigneten Methoden suchen.
+        Es sollen folgende Aussagen gemacht werden können:
+        - Welche Parameter (welche Diffusionskoeffizienten, welche Potentiale) sind entscheidend für den Fluss?
+        - Wie sensibel ist der Output gegenüber den Veränderungen an den Input Variablen?
+   - Note taken on [2014-07-23 Wed 17:00] \\
+     All notes can be found in [[file:~/dakota/dakota-notes/notes.org][this]] org file.
+   - Note taken on [2014-07-22 Tue 17:11] \\
+     Aufgabenbeschreibung:
+
+     Im Zuge einer Software zur Ionen-Migration (Berechnung über die Poisson-Nernst-Planck Gleichung) soll ein script geschrieben werden, dass als Input Diffusionswerte, chemisches Potential und erwartete Fehler entgegennimmt und anschließend den elektrischen Fluß bestimmt.
+     Dazu soll das Optimierungsprogramm DAKOTA (Design Analysis Kit for Optimization and Terascale Applications) von den SNL verwendet werden.
+
+     Meine Aufgabe ist es nun
+     1. Mache mich Dakota vertraut
+        + Lese das gesamte Manual (Version 5.4).
+        + Schaue, was für das obige Problem wichtig sein kann.
+     2. Schreibe ein Script (nach Absprache mit Christian)
+
+     _Poisson-Nernst-Planck Gleichung_
+     \partial_t c = \nabla [D (\nabla c + \alpha \nabla \phi + \beta c \nabla \mu )]
+     \Delta \phi = \sum_i z_i c_i
+*** DONE Installiere Dakota
+    CLOSED: [2014-07-23 Wed 16:56]
+Problem: Falsche Boost Version?
+
+*** DONE Make short overview about Dakota
+    CLOSED: [2014-08-05 Tue 10:13] SCHEDULED: <2014-07-24 Thu>
+**** DONE Do Second Part of Dakota Tutorial (Chapter two of the manual)
+     CLOSED: [2014-08-04 Mon 10:43] SCHEDULED: <2014-07-31 Thu 8:00-12:00>
+     CLOCK: [2014-08-04 Mon 10:19]--[2014-08-04 Mon 10:43] =>  0:24
+     CLOCK: [2014-07-31 Thu 10:04]--[2014-07-31 Thu 11:55] =>  1:51
+     CLOCK: [2014-07-30 Wed 17:52]--[2014-07-30 Wed 19:34] =>  1:42
+     CLOCK: [2014-07-30 Wed 15:45]--[2014-07-30 Wed 16:25] =>  0:40
+     CLOCK: [2014-07-30 Wed 15:20]--[2014-07-30 Wed 15:30] =>  0:10
+     CLOCK: [2014-07-30 Wed 14:34]--[2014-07-30 Wed 15:20] =>  0:46
+*** DONE Learn about the Poisson-Nernst-Planck Equation and ionic migration
+    CLOSED: [2014-08-06 Wed 09:08] SCHEDULED: <2014-08-02 Sat>
+    CLOCK: [2014-08-04 Mon 09:09]--[2014-08-04 Mon 10:12] =>  1:03
+The theory can be found in [[file:~/dakota/dakota-notes/diplom_neuen.pdf][Christians diploma thesis]].
+
+*** TODO Read Chapter about Parameter studies and UQ
+    SCHEDULED: <2014-08-04 Mon 8:00-12:00>
+    CLOCK: [2014-08-06 Wed 14:00]--[2014-08-06 Wed 14:38] =>  0:38
+    CLOCK: [2014-08-04 Mon 11:41]--[2014-08-04 Mon 12:49] =>  1:08
+    CLOCK: [2014-08-04 Mon 10:44]--[2014-08-04 Mon 11:12] =>  0:28
+    - Note taken on [2014-07-31 Thu 11:51] \\
+      Meeting with Christian Thu, 31 Jul 2014 11:30
+
+      - How to read correlation matrices in Figure 2.10
+      - Read everything about parameter studies and uncertainty quantification (design of experiments)
+      - aim: star correlations for diffusion D and chemical potential \mu in dependance of the concentration
+        - are there such a thing?
+        - want to know: if D differs 5% to above, how much does the flux F change?
+**** DONE Finish Chapter about Parameter Studies (do some examples)
+     CLOSED: [2014-08-05 Tue 12:44] SCHEDULED: <2014-08-05 Tue 8:00-13:00>
+     CLOCK: [2014-08-05 Tue 10:00]--[2014-08-05 Tue 12:43] =>  2:43
+**** DONE What does the correlation matrices mean?
+     CLOSED: [2014-08-13 Wed 15:58]
+     CLOCK: [2014-08-13 Wed 13:20]--[2014-08-13 Wed 15:58] =>  2:38
+     CLOCK: [2014-08-13 Wed 10:35]--[2014-08-13 Wed 12:20] =>  1:45
+     Notes can be found in the [[file:~/dakota/dakota-notes/notes.org][Dakota-Notes-file]].
+**** DONE Read Chapter 5 about Uncertainty Quantification Capabilites [3/3]
+     CLOSED: [2014-08-23 Sat 14:18] SCHEDULED: <2014-08-20 Wed 08:00-13:00>
+     CLOCK: [2014-08-21 Thu 09:18]--[2014-08-21 Thu 10:19] =>  1:01
+     CLOCK: [2014-08-20 Wed 15:00]--[2014-08-20 Wed 15:55] =>  0:55
+     CLOCK: [2014-08-19 Tue 13:30]--[2014-08-19 Tue 14:59] =>  1:29
+     CLOCK: [2014-08-19 Tue 11:06]--[2014-08-19 Tue 12:30] =>  1:24
+     CLOCK: [2014-08-16 Sat 10:25]--[2014-08-16 Sat 12:03] =>  1:38
+     CLOCK: [2014-08-15 Fri 09:30]--[2014-08-15 Fri 11:37] =>  2:07
+     CLOCK: [2014-08-14 Thu 13:30]--[2014-08-14 Thu 14:09] =>  0:39
+     CLOCK: [2014-08-14 Thu 10:42]--[2014-08-14 Thu 12:12] =>  1:30
+     CLOCK: [2014-08-13 Wed 16:43]--[2014-08-13 Wed 16:47] =>  0:04
+     CLOCK: [2014-08-13 Wed 16:00]--[2014-08-13 Wed 16:43] =>  0:43
+***** DONE Read Chapter 5.5 about Importance Sampling
+      CLOSED: [2014-08-21 Thu 13:38] SCHEDULED: <2014-08-21 Thu 8:00-12:00>
+      CLOCK: [2014-08-21 Thu 13:15]--[2014-08-21 Thu 13:37] =>  0:22
+      CLOCK: [2014-08-21 Thu 10:19]--[2014-08-21 Thu 12:24] =>  2:05
+***** DONE Read Chapter 5.6 about Adaptive Sampling
+      CLOSED: [2014-08-21 Thu 13:38] SCHEDULED: <2014-08-21 Thu 08:00-12:00>
+***** DONE Investigate Interval Analysis again
+      CLOSED: [2014-08-23 Sat 14:18] SCHEDULED: <2014-08-22 Fri 08:00-12:00>
+      CLOCK: [2014-08-23 Sat 10:00]--[2014-08-23 Sat 14:18] =>  4:18
+
+**** DONE Read userguidlines for sampling, DACE, see Chapter 4.7, Table 4.4
+     CLOSED: [2014-08-24 Sun 12:22]
+**** TODO Read Chapter 4 about Design of Experiments (do some examples)
+     SCHEDULED: <2014-08-07 Thu 08:00-13:00>
+     CLOCK: [2014-08-25 Mon 09:30]--[2014-08-25 Mon 12:10] =>  2:40
+     CLOCK: [2014-08-06 Wed 09:49]--[2014-08-06 Wed 12:00] =>  2:11
+***** DONE Read Chapter 4.6 about Sensitivity Analysis
+      CLOSED: [2014-08-24 Sun 12:06]
+      CLOCK: [2014-08-24 Sun 09:00]--[2014-08-24 Sun 12:30] =>  3:30
+***** DONE Read again Chapter about Orthogonal Arrays and make an example
+      CLOSED: [2014-08-26 Tue 20:17]
+      CLOCK: [2014-08-26 Tue 15:00]--[2014-08-26 Tue 20:17] =>  5:17
+***** DONE Write down the summaries
+      CLOSED: [2014-08-26 Tue 20:17]
+***** TODO Check on VBD + stochastic expansion (section 5.4)
+***** TODO Review everything related to Sensitivity Analysis and finish the other third party software
+      CLOCK: [2014-08-28 Thu 13:44]--[2014-08-28 Thu 17:10] =>  3:26
+**** TODO Write out all methods that display correlation matrices etc.
+
+
+** DONE Write Dakota Files for CCD/BB and interval analysis
+   CLOSED: [2014-09-24 Wed 10:08] SCHEDULED: <2014-09-16 Tue>
+   CLOCK: [2014-09-23 Tue 14:30]--[2014-09-23 Tue 15:35] =>  1:05
+   CLOCK: [2014-09-22 Mon 13:30]--[2014-09-22 Mon 17:30] =>  4:00
+   CLOCK: [2014-09-22 Mon 10:55]--[2014-09-22 Mon 12:30] =>  1:35
+   CLOCK: [2014-09-21 Sun 19:00]--[2014-09-21 Sun 20:50] =>  1:50
+   CLOCK: [2014-09-19 Fri 14:00]--[2014-09-19 Fri 17:00] =>  3:00
+   CLOCK: [2014-09-19 Fri 10:30]--[2014-09-19 Fri 12:44] =>  2:14
+   CLOCK: [2014-09-18 Thu 15:00]--[2014-09-18 Thu 16:05] =>  1:05
+Write two dakota input files with good documentation
+- one for sensitivity analysis CCD or BB
+- one for interval analysis
+Both files should use as interface a shell script called "npnp" and should have two dimensional parameters \(D\) and \(\mu\).
+Furthermore I should investigate if both analysis can be combined.
+It seems that both methods can be written into one file. See this example [[file:~/dummi/rosen_ccd.in][here]].
+*** TODO Examine differences between hybrid etc.
+
+
+** TODO Add Hessians to tremolo
+   - Note taken on [2014-10-01 Wed 15:00] \\
+     Aufgabenbesprechung mit Christian am [2014-10-01 Wed 15:00]
+
+     1. Grundaufgabe:
+        - Füge Datenstrukturen für lokale Hesse-Matrizen und zugehörige particle-Matrix-Map (Hashmap) zum Particle-struct hinzu.
+        - Die Berechnung der Hesse-Matrix sollte für das Lennard-Jones-Potential in CalcLCForceForParticle aus lcforces.c geschehen. Beachte dabei:
+          + Flag-Abfrage: Hessian or noHessian?
+          + Finde heraus was und wo die Registrierung der Kraftfunktion dabei ist.
+
+     2. Anmerkungen:
+        - hash-tables etc. finden sich in [[file:~/tremolo/src/hash/hashtab.h]]
+
+     3. Sonstiges:
+        - Vertragsverlängerung: Christian und ich haben jetzt erst einmal eine Vertragsverlängerung von 3 Monaten festgelegt. Wir wraten jetzt zunächst die nächsten 2 Wochen zum endgültigen Entschluss ab.
+   CLOCK: [2014-09-23 Tue 15:35]--[2014-09-23 Tue 17:23] =>  1:48
+*** Overview
+**** Basics:
+Consider a system of \(N\) particles \(p_1, ..., p_N\). Then a (simple) general potential \(V\) can be written as:
+\[V(p_1, ..., p_N) = \sum_{i=1}^N \sum_{j = i+1}^N U_{i,j}(p_i, p_j),\]
+where \(U_{i,j}\) is the pair potential between the particles \(i\) and \(j\).
+
+**** Ideas:
+1. It is enough to consider pair potentials for the Hessians:
+\[ \partial_p \partial_q V = \partial_p \partial_q U_{p,q}, \]
+\[ \partial_p \partial_p V = \partial_p \partial_p \sum_{q\neq p} U_{p,q}. \]
+2. Storing of the Hessians.
+   - Every particle stores an array of matrices with the name 'Hessians'
+   - Every particle stores a map, which mpas particle indices to array indices of 'Hessians'.
+
+**** Questions: [1/2]
+1. [X] What are the access times for map-containers?
+   /Ordered map: logarithmic in size. Unordered map: constant (average case), linear in size (worst case).
+2. [ ] Which operations should be possible for the Hessians?
+
+*** DONE Understand what potentials exist, how and where they are computed.
+    CLOSED: [2014-10-01 Wed 15:05]
+    CLOCK: [2014-10-01 Wed 09:00]--[2014-10-01 Wed 13:19] =>  4:19
+    CLOCK: [2014-09-24 Wed 10:00]--[2014-09-24 Wed 12:45] =>  2:45
+A summary can be found [[file:hessians.pdf][here. ]]
+*** TODO Overview of Particle struct and force computation in tremolo.
+    CLOCK: [2014-09-24 Wed 13:30]--[2014-09-24 Wed 14:30] =>  1:00
+
+**** TODO Have a look at particle.c and particle.h
+     CLOCK: [2014-10-01 Wed 14:25]--[2014-10-01 Wed 15:06] =>  0:41
+
+**** TODO Have a look at the force computation in tremolo.
+
+
+*** TODO Have a look at the hash-table implementation in tremololo and hash-map implementations in general
+
+*** TODO Add data structures to Particle struct in data.h
+
+*** TODO Write Hessian calculation in lcforces.c
+
+* Langfristige Aufgaben
+ CLOCK: [2014-08-20 Wed 15:55]--[2014-08-20 Wed 15:55] =>  0:00
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-10-07 Tue 14:25
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben
+  :ARCHIVE_CATEGORY: todos
+  :END:
+ - Note taken on [2014-04-16 Wed 15:57] \\
+       Besprechung mit Christian um [2014-04-16 Wed 15:57]
+       Zwei Aufgabenziele:
+       1. Kurzfristiges Ziel:
+          Überarbeitung des "potentials" tabs
+          - Übernehme Elemente von "Datafile" tab
+          - Obere 2/3 des Tabs: Editor-Fenster in das ein Potentials-file geladen werden soll
+                - der Editor soll die Funktionen "open" and "save" bereitstellen
+                - open-button:
+                  + soll erweiterbar sein (d.h. es sollen noch mögliche "Suchfunktionen" eingebunden werden können -> handler)
+                  + vorerst: einen beliebigen Ordner öffnen
+                  + nach .potential files filtern
+                  + nachdem der Nutzer ein file ausgewählt hat, soll eine Kopie des files in den Projekt-Ordner gelegt werden mit dem Namen "PROJECTNAME.potentials"
+                  + falls nach Sicherung eines .potential-files ein weiteres file geöffnet wird, soll eine Warnung zum "Datenverlust" abgegeben werden.
+                - save-button:
+                  + speichert die Änderungen im .potentials file.
+          - Stelle sicher, dass immer ein .validates-file erzeugt wird (notfalls auch leer (default)).
+       2. Langfristiges Ziel:
+          - Verifizieren von Ensembles
+          - etwas mit Monte-Carlo Methoden (siehe folgende Links)
+                - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
+                - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
