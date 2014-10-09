@@ -355,6 +355,7 @@ A summary can be found [[file:hessians.pdf][here. ]]
 
 
 *** TODO Have a look at the hash-table implementation in tremololo and hash-map implementations in general [0/4]
+    CLOCK: [2014-10-09 Thu 17:00]--[2014-10-09 Thu 19:02] =>  2:02
     CLOCK: [2014-10-08 Wed 13:45]--[2014-10-08 Wed 18:57] =>  5:12
     CLOCK: [2014-10-07 Tue 14:15]--[2014-10-07 Tue 16:03] =>  1:48
 
@@ -376,15 +377,15 @@ The code can be found in [[file:~/Work/playground/hashtab/]].
 
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-10-08 Wed 18:57], for week 2014-W41.
+Clock summary at [2014-10-09 Thu 19:02], for week 2014-W41.
 
 | Headline                                     | Time   |      |      |
 |----------------------------------------------+--------+------+------|
-| *Total time*                                 | *7:00* |      |      |
+| *Total time*                                 | *9:02* |      |      |
 |----------------------------------------------+--------+------+------|
-| Aufgaben                                     | 7:00   |      |      |
-| \__ TODO Add Hessians to tremolo             |        | 7:00 |      |
-| \_____ TODO Have a look at the hash-table... |        |      | 7:00 |
+| Aufgaben                                     | 9:02   |      |      |
+| \__ TODO Add Hessians to tremolo             |        | 9:02 |      |
+| \_____ TODO Have a look at the hash-table... |        |      | 9:02 |
 #+END:
 
 | Week     |      Time |  Overtime |
@@ -409,7 +410,7 @@ Clock summary at [2014-10-08 Wed 18:57], for week 2014-W41.
 | 2014-W38 |      8:09 | -00:51:00 |
 | 2014-W39 |     12:13 |  03:13:00 |
 | 2014-W40 |      5:00 | -04:00:00 |
-| 2014-W41 |      7:00 | -02:00:00 |
+| 2014-W41 |      9:02 |  00:02:00 |
 |----------+-----------+-----------|
-| Total    | 182:53:00 | -06:07:00 |
+| Total    | 184:55:00 | -04:05:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
