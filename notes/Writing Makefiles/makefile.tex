@@ -1,0 +1,248 @@
+\documentclass{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+\begin{document}
+\section{Writing Makefiles}
+\label{sec:writing-makefiles}
+
+\subsection{Targets, Rules, Dependencies}
+\label{sec:targ-rules-depend}
+
+Ein Makefile dient dazu, dem Programm \emph{make} mitzuteilen
+\begin{itemize}
+\item was es tun soll: \emph{Targets}
+\item wie es das tun soll: \emph{Rules}
+\end{itemize}
+Werden für ein \emph{Target} andere Dateien benötigt, sogenannte
+\emph{Dependencies}, müssen diese auch angegeben werden. \\
+
+\paragraph{Bemerkung}
+\label{sec:bemerkung}
+
+\emph{Dependencies} sind für make auch \emph{Targets}, die an anderer
+Stelle erstellt werden müssen.
+
+\subsubsection{Beispiel}
+\label{sec:beispiel}
+
+Kompilierung eines einfachen C-Programms names prog aus den Dateien
+prog.c und prog.h.
+
+\lstset{language=make, caption={Einfaches Makefile mit Target
+    ``prog''.}}
+\begin{lstlisting}[frame=single]
+  prog: prog.c prog.h
+      gcc -o prog prog.c
+\end{lstlisting}
+
+\subsection{Das Defaulttarget}
+\label{sec:das-defaulttarget}
+
+Beim Aufruf von \emph{make} kann das zu erzeugende Target direkt
+angegeben werden. Wenn nicht, wird das \emph{Defaulttarget}
+erzeugt. Dies ist das erste Target im Makefile.
+
+\subsubsection{Beispiel}
+\label{sec:beispiel-1}
+
+Kompilierung eines einfachen C-Programms mit anschließendem Aufruf von
+\emph{make}.
+
+\lstset{language=make, caption={Ein einfaches Makefile. Bemerke, dass
+    in diesem Fall das Defaulttarget durch ``main'' gegeben ist.}}
+\begin{lstlisting}[frame=single]
+  # Simple Makefile for c-compiling.
+  main: prog.o main.o
+      gcc -o main prog.o main.o
+
+  prog.o: prog.c
+      gcc -c prog.c
+
+  main.o: main.c
+      gcc -c main.c
+
+  clean:
+      rm -rf *.o main
+\end{lstlisting}
+
+\lstset{language=bash, caption={Aufruf von make. In der ersten Zeile
+    wird nur das Target main.o erzeugt. Im zweiten dann das
+    Defaulttarget main.}}
+\begin{lstlisting}
+  $ make main.o
+  $ make
+\end{lstlisting}
+
+\subsection{Pattern in Regeln}
+\label{sec:pattern-regeln}
+
+Es besteht die Möglichkeit Regeln durch eine Art
+\emph{Wildcard-Pattern} zu defenieren. Wichtige vordefinierte
+Variablen sind:
+\begin{itemize}
+\item \texttt{\$<} die erste Abhängigkeit
+\item \texttt{\$@} Name des Targets
+\item \texttt{\$+} eine Liste aller Abhängigkeiten
+\item \texttt{\$\^} eine Liste aller Abhängigkeiten, ohne doppelte Einträge
+\end{itemize}
+
+\subsubsection{Beispiel}
+\label{sec:beispiel-2}
+
+\lstset{language=make, caption={Nutzung von Patterns zur Erzeugung von
+  Objektdateien aus ihren jeweiligen c-Dateien.}}
+\begin{lstlisting}[frame=single]
+  %.o: %.c
+      gcc -Wall -g -c $<
+  main: prog.o main.o
+      gcc -o main $^
+\end{lstlisting}
+
+\subsection{Variablen in Makefiles}
+\label{sec:variablen-makefiles}
+Es ist auch möglich in Makefiles \emph{Variablen} zu definieren. Dies
+wird üblicherweise in Großbuchstaben gemacht. Beispielsweise:
+\begin{description}
+\item[\texttt{CC}] Compiler
+\item[\texttt{CFLAGS}] Compiler-Flags
+\item[\texttt{LDFLAGS}] Linker-Optionen
+\end{description}
+Der Zugriff auf die jeweilige Variable erfolgt durch \texttt{\$( )}.
+
+\subsubsection{Beispiel}
+\label{sec:beispiel-3}
+
+\lstset{language=make, caption={Verwendung der Variable \texttt{CC}
+    zur Beschreibung des Compilers.}}
+\begin{lstlisting}
+  CC = gcc
+
+  main: prog.o main.o
+      $(CC) -o main $^
+\end{lstlisting}
+
+\subsection{Kommentare in Makefiles}
+\label{sec:kommentare-makefiles}
+
+Kommentare in Makefiles können durch das Voranstellen einer Raute
+\texttt{\#} eingefügt werden.
+
+\subsection{Phony Targets}
+\label{sec:phony-targets}
+
+Im Allgemeinen prüft \emph{make}, ob ein Target aktueller ist als alle
+Dependencies von den es abhängt. Ist dies nicht der Fall, wird es neu
+erzeugt. \\
+Manche Targets sollen aber unabhängig von ihren Dependencies immer
+erzeugt werden. Solche Targets nennt man \emph{Phony}s.
+
+\subsubsection{Beispiel}
+\label{sec:beispiel-4}
+
+Ein klassisches Beispiel für ein \emph{Phony} ist das Target
+\texttt{clean}. Dieses Target ist in der Regel keine Datei und sollte
+deshalb im Allgemeinen immer erzeugt werden. Problematisch wird dies
+allerdings, wenn eine Datei mit dem selben Namen \texttt{clean}
+existiert, dass von keinen anderen Dateien abhängt. In diesem Fall ist
+das Target \texttt{clean} immer aktueller als seine Dependencies und
+wird also nie erzeugt. Deshalb deklariert man das Target
+\texttt{clean} häufig als Phony.
+
+\lstset{language=make, caption={Das Target \texttt{clean} wird häufig
+    als Phony deklariert.}}
+\begin{lstlisting}[frame=single]
+  .PHONY: clean
+  clean:
+      rm -rf $(BIN) $(OBJ)
+\end{lstlisting}
+
+\subsection{Pattern Substitution}
+\label{sec:pattern-substitution}
+
+Wie bei Rules kann man auch Variablen mit Hilfe von \emph{Pattern}
+erzeugen.
+
+\subsubsection{Beispiel}
+\label{sec:beispiel-5}
+
+\lstset{language=make, caption={Einsatz von Pattern zur Deklaration
+    von Variablen. Hier werden die Objektdateien genutzt um die
+    Source-Dateien zu deklarieren.}}
+\begin{lstlisting}[frame=single]
+  OBJ= datei1.o datei2.o datei3.o
+  _SRC= $(OBJ:%.o=%.c) datei4.c
+  SRC=/file/$(SRC)
+\end{lstlisting}
+
+\subsection{Abhängigkeiten als Target (make dep)}
+\label{sec:abhang-als-targ}
+
+Werden Objekt-Dateien durch Pattern erzeugt, entfallen die
+Abhängigkeiten von Header-Dateien. Um dieses Problem zu umgehen,
+definiert man meist ein Target names \texttt{dep}.
+
+\subsubsection{Beispiel}
+\label{sec:beispiel-6}
+
+\lstset{language=make, caption={Hier wird das Target \texttt{dep}
+    definiert, um Header-Dateien bei der Kompilierung mit
+    einzubeziehen.}}
+\begin{lstlisting}[frame=single]
+  SRC = datei1.c datei2.c datei3.c
+  DEPENDFILE = .depend
+
+  dep: $(SRC)
+      gcc -MM $(SRC) > $(DEPENDFILE)
+
+  -include $(DEPENDFILE)
+\end{lstlisting}
+
+\subsection{Rekursives Make}
+\label{sec:rekursives-make}
+
+Für große Projekte sind die Source-Dateien oft auf verschiedene
+Verzeichnisse verteilt. Es besteht die Möglichkeit für jedes dieser
+Unterverzeichnisse ein separates Makefile zu schreiben, das von einem
+zentralen Makefile im Root-Ordner aufgerufen wird.
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

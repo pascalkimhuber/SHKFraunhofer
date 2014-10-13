@@ -354,17 +354,35 @@ A summary can be found [[file:hessians.pdf][here. ]]
 **** TODO Have a look at the force computation in tremolo.
 
 
-*** TODO Have a look at the hash-table implementation in tremololo and hash-map implementations in general [0/4]
+*** TODO Have a look at the hash-table implementation in tremololo and hash-map implementations in general [2/4]
+    CLOCK: [2014-10-13 Mon 17:00]--[2014-10-13 Mon 19:03] =>  2:03
     CLOCK: [2014-10-09 Thu 17:00]--[2014-10-09 Thu 19:02] =>  2:02
     CLOCK: [2014-10-08 Wed 13:45]--[2014-10-08 Wed 18:57] =>  5:12
     CLOCK: [2014-10-07 Tue 14:15]--[2014-10-07 Tue 16:03] =>  1:48
 
 A description and an example showing the usage of the hash table can be found at [[http://burtleburtle.net/bob/hash/hashtab.html]]
 
-**** TODO Have a close look at the code of Bob Jenkins and do all examples
+**** DONE Have a close look at the code of Bob Jenkins and do all examples
+     CLOSED: [2014-10-13 Mon 18:28]
 The code can be found in [[file:~/Work/playground/hashtab/]].
 
-**** TODO Try an example
+**** DONE Try an example
+     CLOSED: [2014-10-13 Mon 18:28]
+
+**** TODO Look at code examples from tremolo
+The trx_hcreate function is used in the following files (without hash-file):
+
+huber@ram:~/tremolo/src$ grep -ri hashtab.h *
+bondforces.c:#include "hash/hashtab.h"
+bondforces.h:#include "hash/hashtab.h"
+data.h:#include "hash/hashtab.h"
+lcforces.c:#include "hash/hashtab.h"
+Makefile.am:    $(POLYDIR)/hash/hashtab.h \
+Makefile.in:    $(POLYDIR)/hash/hashtab.h $(POLYDIR)/hash/lookupa.c \
+parse.c:#include "hash/hashtab.h"
+reaxff.c:#include "hash/hashtab.h"
+SuCh.c:#include "hash/hashtab.h"
+tersoff.c:#include "hash/hashtab.h"
 
 **** TODO Look at advantages, disadvantages, problems
 
@@ -377,15 +395,15 @@ The code can be found in [[file:~/Work/playground/hashtab/]].
 
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-10-09 Thu 19:02], for week 2014-W41.
+Clock summary at [2014-10-13 Mon 19:03], for week 2014-W42.
 
 | Headline                                     | Time   |      |      |
 |----------------------------------------------+--------+------+------|
-| *Total time*                                 | *9:02* |      |      |
+| *Total time*                                 | *2:03* |      |      |
 |----------------------------------------------+--------+------+------|
-| Aufgaben                                     | 9:02   |      |      |
-| \__ TODO Add Hessians to tremolo             |        | 9:02 |      |
-| \_____ TODO Have a look at the hash-table... |        |      | 9:02 |
+| Aufgaben                                     | 2:03   |      |      |
+| \__ TODO Add Hessians to tremolo             |        | 2:03 |      |
+| \_____ TODO Have a look at the hash-table... |        |      | 2:03 |
 #+END:
 
 | Week     |      Time |  Overtime |
@@ -411,6 +429,7 @@ Clock summary at [2014-10-09 Thu 19:02], for week 2014-W41.
 | 2014-W39 |     12:13 |  03:13:00 |
 | 2014-W40 |      5:00 | -04:00:00 |
 | 2014-W41 |      9:02 |  00:02:00 |
+| 2014-W42 |      2:03 | -06:57:00 |
 |----------+-----------+-----------|
-| Total    | 184:55:00 | -04:05:00 |
+| Total    | 186:58:00 | -11:02:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
