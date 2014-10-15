@@ -10,10 +10,6 @@
 
 * Configurations
 
-** TODO Change passwords
-Wait for Mail from IT. Change password if smartcard is there!
-
-
 * Emacs
 
 ** Language evaluation in org mode (see http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10)
@@ -30,6 +26,9 @@ Wait for Mail from IT. Change password if smartcard is there!
 * Nuetzliches
   CLOCK: [2014-09-22 Mon 11:22]--[2014-09-22 Mon 11:22] =>  0:00
 
+** Konventionen für Tremolo Code (Kommentare, Coding Guidlines)
+- Zum Einrücken immer nur 2 Leerzeichen verwenden. (Habe das bereits in Emacs geändert.)
+
 ** Tremolo aktualisieren
 
 Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden:
@@ -40,6 +39,9 @@ Das selbe gilt für Tremologui.
 : cd ~/tremologui/build
 : make && make install
 
+
+** Tremolo testen
+Für self-tests von Tremolo kann das Programm runpybbt.py in [[~/tremolo/build/tests/]] verwendet werden.
 
 ** Gnuplot Befehle
 
@@ -306,6 +308,8 @@ It seems that both methods can be written into one file. See this example [[file
 
 
 ** TODO Add Hessians to tremolo
+   CLOCK: [2014-10-15 Wed 16:14]--[2014-10-15 Wed 16:23] =>  0:09
+   CLOCK: [2014-09-23 Tue 15:35]--[2014-09-23 Tue 17:23] =>  1:48
    - Note taken on [2014-10-01 Wed 15:00] \\
      Aufgabenbesprechung mit Christian am [2014-10-01 Wed 15:00]
 
@@ -320,7 +324,6 @@ It seems that both methods can be written into one file. See this example [[file
 
      3. Sonstiges:
         - Vertragsverlängerung: Christian und ich haben jetzt erst einmal eine Vertragsverlängerung von 3 Monaten festgelegt. Wir wraten jetzt zunächst die nächsten 2 Wochen zum endgültigen Entschluss ab.
-   CLOCK: [2014-09-23 Tue 15:35]--[2014-09-23 Tue 17:23] =>  1:48
 *** Overview
 **** Basics:
 Consider a system of \(N\) particles \(p_1, ..., p_N\). Then a (simple) general potential \(V\) can be written as:
@@ -345,16 +348,14 @@ where \(U_{i,j}\) is the pair potential between the particles \(i\) and \(j\).
     CLOCK: [2014-10-01 Wed 09:00]--[2014-10-01 Wed 13:19] =>  4:19
     CLOCK: [2014-09-24 Wed 10:00]--[2014-09-24 Wed 12:45] =>  2:45
 A summary can be found [[file:hessians.pdf][here. ]]
-*** TODO Overview of Particle struct and force computation in tremolo.
-    CLOCK: [2014-09-24 Wed 13:30]--[2014-09-24 Wed 14:30] =>  1:00
 
-**** TODO Have a look at particle.c and particle.h
-     CLOCK: [2014-10-01 Wed 14:25]--[2014-10-01 Wed 15:06] =>  0:41
-
-**** TODO Have a look at the force computation in tremolo.
-
-
-*** TODO Have a look at the hash-table implementation in tremololo and hash-map implementations in general [2/4]
+*** DONE Have a look at the hash-table implementation in tremolo and hash-map implementations in general [3/3]
+    CLOSED: [2014-10-15 Wed 16:14]
+    CLOCK: [2014-10-15 Wed 15:42]--[2014-10-15 Wed 16:14] =>  0:32
+    CLOCK: [2014-10-15 Wed 14:25]--[2014-10-15 Wed 15:42] =>  1:17
+    CLOCK: [2014-10-15 Wed 11:41]--[2014-10-15 Wed 12:49] =>  1:08
+    CLOCK: [2014-10-15 Wed 11:00]--[2014-10-15 Wed 11:40] =>  0:40
+    CLOCK: [2014-10-14 Tue 15:11]--[2014-10-14 Tue 16:00] =>  0:49
     CLOCK: [2014-10-13 Mon 17:00]--[2014-10-13 Mon 19:03] =>  2:03
     CLOCK: [2014-10-09 Thu 17:00]--[2014-10-09 Thu 19:02] =>  2:02
     CLOCK: [2014-10-08 Wed 13:45]--[2014-10-08 Wed 18:57] =>  5:12
@@ -369,41 +370,66 @@ The code can be found in [[file:~/Work/playground/hashtab/]].
 **** DONE Try an example
      CLOSED: [2014-10-13 Mon 18:28]
 
-**** TODO Look at code examples from tremolo
+**** DONE Look at code examples from tremolo
+     CLOSED: [2014-10-15 Wed 14:25]
 The trx_hcreate function is used in the following files (without hash-file):
 
 huber@ram:~/tremolo/src$ grep -ri hashtab.h *
-bondforces.c:#include "hash/hashtab.h"
-bondforces.h:#include "hash/hashtab.h"
-data.h:#include "hash/hashtab.h"
-lcforces.c:#include "hash/hashtab.h"
-Makefile.am:    $(POLYDIR)/hash/hashtab.h \
-Makefile.in:    $(POLYDIR)/hash/hashtab.h $(POLYDIR)/hash/lookupa.c \
-parse.c:#include "hash/hashtab.h"
-reaxff.c:#include "hash/hashtab.h"
-SuCh.c:#include "hash/hashtab.h"
-tersoff.c:#include "hash/hashtab.h"
+- bondforces.c:#include "hash/hashtab.h", bondforces.h:#include "hash/hashtab.h"
+  Hier wird htab für BondTable, AngleTable, TorsionTable und ImporoperTable verwendet.
+  Viele Code-Beispiele vorhanden.
+- data.h:#include "hash/hashtab.h"
+  Verwendung von trx_htab *ParticleNames in struct MoleculeParameter.
+- lcforces.c:#include "hash/hashtab.h"
+  Einbindung der Headerdatei hash/hashtab.h, ansonsten wird die Hash map nicht benutzt.
+- parse.c:#include "hash/hashtab.h"
+  Hier werden geparste Particle Names in den struct MoleculeParameter und preziser in trx_htab *ParticleNames hinzugefügt.
+  Hier gibt es vielleicht ein paar kleine Code-Beispiele, wie ich die hash table Funktionen verwenden kann.
+- reaxff.c:#include "hash/hashtab.h"
+- SuCh.c:#include "hash/hashtab.h"
+- tersoff.c:#include "hash/hashtab.h"
 
-**** TODO Look at advantages, disadvantages, problems
+*** DONE Overview of Particle struct and force computation in tremolo.
+    CLOSED: [2014-10-15 Wed 16:14]
+    CLOCK: [2014-09-24 Wed 13:30]--[2014-09-24 Wed 14:30] =>  1:00
 
-**** TODO What about parallelization of the code?
+**** DONE Have a look at particle.c and particle.h
+     CLOSED: [2014-10-15 Wed 16:14]
+     CLOCK: [2014-10-01 Wed 14:25]--[2014-10-01 Wed 15:06] =>  0:41
 
-*** TODO Add data structures to Particle struct in data.h
+**** TODO Have a look at the force computation in tremolo.
 
+*** DONE Add data structures to Particle struct in data.h
+    CLOSED: [2014-10-15 Wed 16:14]
+
+*** TODO Add Hessian Flag to tremolo [0/4]
+**** TODO Add a Flag "computeHessians" into the Problem struct.
+**** TODO Add a keyword to the tremolo parameter file.
+**** TODO Add option to the parser routines.
+*** TODO Fürge Komfortfunktionen zu particle.c hinzu [0/7]
+**** TODO trx_htab *createParticleHessians(Particle *p, int numberOfNeighbors)
+**** TODO void destroyParticleHessians(Particle *p)
+**** TODO void getLocalHessian(Particle *p, Particle *q, double *values)
+**** TODO double getLocalHessianComponent(Particle *p, Particle *q, int i, int j)
+**** TODO addLocalHessian(Particle *p, Particle *q, double *values)
+The routine should understand, if the particle q is already included in the array.
+**** TODO void cleanHessians(Particle *p)
+**** TODO void cleanHashTable(trx_htab *table)
+Routine should be called within cleanHessians(). The purpose is to mudulize cleanHessians such that the cleaning can be done easier in the future by changing cleanHashTable().
 *** TODO Write Hessian calculation in lcforces.c
 
 
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-10-13 Mon 19:03], for week 2014-W42.
+Clock summary at [2014-10-15 Wed 16:23], for week 2014-W42.
 
 | Headline                                     | Time   |      |      |
 |----------------------------------------------+--------+------+------|
-| *Total time*                                 | *2:03* |      |      |
+| *Total time*                                 | *6:38* |      |      |
 |----------------------------------------------+--------+------+------|
-| Aufgaben                                     | 2:03   |      |      |
-| \__ TODO Add Hessians to tremolo             |        | 2:03 |      |
-| \_____ TODO Have a look at the hash-table... |        |      | 2:03 |
+| Aufgaben                                     | 6:38   |      |      |
+| \__ TODO Add Hessians to tremolo             |        | 6:38 |      |
+| \_____ DONE Have a look at the hash-table... |        |      | 6:29 |
 #+END:
 
 | Week     |      Time |  Overtime |
@@ -429,7 +455,7 @@ Clock summary at [2014-10-13 Mon 19:03], for week 2014-W42.
 | 2014-W39 |     12:13 |  03:13:00 |
 | 2014-W40 |      5:00 | -04:00:00 |
 | 2014-W41 |      9:02 |  00:02:00 |
-| 2014-W42 |      2:03 | -06:57:00 |
+| 2014-W42 |      6:38 | -02:22:00 |
 |----------+-----------+-----------|
-| Total    | 186:58:00 | -11:02:00 |
+| Total    | 191:33:00 | -06:27:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
