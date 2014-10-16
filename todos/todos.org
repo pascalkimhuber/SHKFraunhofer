@@ -10,6 +10,7 @@
 
 * Configurations
 
+
 * Emacs
 
 ** Language evaluation in org mode (see http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10)
@@ -29,6 +30,7 @@
 ** Konventionen für Tremolo Code (Kommentare, Coding Guidlines)
 - Zum Einrücken immer nur 2 Leerzeichen verwenden. (Habe das bereits in Emacs geändert.)
 
+
 ** Tremolo aktualisieren
 
 Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden:
@@ -42,6 +44,12 @@ Das selbe gilt für Tremologui.
 
 ** Tremolo testen
 Für self-tests von Tremolo kann das Programm runpybbt.py in [[~/tremolo/build/tests/]] verwendet werden.
+
+
+** Visualisieren von Tremolodaten
+Dazu kann das Programm VMD verwendet werden: VMD visualisiert .xyz und .pdb Files:
+: vmd *.xyz
+Die graphische Anpassung kann in VMD unter Graphics->Representation angepasst werden.
 
 ** Gnuplot Befehle
 
@@ -402,6 +410,10 @@ huber@ram:~/tremolo/src$ grep -ri hashtab.h *
 *** DONE Add data structures to Particle struct in data.h
     CLOSED: [2014-10-15 Wed 16:14]
 
+*** DONE Write small testing case
+    CLOSED: [2014-10-16 Thu 18:53]
+    CLOCK: [2014-10-16 Thu 16:43]--[2014-10-16 Thu 18:53] =>  2:10
+The example can be found in [[file:~/Sandbox/2ArgonMolecules]]
 *** TODO Add Hessian Flag to tremolo [0/4]
 **** TODO Add a Flag "computeHessians" into the Problem struct.
 **** TODO Add a keyword to the tremolo parameter file.
@@ -421,15 +433,16 @@ Routine should be called within cleanHessians(). The purpose is to mudulize clea
 
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-10-15 Wed 16:23], for week 2014-W42.
+Clock summary at [2014-10-16 Thu 18:53], for week 2014-W42.
 
 | Headline                                     | Time   |      |      |
 |----------------------------------------------+--------+------+------|
-| *Total time*                                 | *6:38* |      |      |
+| *Total time*                                 | *8:48* |      |      |
 |----------------------------------------------+--------+------+------|
-| Aufgaben                                     | 6:38   |      |      |
-| \__ TODO Add Hessians to tremolo             |        | 6:38 |      |
+| Aufgaben                                     | 8:48   |      |      |
+| \__ TODO Add Hessians to tremolo             |        | 8:48 |      |
 | \_____ DONE Have a look at the hash-table... |        |      | 6:29 |
+| \_____ DONE Write small testing case         |        |      | 2:10 |
 #+END:
 
 | Week     |      Time |  Overtime |
@@ -455,7 +468,7 @@ Clock summary at [2014-10-15 Wed 16:23], for week 2014-W42.
 | 2014-W39 |     12:13 |  03:13:00 |
 | 2014-W40 |      5:00 | -04:00:00 |
 | 2014-W41 |      9:02 |  00:02:00 |
-| 2014-W42 |      6:38 | -02:22:00 |
+| 2014-W42 |      8:48 | -02:22:00 |
 |----------+-----------+-----------|
 | Total    | 191:33:00 | -06:27:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
