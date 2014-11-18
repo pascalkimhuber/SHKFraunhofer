@@ -1,5 +1,5 @@
-% Created 2014-10-01 Wed 11:01
-\documentclass[11pt]{article}
+% Created 2014-10-29 Wed 11:04
+\documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fixltx2e}
@@ -17,7 +17,7 @@
 \tolerance=1000
 \providecommand{\alert}[1]{\textbf{#1}}
 
-\title{todos}
+\title{Füge Komfortfunktionen zu particle.c hinzu [0/7]}
 \author{Pascal Huber}
 \date{\today}
 \hypersetup{
@@ -32,13 +32,15 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 \vspace*{1cm}
-Dabei ist \(\partial_{\vec{r}_i} \partial_{\vec{r}_j} V(\vec{r}_1, \dots, \vec{r}_N)\) eine \(3\times 3\)-Matrix der Form
-\[
-\begin{pmatrix}
-\partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots) & \dots & \partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots) \\
-\vdots & & \vdots \\
-\partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots) & \dots & \partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots)
-\end{pmatrix}
-\]
+\section{\textbf{TODO} \texttt{void *createLocalHessians(Particle *p, int numberOfHessians)}}
+\label{sec-1}
+
+\begin{itemize}
+\item Allocate meomory for a double array of size \texttt{NDIMMAT x numberOfNeighbors}
+  and assign it to the \texttt{localHessians} pointer of \texttt{p}.
+\item Create a \texttt{trx\_htab} of size greater than \texttt{numberOfNeighbors} and assign it to the \texttt{hessianIndex} pointer of \texttt{p}.
+\end{itemize}
+\section{\textbf{TODO} void destroyParticleHessians(Particle *p)}
+\label{sec-2}
 
 \end{document}

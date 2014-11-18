@@ -3,12 +3,12 @@
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Learn Dakota</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="Learn Dakota"/>
+<meta name="title" content=""/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2014-07-22T17:22+0200"/>
-<meta name="author" content="Pascal Huber"/>
+<meta name="generated" content="2014-10-29T10:52+0100"/>
+<meta name="author" content=""/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
 <style type="text/css">
@@ -106,7 +106,97 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js">
+/**
+ *
+ * @source: http://orgmode.org/mathjax/MathJax.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in http://orgmode.org/mathjax/MathJax.js.
+ *
+ * Copyright (C) 2012-2013  MathJax
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in http://orgmode.org/mathjax/MathJax.js.
+ *
+ */
 
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code below.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code below is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code below.
+*/
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
 </head>
 <body>
 
@@ -115,9 +205,688 @@ for the JavaScript code in this tag.
 </div>
 
 <div id="content">
-<h1 class="title">Learn Dakota</h1>
+<h1 class="title"></h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Organization</a>
+<ul>
+<li><a href="#sec-1-1">1.1 Commit conventions</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 Configurations</a></li>
+<li><a href="#sec-3">3 Emacs</a>
+<ul>
+<li><a href="#sec-3-1">3.1 Language evaluation in org mode (see http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10)</a></li>
+<li><a href="#sec-3-2">3.2 Qt Auto complete</a></li>
+<li><a href="#sec-3-3">3.3 Syntax highlighting for doxygen comments in c++ mode.</a></li>
+<li><a href="#sec-3-4">3.4 Setter and getter methods.</a></li>
+<li><a href="#sec-3-5">3.5 Rewrite Arbeitszeiten section</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4 Nuetzliches</a>
+<ul>
+<li><a href="#sec-4-1">4.1 Konventionen für Tremolo Code (Kommentare, Coding Guidlines)</a></li>
+<li><a href="#sec-4-2">4.2 Tremolo und tremologui aktualisieren</a></li>
+<li><a href="#sec-4-3">4.3 Tremolo testen</a></li>
+<li><a href="#sec-4-4">4.4 Visualisieren von Tremolodaten</a></li>
+<li><a href="#sec-4-5">4.5 Gnuplot Befehle</a></li>
+<li><a href="#sec-4-6">4.6 Grep Befehle</a></li>
+<li><a href="#sec-4-7">4.7 Git Befehle</a>
+<ul>
+<li><a href="#sec-4-7-1">4.7.1 Branches</a></li>
+<li><a href="#sec-4-7-2">4.7.2 Diff</a></li>
+<li><a href="#sec-4-7-3">4.7.3 Manipulate changes.</a></li>
+<li><a href="#sec-4-7-4">4.7.4 Add and remove changes.</a></li>
+<li><a href="#sec-4-7-5">4.7.5 Remote repositories</a></li>
+<li><a href="#sec-4-7-6">4.7.6 Merging branches</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-8">4.8 Find Befehle</a></li>
+<li><a href="#sec-4-9">4.9 Doxygen Befehle</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5 Aufgaben</a>
+<ul>
+<li><a href="#sec-5-1">5.1 Learn Dakota</a>
+<ul>
+<li><a href="#sec-5-1-1">5.1.1 Installiere Dakota</a></li>
+<li><a href="#sec-5-1-2">5.1.2 Make short overview about Dakota</a></li>
+<li><a href="#sec-5-1-3">5.1.3 Learn about the Poisson-Nernst-Planck Equation and ionic migration</a></li>
+<li><a href="#sec-5-1-4">5.1.4 Read Chapter about Parameter studies and UQ</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-2">5.2 Write Dakota Files for CCD/BB and interval analysis</a>
+<ul>
+<li><a href="#sec-5-2-1">5.2.1 Examine differences between hybrid etc.</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-3">5.3 Bug in tremologui</a>
+<ul>
+<li><a href="#sec-5-3-1">5.3.1 Overview</a></li>
+<li><a href="#sec-5-3-2">5.3.2 Understand what potentials exist, how and where they are computed.</a></li>
+<li><a href="#sec-5-3-3">5.3.3 Have a look at the hash-table implementation in tremolo and hash-map implementations in general [3/3]</a></li>
+<li><a href="#sec-5-3-4">5.3.4 Overview of Particle struct and force computation in tremolo.</a></li>
+<li><a href="#sec-5-3-5">5.3.5 Add data structures to Particle struct in data.h</a></li>
+<li><a href="#sec-5-3-6">5.3.6 Write small testing case</a></li>
+<li><a href="#sec-5-3-7">5.3.7 Add Hessian Flag to tremolo [3/3]</a></li>
+<li><a href="#sec-5-3-8">5.3.8 Füge Komfortfunktionen zu particle.c hinzu [0/7]</a></li>
+<li><a href="#sec-5-3-9">5.3.9 Write Hessian calculation in lcforces.c</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-4">5.4 Add CTags to my tremolo file.</a></li>
+</ul>
+</li>
+<li><a href="#sec-6">6 Arbeitszeit</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Organization</h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Commit conventions</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<ol>
+<li>Name branch I am working in.
+</li>
+<li>Be explicit about what has been done.
+</li>
+<li>Mark if a "project" is finished.
+</li>
+</ol>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Configurations</h2>
+<div class="outline-text-2" id="text-2">
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Emacs</h2>
+<div class="outline-text-2" id="text-3">
+
+
+
+</div>
+
+<div id="outline-container-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Language evaluation in org mode (see <a href="http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10">http://zeekat.nl/articles/making-emacs-work-for-me.html#sec-10</a>)</h3>
+<div class="outline-text-3" id="text-3-1">
+
+</div>
+
+</div>
+
+<div id="outline-container-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> <span class="done DONE">DONE</span> Qt Auto complete</h3>
+<div class="outline-text-3" id="text-3-2">
+
+<p>    <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-04-16 Wed 15:04</span></span><br/>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> <span class="todo TODO">TODO</span> Syntax highlighting for doxygen comments in c++ mode.</h3>
+<div class="outline-text-3" id="text-3-3">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> <span class="todo TODO">TODO</span> Setter and getter methods.</h3>
+<div class="outline-text-3" id="text-3-4">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> <span class="todo TODO">TODO</span> Rewrite Arbeitszeiten section</h3>
+<div class="outline-text-3" id="text-3-5">
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Nuetzliches</h2>
+<div class="outline-text-2" id="text-4">
+
+
+
+</div>
+
+<div id="outline-container-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Konventionen für Tremolo Code (Kommentare, Coding Guidlines)</h3>
+<div class="outline-text-3" id="text-4-1">
 
 <ul>
+<li>Zum Einrücken immer nur 2 Leerzeichen verwenden. (Habe das bereits in Emacs geändert.)
+</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Tremolo und tremologui aktualisieren</h3>
+<div class="outline-text-3" id="text-4-2">
+
+
+<p>
+Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden:
+</p><pre class="example">
+cd ~/tremolo/build
+make &amp;&amp; make install
+</pre>
+
+
+<p>
+Das selbe gilt für Tremologui.
+</p><pre class="example">
+cd ~/tremologui/build
+make &amp;&amp; make install
+</pre>
+
+
+<p>
+In seltenen Fällen muss evtl. auch die CMake-Datei neu erzeugt werden: Dafür im build-Ordner:
+</p><pre class="example">
+ccmake ..
+</pre>
+
+
+<p>
+Momentan sind die Pfadvariablen so eingestellt, dass die binaries in /home/huber/bin kopiert werden. Das kann man im ccmake Menu unter install<sub>prefix</sub> ändern.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Tremolo testen</h3>
+<div class="outline-text-3" id="text-4-3">
+
+<p>Für self-tests von Tremolo kann das Programm runpybbt.py in <a href="file:///home/huber/tremolo/build/tests/">~/tremolo/build/tests/</a> verwendet werden.
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Visualisieren von Tremolodaten</h3>
+<div class="outline-text-3" id="text-4-4">
+
+<p>Dazu kann das Programm VMD verwendet werden: VMD visualisiert .xyz und .pdb Files:
+</p><pre class="example">
+vmd *.xyz
+</pre>
+
+<p>Die graphische Anpassung kann in VMD unter Graphics-&gt;Representation angepasst werden.
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Gnuplot Befehle</h3>
+<div class="outline-text-3" id="text-4-5">
+
+
+<p>
+Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite gefunden werden: <a href="http://people.duke.edu/~hpgavin/gnuplot.html">http://people.duke.edu/~hpgavin/gnuplot.html</a>
+</p>
+<ol>
+<li>Um ein Data-file (zum Beispiel <code>*.epot*</code>) mit Gnuplot zu plotten, verwendet man: <br/>
+<pre class="example">
+gnuplot&gt; plot "./argon.epot" using 1:2
+</pre>
+
+<p>   Hierbei wird die zweite Spalte gegen die erste Spalte aufgetragen.
+</p></li>
+<li>Dies kann auch mit mehreren Files gleichzeitig getan werden: <br/>
+<pre class="example">
+gnuplot&gt; plot "./argon.etot" using 1:2, "./argon.ekin" using 1:2, "./argon.epot" using 1:2
+</pre>
+
+</li>
+<li>Um den Achsenabschnitt zu veraendern, verwendet man: <br/>
+<pre class="example">
+gnuplot&gt; plot "./argon.epot" using 1:2; set yrange [-0.1: 2]
+</pre>
+
+</li>
+<li>Den urspruenglichen Achsenabschnitt kann man wie folgt wieder herstellen: <br/>
+<pre class="example">
+gnuplot&gt; plot "./argon.epot" using 1:2; set autoscale
+</pre>
+
+</li>
+<li>Mit <br/>
+<pre class="example">
+gnuplot&gt; replot
+</pre>
+
+<p>   kann der Plot aktualisiert werden.
+</p></li>
+<li>Eine Uebersicht von <code>set</code> Befehlen:
+   Create a title:
+<pre class="example">
+set title "Force-Deflection Data"
+</pre>
+
+<p>   Put a label on the x-axis:
+</p><pre class="example">
+set xlabel "Deflection (meters)"
+</pre>
+
+<p>   Put a label on the y-axis:
+</p><pre class="example">
+set ylabel "Force (kN)"
+</pre>
+
+<p>   Change the x-axis range:
+</p><pre class="example">
+set xrange [0.001:0.005]
+</pre>
+
+<p>   Change the y-axis range:
+</p><pre class="example">
+set yrange [20:500]
+</pre>
+
+<p>   Have Gnuplot determine ranges:
+</p><pre class="example">
+set autoscale
+</pre>
+
+<p>   Move the key:
+</p><pre class="example">
+set key 0.01,100
+</pre>
+
+<p>   Delete the key:
+</p><pre class="example">
+unset key
+</pre>
+
+<p>   Put a label on the plot:
+</p><pre class="example">
+set label "yield point" at 0.003, 260
+</pre>
+
+<p>   Remove all labels:
+</p><pre class="example">
+unset label
+</pre>
+
+<p>   Plot using log-axes:
+</p><pre class="example">
+set logscale
+</pre>
+
+<p>   Plot using log-axes on y-axis:
+</p><pre class="example">
+unset logscale; set logscale y
+</pre>
+
+<p>   Change the tic-marks:
+</p><pre class="example">
+set xtics (0.002,0.004,0.006,0.008)
+</pre>
+
+<p>   Return to the default tics:
+</p><pre class="example">
+unset xtics; set xtics auto
+</pre>
+
+<p>   Set output:
+</p><pre class="example">
+set output 'introduction.png'
+</pre>
+
+</li>
+</ol>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-6" class="outline-3">
+<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Grep Befehle</h3>
+<div class="outline-text-3" id="text-4-6">
+
+
+<p>
+<a href="http://www.panix.com/~elflord/unix/grep.html">http://www.panix.com/~elflord/unix/grep.html</a>
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-7" class="outline-3">
+<h3 id="sec-4-7"><span class="section-number-3">4.7</span> Git Befehle</h3>
+<div class="outline-text-3" id="text-4-7">
+
+
+
+</div>
+
+<div id="outline-container-4-7-1" class="outline-4">
+<h4 id="sec-4-7-1"><span class="section-number-4">4.7.1</span> Branches</h4>
+<div class="outline-text-4" id="text-4-7-1">
+
+<ul>
+<li>Create a new branch:
+<pre class="example">
+git branch &lt;name_of_new_branch&gt;
+</pre>
+
+</li>
+<li>Create a new branch by pulling from a remote branch:
+<pre class="example">
+git checkout -b &lt;name_of_new_branch&gt; origin/&lt;name_of_branch&gt;
+</pre>
+
+</li>
+<li>Delete a local branch:
+<pre class="example">
+git branch -d &lt;name_of_branch&gt;
+</pre>
+
+</li>
+<li>Naming convention: use well defined tokes like
+<pre class="example">
+feature
+bugfix
+test
+</pre>
+
+<p>  followed by a slash '/' and a describing name, e.g.:
+</p><pre class="example">
+feature/potentials
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-7-2" class="outline-4">
+<h4 id="sec-4-7-2"><span class="section-number-4">4.7.2</span> Diff</h4>
+<div class="outline-text-4" id="text-4-7-2">
+
+<ul>
+<li>Show differences between &lt;branch1&gt; and &lt;branch2&gt;
+<pre class="example">
+git diff &lt;branch1&gt;..&lt;branch2&gt;
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-7-3" class="outline-4">
+<h4 id="sec-4-7-3"><span class="section-number-4">4.7.3</span> Manipulate changes.</h4>
+<div class="outline-text-4" id="text-4-7-3">
+
+<ul>
+<li>Remove untracked files:
+<pre class="example">
+git clean -f -d
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-7-4" class="outline-4">
+<h4 id="sec-4-7-4"><span class="section-number-4">4.7.4</span> Add and remove changes.</h4>
+<div class="outline-text-4" id="text-4-7-4">
+
+<ul>
+<li>Remove deleted files from stack:
+<pre class="example">
+git add -u .
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-7-5" class="outline-4">
+<h4 id="sec-4-7-5"><span class="section-number-4">4.7.5</span> Remote repositories</h4>
+<div class="outline-text-4" id="text-4-7-5">
+
+<ul>
+<li>Add remote repository with name <i>origin</i> (e.g. <a href="https://pascalkimhuber@bitbucket.org/pascalkimhuber/stacked.git">https://pascalkimhuber@bitbucket.org/pascalkimhuber/stacked.git</a>)
+<pre class="example">
+git remote add origin &lt;address of remote&gt;
+</pre>
+
+</li>
+<li>Push a local repository to a remote repository with name <i>origin</i> for the first time
+<pre class="example">
+git push -u origin --all
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-7-6" class="outline-4">
+<h4 id="sec-4-7-6"><span class="section-number-4">4.7.6</span> Merging branches</h4>
+<div class="outline-text-4" id="text-4-7-6">
+
+<ul>
+<li>Merge &lt;branch1&gt; into &lt;branch2&gt;
+<pre class="example">
+git checkout &lt;branch2&gt;
+git merge &lt;branch1&gt;
+</pre>
+
+</li>
+</ul>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4-8" class="outline-3">
+<h3 id="sec-4-8"><span class="section-number-3">4.8</span> Find Befehle</h3>
+<div class="outline-text-3" id="text-4-8">
+
+
+<ul>
+<li>Find all files with names containing <code>&lt;pattern&gt;</code> (wildcards have to be used with a preceeding backslash!):
+<pre class="example">
+find -name &lt;pattern&gt;
+</pre>
+
+<p>  or e.g.
+</p><pre class="example">
+find -name &lt;pattern&gt;\*
+</pre>
+
+</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4-9" class="outline-3">
+<h3 id="sec-4-9"><span class="section-number-3">4.9</span> Doxygen Befehle</h3>
+<div class="outline-text-3" id="text-4-9">
+
+
+<ul>
+<li><a href="http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdc">List of special commands</a>
+</li>
+</ul>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Aufgaben</h2>
+<div class="outline-text-2" id="text-5">
+
+
+
+</div>
+
+<div id="outline-container-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> <span class="done DONE">DONE</span> Learn Dakota</h3>
+<div class="outline-text-3" id="text-5-1">
+
+<p>    <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-09-12 Fri 11:27</span></span><br/>
+</p><ul>
+<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-08-20 Wed 15:56</span></span> <br/>
+     Treffen mit Christian am 20.08.2014
+
+<p>
+     Weiteres Vorgehen:
+</p><ol>
+<li>Abschluss der Sampling Methoden
+</li>
+<li>Details zu den Intervall-Methoden:
+<ul>
+<li>Kosten
+</li>
+<li>Lokale vs. Global (beides ausprobieren)
+</li>
+</ul>
+
+</li>
+<li>Weitere Recherche zu sensitivity analysis: Main variables&hellip;
+</li>
+</ol>
+
+</li>
+<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-08-13 Wed 15:38</span></span> <br/>
+     Besprechung mit Christian am 13.08.2014, 15:00 Uhr
+<ol>
+<li>Festlegung der Parameter Variablen und Response functions.
+        Wird die Simulation als Blackbox betrachtet, ist folgender Input für die Analyse von Bedeutung:
+<ul>
+<li>(1 - n) Diffusionskoeffizienten + Unschärfe, d.h.
+          D<sub>0</sub> + &Delta; D<sub>0</sub>, D<sub>1</sub> + &Delta; D<sub>1</sub>, D<sub>2</sub> + &Delta; D<sub>2</sub>, &hellip; ,
+          wobei n wahrscheinlich bei 1 - 10 liegt.
+</li>
+<li>(1 - n) Gradienten von Chemischen Potenzialen + Unschärfe, d.h.
+          \nable &mu;<sub>0</sub> + &Delta; &nabla; &mu;<sub>0</sub>, \nable &mu;<sub>1</sub> + &Delta; &nabla; &mu;<sub>1</sub>, \nable &mu;<sub>2</sub> + &Delta; &nabla; &mu;<sub>2</sub>,&hellip;
+</li>
+</ul>
+
+<p>        Als Output erhalten wir den (elektrischen) Fluss.
+        Notizen: Die Diffusionskoeffizienten sind in der Simulation von der Konzentration abhängig. Wir erhalten als Datensätze die Werte von Diffusionskoeffizient+Unschärfe und vom chemischen Potenzial+Unschärfe für verschiedene Konzentrationswerte.
+        Die Anzahl der Input Variablen hängt somit auch von der Genauigkeit der Datensätze ab: Bei geringer Genauigkeit kann es sein, dass eine Änderung der Konzentration nicht einen anderen Wert des Diffusionskoeffizienten erfordert.
+        Mögliches Szenario wäre also z. Bsp.
+</p><ul>
+<li>Input:
+<ul>
+<li>D<sub>0</sub>, D<sub>1</sub>, D<sub>2</sub>, D<sub>3</sub>
+</li>
+<li>mu<sub>0</sub>, mu<sub>1</sub>, mu<sub>2</sub>
+</li>
+</ul>
+
+</li>
+<li>Output:
+<ul>
+<li>Fluss
+</li>
+</ul>
+
+</li>
+</ul>
+
+<p>        Die Samples müssen dann dem durch die Unschärfen definierten Bereichen entnommen werden.
+</p></li>
+<li>Aufgabe.
+        Ich soll die von Dakota bereitgestellten Methoden von UQ, Parameter Studies, DoE, Sensitivity Analysis durchsuchen und nach geeigneten Methoden suchen.
+        Es sollen folgende Aussagen gemacht werden können:
+<ul>
+<li>Welche Parameter (welche Diffusionskoeffizienten, welche Potentiale) sind entscheidend für den Fluss?
+</li>
+<li>Wie sensibel ist der Output gegenüber den Veränderungen an den Input Variablen?
+</li>
+</ul>
+
+</li>
+</ol>
+
+</li>
+<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-07-23 Wed 17:00</span></span> <br/>
+     All notes can be found in <a href="file:///home/huber/dakota/dakota-notes/notes.html">this</a> org file.
+</li>
 <li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-07-22 Tue 17:11</span></span> <br/>
      Aufgabenbeschreibung:
 
@@ -133,28 +902,547 @@ for the JavaScript code in this tag.
 <li>Lese das gesamte Manual (Version 5.4).
 </li>
 <li>Schaue, was für das obige Problem wichtig sein kann.
+</li>
+</ul>
 
+</li>
+<li>Schreibe ein Script (nach Absprache mit Christian)
+
+</li>
+</ol>
+
+<p>     <span style="text-decoration:underline;">Poisson-Nernst-Planck Gleichung</span>
+     &part;<sub>t</sub> c = &nabla; [D (&nabla; c + &alpha; &nabla; &phi; + &beta; c &nabla; &mu; )]
+     &Delta; &phi; = &sum;<sub>i</sub> z<sub>i</sub> c<sub>i</sub>
+</p></li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-5-1-1" class="outline-4">
+<h4 id="sec-5-1-1"><span class="section-number-4">5.1.1</span> <span class="done DONE">DONE</span> Installiere Dakota</h4>
+<div class="outline-text-4" id="text-5-1-1">
+
+<p>     <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-07-23 Wed 16:56</span></span><br/>
+Problem: Falsche Boost Version?
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-5-1-2" class="outline-4">
+<h4 id="sec-5-1-2"><span class="section-number-4">5.1.2</span> <span class="done DONE">DONE</span> Make short overview about Dakota</h4>
+<div class="outline-text-4" id="text-5-1-2">
+
+<p>     <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-05 Tue 10:13</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-07-24 Thu</span></span><br/>
+</p><ul>
+<li id="sec-5-1-2-1"><span class="done DONE">DONE</span> Do Second Part of Dakota Tutorial (Chapter two of the manual)<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-04 Mon 10:43</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-07-31 Thu 8:00-12:00</span></span><br/>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5-1-3" class="outline-4">
+<h4 id="sec-5-1-3"><span class="section-number-4">5.1.3</span> <span class="done DONE">DONE</span> Learn about the Poisson-Nernst-Planck Equation and ionic migration</h4>
+<div class="outline-text-4" id="text-5-1-3">
+
+<p>     <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-06 Wed 09:08</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-08-02 Sat</span></span><br/>
+The theory can be found in <a href="file:///home/huber/dakota/dakota-notes/diplom_neuen.pdf">Christians diploma thesis</a>.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-5-1-4" class="outline-4">
+<h4 id="sec-5-1-4"><span class="section-number-4">5.1.4</span> <span class="todo TODO">TODO</span> Read Chapter about Parameter studies and UQ</h4>
+<div class="outline-text-4" id="text-5-1-4">
+
+<p>     <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-08-04 Mon 8:00-12:00</span></span><br/>
+</p><ul>
+<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-07-31 Thu 11:51</span></span> <br/>
+      Meeting with Christian Thu, 31 Jul 2014 11:30
+
+<ul>
+<li>How to read correlation matrices in Figure 2.10
+</li>
+<li>Read everything about parameter studies and uncertainty quantification (design of experiments)
+</li>
+<li>aim: star correlations for diffusion D and chemical potential &mu; in dependance of the concentration
+<ul>
+<li>are there such a thing?
+</li>
+<li>want to know: if D differs 5% to above, how much does the flux F change?
+</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
+</ul>
+
+<ul>
+<li id="sec-5-1-4-1"><span class="done DONE">DONE</span> Finish Chapter about Parameter Studies (do some examples)<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-05 Tue 12:44</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-08-05 Tue 8:00-13:00</span></span><br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-2"><span class="done DONE">DONE</span> What does the correlation matrices mean?<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-13 Wed 15:58</span></span><br/>
+     Notes can be found in the <a href="file:///home/huber/dakota/dakota-notes/notes.html">Dakota-Notes-file</a>.
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-3"><span class="done DONE">DONE</span> Read Chapter 5 about Uncertainty Quantification Capabilites [3/3]<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-23 Sat 14:18</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-08-20 Wed 08:00-13:00</span></span><br/>
+<ul>
+<li id="sec-5-1-4-3-1"><span class="done DONE">DONE</span> Read Chapter 5.5 about Importance Sampling<br/>
+       <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-21 Thu 13:38</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-08-21 Thu 8:00-12:00</span></span><br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-3-2"><span class="done DONE">DONE</span> Read Chapter 5.6 about Adaptive Sampling<br/>
+       <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-21 Thu 13:38</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-08-21 Thu 08:00-12:00</span></span><br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-3-3"><span class="done DONE">DONE</span> Investigate Interval Analysis again<br/>
+       <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-23 Sat 14:18</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-08-22 Fri 08:00-12:00</span></span><br/>
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-4"><span class="done DONE">DONE</span> Read userguidlines for sampling, DACE, see Chapter 4.7, Table 4.4<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-24 Sun 12:22</span></span><br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-5"><span class="todo TODO">TODO</span> Read Chapter 4 about Design of Experiments (do some examples)<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-08-07 Thu 08:00-13:00</span></span><br/>
+<ul>
+<li id="sec-5-1-4-5-1"><span class="done DONE">DONE</span> Read Chapter 4.6 about Sensitivity Analysis<br/>
+       <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-24 Sun 12:06</span></span><br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-5-2"><span class="done DONE">DONE</span> Read again Chapter about Orthogonal Arrays and make an example<br/>
+       <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-26 Tue 20:17</span></span><br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-5-3"><span class="done DONE">DONE</span> Write down the summaries<br/>
+       <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-08-26 Tue 20:17</span></span><br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-5-4"><span class="todo TODO">TODO</span> Check on VBD + stochastic expansion (section 5.4)<br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-5-5"><span class="todo TODO">TODO</span> Review everything related to Sensitivity Analysis and finish the other third party software<br/>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li id="sec-5-1-4-6"><span class="todo TODO">TODO</span> Write out all methods that display correlation matrices etc.<br/>
+
+
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> <span class="done DONE">DONE</span> Write Dakota Files for CCD/BB and interval analysis</h3>
+<div class="outline-text-3" id="text-5-2">
+
+<p>    <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-09-24 Wed 10:08</span></span>  <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2014-09-16 Tue</span></span><br/>
+Write two dakota input files with good documentation
+</p><ul>
+<li>one for sensitivity analysis CCD or BB
+</li>
+<li>one for interval analysis
+</li>
+</ul>
+
+<p>Both files should use as interface a shell script called "npnp" and should have two dimensional parameters \(D\) and \(\mu\).
+Furthermore I should investigate if both analysis can be combined.
+It seems that both methods can be written into one file. See this example <a href="file:///home/huber/dummi/rosen_ccd.in">here</a>.
+</p>
+</div>
+
+<div id="outline-container-5-2-1" class="outline-4">
+<h4 id="sec-5-2-1"><span class="section-number-4">5.2.1</span> <span class="todo TODO">TODO</span> Examine differences between hybrid etc.</h4>
+<div class="outline-text-4" id="text-5-2-1">
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5-3" class="outline-3">
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> <span class="done DONE">DONE</span> Bug in tremologui</h3>
+<div class="outline-text-3" id="text-5-3">
+
+<p>    <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-28 Tue 09:56</span></span><br/>
+</p><ul>
+<li>Note taken on <span class="timestamp-wrapper"> <span class="timestamp">2014-10-17 Fri 12:06</span></span> <br/>
+     Notes:
+     Created bug issue in redmine.
+     Note that in the Simulation Parameters tab, under Integration and domain, the cube is not displayed!
+</li>
+</ul>
+
+
+
+
+
+</div>
+
+<div id="outline-container-5-3-1" class="outline-4">
+<h4 id="sec-5-3-1"><span class="section-number-4">5.3.1</span> Overview</h4>
+<div class="outline-text-4" id="text-5-3-1">
+
+<ul>
+<li id="sec-5-3-1-1">Basics:<br/>
+Consider a system of \(N\) particles \(p_1, ..., p_N\). Then a (simple) general potential \(V\) can be written as:
+\[V(p_1, ..., p_N) = \sum_{i=1}^N \sum_{j = i+1}^N U_{i,j}(p_i, p_j),\]
+where \(U_{i,j}\) is the pair potential between the particles \(i\) and \(j\).
+
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-1-2">Ideas:<br/>
+<ol>
+<li>It is enough to consider pair potentials for the Hessians:
+</li>
+</ol>
+
+
+\[ \partial_p \partial_q V = \partial_p \partial_q U_{p,q}, \]
+\[ \partial_p \partial_p V = \partial_p \partial_p \sum_{q\neq p} U_{p,q}. \]
+<ol>
+<li>Storing of the Hessians.
+<ul>
+<li>Every particle stores an array of matrices with the name 'Hessians'
+</li>
+<li>Every particle stores a map, which mpas particle indices to array indices of 'Hessians'.
 </li>
 </ul>
 
 </li>
 </ol>
 
-<p>     Poisson-Nernst-Planck Gleichung
-</p>
-<p>
-     &part;<sub>t</sub> c = &nabla; [D (&nabla; c + &alpha; &nabla; &phi; + &beta; c &nabla; &mu; )]
-</p>
-<p>
-     &Delta; &phi; = &sum;<sub>i</sub> z<sub>i</sub> c<sub>i</sub>
-</p></li>
+
+</li>
 </ul>
+<ul>
+<li id="sec-5-3-1-3">Questions: [1/2]<br/>
+<ol>
+<li><code>[X]</code> What are the access times for map-containers?
+   /Ordered map: logarithmic in size. Unordered map: constant (average case), linear in size (worst case).
+</li>
+<li><code>[&nbsp;]</code> Which operations should be possible for the Hessians?
+</li>
+</ol>
+
+
+</li>
+</ul>
+</div>
 
 </div>
 
+<div id="outline-container-5-3-2" class="outline-4">
+<h4 id="sec-5-3-2"><span class="section-number-4">5.3.2</span> <span class="done DONE">DONE</span> Understand what potentials exist, how and where they are computed.</h4>
+<div class="outline-text-4" id="text-5-3-2">
+
+<p>     <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-01 Wed 15:05</span></span><br/>
+A summary can be found <a href="hessians.pdf">here. </a>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-5-3-3" class="outline-4">
+<h4 id="sec-5-3-3"><span class="section-number-4">5.3.3</span> <span class="done DONE">DONE</span> Have a look at the hash-table implementation in tremolo and hash-map implementations in general [3/3]</h4>
+<div class="outline-text-4" id="text-5-3-3">
+
+<p>     <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-15 Wed 16:14</span></span><br/>
+</p>
+<p>
+A description and an example showing the usage of the hash table can be found at <a href="http://burtleburtle.net/bob/hash/hashtab.html">http://burtleburtle.net/bob/hash/hashtab.html</a>
+</p>
+<ul>
+<li id="sec-5-3-3-1"><span class="done DONE">DONE</span> Have a close look at the code of Bob Jenkins and do all examples<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-13 Mon 18:28</span></span><br/>
+The code can be found in <a href="file:///home/huber/Work/playground/hashtab/">~/Work/playground/hashtab/</a>.
+
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-3-2"><span class="done DONE">DONE</span> Try an example<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-13 Mon 18:28</span></span><br/>
+
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-3-3"><span class="done DONE">DONE</span> Look at code examples from tremolo<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-15 Wed 14:25</span></span><br/>
+The trx<sub>hcreate</sub> function is used in the following files (without hash-file):
+
+<p>
+huber@ram:~/tremolo/src$ grep -ri hashtab.h *
+</p><ul>
+<li>bondforces.c:#include "hash/hashtab.h", bondforces.h:#include "hash/hashtab.h"
+  Hier wird htab für BondTable, AngleTable, TorsionTable und ImporoperTable verwendet.
+  Viele Code-Beispiele vorhanden.
+</li>
+<li>data.h:#include "hash/hashtab.h"
+  Verwendung von trx<sub>htab</sub> *ParticleNames in struct MoleculeParameter.
+</li>
+<li>lcforces.c:#include "hash/hashtab.h"
+  Einbindung der Headerdatei hash/hashtab.h, ansonsten wird die Hash map nicht benutzt.
+</li>
+<li>parse.c:#include "hash/hashtab.h"
+  Hier werden geparste Particle Names in den struct MoleculeParameter und preziser in trx<sub>htab</sub> *ParticleNames hinzugefügt.
+  Hier gibt es vielleicht ein paar kleine Code-Beispiele, wie ich die hash table Funktionen verwenden kann.
+</li>
+<li>reaxff.c:#include "hash/hashtab.h"
+</li>
+<li>SuCh.c:#include "hash/hashtab.h"
+</li>
+<li>tersoff.c:#include "hash/hashtab.h"
+</li>
+</ul>
+
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5-3-4" class="outline-4">
+<h4 id="sec-5-3-4"><span class="section-number-4">5.3.4</span> <span class="done DONE">DONE</span> Overview of Particle struct and force computation in tremolo.</h4>
+<div class="outline-text-4" id="text-5-3-4">
+
+<p>     <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-15 Wed 16:14</span></span><br/>
+</p>
+<ul>
+<li id="sec-5-3-4-1"><span class="done DONE">DONE</span> Have a look at particle.c and particle.h<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-15 Wed 16:14</span></span><br/>
+
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-4-2"><span class="todo TODO">TODO</span> Have a look at the force computation in tremolo.<br/>
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5-3-5" class="outline-4">
+<h4 id="sec-5-3-5"><span class="section-number-4">5.3.5</span> <span class="done DONE">DONE</span> Add data structures to Particle struct in data.h</h4>
+<div class="outline-text-4" id="text-5-3-5">
+
+<p>     <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-15 Wed 16:14</span></span><br/>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-5-3-6" class="outline-4">
+<h4 id="sec-5-3-6"><span class="section-number-4">5.3.6</span> <span class="done DONE">DONE</span> Write small testing case</h4>
+<div class="outline-text-4" id="text-5-3-6">
+
+<p>     <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-16 Thu 18:53</span></span><br/>
+The example can be found in <a href="file:///home/huber/Sandbox/2ArgonMolecules">~/Sandbox/2ArgonMolecules</a>
+</p></div>
+
+</div>
+
+<div id="outline-container-5-3-7" class="outline-4">
+<h4 id="sec-5-3-7"><span class="section-number-4">5.3.7</span> <span class="done DONE">DONE</span> Add Hessian Flag to tremolo [3/3]</h4>
+<div class="outline-text-4" id="text-5-3-7">
+
+<p>     <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-21 Tue 14:32</span></span><br/>
+</p><ul>
+<li id="sec-5-3-7-1"><span class="done DONE">DONE</span> Add a Flag "computeHessians" into the Problem struct.<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-17 Fri 15:58</span></span><br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-7-2"><span class="done DONE">DONE</span> Add a keyword to the tremolo parameter file. [2/2]<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-17 Fri 16:01</span></span><br/>
+<ul>
+<li><code>[X]</code> Change parameter file.
+</li>
+<li><code>[X]</code> Change documentation (such that the flag is included)
+</li>
+</ul>
+
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-7-3"><span class="done DONE">DONE</span> Add option to the parser routines. [2/2]<br/>
+      <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2014-10-21 Tue 13:35</span></span><br/>
+<ul>
+<li><code>[X]</code> Function StoreAnalyzeHessians in groupmeas.c has to be changed such that the hessian-flag in the Problem struct is changed.
+</li>
+<li><code>[X]</code> Ask Christian about install process for tremolo. Get error if I try make install&hellip;
+</li>
+</ul>
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5-3-8" class="outline-4">
+<h4 id="sec-5-3-8"><span class="section-number-4">5.3.8</span> <span class="todo TODO">TODO</span> Füge Komfortfunktionen zu particle.c hinzu [0/7]</h4>
+<div class="outline-text-4" id="text-5-3-8">
+
+<ul>
+<li id="sec-5-3-8-1"><span class="todo TODO">TODO</span> void *createLocalHessians(Particle *p, int numberOfHessians)<br/>
+<ol>
+<li>Create
+</li>
+</ol>
+
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-8-2"><span class="todo TODO">TODO</span> void destroyParticleHessians(Particle *p)<br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-8-3"><span class="todo TODO">TODO</span> void getLocalHessian(Particle *p, Particle *q, double *values)<br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-8-4"><span class="todo TODO">TODO</span> double getLocalHessianComponent(Particle *p, Particle *q, int i, int j)<br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-8-5"><span class="todo TODO">TODO</span> addLocalHessian(Particle *p, Particle *q, double *values)<br/>
+The routine should understand, if the particle q is already included in the array.
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-8-6"><span class="todo TODO">TODO</span> void cleanHessians(Particle *p)<br/>
+</li>
+</ul>
+<ul>
+<li id="sec-5-3-8-7"><span class="todo TODO">TODO</span> void cleanHashTable(trx<sub>htab</sub> *table)<br/>
+Routine should be called within cleanHessians(). The purpose is to mudulize cleanHessians such that the cleaning can be done easier in the future by changing cleanHashTable().
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-5-3-9" class="outline-4">
+<h4 id="sec-5-3-9"><span class="section-number-4">5.3.9</span> <span class="todo TODO">TODO</span> Write Hessian calculation in lcforces.c</h4>
+<div class="outline-text-4" id="text-5-3-9">
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5-4" class="outline-3">
+<h3 id="sec-5-4"><span class="section-number-3">5.4</span> <span class="todo TODO">TODO</span> Add CTags to my tremolo file.</h3>
+<div class="outline-text-3" id="text-5-4">
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Arbeitszeit</h2>
+<div class="outline-text-2" id="text-6">
+
+<p>Clock summary at <span class="timestamp-wrapper"> <span class="timestamp">2014-10-28 Tue 15:31</span></span>, for week 2014-W44.
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Headline</th><th scope="col" class="left">Time</th><th scope="col" class="left"></th><th scope="col" class="left"></th></tr>
+</thead>
+<tbody>
+<tr><td class="left"><b>Total time</b></td><td class="left"><b>5:27</b></td><td class="left"></td><td class="left"></td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">Aufgaben</td><td class="left">5:27</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"><span style="visibility:hidden;">xxx</span> TODO Add Hessians to tremolo</td><td class="left"></td><td class="left">5:27</td><td class="left"></td></tr>
+<tr><td class="left"><span style="visibility:hidden;">xxxxxx</span> TODO Füge Komfortfunktionen zu&hellip;</td><td class="left"></td><td class="left"></td><td class="left">5:27</td></tr>
+</tbody>
+</table>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup><col class="left" /><col class="right" /><col class="right" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Week</th><th scope="col" class="right">Time</th><th scope="col" class="right">Overtime</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">2014-W20</td><td class="right">10:32</td><td class="right">01:32:00</td></tr>
+<tr><td class="left">2014-W21</td><td class="right">09:08</td><td class="right">00:08:00</td></tr>
+<tr><td class="left">2014-W22</td><td class="right">12:55</td><td class="right">03:55:00</td></tr>
+<tr><td class="left">2014-W23</td><td class="right">10:49</td><td class="right">01:49:00</td></tr>
+<tr><td class="left">2014-W24</td><td class="right">7:41</td><td class="right">-01:19:00</td></tr>
+<tr><td class="left">2014-W25</td><td class="right">8:01</td><td class="right">-00:59:00</td></tr>
+<tr><td class="left">2014-W26</td><td class="right">5:21</td><td class="right">-03:39:00</td></tr>
+<tr><td class="left">2014-W27</td><td class="right">5:43</td><td class="right">-03:17:00</td></tr>
+<tr><td class="left">2014-W28</td><td class="right">4:33</td><td class="right">-04:27:00</td></tr>
+<tr><td class="left">2014-W29</td><td class="right">0:23</td><td class="right">-08:37:00</td></tr>
+<tr><td class="left">2014-W30</td><td class="right">11:18</td><td class="right">02:18:00</td></tr>
+<tr><td class="left">2014-W31</td><td class="right">8:48</td><td class="right">-00:12:00</td></tr>
+<tr><td class="left">2014-W32</td><td class="right">11:48</td><td class="right">02:48:00</td></tr>
+<tr><td class="left">2014-W33</td><td class="right">11:04</td><td class="right">02:04:00</td></tr>
+<tr><td class="left">2014-W34</td><td class="right">15:04</td><td class="right">06:04:00</td></tr>
+<tr><td class="left">2014-W35</td><td class="right">11:23</td><td class="right">02:23:00</td></tr>
+<tr><td class="left">2014-W37</td><td class="right">6:00</td><td class="right">-03:00:00</td></tr>
+<tr><td class="left">2014-W38</td><td class="right">8:09</td><td class="right">-00:51:00</td></tr>
+<tr><td class="left">2014-W39</td><td class="right">12:13</td><td class="right">03:13:00</td></tr>
+<tr><td class="left">2014-W40</td><td class="right">5:00</td><td class="right">-04:00:00</td></tr>
+<tr><td class="left">2014-W41</td><td class="right">9:02</td><td class="right">00:02:00</td></tr>
+<tr><td class="left">2014-W42</td><td class="right">13:08</td><td class="right">04:08:00</td></tr>
+<tr><td class="left">2014-W43</td><td class="right">9:00</td><td class="right">00:00:00</td></tr>
+<tr><td class="left">2014-W44</td><td class="right">5:27</td><td class="right">-03:33:00</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">Total</td><td class="right">212:30:00</td><td class="right">-03:30:00</td></tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+
 <div id="postamble">
-<p class="date">Date: 2014-07-22T17:22+0200</p>
-<p class="author">Author: Pascal Huber</p>
+<p class="date">Date: 2014-10-29T10:52+0100</p>
+<p class="author">Author: </p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

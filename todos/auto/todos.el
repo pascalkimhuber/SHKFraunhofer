@@ -1,5 +1,8 @@
 (TeX-add-style-hook "todos"
  (lambda ()
+    (LaTeX-add-labels
+     "sec-1"
+     "sec-2")
     (TeX-add-symbols
      '("alert" 1))
     (TeX-run-style-hooks
@@ -21,7 +24,7 @@
      "inputenc"
      "utf8"
      "latex2e"
-     "art11"
+     "art10"
      "article"
-     "11pt")))
+     "a4paper")))
 

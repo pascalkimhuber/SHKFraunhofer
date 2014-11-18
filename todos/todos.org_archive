@@ -4837,3 +4837,21 @@ A summary can be found [[file:hessians.pdf][here. ]]
           - etwas mit Monte-Carlo Methoden (siehe folgende Links)
                 - [[file:~/Work/literature/Possible%20Master%20topics/Combining%20molecular%20dynamics%20with%20Monte%20Carlo%20simulations.pdf][Combining molecular dynamics and Monte Carlo methods]]
                 - [[file:~/Work/literature/Possible%20Master%20topics/Uniform-acceptance%20force-bias%20Monte%20Carlo%20method%20with%20time%20scale%20to%20study%20solid-state%20diffusion.pdf][Uniform-acceptance force-bias Monte Carlo method]]
+
+* DONE Add CTags to my tremolo file.
+   CLOSED: [2014-11-05 Wed 16:05]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-11-05 Wed 16:06
+  :ARCHIVE_FILE: ~/Work/todos/todos.org
+  :ARCHIVE_OLPATH: Aufgaben
+  :ARCHIVE_CATEGORY: todos
+  :ARCHIVE_TODO: DONE
+  :END:
+In order to create the tags I ran the following command:
+: find. -type f -iname "*.[xhS]" |xargs etags -a
+
+In emacs ctags can be handled with the following commands:
+- =M-. <RET>= :: Jump to the tag underneath the cursor.
+- =M-. <tag> <RET>= :: Search for a particular tag.
+- =C-u M-.= :: Find the next definition for the last tag.
+- =M-*= :: Pop back where you previously invoked "M-.".

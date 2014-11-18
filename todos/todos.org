@@ -1,4 +1,6 @@
 #+STARTUP: logdone
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a4paper]
 
 * Organization
 
@@ -25,13 +27,12 @@
 
 
 * Nuetzliches
-  CLOCK: [2014-09-22 Mon 11:22]--[2014-09-22 Mon 11:22] =>  0:00
 
 ** Konventionen für Tremolo Code (Kommentare, Coding Guidlines)
 - Zum Einrücken immer nur 2 Leerzeichen verwenden. (Habe das bereits in Emacs geändert.)
 
 
-** Tremolo aktualisieren
+** Tremolo und tremologui aktualisieren
 
 Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden:
 : cd ~/tremolo/build
@@ -41,15 +42,37 @@ Das selbe gilt für Tremologui.
 : cd ~/tremologui/build
 : make && make install
 
+In seltenen Fällen muss evtl. auch die CMake-Datei neu erzeugt werden: Dafür im build-Ordner:
+: ccmake ..
+
+Momentan sind die Pfadvariablen so eingestellt, dass die binaries in /home/huber/bin kopiert werden. Das kann man im ccmake Menu unter install_prefix ändern.
+
+
+** Neue source und header Dateien in Tremolo einbinden
+Dateien zunächst in [[file:~/tremolo/src]] einfügen, dann die Source-Datei in [[file:~/tremolo/CMakeLists.txt]] hinzufügen.
+
 
 ** Tremolo testen
 Für self-tests von Tremolo kann das Programm runpybbt.py in [[~/tremolo/build/tests/]] verwendet werden.
+
+
+** CTags in Emacs
+In order to create the tags I ran the following command:
+: find. -type f -iname "*.[xhS]" |xargs etags -a
+
+In emacs ctags can be handled with the following commands:
+- =M-. <RET>= :: Jump to the tag underneath the cursor.
+- =M-. <tag> <RET>= :: Search for a particular tag.
+- =C-u M-.= :: Find the next definition for the last tag.
+- =M-*= :: Pop back where you previously invoked "M-.".
+
 
 
 ** Visualisieren von Tremolodaten
 Dazu kann das Programm VMD verwendet werden: VMD visualisiert .xyz und .pdb Files:
 : vmd *.xyz
 Die graphische Anpassung kann in VMD unter Graphics->Representation angepasst werden.
+
 
 ** Gnuplot Befehle
 
@@ -156,6 +179,15 @@ http://www.panix.com/~elflord/unix/grep.html
 ** Doxygen Befehle
 
 - [[http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdc][List of special commands]]
+
+
+** GDB Befehle
+
+*** Within GDB
+Start the TUI (see source code and output)
+: CTRL-x a
+or just
+: win
 
 
 * Aufgaben
@@ -315,6 +347,14 @@ It seems that both methods can be written into one file. See this example [[file
 *** TODO Examine differences between hybrid etc.
 
 
+** DONE Bug in tremologui
+   CLOSED: [2014-10-28 Tue 09:56]
+   - Note taken on [2014-10-17 Fri 12:06] \\
+     Notes:
+     Created bug issue in redmine.
+     Note that in the Simulation Parameters tab, under Integration and domain, the cube is not displayed!
+
+
 ** TODO Add Hessians to tremolo
    CLOCK: [2014-10-15 Wed 16:14]--[2014-10-15 Wed 16:23] =>  0:09
    CLOCK: [2014-09-23 Tue 15:35]--[2014-09-23 Tue 17:23] =>  1:48
@@ -414,35 +454,172 @@ huber@ram:~/tremolo/src$ grep -ri hashtab.h *
     CLOSED: [2014-10-16 Thu 18:53]
     CLOCK: [2014-10-16 Thu 16:43]--[2014-10-16 Thu 18:53] =>  2:10
 The example can be found in [[file:~/Sandbox/2ArgonMolecules]]
-*** TODO Add Hessian Flag to tremolo [0/4]
-**** TODO Add a Flag "computeHessians" into the Problem struct.
-**** TODO Add a keyword to the tremolo parameter file.
-**** TODO Add option to the parser routines.
-*** TODO Fürge Komfortfunktionen zu particle.c hinzu [0/7]
-**** TODO trx_htab *createParticleHessians(Particle *p, int numberOfNeighbors)
-**** TODO void destroyParticleHessians(Particle *p)
-**** TODO void getLocalHessian(Particle *p, Particle *q, double *values)
-**** TODO double getLocalHessianComponent(Particle *p, Particle *q, int i, int j)
-**** TODO addLocalHessian(Particle *p, Particle *q, double *values)
-The routine should understand, if the particle q is already included in the array.
-**** TODO void cleanHessians(Particle *p)
-**** TODO void cleanHashTable(trx_htab *table)
-Routine should be called within cleanHessians(). The purpose is to mudulize cleanHessians such that the cleaning can be done easier in the future by changing cleanHashTable().
-*** TODO Write Hessian calculation in lcforces.c
+*** DONE Add Hessian Flag to tremolo [3/3]
+    CLOSED: [2014-10-21 Tue 14:32]
+    CLOCK: [2014-10-17 Fri 15:29]--[2014-10-17 Fri 16:07] =>  0:38
+    CLOCK: [2014-10-17 Fri 13:40]--[2014-10-17 Fri 15:29] =>  1:49
+    CLOCK: [2014-10-17 Fri 10:37]--[2014-10-17 Fri 12:30] =>  1:53
+**** DONE Add a Flag "computeHessians" into the Problem struct.
+     CLOSED: [2014-10-17 Fri 15:58]
+**** DONE Add a keyword to the tremolo parameter file. [2/2]
+     CLOSED: [2014-10-17 Fri 16:01]
+- [X] Change parameter file.
+- [X] Change documentation (such that the flag is included)
+**** DONE Add option to the parser routines. [2/2]
+     CLOSED: [2014-10-21 Tue 13:35]
+     CLOCK: [2014-10-21 Tue 11:10]--[2014-10-21 Tue 14:35] =>  3:25
+- [X] Function StoreAnalyzeHessians in groupmeas.c has to be changed such that the hessian-flag in the Problem struct is changed.
+- [X] Ask Christian about install process for tremolo. Get error if I try make install...
+*** DONE Füge Komfortfunktionen zu particle.c hinzu [8/8]
+    CLOSED: [2014-11-13 Thu 16:00]
+    CLOCK: [2014-11-05 Wed 15:54]--[2014-11-05 Wed 18:15] =>  2:21
+    CLOCK: [2014-11-04 Tue 14:16]--[2014-11-04 Tue 16:04] =>  1:48
+    CLOCK: [2014-11-04 Tue 12:32]--[2014-11-04 Tue 12:52] =>  0:20
+    CLOCK: [2014-11-04 Tue 10:00]--[2014-11-04 Tue 12:32] =>  2:32
+    CLOCK: [2014-10-30 Thu 16:53]--[2014-10-30 Thu 17:52] =>  0:59
+    CLOCK: [2014-10-29 Wed 10:00]--[2014-10-29 Wed 12:51] =>  2:51
+    CLOCK: [2014-10-28 Tue 13:35]--[2014-10-28 Tue 15:31] =>  1:56
+    CLOCK: [2014-10-28 Tue 08:30]--[2014-10-28 Tue 12:01] =>  3:31
+    - Note taken on [2014-10-29 Wed 12:21] \\
+      Note that the hashkey length used in the Hessian hashtable in the particle struct is defined in [[file:~/tremolo/src/particle.c]].
+      #+BEGIN_SRC C
+      #define HASH_KEYLEN 32
+      #+END_SRC
+**** DONE =void *createLocalHessians(struct Particle *p, int numberOfHessians)=
+     CLOSED: [2014-10-29 Wed 11:50]
+The routine should be called whenever a new Particle struct is created, but only if the flat =computeHessians= in the Problem struct is set to 1.
+1. Allocate memory for a double array of size =NDIMMAT x numberOfNeighbors=
+   and assign it to the =localHessians= pointer of =p=. The number of entries is stored to =p->sizeOfLocalHessians=.
+   - In order to initialize the array with zeros use =Calloc= for memory allocation.
+2. Create a =trx_htab= of size greater than =numberOfNeighbors= and assign it to the =hessianIndex= pointer of =p=.
+   - Since the size of the hashtable is given by 2^(logsize) first the binary logarithm of =numberOfNeighbors= must be calculated.
+   - In order that the hashtable is large enough the final logsize is given by =log2(numberOfNeighbors)+2=.
 
+**** DONE =void destroyParticleHessians(struct Particle *p)=
+     CLOSED: [2014-10-29 Wed 12:08]
+The routine should be called whenever a Particle struct is destroyed and memory for Hessians was allocated.
+1. Free all memory of the =localHessians= array. For this the customized =Free= routine in =util.h= is used.
+2. Destroy =hessianIndex= hashtable and free all its memory.
+   - Before destroying the hashtabe itself all items have to be deleted and freed in a while loop.
+   - After that the hashtable can be destroyed using =trx_hdestroy()=.
+**** DONE =int getLocalHessian(struct Particle *p, unsigned int qIndex, double *values)=
+     CLOSED: [2014-11-04 Tue 11:22]
+The routine is supposed to get all =NDIMMAT= entries of the local Hessian \(\partial_p \partial_qIndex V\) and store them in =values=. If =qIndex= is not found in the =hessianIndex= hashtable an zero-array is stored in =values= and in this case the routine returns 0. In all other cases it returns 1.
+Note that the caller has to make sure that =values= is large enough (size =NDIMMAT=).
+1. Convert =qIndex= into a =unsigned char= variable in order to find the right item in the hashtable. (The key in the hashtables are =unsigned char=.)
+   This can be done using the following code:
+   #+BEGIN_SRC C
+int n = 123;
+char c[20];
+sprintf(c, "%d", n);
+   #+END_SRC
+2. Move the =ipos= pointer of the hashtable to the item given by the provided =qIndex= key.
+   For this use the function =trx_hfind=
+3. If item was found, get the index of =localHessians= out of the hashtable and save the corresponding entries in =localHessians= to =values=.
+4. If not, set all entries of =values= to zero.
+5. Return 0 or 1 accordingly.
+**** DONE =double getLocalHessianComponent(struct Particle *p, unsigned int qIndex, unsigned int i, unsigned int j)=
+     CLOSED: [2014-11-04 Tue 11:50]
+The routine implements nearly the same functionality as =getLocalHessian()=. The only difference is that instead of the whole =NDIMMAT=-entries Hessian matrix only the (i+1),(j+1)-entry is returned.
+Note that the indices are running from =0= to =NDIM-1=.
+1. Convert =qIndex= into a =char= variable in order to find the right item in the hashtable. (The key in the hashtables are =unsigned char=.)
+2. Move the =ipos= pointer of the hashtable to the item given by the provided =qIndex= key.
+   For this use the function =trx_hfind=
+3. If item was found, get the index of =localHessians= out of the hashtable and return the right entry of =localHessians=.
+   Since the local Hessians are stored row-wise in =localHessians= (i.e. the first NDIM entries represent the first row, the next NDIM entries the second, etc.) the following formula can be used to get the right entries in =localHessians=:
+   \((i,j) \mapsto NDIM*i + j\)
+4. If not, return 0.0.
+**** DONE =void cleanLocalHessians(Particle *p)=
+     CLOSED: [2014-11-04 Tue 12:38]
+The routine is supposed to reinitialize the data structures used in the =Particle= struct to store local Hessians, i.e. =localHessians= and =hessianIndex=.
+For this the =localHessians= array is set to zero and the =hessianIndex= hashtable is cleaned, meaning that all items are destroyed.
+1. Reinitialize the =localHessians= array with zeros using a simple for loop. The size of the array can be found in the =hessianIndex= stats.
+2. The cleaning of the hashtable is done by the function =cleanHashTable()=.
+**** DONE =void cleanHashTable(trx_htab *table)=
+     CLOSED: [2014-11-04 Tue 12:52]
+Routine should be called within cleanHessians(). The purpose is to mudulize cleanHessians such that the cleaning can be done easier in the future by changing cleanHashTable().
+For the time being, the function iterates through the hashtable and deletes every item.
+1. Set current position to the first item =if(trx_hfirst())=. Then loop over all items found in the hashtable using =while(hcount())=.
+2. Free memory for the key =Free(trx_hkey())=.
+3. Free memory for the value =Free(trx_hstuff())=.
+4. Delete the item =trx_hdel()=. Note that this deletes the *current* item of the hashtable.
+**** DONE =addLocalHessian(struct Particle *p, unsigned int qIndex, double *values)=
+     CLOSED: [2014-11-04 Tue 15:59]
+The routine looks in the =hessianIndex= hashtable for =qIndex=. If it is found the entries of =values= are added to the present ones. If =qIndex= is not yet in the hashtable a new entry is created.
+If the =localHessians= array is running out of memory, it is reallocated.
+1. Convert =qIndex= to an =unsigned char= variable using again the =sprintf= function.
+   #+BEGIN_SRC C
+int n = 123;
+char c[20];
+sprintf(c, "%d", n);
+   #+END_SRC
+2. Check if the hashkey is already taken in =hessianIndex=. For this use the function =trx_hadd()= which returns =FALSE= if the hashkey is already taken and sets the =ipos= pointer to the position of the hashkey. Use for the value-argument in =trx_hadd= a dummy value.
+3. If =trx_hadd()= returns =TRUE=
+   - check if more memory for the =localHessians= array has to be allocated. This can be done by comparing the number of items in the hashtable times =NDIMMAT= with =p->sizeOfLocalHessians=. If necessary reallocate the memory.
+   - Then add =values= to the =localHessians= array and reset the stuff-value in the hashtable to the current index.
+4. If =trx_hadd()= returns =FALSE= get index of the =localHessians= entry out of the hashtable and add the entries of =values= to the right =localHessians= entries.
+**** DONE Test all routines.
+     CLOSED: [2014-11-12 Wed 15:40]
+     CLOCK: [2014-11-07 Fri 16:34]--[2014-11-07 Fri 19:06] =>  2:32
+     CLOCK: [2014-11-07 Fri 11:36]--[2014-11-07 Fri 12:23] =>  0:47
+     CLOCK: [2014-11-06 Thu 16:28]--[2014-11-06 Thu 17:32] =>  1:04
+Implement some test functions for the routines. For this I use a seperate file [[file:~/tremolo/src/hessianTest/hessianTest.h]].
+The testing code is run in the =Run()= routine in [[file:~/tremolo/src/tremolo.c]] (line 312).
+
+***** The Particle list
+In order to access the particles one can use the =Problem= struct in the following way: One uses the function =GetParticleById()= implemented in [[file:~/tremolo/src/idlist.c]] with the =IDs= list which is a member of the =Problem= struct.
+: p = GetParticleById(P->IDs, id);
+
+***** DONE Resolve Segmentation fault.
+      CLOSED: [2014-11-11 Tue 17:39]
+      CLOCK: [2014-11-11 Tue 15:26]--[2014-11-11 Tue 17:39] =>  2:13
+Running tremolo, I get a segmentation fault while calling =addLocalHessians()=. This happens only after calling the function multiple times. =gdb= traces the segmentation fault back to the =trx_hash=-functions.
+The error was a missing =*sizeof(double)= in =addLocalHessians()= when reallocating the memory for =localHessians=.
+
+***** DONE Debug =test_addAndGetLocalHessians()=
+      CLOSED: [2014-11-12 Wed 15:39]
+      CLOCK: [2014-11-12 Wed 14:00]--[2014-11-12 Wed 15:38] =>  1:38
+      CLOCK: [2014-11-12 Wed 10:14]--[2014-11-12 Wed 12:45] =>  2:31
+      CLOCK: [2014-11-11 Tue 17:39]--[2014-11-11 Tue 19:03] =>  1:24
+The getter methods do not work, see [[file:~/Sandbox/test/main.c][here]] for an example.
+The problem was that I specified the wrong keylength as argument to =trx_hadd= and =trx_hfind=.
+
+*** TODO Write Hessian calculation in lcforces.c [1/7]
+    CLOCK: [2014-11-13 Thu 16:00]--[2014-11-13 Thu 17:26] =>  1:26
+**** DONE Merge with branch testing
+     CLOSED: [2014-11-13 Thu 17:02]
+**** TODO Add data structures to particles
+Add the creation and destruction of Hessian data structures to the functions which create Particles.
+***** TODO Identify where the Particles are created
+It seems  that the Particles are created in the =ReadParticles()= routine in [[file:~/tremolo/src/particle.c]] which is called by =InitSimBox()= which can be found in the same file. The =InitSimBox()= function is called in =Init()= (c.f. [[file:~/tremolo/src/init.c]]) which is itself called in the main program (=Run()= in [[file:~/tremolo/src/tremolo.c]]).
+The creation itself is done in the =CreateParticleNoSpeStr()=.
+**** TODO Write LCHessianList struct
+This can be done in analogy to LCForceList.
+Note that everything must be sorted according to the =r_cut=.
+**** TODO Write registrationFunction for LCHessianList
+This functions should add the right function pointer to the LCHessianList struct. It should work in analogy to the force registration.
+**** TODO Add code that handles LCHessianList for Hessian computation
+There must exist a function that activates the LCForceList. To this function some code that activates the LCHessianList struct must be added.
+**** TODO Write Function that computes the Hessians in the case of the Lennard-Jones-Potential
+This function does the actual force computation.
+
+*** TODO Write extensive documentation about the Hessians
+- [ ] How are they stored?
+- [ ] Where and how are they computed?
+- [ ] What data structures are used?
 
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-10-16 Thu 18:53], for week 2014-W42.
+Clock summary at [2014-11-13 Thu 17:26], for week 2014-W46.
 
-| Headline                                     | Time   |      |      |
-|----------------------------------------------+--------+------+------|
-| *Total time*                                 | *8:48* |      |      |
-|----------------------------------------------+--------+------+------|
-| Aufgaben                                     | 8:48   |      |      |
-| \__ TODO Add Hessians to tremolo             |        | 8:48 |      |
-| \_____ DONE Have a look at the hash-table... |        |      | 6:29 |
-| \_____ DONE Write small testing case         |        |      | 2:10 |
+| Headline                                    | Time   |      |      |
+|---------------------------------------------+--------+------+------|
+| *Total time*                                | *9:12* |      |      |
+|---------------------------------------------+--------+------+------|
+| Aufgaben                                    | 9:12   |      |      |
+| \__ TODO Add Hessians to tremolo            |        | 9:12 |      |
+| \_____ DONE Füge Komfortfunktionen zu...    |        |      | 7:46 |
+| \_____ TODO Write Hessian calculation in... |        |      | 1:26 |
 #+END:
 
 | Week     |      Time |  Overtime |
@@ -468,7 +645,11 @@ Clock summary at [2014-10-16 Thu 18:53], for week 2014-W42.
 | 2014-W39 |     12:13 |  03:13:00 |
 | 2014-W40 |      5:00 | -04:00:00 |
 | 2014-W41 |      9:02 |  00:02:00 |
-| 2014-W42 |      8:48 | -02:22:00 |
+| 2014-W42 |     13:08 |  04:08:00 |
+| 2014-W43 |      9:00 |  00:00:00 |
+| 2014-W44 |      9:17 |  00:17:00 |
+| 2014-W45 |     11:24 |  02:24:00 |
+| 2014-W46 |      9:12 | -01:14:00 |
 |----------+-----------+-----------|
-| Total    | 191:33:00 | -06:27:00 |
+| Total    | 235:30:00 |  01:30:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
