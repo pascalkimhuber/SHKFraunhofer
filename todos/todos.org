@@ -58,7 +58,7 @@ Für self-tests von Tremolo kann das Programm runpybbt.py in [[~/tremolo/build/t
 
 ** CTags in Emacs
 In order to create the tags I ran the following command:
-: find. -type f -iname "*.[xhS]" |xargs etags -a
+: find . -type f -iname "*.[xhS]" |xargs etags -a
 
 In emacs ctags can be handled with the following commands:
 - =M-. <RET>= :: Jump to the tag underneath the cursor.
@@ -584,18 +584,50 @@ The error was a missing =*sizeof(double)= in =addLocalHessians()= when reallocat
 The getter methods do not work, see [[file:~/Sandbox/test/main.c][here]] for an example.
 The problem was that I specified the wrong keylength as argument to =trx_hadd= and =trx_hfind=.
 
-*** TODO Write Hessian calculation in lcforces.c [1/7]
+*** TODO Write Hessian calculation in lcforces.c [2/7]
     CLOCK: [2014-11-13 Thu 16:00]--[2014-11-13 Thu 17:26] =>  1:26
 **** DONE Merge with branch testing
      CLOSED: [2014-11-13 Thu 17:02]
-**** TODO Add data structures to particles
+**** DONE Add data structures to particles
+     CLOSED: [2014-11-18 Tue 17:24]
+     CLOCK: [2014-11-18 Tue 17:12]--[2014-11-18 Tue 17:24] =>  0:12
+     CLOCK: [2014-11-18 Tue 15:30]--[2014-11-18 Tue 17:12] =>  1:42
 Add the creation and destruction of Hessian data structures to the functions which create Particles.
-***** TODO Identify where the Particles are created
+***** DONE Identify where the Particles are created
+      CLOSED: [2014-11-18 Tue 17:13]
 It seems  that the Particles are created in the =ReadParticles()= routine in [[file:~/tremolo/src/particle.c]] which is called by =InitSimBox()= which can be found in the same file. The =InitSimBox()= function is called in =Init()= (c.f. [[file:~/tremolo/src/init.c]]) which is itself called in the main program (=Run()= in [[file:~/tremolo/src/tremolo.c]]).
 The creation itself is done in the =CreateParticleNoSpeStr()=.
+***** DONE Add creation of localHessians to Particle-creation.
+      CLOSED: [2014-11-18 Tue 17:14]
+This is done in =CreateParticleNoSpeStr=.
+***** DONE Add destruction of localHessians to Particles.
+      CLOSED: [2014-11-18 Tue 17:24]
+This is done in =DeleteParticle()= in [[file:~/tremolo/src/particle.c]].
 **** TODO Write LCHessianList struct
+     CLOCK: [2014-11-21 Fri 16:00]--[2014-11-21 Fri 19:48] =>  3:48
+     CLOCK: [2014-11-21 Fri 09:31]--[2014-11-21 Fri 12:30] =>  2:59
+     CLOCK: [2014-11-18 Tue 17:31]--[2014-11-18 Tue 17:53] =>  0:22
 This can be done in analogy to LCForceList.
 Note that everything must be sorted according to the =r_cut=.
+***** TODO Make a Plan for the next steps
+      - Note taken on [2014-11-21 Fri 19:39] \\
+        Aufgabenbesprechung mit Christian am [2014-11-21 Fri 18:00]
+        
+        1. Register Hessian functions, at the same position where the potentials are registered (indenpendently of the flag)
+        2. Check if flag is set and in that case delete registered Hessian functions. This can be done either in ControlOutputRecord, StoreOutput)
+        3. It is enough to implement LCHessList structs. These are then implemented as members of the LCForceData struct and can use their data.
+        
+        TODOs: 
+        - Mache einen Plan aus den folgenden TODOs ;)
+        - Prüfe, was Jan ins redmine gepusht hat
+        - Setze Hessian Flag in den Output-Block
+        - Finde heraus, wo die Registrierung der Hessian Funktion stattfinden kann. Beachte, dass dies auch abhängig davon ist, welche Potential verwendet werden.
+        - Implementiere struct LCHessianList
+        - Implementiere RegisterLCHessian Funktion in Analogie zu RegisterLCPotential
+        - Implementiere Hessian computation für das Lennard-Jones Potential
+        - Implementiere Funktion, die die Ausführung der Hessian computation auslöst (in Analogie zur Kraftberechnung)
+        - Bespreche mit Christian den Output der Ergebnisse
+
 **** TODO Write registrationFunction for LCHessianList
 This functions should add the right function pointer to the LCHessianList struct. It should work in analogy to the force registration.
 **** TODO Add code that handles LCHessianList for Hessian computation
@@ -608,18 +640,18 @@ This function does the actual force computation.
 - [ ] Where and how are they computed?
 - [ ] What data structures are used?
 
+
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-11-13 Thu 17:26], for week 2014-W46.
+Clock summary at [2014-11-21 Fri 19:48], for week 2014-W47.
 
 | Headline                                    | Time   |      |      |
 |---------------------------------------------+--------+------+------|
-| *Total time*                                | *9:12* |      |      |
+| *Total time*                                | *9:03* |      |      |
 |---------------------------------------------+--------+------+------|
-| Aufgaben                                    | 9:12   |      |      |
-| \__ TODO Add Hessians to tremolo            |        | 9:12 |      |
-| \_____ DONE Füge Komfortfunktionen zu...    |        |      | 7:46 |
-| \_____ TODO Write Hessian calculation in... |        |      | 1:26 |
+| Aufgaben                                    | 9:03   |      |      |
+| \__ TODO Add Hessians to tremolo            |        | 9:03 |      |
+| \_____ TODO Write Hessian calculation in... |        |      | 9:03 |
 #+END:
 
 | Week     |      Time |  Overtime |
@@ -649,7 +681,8 @@ Clock summary at [2014-11-13 Thu 17:26], for week 2014-W46.
 | 2014-W43 |      9:00 |  00:00:00 |
 | 2014-W44 |      9:17 |  00:17:00 |
 | 2014-W45 |     11:24 |  02:24:00 |
-| 2014-W46 |      9:12 | -01:14:00 |
+| 2014-W46 |      9:12 |  00:12:00 |
+| 2014-W47 |      9:03 |  00:03:00 |
 |----------+-----------+-----------|
-| Total    | 235:30:00 |  01:30:00 |
+| Total    | 245:59:00 |  02:59:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
