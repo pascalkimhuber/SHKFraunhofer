@@ -192,169 +192,6 @@ or just
 
 * Aufgaben
 
-** DONE Learn Dakota
-   CLOSED: [2014-09-12 Fri 11:27]
-   CLOCK: [2014-07-29 Tue 14:09]--[2014-07-29 Tue 17:48] =>  3:39
-   CLOCK: [2014-07-23 Wed 14:00]--[2014-07-23 Wed 16:56] =>  2:56
-   CLOCK: [2014-07-22 Tue 14:00]--[2014-07-22 Tue 17:22] =>  3:22
-   - Note taken on [2014-08-20 Wed 15:56] \\
-     Treffen mit Christian am 20.08.2014
-
-     Weiteres Vorgehen:
-     1. Abschluss der Sampling Methoden
-     2. Details zu den Intervall-Methoden:
-        - Kosten
-        - Lokale vs. Global (beides ausprobieren)
-     3. Weitere Recherche zu sensitivity analysis: Main variables...
-   - Note taken on [2014-08-13 Wed 15:38] \\
-     Besprechung mit Christian am 13.08.2014, 15:00 Uhr
-     1. Festlegung der Parameter Variablen und Response functions.
-        Wird die Simulation als Blackbox betrachtet, ist folgender Input für die Analyse von Bedeutung:
-        - (1 - n) Diffusionskoeffizienten + Unschärfe, d.h.
-          D_0 + \Delta D_0, D_1 + \Delta D_1, D_2 + \Delta D_2, ... ,
-          wobei n wahrscheinlich bei 1 - 10 liegt.
-        - (1 - n) Gradienten von Chemischen Potenzialen + Unschärfe, d.h.
-          \nable \mu_0 + \Delta \nabla \mu_0, \nable \mu_1 + \Delta \nabla \mu_1, \nable \mu_2 + \Delta \nabla \mu_2,...
-        Als Output erhalten wir den (elektrischen) Fluss.
-        Notizen: Die Diffusionskoeffizienten sind in der Simulation von der Konzentration abhängig. Wir erhalten als Datensätze die Werte von Diffusionskoeffizient+Unschärfe und vom chemischen Potenzial+Unschärfe für verschiedene Konzentrationswerte.
-        Die Anzahl der Input Variablen hängt somit auch von der Genauigkeit der Datensätze ab: Bei geringer Genauigkeit kann es sein, dass eine Änderung der Konzentration nicht einen anderen Wert des Diffusionskoeffizienten erfordert.
-        Mögliches Szenario wäre also z. Bsp.
-        - Input:
-          - D_0, D_1, D_2, D_3
-          - mu_0, mu_1, mu_2
-        - Output:
-          - Fluss
-        Die Samples müssen dann dem durch die Unschärfen definierten Bereichen entnommen werden.
-     2. Aufgabe.
-        Ich soll die von Dakota bereitgestellten Methoden von UQ, Parameter Studies, DoE, Sensitivity Analysis durchsuchen und nach geeigneten Methoden suchen.
-        Es sollen folgende Aussagen gemacht werden können:
-        - Welche Parameter (welche Diffusionskoeffizienten, welche Potentiale) sind entscheidend für den Fluss?
-        - Wie sensibel ist der Output gegenüber den Veränderungen an den Input Variablen?
-   - Note taken on [2014-07-23 Wed 17:00] \\
-     All notes can be found in [[file:~/dakota/dakota-notes/notes.org][this]] org file.
-   - Note taken on [2014-07-22 Tue 17:11] \\
-     Aufgabenbeschreibung:
-
-     Im Zuge einer Software zur Ionen-Migration (Berechnung über die Poisson-Nernst-Planck Gleichung) soll ein script geschrieben werden, dass als Input Diffusionswerte, chemisches Potential und erwartete Fehler entgegennimmt und anschließend den elektrischen Fluß bestimmt.
-     Dazu soll das Optimierungsprogramm DAKOTA (Design Analysis Kit for Optimization and Terascale Applications) von den SNL verwendet werden.
-
-     Meine Aufgabe ist es nun
-     1. Mache mich Dakota vertraut
-        + Lese das gesamte Manual (Version 5.4).
-        + Schaue, was für das obige Problem wichtig sein kann.
-     2. Schreibe ein Script (nach Absprache mit Christian)
-
-     _Poisson-Nernst-Planck Gleichung_
-     \partial_t c = \nabla [D (\nabla c + \alpha \nabla \phi + \beta c \nabla \mu )]
-     \Delta \phi = \sum_i z_i c_i
-*** DONE Installiere Dakota
-    CLOSED: [2014-07-23 Wed 16:56]
-Problem: Falsche Boost Version?
-
-*** DONE Make short overview about Dakota
-    CLOSED: [2014-08-05 Tue 10:13] SCHEDULED: <2014-07-24 Thu>
-**** DONE Do Second Part of Dakota Tutorial (Chapter two of the manual)
-     CLOSED: [2014-08-04 Mon 10:43] SCHEDULED: <2014-07-31 Thu 8:00-12:00>
-     CLOCK: [2014-08-04 Mon 10:19]--[2014-08-04 Mon 10:43] =>  0:24
-     CLOCK: [2014-07-31 Thu 10:04]--[2014-07-31 Thu 11:55] =>  1:51
-     CLOCK: [2014-07-30 Wed 17:52]--[2014-07-30 Wed 19:34] =>  1:42
-     CLOCK: [2014-07-30 Wed 15:45]--[2014-07-30 Wed 16:25] =>  0:40
-     CLOCK: [2014-07-30 Wed 15:20]--[2014-07-30 Wed 15:30] =>  0:10
-     CLOCK: [2014-07-30 Wed 14:34]--[2014-07-30 Wed 15:20] =>  0:46
-*** DONE Learn about the Poisson-Nernst-Planck Equation and ionic migration
-    CLOSED: [2014-08-06 Wed 09:08] SCHEDULED: <2014-08-02 Sat>
-    CLOCK: [2014-08-04 Mon 09:09]--[2014-08-04 Mon 10:12] =>  1:03
-The theory can be found in [[file:~/dakota/dakota-notes/diplom_neuen.pdf][Christians diploma thesis]].
-
-*** TODO Read Chapter about Parameter studies and UQ
-    SCHEDULED: <2014-08-04 Mon 8:00-12:00>
-    CLOCK: [2014-08-06 Wed 14:00]--[2014-08-06 Wed 14:38] =>  0:38
-    CLOCK: [2014-08-04 Mon 11:41]--[2014-08-04 Mon 12:49] =>  1:08
-    CLOCK: [2014-08-04 Mon 10:44]--[2014-08-04 Mon 11:12] =>  0:28
-    - Note taken on [2014-07-31 Thu 11:51] \\
-      Meeting with Christian Thu, 31 Jul 2014 11:30
-
-      - How to read correlation matrices in Figure 2.10
-      - Read everything about parameter studies and uncertainty quantification (design of experiments)
-      - aim: star correlations for diffusion D and chemical potential \mu in dependance of the concentration
-        - are there such a thing?
-        - want to know: if D differs 5% to above, how much does the flux F change?
-**** DONE Finish Chapter about Parameter Studies (do some examples)
-     CLOSED: [2014-08-05 Tue 12:44] SCHEDULED: <2014-08-05 Tue 8:00-13:00>
-     CLOCK: [2014-08-05 Tue 10:00]--[2014-08-05 Tue 12:43] =>  2:43
-**** DONE What does the correlation matrices mean?
-     CLOSED: [2014-08-13 Wed 15:58]
-     CLOCK: [2014-08-13 Wed 13:20]--[2014-08-13 Wed 15:58] =>  2:38
-     CLOCK: [2014-08-13 Wed 10:35]--[2014-08-13 Wed 12:20] =>  1:45
-     Notes can be found in the [[file:~/dakota/dakota-notes/notes.org][Dakota-Notes-file]].
-**** DONE Read Chapter 5 about Uncertainty Quantification Capabilites [3/3]
-     CLOSED: [2014-08-23 Sat 14:18] SCHEDULED: <2014-08-20 Wed 08:00-13:00>
-     CLOCK: [2014-08-21 Thu 09:18]--[2014-08-21 Thu 10:19] =>  1:01
-     CLOCK: [2014-08-20 Wed 15:00]--[2014-08-20 Wed 15:55] =>  0:55
-     CLOCK: [2014-08-19 Tue 13:30]--[2014-08-19 Tue 14:59] =>  1:29
-     CLOCK: [2014-08-19 Tue 11:06]--[2014-08-19 Tue 12:30] =>  1:24
-     CLOCK: [2014-08-16 Sat 10:25]--[2014-08-16 Sat 12:03] =>  1:38
-     CLOCK: [2014-08-15 Fri 09:30]--[2014-08-15 Fri 11:37] =>  2:07
-     CLOCK: [2014-08-14 Thu 13:30]--[2014-08-14 Thu 14:09] =>  0:39
-     CLOCK: [2014-08-14 Thu 10:42]--[2014-08-14 Thu 12:12] =>  1:30
-     CLOCK: [2014-08-13 Wed 16:43]--[2014-08-13 Wed 16:47] =>  0:04
-     CLOCK: [2014-08-13 Wed 16:00]--[2014-08-13 Wed 16:43] =>  0:43
-***** DONE Read Chapter 5.5 about Importance Sampling
-      CLOSED: [2014-08-21 Thu 13:38] SCHEDULED: <2014-08-21 Thu 8:00-12:00>
-      CLOCK: [2014-08-21 Thu 13:15]--[2014-08-21 Thu 13:37] =>  0:22
-      CLOCK: [2014-08-21 Thu 10:19]--[2014-08-21 Thu 12:24] =>  2:05
-***** DONE Read Chapter 5.6 about Adaptive Sampling
-      CLOSED: [2014-08-21 Thu 13:38] SCHEDULED: <2014-08-21 Thu 08:00-12:00>
-***** DONE Investigate Interval Analysis again
-      CLOSED: [2014-08-23 Sat 14:18] SCHEDULED: <2014-08-22 Fri 08:00-12:00>
-      CLOCK: [2014-08-23 Sat 10:00]--[2014-08-23 Sat 14:18] =>  4:18
-
-**** DONE Read userguidlines for sampling, DACE, see Chapter 4.7, Table 4.4
-     CLOSED: [2014-08-24 Sun 12:22]
-**** TODO Read Chapter 4 about Design of Experiments (do some examples)
-     SCHEDULED: <2014-08-07 Thu 08:00-13:00>
-     CLOCK: [2014-08-25 Mon 09:30]--[2014-08-25 Mon 12:10] =>  2:40
-     CLOCK: [2014-08-06 Wed 09:49]--[2014-08-06 Wed 12:00] =>  2:11
-***** DONE Read Chapter 4.6 about Sensitivity Analysis
-      CLOSED: [2014-08-24 Sun 12:06]
-      CLOCK: [2014-08-24 Sun 09:00]--[2014-08-24 Sun 12:30] =>  3:30
-***** DONE Read again Chapter about Orthogonal Arrays and make an example
-      CLOSED: [2014-08-26 Tue 20:17]
-      CLOCK: [2014-08-26 Tue 15:00]--[2014-08-26 Tue 20:17] =>  5:17
-***** DONE Write down the summaries
-      CLOSED: [2014-08-26 Tue 20:17]
-***** TODO Check on VBD + stochastic expansion (section 5.4)
-***** TODO Review everything related to Sensitivity Analysis and finish the other third party software
-      CLOCK: [2014-08-28 Thu 13:44]--[2014-08-28 Thu 17:10] =>  3:26
-**** TODO Write out all methods that display correlation matrices etc.
-
-
-** DONE Write Dakota Files for CCD/BB and interval analysis
-   CLOSED: [2014-09-24 Wed 10:08] SCHEDULED: <2014-09-16 Tue>
-   CLOCK: [2014-09-23 Tue 14:30]--[2014-09-23 Tue 15:35] =>  1:05
-   CLOCK: [2014-09-22 Mon 13:30]--[2014-09-22 Mon 17:30] =>  4:00
-   CLOCK: [2014-09-22 Mon 10:55]--[2014-09-22 Mon 12:30] =>  1:35
-   CLOCK: [2014-09-21 Sun 19:00]--[2014-09-21 Sun 20:50] =>  1:50
-   CLOCK: [2014-09-19 Fri 14:00]--[2014-09-19 Fri 17:00] =>  3:00
-   CLOCK: [2014-09-19 Fri 10:30]--[2014-09-19 Fri 12:44] =>  2:14
-   CLOCK: [2014-09-18 Thu 15:00]--[2014-09-18 Thu 16:05] =>  1:05
-Write two dakota input files with good documentation
-- one for sensitivity analysis CCD or BB
-- one for interval analysis
-Both files should use as interface a shell script called "npnp" and should have two dimensional parameters \(D\) and \(\mu\).
-Furthermore I should investigate if both analysis can be combined.
-It seems that both methods can be written into one file. See this example [[file:~/dummi/rosen_ccd.in][here]].
-*** TODO Examine differences between hybrid etc.
-
-
-** DONE Bug in tremologui
-   CLOSED: [2014-10-28 Tue 09:56]
-   - Note taken on [2014-10-17 Fri 12:06] \\
-     Notes:
-     Created bug issue in redmine.
-     Note that in the Simulation Parameters tab, under Integration and domain, the cube is not displayed!
-
-
 ** TODO Add Hessians to tremolo
    CLOCK: [2014-10-15 Wed 16:14]--[2014-10-15 Wed 16:23] =>  0:09
    CLOCK: [2014-09-23 Tue 15:35]--[2014-09-23 Tue 17:23] =>  1:48
@@ -371,7 +208,7 @@ It seems that both methods can be written into one file. See this example [[file
         - hash-tables etc. finden sich in [[file:~/tremolo/src/hash/hashtab.h]]
 
      3. Sonstiges:
-        - Vertragsverlängerung: Christian und ich haben jetzt erst einmal eine Vertragsverlängerung von 3 Monaten festgelegt. Wir wraten jetzt zunächst die nächsten 2 Wochen zum endgültigen Entschluss ab.
+        - Vertragsverlängerung: Christian und ich haben jetzt erst einmal eine Vertragsverlängerung von 3 Monaten festgelegt. Wir warten jetzt zunächst die nächsten 2 Wochen zum endgültigen Entschluss ab.
 *** Overview
 **** Basics:
 Consider a system of \(N\) particles \(p_1, ..., p_N\). Then a (simple) general potential \(V\) can be written as:
@@ -584,7 +421,7 @@ The error was a missing =*sizeof(double)= in =addLocalHessians()= when reallocat
 The getter methods do not work, see [[file:~/Sandbox/test/main.c][here]] for an example.
 The problem was that I specified the wrong keylength as argument to =trx_hadd= and =trx_hfind=.
 
-*** TODO Write Hessian calculation in lcforces.c [2/7]
+*** TODO Write Hessian calculation in lcforces.c [7/11]
     CLOCK: [2014-11-13 Thu 16:00]--[2014-11-13 Thu 17:26] =>  1:26
 **** DONE Merge with branch testing
      CLOSED: [2014-11-13 Thu 17:02]
@@ -603,55 +440,385 @@ This is done in =CreateParticleNoSpeStr=.
 ***** DONE Add destruction of localHessians to Particles.
       CLOSED: [2014-11-18 Tue 17:24]
 This is done in =DeleteParticle()= in [[file:~/tremolo/src/particle.c]].
-**** TODO Write LCHessianList struct
-     CLOCK: [2014-11-21 Fri 16:00]--[2014-11-21 Fri 19:48] =>  3:48
-     CLOCK: [2014-11-21 Fri 09:31]--[2014-11-21 Fri 12:30] =>  2:59
-     CLOCK: [2014-11-18 Tue 17:31]--[2014-11-18 Tue 17:53] =>  0:22
-This can be done in analogy to LCForceList.
-Note that everything must be sorted according to the =r_cut=.
-***** TODO Make a Plan for the next steps
-      - Note taken on [2014-11-21 Fri 19:39] \\
-        Aufgabenbesprechung mit Christian am [2014-11-21 Fri 18:00]
-        
-        1. Register Hessian functions, at the same position where the potentials are registered (indenpendently of the flag)
-        2. Check if flag is set and in that case delete registered Hessian functions. This can be done either in ControlOutputRecord, StoreOutput)
-        3. It is enough to implement LCHessList structs. These are then implemented as members of the LCForceData struct and can use their data.
-        
-        TODOs: 
-        - Mache einen Plan aus den folgenden TODOs ;)
-        - Prüfe, was Jan ins redmine gepusht hat
-        - Setze Hessian Flag in den Output-Block
-        - Finde heraus, wo die Registrierung der Hessian Funktion stattfinden kann. Beachte, dass dies auch abhängig davon ist, welche Potential verwendet werden.
-        - Implementiere struct LCHessianList
-        - Implementiere RegisterLCHessian Funktion in Analogie zu RegisterLCPotential
-        - Implementiere Hessian computation für das Lennard-Jones Potential
-        - Implementiere Funktion, die die Ausführung der Hessian computation auslöst (in Analogie zur Kraftberechnung)
-        - Bespreche mit Christian den Output der Ergebnisse
+**** DONE Make a Plan for the next steps
+     CLOSED: [2014-11-26 Wed 17:22]
+     - Note taken on [2014-11-21 Fri 19:39] \\
+       Aufgabenbesprechung mit Christian am [2014-11-21 Fri 18:00]
+       
+       1. Register Hessian functions, at the same position where the potentials are registered (indenpendently of the flag)
+       2. Check if flag is set and in that case delete registered Hessian functions. This can be done either in ControlOutputRecord, StoreOutput)
+       3. It is enough to implement LCHessList structs. These are then implemented as members of the LCForceData struct and can use their data.
+       
+       TODOs: 
+       - Mache einen Plan aus den folgenden TODOs ;)
+       - Prüfe, was Jan ins redmine gepusht hat
+       - Setze Hessian Flag in den Output-Block
+       - Finde heraus, wo die Registrierung der Hessian Funktion stattfinden kann. Beachte, dass dies auch abhängig davon ist, welche Potential verwendet werden.
+       - Implementiere struct LCHessianList
+       - Implementiere RegisterLCHessian Funktion in Analogie zu RegisterLCPotential
+       - Implementiere Hessian computation für das Lennard-Jones Potential
+       - Implementiere Funktion, die die Ausführung der Hessian computation auslöst (in Analogie zur Kraftberechnung)
+       - Bespreche mit Christian den Output der Ergebnisse
 
-**** TODO Write registrationFunction for LCHessianList
+**** DONE Implement registration for Hessian computation
+***** Summary
+- lcforces ::
+  - added =struct LCHessianList= to =LCForceData=
+  - implemented 
+    #+BEGIN_SRC c
+      int RegisterLCHessian(struct Problem * P, struct LCForceParams * LFP, LCHessianFunction * HFcn, int ParType1, intParType2, double r_cut, void * data)
+    #+END_SRC
+    which register Hessian functions
+  - changes in =InitLCForceParams()=: initialize empty (but NULL-terminated) HList array
+  - changes in =DeleteLCForceParams()=: delete HList arrays
+  - added typedefs for Hessian related function pointers: 
+    #+BEGIN_SRC c
+      typedef double LCHessianFunction(void *data)
+      typedef void LCRemoveHessianDataFcn(void *data)
+    #+END_SRC
+- groupmeas ::
+  - changes in =StoreAnalyzeHessians()=:remove all LCHessianList structs if compute-Hessian flag is set to "no"
+***** DONE Write the registration-function for LCHessianList
+     CLOSED: [2014-12-12 Fri 11:04]
+     CLOCK: [2014-12-05 Fri 16:14]--[2014-12-05 Fri 17:20] =>  1:06
+     CLOCK: [2014-12-05 Fri 14:15]--[2014-12-05 Fri 16:14] =>  1:59
+     CLOCK: [2014-12-05 Fri 11:00]--[2014-12-05 Fri 12:30] =>  1:30
+     CLOCK: [2014-12-04 Thu 16:45]--[2014-12-04 Thu 18:08] =>  1:23
+     CLOCK: [2014-12-04 Thu 10:00]--[2014-12-04 Thu 13:00] =>  3:00
+     CLOCK: [2014-12-03 Wed 15:30]--[2014-12-03 Wed 17:30] =>  2:00
+     CLOCK: [2014-11-26 Wed 17:20]--[2014-11-26 Wed 18:22] =>  1:02
+     CLOCK: [2014-11-26 Wed 10:40]--[2014-11-26 Wed 13:20] =>  2:40
 This functions should add the right function pointer to the LCHessianList struct. It should work in analogy to the force registration.
-**** TODO Add code that handles LCHessianList for Hessian computation
-There must exist a function that activates the LCForceList. To this function some code that activates the LCHessianList struct must be added.
-**** TODO Write Function that computes the Hessians in the case of the Lennard-Jones-Potential
-This function does the actual force computation.
+****** DONE Determine where to put the registration of the Hessian computation functions. 
+       CLOSED: [2014-11-26 Wed 17:20]
+       CLOCK: [2014-11-26 Wed 14:20]--[2014-11-26 Wed 18:22] =>  4:02
+      CLOCK: [2014-11-26 Wed 10:10]--[2014-11-26 Wed 10:40] =>  0:30
+      CLOCK: [2014-11-21 Fri 16:00]--[2014-11-21 Fri 19:48] =>  3:48
+      CLOCK: [2014-11-21 Fri 09:31]--[2014-11-21 Fri 12:30] =>  2:59
+      CLOCK: [2014-11-18 Tue 17:31]--[2014-11-18 Tue 17:53] =>  0:22
+******* Summary: 
+The idea is to register the Hessian computation functions at the same location where already the potentials are registered, no matter if the Hessian-flag is set or not. And then check if the flag is set at a later time (=ControlOutputRecord()= or =StoreOutput=) and either leave the functions registered or delete them. 
+******** Location for the registration of Hessian-computation functions
+Implement the function 
+: registerLCHessian(P, /*arguments?*/)
+in the =StoreLennardJonesData()= function. 
+******** Location for the possible deletion of the Hessian-computation registration 
+Delete the registration of Hessian-computation functions if flag =P->computeHessians= is set to zero in the function 
+: StoreAnalyzeHessians(struct Problem P, FilePosType filePos, parse_data pd)
+******* Details
+******** Overview to potential registration
+         - Note taken on [2014-11-26 Wed 11:01] \\
+           Note about potential registration
+           
+           1. =LCForceParams struct= 
+              - =LFPArray= :: In the =LCStructData= there exists a struct =LCForceParams= named =*LFPArray[MaxLCForceParamType]= which is an array of force parameters for different /stages/ of forces (length: =MaxLCForceParamType=). 
+                This is array is apparently initialized in the functions 
+                - =ReadParametes()=
+                - =InitLCForces()=
+                - and some parsing routines
+                It is destroyed in =DeleteLCForces=. 
+                The array is used in the functions
+                - =GetLCEnergy()=
+                - =SetLCEnergy()=
+                - =MainLCForce()=
+              - =LFPAddArray= :: This is an additional array of =LCForceParams= for additional force parameters (cf. brenner.c, bornitrit.c, stiwe.c, tersof.c, reaxff.c). The length of the array is given by =MaxLFPAddArray= stored in =LCStructData=
+              - LFPMeasArrayA,B,C :: These are again arrays of =LCForceParams= all of length =MaxLCMeasParamType= which is currently set to 9. These data structures are apparently used to register functions for measurements? 
+           2. Force stages
+              The number of /force stages/ is defined by the Macro =MaxLCForceParamType= which is currently set to 6 (cf. [[file:~/tremolo/src/data.h::813]]) 
+              The stages are given by: 
+              - Stage 1 :: Lennard Jones type, use symmetry
+              - Stage 2 :: Sutton Chen/Brenner type
+              - Stage 3 :: Brenner
+              - Stage 4 :: BN type, ReaxFF
+              - Stage n-1 :: Sending of summed up forces
+              - Stage n :: :: Extract measurements
+              The stages correspond to the different entries of the =LFPArray= in =LCStructData=. They are called (and described) in =MainLCForce()=. There exists also a enum =LCForceParamType= in [[file:~/tremolo/src/data.h::815]].
+           3. Potential registration
+              - =ReadParameters()= :: Here =LFPArray=, =LFPAddArray= are initialized with =NULL=.
+                - =ParsePotentialFiles(P)= :: This function is called in =ReadParameters()=. It registers the parsing functions and do also the parsing steps for the registered functions. In detail: 
+                  1. =ParsePotentialFiles(P)= registers parsing functions using =register_parse_store_func1()=, e.g. =Read2BodyPotentials=.
+                  2. Then the parsing is done by calling =parse_file_name_suffix= which calls =parse_file= which calls =store_parsevals()=. Here all previously registered functions in the corresponding =keyword_jump_table= are called.
+                  3. In the case of =Read2BodyPotentials=, a switch-construction calls different two-body potentials "read-functions", e.g. =ReadLennardJonesData()=.
+                  4. This function calls a "store-function": =StoreLennardJonesData()=.
+                  5. This function calls first =InitLCForceParams()= and then =RegisterLCPotential()= which does the actual potential registration. 
+                  6. In =RegisterLCPotential()= the given function pointer is registered. 
+                - =RegisterAllFinalize(P)= :: Here similary to =ParsePotentialFiles()= other potentials are registered. 
+              - =InitLCForces()= :: This function is called only once in the main function =Run()=. Here =UpdateLCForces()= is called (something with update offsets ??) and it is checked if the potentials are threadsafe. 
+         
+******** Summary about potential registration
+1. Global registration process for potentials (only for =ParsePontentialFiles()= - similary for =RegisterAllFinalize()=): 
+   - =main()=
+     - =Run()=
+       - =ReadParameters()=
+         - =ParsePotentialFiles()=
+           - registers parsing functions (e.g. =register_parse_store_func1(P, LC_KEY(nonbonded_2body_potentials), Read2BodyPotentials)=): 
+         - executes file parsing for the file with given suffix: =parse_file_name_suffix()= 
+           - =parse_file()=
+             - =store_parsevals()=: calls all registered functions in the corresponding =keyword_jump_table=
+2. Actual registration (potential dependent), e.g. =Read2BodyPotentials()=: 
+   - =Read2BodyPotentials()= Is called for an explicit pair of particletypes. 
+     Switch-case construction for choice of right force type.
+     - =ReadLennardJonesData()=
+       - =StoreLennardJonesData()=
+         - =InitLCForceParams()=
+         - =RegisterLCPotential()=: =RegisterLCPotential(P, LFP, CalcLennardJonesSplineForce, FreeLennardJonesSplineData, SetLennardJonesSplineEnergy, GetLennardJonesSplineEnergy, ParType1, ParType0, r_cut, data, 1, 1, LCPairRun)=
+******** Location of the Hessian registration 
+It is possible to registrate the Hessian computation function just together with the registration of the potential. 
 
+******** Parsing of the =output= block in the =.parameters=-file
+1. Registration of the parameter-file parsing functions: 
+   - =main()=
+     - =Run()=
+       - =ReadParameters()=
+         - =SetDefaultParseParameterFiles()= calls =ParmInit[i].SetDefaultFn(P)= multiple times, which results in calling =SetDefaultOutputRecord(P)= 
+           - =register_parse_store_func1(..., StoreOutput)=
+2. Functioning of the =StoreOutput= function 
+   - =StoreOutput(P, filePos, pd)=
+     - =StoreOutputAnalyze(P, filePos, pd)=
+       - =StoreAnalyzeHessians()= sets the =computeHessians= flag in the =Problem= struct.
+3. Parsing of the parameter file and the =output= block
+   - =main()=
+     - =Run()=
+       - =ReadParameters()=
+         - =ParseParameterFiles(P)=
+           - =parse_file_name_suffix= which is called for the suffix =parameterfile= which then parses the =.parameters=-file. 
+******** Location of the Hessian registration checkup function 
+Since the =potentials= file is parsed before the =parameters= file, the strategy to registrate the right compute-Hessian functions is first to registrate all possible compute Hessian functions and then in a second step to delete all compute-Hessian functions that are not used. 
+****** DONE Determine which data structures are actually needed for the registration and the computation 
+       CLOSED: [2014-12-04 Thu 16:47]
+       CLOCK: [2014-11-26 Wed 18:23]--[2014-11-26 Wed 18:30] =>  0:07
+******* Description of =RegisterLCPotential()=
+1. set max_r_cut, max_r_cut_2 in LFP->MaxForceData.
+2. Some error checking.
+3. Insert ForceFunction in the right =Flist=
+   1. set r_cut_2
+   2. set needNorm
+   3. set Flist to =LFP->ForceData.Flist=
+   4. Find correct insert index for the LcForceList-struct
+   5. Reallocate memory for the list
+   6. Allocate memory for the new LCForceList-struct and set values. 
+****** DONE Implement LCHessianList struct
+       CLOSED: [2014-12-04 Thu 12:33]
+This can be done in analogy to LCForceList.
+It is conceived as a member of the =LCForceData=-struct
+Note that everything must be sorted according to the =r_cut=.
+#+BEGIN_SRC c
+struct LCHessianList 
+{
+  double r_cut_2; // r_cut^2 used for calculation
+  LCHessianFunction *HessianFunction; // pointer to the function which computes the Hessian
+  void *data; // pointer to a data struct which stores data used for the computation
+  // LCRemovePotDataFcn *RemovePotDataFunction; // pointer to the function which frees the memory of the data struct. (necessary?)
+}
+#+END_SRC
+The =LCRemovePotDataFcn= may be unnecessary since it is already included in the =LCForceList= struct. This function is called at the very end of the simulation in =RemoveEverything()=. So it is rather unnecessary to insert the function as member. 
+****** DONE Implement function =registerLCHessian()=
+      CLOSED: [2014-12-04 Thu 16:47]
+This is done in analogy to =RegisterLCPotential()=. 
+#+BEGIN_SRC c
+  int registerLCHessian(struct Problem *P, 
+                        struct LCForceParams *LFP, 
+                        LCHessianFunction *HFcn, 
+                        int ParType1, 
+                        int ParType2, 
+                        double r_cut, 
+                        void *data)
+  {
+          int insertIndex, int index, int maxIndex;        // Helper variables for indexing. 
+          double r_cut_2;                                  // r_cut squared.  
+          struct LCHessianList **HList;                    // Temp pointer for a LCHessianList array. 
+          
+          // Do consistency check for r_cut. 
+          if (r_cut <= 0.0)
+                  return 0; 
+  
+          // Compute r_cut squared. 
+          r_cut_2 = r_cut * r_cut; 
+  
+          // Assign LCHessianList-array for the given particle types to the temporary pointer. 
+          HList = LFP->ForceData[ParType1*LFP->MaxParType + ParType2].HList;
+  
+          // Get correct entry in the HList (the array is sorted by decreasing r_cut). 
+          insert = -1; 
+          for (index = 0; HList[index] != NULL; ++index)
+          {
+                  if (HList[index]->r_cut_2 < r_cut_2 && insertIndex == -1)
+                          insertIndex = index; 
+          }
+          if (insertIndex == -1)
+                  insertIndex = index; 
+  
+          // Set maxIndex; 
+          maxIndex = index; 
+  
+          // Reallocate memory for one more LCHessianList-struct in the array. 
+          HList = Realloc(HList, (maxIndex + 2)*sizeof **HList, 
+                          "registerLCHessian(): Reallocate memory");
+  
+          // Replace the LCHessianList with the reallocated one. 
+          LFP->ForceData[ParType1*LFP->MaxParType + ParType2].HList = HList; 
+  
+          // Get the right position in the LCHessianList array for the new struct. 
+          for (index = maxIndex + 1; index > insertIndex; index--)
+          {
+                  HList[index] = HList[index - 1]; 
+          }
+  
+          // Allocate memory and set all data of the new LCHessianList struct.
+          HList[insertIndex] = Malloc(sizeoff **HList, 
+                                      "registerLCHessian(): Allocate memory"); 
+          HList[insertIndex]->r_cut_2 = r_cut_2; 
+          HList[insertIndex]->data = data; 
+          HList[insertIndex]->HessianFunction = HFcn; 
+  
+          return 0; 
+  }
+#+END_SRC
+****** DONE Initialization of LCHessianList
+      CLOSED: [2014-12-04 Thu 17:01]
+The initialization of the =LCForceList= is done in =InitLCForceParams=. Note that this has to be done since the array is defined as =NULL= terminated array. 
+For the =LCHessianList= initialization add the following lines to =InitLCForceParams= [[file:~/tremolo/src/lcforces.c::442]]: 
+#+BEGIN_SRC c
+LFP->ForceData[ij].HList = Malloc(sizeof(struct LCHessianList *), "InitLCForceParams"); 
+LFP->ForceData[ij].HList[0] = NULL; 
+#+END_SRC
+****** DONE Free memory for the LCHessianList array. 
+      CLOSED: [2014-12-04 Thu 18:00]
+For the =LCForceList= structs the memory is freed in the function =DeleteLCForceParams()=. In order to handle the =LCHessianList= add the following to [[file:~/tremolo/src/lcforces.c::664]]:
+#+BEGIN_SRC c
+  HList = LFP->ForceData[ij].HList; 
+  for (m = 0; HList[m] != NULL; ++m)
+  {
+          Free (HList[m]); 
+  }
+  Free(LFP->ForceData[ij].HList); 
+#+END_SRC
+****** DONE Check if Hessians are computed
+      CLOSED: [2014-12-05 Fri 12:34]
+Since the =output= block is parsed after the registration of the potentials, it is necessary to check if Hessians have to be computed. If not the =LCHessianList= array must be emptied. This can be done in the =StoreAnalyzeHessians()= function: 
+#+BEGIN_SRC c
+  int StoreAnalyzeHessians(struct Problem *P, FilePosType *filePos, parse_data *pd)
+  {
+          // If "hessians: measure = on" set the flag in P to 1.
+          if (parse_on_off(filePos, pd)) {
+                  P->computeHessians = 1;
+          }
+          // Otherwise set the flag in P to 0 and clean LCHessianList array.
+          else {
+                  // Set flag in P to 0. 
+                  P->computeHessians = 0;
+  
+                  // Empty LCHessianList array. 
+                  for (stage = 0; stage < MaxLCForceParamType; ++stage)
+                  {
+                          if (&P->LCS.LFPArray[stage] != NULL)
+                          {
+                                  for(i = 0; i < MaxParType; ++i)
+                                  {
+                                          for(j = 0; j < MaxParType; ++j)
+                                          {
+                                                  ij = i * MaxParType + j;
+                                                  HList = LFP->ForceData[ij].HList; 
+                                                  for(m = 0; HList[m] != NULL; ++m)
+                                                  {
+                                                          // Note that the data member of HList[m] is not freed, since it is used by the LCForceList struct. 
+                                                          Free[HList[m]];
+                                                  }
+                                                  // Add NULL entry to the array (since it is defined as NULL terminated array.)
+                                                  HList = Malloc(sizeof(HList*), "StoreAnalyzeHessians: Allocate memory."); 
+                                                  HList[0] = NULL; 
+                                          }
+                                  }
+                          }
+                  }
+          }
+          
+          // Return without error.
+          return 0;
+  }
+#+END_SRC
+**** DONE Add code that handles LCHessianList for Hessian computation
+     CLOSED: [2014-12-12 Fri 17:29]
+     CLOCK: [2014-12-12 Fri 16:38]--[2014-12-12 Fri 17:29] =>  0:51
+     CLOCK: [2014-12-12 Fri 15:57]--[2014-12-12 Fri 16:38] =>  0:41
+     CLOCK: [2014-12-12 Fri 10:50]--[2014-12-12 Fri 12:21] =>  1:31
+     CLOCK: [2014-12-12 Fri 10:00]--[2014-12-12 Fri 10:49] =>  0:49
+There must exist a function that activates the LCForceList. To this function some code that activates the LCHessianList struct must be added.
+***** DONE Overview to force calculation in tremolo
+      CLOSED: [2014-12-12 Fri 15:58]
+- =MainLCForce=
+  This functions activates the different stages of potentials and calls for every stage the functions
+  - =CalcLCForce()= :: Iterates over all cells and calculates the force in these cells.  
+  - =CalcLCMeasure()= :: Iterates over all cells, call =CalcLCMeasureForParticle()= which calls the functions stored by the =LFPMeasArray= s. 
+  - =ForceCom()= :: Force communication. 
+- =CalcLCForce()= 
+  This functions iterates over all cells and calls =CalcLCForceForCell()= which calculates the forces in that cell. 
+  The function receives the arguments
+  - P :: Problem struct
+  - LCS->LFPArray[LCForceParamA] :: The =LCForceParams= struct for the given stage (in this case LCForceParamA - stage).
+  - LCS :: LinkedCell data struct
+  - n :: Number of the cell
+- =CalcLCForceForCell()= 
+  This function iterates over all particles in the given cell and calls
+  - =CalcLCForceSingleParticle()= :: Computes all single potential forces.
+  - =CalcLCForceForParticle()= :: Computes all pair potential contributions. 
+- =CalcLCForceForParticle()=
+***** DONE Determine interface for the LCHessianFunction function pointer. 
+      CLOSED: [2014-12-12 Fri 17:12]
+The typedef for the function pointer is in [[file:~/tremolo/src/lcforces.h::62]] and must be changed accordingly. 
+***** DONE Determine where the actual computation of the Hessians should take place 
+      CLOSED: [2014-12-12 Fri 17:29]
+Write the Hessiancalculation in a function that is called in =CalcLCForceForParticle()= (after the if (Fnorm !=0.0) block). 
+Note that every pair of particles is touched only once!!!
+In detail: 
+In =CalcLCForceForParticle()= the =HList= is supposed to be iterated after line 692. Then for every =HList=-entry the Hessian-computation function is called.  
+This function (which comes from the potential) is supposed to do the rest of the work: compute the 4 Hessians (pp, pq, qp, qq) and add these to the particles. 
+**** DONE Write Function that computes the Hessians in the case of the Lennard-Jones-Potential
+     CLOSED: [2014-12-14 Sun 19:55]
+     CLOCK: [2014-12-14 Sun 16:35]--[2014-12-14 Sun 19:55] =>  3:20
+This function does the actual force computation.
+***** DONE Determine what data is needed for the computation
+      CLOSED: [2014-12-14 Sun 19:55]
+**** DONE Add function call of Lennard-Jones Hessian computation to tremolo.
+     CLOSED: [2014-12-19 Fri 11:38]
+     CLOCK: [2014-12-18 Thu 11:00]--[2014-12-18 Thu 11:18] =>  0:18
+Whenever the flag is set to compute and the Lennard-Jones Potential is selected the function must be called. 
+This should be done by registering the hessican computation function in =StoreLennardJonesData()=: use =registerLCHessian=. 
+Note that for this a data-struct must be created etc. This should be done by a deep copy(!). 
+**** TODO Ask Christian about bonddist in Lennard-Jones Hessian computation. 
+**** TODO Do some testing. 
+     CLOCK: [2014-12-22 Mon 16:15]
+Note that no reinitialization is implemented yet. 
+For the 2-particle case the calculation seemst to be correct. 
+***** TODO Find examples in the papers and test them with tremolo. 
+The papers can be found [[file:hessians][here]]. 
+**** TODO Implement Hessian output and reinitialization
+Output format: 
+Id_1, coord_1, Id_2, coord_2, value
+***** TODO Determine where the output should take place
+**** TODO Use symmetries to reduce storage amount
 *** TODO Write extensive documentation about the Hessians
 - [ ] How are they stored?
 - [ ] Where and how are they computed?
 - [ ] What data structures are used?
 
 
+* Fragen 
+- [ ] Was macht =static int UpdateOffsetsLCForceParams(struct Problem *P, struct LCForceParams *LFP, int MaxShell[NDIM])=? Wird von =void UpdateLCForces(struct Problem *P, struct LCStructData *LCS)= (mehrmals!) aufgerufen.
+- [ ] Warum wird in der =int StoreLennardJonesData(struct Problem *P, int ParType0, int ParType1, double r_cut)= Funktion die Registrierung noch einmal aufgerufen, wenn der erste und der zweite Parametertype nicht gleich sind?
+- [ ] Was ist =needNorm= im =LCForceData= struct? 
+- [ ] Was unterscheided =RegisterLCPotential= und =RegisterLCPotentialOnce= voneinander?
+- [ ] Muss ich auch den Code für =MainCoulombForce()= und =BondedForces()= ändern?
+- [ ] Was macht =RETURN_ON_PYMOLO_ERROR()=?
+
+
 * Arbeitszeit
 #+BEGIN: clocktable :maxlevel 3 :scope file :block thisweek
-Clock summary at [2014-11-21 Fri 19:48], for week 2014-W47.
+Clock summary at [2014-12-22 Mon 16:34], for week 2014-W52.
 
-| Headline                                    | Time   |      |      |
-|---------------------------------------------+--------+------+------|
-| *Total time*                                | *9:03* |      |      |
-|---------------------------------------------+--------+------+------|
-| Aufgaben                                    | 9:03   |      |      |
-| \__ TODO Add Hessians to tremolo            |        | 9:03 |      |
-| \_____ TODO Write Hessian calculation in... |        |      | 9:03 |
+| Headline     | Time   |
+|--------------+--------|
+| *Total time* | *0:00* |
 #+END:
 
 | Week     |      Time |  Overtime |
@@ -683,6 +850,10 @@ Clock summary at [2014-11-21 Fri 19:48], for week 2014-W47.
 | 2014-W45 |     11:24 |  02:24:00 |
 | 2014-W46 |      9:12 |  00:12:00 |
 | 2014-W47 |      9:03 |  00:03:00 |
+| 2014-W48 |      8:21 | -00:39:00 |
+| 2014-W49 |     10:58 |  01:58:00 |
+| 2014-W50 |      7:12 | -01:48:00 |
+| 2014-W51 |      4:00 | -05:00:00 |
 |----------+-----------+-----------|
-| Total    | 245:59:00 |  02:59:00 |
+| Total    | 276:30:00 | -02:30:00 |
 #+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::
