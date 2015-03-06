@@ -1,0 +1,182 @@
+% Created 2015-02-16 Mon 13:50
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\author{Pascal Huber}
+\date{\today}
+\title{Todos \textit{[2015-01-19 Mon]}}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{{\bfseries\sffamily DONE} \textit{<2015-01-19 Mon>} Write extensive documentation about the Hessians}
+\label{sec-1}
+\begin{itemize}
+\item CLOSING NOTE \textit{[2015-02-16 Mon 13:49]} \\
+     Wrote an overview of all code related to the computation of Hessians.
+\end{itemize}
+\subsection{Hessian data structures \textit{<2015-02-13 Fri>}}
+\label{sec-1-1}
+The Hessians data is stored in form of local Hessians (matrices of size NDIMMAT).
+\subsubsection{Data structures for storing Hessians:}
+\label{sec-1-1-1}
+In \texttt{struct Particle} (see data.h):
+\begin{description}
+\item[{\texttt{double *localHessians}}] Pointer to an array of length \texttt{NDIMMAT x neighbors} which stores the entries of the local Hessians.
+For every neighbor Particle the Hessian $\partial$$_{\text{p}}$ $\partial$$_{\text{q}}$ is stored, where p is the Particle represented by the struct.
+All entries are stored in a rowwise manner: $\partial$$_{\text{p1}}$$\partial$$_{\text{q1}}$ $\partial$$_{\text{p1}}$$\partial$$_{\text{q2}}$ $\partial$\{p1\}$\partial$\{q3\} $\partial$$_{\text{p2}}$$\partial$\{q1\} $\partial$$_{\text{p2}}$$\partial$\{q2\} \ldots{}
+\item[{\texttt{trx\_htab *hessianIndex}}] Pointer to a hash table which maps particle indices to the corresponding array entry in \texttt{localHessians}. This allows quick retrieval of local Hessians for each pair of Particle structs.
+\item[{\texttt{unsigned int sizeOfLocalHessians}}] Stores the maximal number of entries (not Hessians!) that can be stored by the \texttt{localHessian} array. This is important for cleaning of the data structures.
+\end{description}
+In \texttt{struct Problem} (see data.h):
+\begin{description}
+\item[{\texttt{int computeHessians}}] Flag that indicates if Hessians are computed (=1) in the simulation or not (=0).
+\end{description}
+\subsubsection{Function for data structure handling:}
+\label{sec-1-1-2}
+In order to work with the Hessian data structures some "comfort functions" are implemented in \texttt{particle.c}:
+\begin{description}
+\item[{\texttt{void createLocalHessians(struct Particle *p, int numberOfHessians)}}] Allocates memory for the \texttt{localHessians} array and creates the \texttt{hessianIndex} hash table.
+\item[{\texttt{void destroyLocalHessians(struct Particle *p)}}] Frees memory for all entries of \texttt{localHessians} and destroys the \texttt{hessianIndex} hash table.
+\item[{\texttt{int getLocalHessian(struct Particle *p, unsigned int qIndex, double *values)}}] Gets the whole local Hessian $\partial$$_{\text{p}\partial}$$_{\text{q}}$ and stores it in \texttt{values}.
+\item[{\texttt{double getLocalHessianComponent(struct Particle *p, unsigned int qIndex, unsigned int i, unsigned int j)}}] Returns the (i,j)-th entry of the local Hessian $\partial$$_{\text{p}\partial}$$_{\text{q}}$.
+\item[{\texttt{void cleanHashTable(trx\_htab *table)}}] Frees the memory of all entries in \texttt{table}. The hash table itself is not destroyed. This is used to reinitialize \texttt{hessianIndex}.
+\item[{\texttt{void cleanLocalHessians(struct Particle *p)}}] Reinitializes the data structure for the Particle struct p.
+\item[{\texttt{void addLocalHessian(struct Particle *p, unsigned int qIndex, double *values)}}] Adds a new local Hessian matrix to Particle p.
+\end{description}
+\subsubsection{Initialization of Hessian data structures:}
+\label{sec-1-1-3}
+The Hessian data structures are initialized during the creation of the Particle structs. A short overview of the overall structure of the initialization:
+\begin{enumerate}
+\item (tremolo.c): \texttt{int main()} calls \texttt{void Run(int argc, char **argv)} to start the simulation.
+\item (tremolo.c): \texttt{static void Run(int argc, char **argv)} calls \texttt{void Init(struct Problem *P)} for the initialization of the main data structures.
+\item (init.c): \texttt{void Init(struct Problem *P)} calls \texttt{void InitSimBox(struct Problem *P)} to add the Particle structs to the simulation.
+\item (particle.c) \texttt{void InitSimBox(struct Problem *P)} calls \texttt{int ReadParticles(struct Problem *P, FILE *f, struct ParseInfoBlock *PIB)} which adds Particle structs according to the input file \texttt{*f}
+\item (particle.c) \texttt{int ReadParticles(struct Problem *P, FILE *f, struct ParseInfoBlock *PIB)} creates all Particle structs for the simulation using \texttt{struct Particle *CreateParticleNoSpeStr(const struct Problem *P)} which allocates memory for a Particle struct and initializes some member variables.
+\end{enumerate}
+The actual initialization is done in \texttt{struct Particle *CreateParticleNoSpeStr(const struct Problem *P)}. For this, the \texttt{computeHessian} flag of the Problem struct is checked.
+According to the flag memory for the Hessian data structures is allocated or not. The size of the \texttt{localHessian} array is roughly estimated using the total number of Particles and the number of cells in the simulation.
+\subsubsection{Deletion of Hessian data structures:}
+\label{sec-1-1-4}
+The Hessian data structures are destroyed whenever the associated Particle struct is deleted. This is done especially at the end of the program:
+\begin{enumerate}
+\item (tremolo.c): \texttt{int main()} calls \texttt{void Run(int argc, char **argv)} to start the simulation.
+\item (tremolo.c): \texttt{static void Run(int argc, char **argv)} calls \texttt{void RemoveEverything(struct Problem *P)} at the end of the program to free all allocated memory.
+\item (helpers.c): \texttt{void RemoveEverythin(struct Problem *P)} calls \texttt{void DeleteLists(struct Problem *P)} to delete the linked cell structure.
+\item (helpers.c): \texttt{void DeleteLists(struct Problems *P)} calls \texttt{void DeleteAllParticles(struct Problem *P, struct LCStructData *LCS)} in order to delete all Particle structs.
+\item (helpers.c): \texttt{void DeleteAllParticles(struct Problem *P, struct LCStructData *LCS)} calls \texttt{void DeleteLCListRec()} which in turn calls \texttt{void DeleteParticle(const struct Problem * UNUSED(P), struct Particle *p)}.
+\end{enumerate}
+The actual deletion of the Hessian data structures is done in \texttt{void DeleteParticle(const struct Problem * UNUSED(P), struct Particle *p)} (particle.c). For this, a NULL-check for the \texttt{localHessian} array is performed and then the memory of the Hessian data structures is freed.
+\subsection{Data structures for Hessian calculation \textit{<2015-02-16 Mon>}}
+\label{sec-1-2}
+For the computation of Hessians every potential provides a function used for the calculation. These functions are stored in lists of structs which store the function pointers. Tremolo iterates at every time step over these lists and calls the function pointers.
+The struct used for Hessian calculation is defined in lcforces.h
+\begin{description}
+\item[{\texttt{struct LCHessianList}}] Struct similar to \texttt{LCForceList} storing the function pointers and data necessary for the computation of Hessians. Every struct represents a given potential and a given pair of particles.
+\end{description}
+The list of \texttt{LCHessianList} structs is stored in the \texttt{LCForceParams} struct:
+\begin{description}
+\item[{\texttt{LCForceParams}}] is stored in the \texttt{Problem} struct (for different "stages").
+\item[{\texttt{LCForceData}}] Every \texttt{LCForceParams} struct stores an array of \texttt{LCForceData} structs. Every \texttt{LCForceData} struct represents a pair of particles.
+\item[{\texttt{LCHessianList}}] For every potential the \texttt{LCForceData} struct points to a \texttt{LCForceList} and to a \texttt{LCHessianList} struct which in turn store the function pointer for the calculation.
+\end{description}
+\subsection{Registration of Hessian computation \textit{<2015-02-16 Mon>}}
+\label{sec-1-3}
+For the computation of Hessians every potential must provide a function \texttt{Calc<Potentialname>Hessian} (cf. e.g. \texttt{CalcLennardJonesHessian()}).
+This function must be registered such that tremolo can call it during the simulation. Since the potentials file is parsed before the parameter file the registration of the Hessian calculation function is done in two steps:
+\begin{enumerate}
+\item For all potentials in the potentials file (that provide Hessian calculation functions) the corresponding Hessian calculation function is registered regardless if Hessians are computed during the simulation.
+\item If in the parameter file Hessian computation is disabled, all registered Hessian calculation functions are unregistered.
+\end{enumerate}
+The registration process is done in the function \texttt{void ReadParameters(struct Problem * const P, const char *const filename)}.
+\subsubsection{Set default behaviour for Hessian computation.}
+\label{sec-1-3-1}
+If no tag "hessians" is provided in the parameters file then the Hessian computation is disabled:
+\begin{enumerate}
+\item (tremolo.c): \texttt{int main()} calls \texttt{void Run(int argc, char **argv)} to start the simulation.
+\item (tremolo.c): \texttt{static void Run(int argc, char **argv)} calls \texttt{void ReadParameters(struct Problem *const P, const char *const filename)} in order to parse the input files.
+\item (init.c): \texttt{void ReadParameter(struct Problem *const P, const char *const filename)} calls the function \texttt{void FirstInit(struct Problem *const P)}.
+\item (init.c): \texttt{void FirstInit(struct Problem *const P)} sets \texttt{P->computeHessians = 0}: by default no Hessians are computed.
+\end{enumerate}
+\subsubsection{Registration of Hessian calculation functions}
+\label{sec-1-3-2}
+The actual registration of the Hessian calculation functions is done in the function \texttt{int ParsePotentialFiles(struct Problem *P)} (parse.c). The registration is done by each potential itself. For this the potential must implement the Hessian registration in the corresponding \texttt{Store<Potentialname>Data()} function (c.f. \texttt{StoreLennardJonesData()} (twobody.c)).
+\begin{enumerate}
+\item (tremolo.c): \texttt{int main()} calls \texttt{void Run(int argc, char **argv)} to start the simulation.
+\item (tremolo.c): \texttt{static void Run(int argc, char **argv)} calls \texttt{void ReadParameters(struct Problem *const P, const char *const filename)} in order to parse the input files.
+\item (init.c): \texttt{void ReadParameter(struct Problem *const P, const char *const filename)} calls \texttt{int ParsePotentialFiles(struct Problem *P)} which registers and calls for all potential the corresponding registration routines.
+\end{enumerate}
+For the Lennard-Jones potential the registration is done in the following steps:
+\begin{enumerate}
+\item (init.c): \texttt{int ParsePotentialFiles(struct Problem *P)} calls \texttt{int Read2BodyPotentials(struct Problem *P, FilePosType *filePos, parse\_data *pd)} which then in turn calls \texttt{int ReadLennardJonesData()}.
+\item (twobody.c): \texttt{int ReadLennardJonesData()} calls \texttt{int StoreLennardJonesData()} which performs the registration of the function \texttt{static void CalcLennardJonesHessian()} using the function \texttt{int RegisterLCHessian()} (implemented in lcforces.c).
+\end{enumerate}
+\subsubsection{Check and possible deregistration of Hessian calculation functions}
+\label{sec-1-3-3}
+After parsing the potentials file and the registration of the Hessian calculation functions, the parameter file is parsed in \texttt{int ParseParameterFiles(struct Problem *P)}.
+If the parameter file contains a \texttt{hessians} tag in the \texttt{analyze} block the \texttt{int StoreAnalyzeHessians()} function (in groupmeas.c) is called which sets the \texttt{computeHessians} flag of the Problem struct.
+\begin{enumerate}
+\item (tremolo.c): \texttt{int main()} calls \texttt{void Run(int argc, char **argv)} to start the simulation.
+\item (tremolo.c): \texttt{static void Run(int argc, char **argv)} calls \texttt{void ReadParameters(struct Problem *const P, const char *const filename)} in order to parse the input files.
+\item (init.c): \texttt{void ReadParameter(struct Problem *const P, const char *const filename)} calls \texttt{int ParseParameterFiles(struct Problem *P)}.
+\item (parse.c): \texttt{int ParseParameterFiles(struct Problem *P)} parses the parameter file and calls \texttt{int StoreOutputAnalyze(struct Problem *P, FilePosType *filePos, parse\_data *pd)}.
+\item (generalmeas.c): \texttt{int StoreOutputAnalyze()} calls \texttt{int StoreAnalyzeHessians(struct Problem *P, FilePosType *filePos, parse\_data *pd)} if a \texttt{hessians} tag is found in the parameter file. If no \texttt{hessians} tag is found the function is not called and the default value (= 0) is used.
+\item (groupmeas.c): \texttt{int StoreAnalyzeHessians(struct Problem *P, FilePosType *filePos, parse\_data *pd)} sets \texttt{P->computeHessians} to one or zero according to the value set in the parameter file.
+\end{enumerate}
+After parsing the parameter file some control function are called within \texttt{int ParseParameterFiles(struct Problem *P)}. If no Hessians are supposed to be computed the Hessian calculation functions are here deregistrated:
+\begin{enumerate}
+\item (init.c): \texttt{void ReadParameter(struct Problem *const P, const char *const filename)} calls \texttt{int ParseParameterFiles(struct Problem *P)}.
+\item (parse.c): \texttt{int ParseParameterFiles(struct Problem *P)} calls \texttt{void ControlParseParameterFiles(struct Problem *P)}.
+\item (parse.c): \texttt{void ControlParseParameterFiles(struct Problem *P)} calls all \texttt{ControlParameterRecord} function pointers of the \texttt{ParamInit} array. This also includes the function \texttt{int ControlGroupMeasureRecord(struct Problem *P)}.
+\item (groupmeas.c): \texttt{int ControlGroupMeasureRecord(struct Problem *P)} calls \texttt{int ControlHessianRecord(struct Problem *P)}.
+\item (groupmeas.c): \texttt{int ControlHessianRecord(struct Problem *P)} deregisters all Hessian calculation functions if the \texttt{computeHessian}-flag is set to 0.
+\end{enumerate}
+\subsection{Computation and reinitialization of Hessians}
+\label{sec-1-4}
+The Hessian calculation is done for every time step in the \texttt{RunSim()} function:
+\begin{enumerate}
+\item (tremolo.c): \texttt{int main()} calls \texttt{void Run(int argc, char **argv)} to start the simulation.
+\item (tremolo.c): \texttt{void Run(int argc, char **argv)} calls \texttt{static void RunSim(struct Problem *P)} which does all time steps.
+\item (tremolo.c): \texttt{static void RunSim(struct Problem *P)} calls \texttt{void UpdateMeasureVisData(struct Problem *P)} which iterates over all \texttt{Particle} structs and reinitializes the \texttt{localHessians} arrays.
+\item (tremolo.c): \texttt{static void RunSim(struct Problem *P)} calls \texttt{void MainLCForce(struct Problem *P)} which is the main function for linked cell force calculation.
+\item (lcforces.c): \texttt{void MainLCForce(struct Problem *P)} calls \texttt{void CalcLCForce()} which iterates over all cells.
+\item (lcforces.c): \texttt{void CalcLCForce()} calls for every cell \texttt{static void CalcLCForceForCell()} which iterates over all \texttt{Particles} in this cell.
+\item (lcforces.c): \texttt{static void CalcLCForceForParticle()} iterates for all neighboring particles over all \texttt{LCForceList} and \texttt{LCHessianList} structs and calls the force/Hessian calculation function.
+\end{enumerate}
+The calculation of the Hessians itself is done by a function which has to be defined for each potential. A pointer of this function is stored in the corresponding \texttt{LCHessianList} struct.
+An example of such a function \texttt{static void CalcLennardJonesHessian(void *data, struct LCForceFunctionData *const LFFD)}:
+The function computes for the given \texttt{Particle} pair (p,q) all local Hessians $\partial$$_{\text{pp}}$, $\partial$$_{\text{pq}}$, $\partial$$_{\text{qp}}$, $\partial$$_{\text{qq}}$ which are then added to the \texttt{localHessians} arrays of the corresponding \texttt{Particle} structs.
+The Hessians $\partial$$_{\text{pp}}$ and $\partial$$_{\text{pq}}$ are added to \texttt{Particle} p and the other two to q.
+\subsection{Output of Hessians}
+\label{sec-1-5}
+The Hessian-file suffix is declared data.h in the \texttt{enum OutputFileSuffixes} as \texttt{hessiansfile} and then defined in the function \texttt{void ReadParameters(struct Problem *const P, const char * const filename)}.
+The output itself is done in a function \texttt{static void OutputFileHessians(struct Problem * P)}:
+\begin{enumerate}
+\item (tremolo.c): \texttt{int main()} calls \texttt{void Run(int argc, char **argv)} to start the simulation.
+\item (tremolo.c): \texttt{void Run(int argc, char **argv)} calls \texttt{static void RunSim(struct Problem * P)} which does all time steps.
+\item (tremolo.c): \texttt{static void RunSim(struct Problem * P)} calls \texttt{void OutputBeforeUpdate(struct Problem * P)}.
+\item (output.c): \texttt{void OutputBeforeUpdate(struct Problem * P)} calls \texttt{void OutputV(struct Problem * P)}.
+\item (output.c): \texttt{void OutputV(struct Problem * P)} calls \texttt{void OutputVisualData(struct Problem * P)}.
+\item (output.c): \texttt{void OutputVisualData(struct Problem * P)} calls \texttt{static void OutputFileHessians(struct Problem * P)} which opens the .hessians file and writes for all \texttt{Particles} the local Hessians to that file.
+\end{enumerate}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

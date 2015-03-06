@@ -1,0 +1,4 @@
+      init        sim     output    average       min       max    stddev  steps   particles
+  0.054454   4.484015   0.071847   0.022309  0.000041  0.049613  0.022445     201          4
+      init        sim     output    average       min       max    stddev  steps   particles
+  0.028298   3.594060   0.066488   0.017881  0.000052  0.048278  0.018153     201          4

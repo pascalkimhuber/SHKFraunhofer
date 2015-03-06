@@ -1,0 +1,108 @@
+\documentclass{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\begin{document}
+
+\section*{Übersicht zur Hesse-Matrix für Paar-Potentiale}
+
+Gegeben sei ein System von \(N\) Partikeln mit Ortskoordinaten \(\vec{r}_1, \dots, \vec{r}_N\). Das dazugehörige Potential \(V(\vec{r}_1, \dots, \vec{r}_N)\) kann als Summe von Paar-Potentialen \(V_{r_i, r_j}\) geschrieben werden:
+\[V(\vec{r}_1, \dots, \vec{r}_N) = \sum_{i=1}^N \sum_{j=i+1}^N V_{r_i, r_j}(\vec{r}_i, \vec{r}_j). \]
+Hierbei wird von symmetrischen Paar-Potentialen ausgegangen.
+
+\subsection*{Kraftberechnung}
+\label{sec:kraftberechnung}
+
+Die aus dem Potential resultierende Kraft auf ein Paritkel \(\vec{r}_i\) ergibt sich durch den Gradienten von \(V\) bzgl. \(\vec{r}_i\), d.h.
+\[\vec{F}_{r_i} (\vec{r}_1, \dots, \vec{r}_N) = \nabla_{\vec{r}_i} V(\vec{r}_1, \dots, \vec{r}_N) = \nabla_{\vec{r}_i} \sum_{j=1, j\neq i}^N V_{r_i, r_j}(\vec{r}_i, \vec{r}_j), \]
+wobei in der letzten Gleichung die Symmetrie der Paar-Potentiale ausgenutzt wurde.
+Also
+\[ \vec{F}_{r_i} (\vec{r}_1, \dots, \vec{r}_N) = \left( \partial_{r_{i_1}} \sum_{j=1, j\neq i}^N V_{r_i, r_j}(\vec{r}_i, \vec{r}_j), \dots, \partial_{r_{i_3}} \sum_{j=1, j\neq i}^N V_{r_i, r_j}(\vec{r}_i, \vec{r}_j) \right).\]
+
+\subsection*{Hesse-Matrix}
+\label{sec:hesse-matrix}
+
+Die Hesse-Matrix des Gesamtsystems bestehend aus den \(N\) Partikeln \(\vec{r}_1, \dots, \vec{r}_N\) ist eine \(3N \times 3N\)-Matrix der Form
+\[H_V(\vec{r}_1, \dots, \vec{r}_N) = \left( \partial_{\vec{r}_i} \partial_{\vec{r}_j} V(\vec{r}_1, \dots, \vec{r}_N) \right)_{i,j = 1}^N. \]
+
+Dabei ist \(\partial_{\vec{r}_i} \partial_{\vec{r}_j} V(\vec{r}_1, \dots, \vec{r}_N)\) eine \(3\times 3\)-Matrix der Form
+\[
+\begin{pmatrix}
+\partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots) & \dots & \partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots) \\
+\vdots & \ddots & \vdots \\
+\partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots) & \dots & \partial_{r_{i_1}}\partial_{r_{j_1}} V(\dots)
+\end{pmatrix}
+\]
+
+Hierbei kann ausgenutzt werden, dass \(V\) als Summe von
+Paar-Potentialen dargestellt werden kann.
+
+\subsubsection*{1. Fall \(i \neq j\)}
+\label{sec:1.-fall}
+Hier gilt
+\begin{align*}
+\partial_{\vec{r}_i}\partial_{\vec{r}_j} V(\vec{r}_1, \dots, \vec{r}_N) &= \partial_{\vec{r}_i} \left( \sum_{k=1, k\neq j}^N \partial_{\vec{r}_j} V_{r_j r_k}(\vec{r}_j, \vec{r}_k) \right) \\
+&= \partial_{\vec{r}_i}\partial_{\vec{r}_j} V_{r_j r_i}(\vec{r}_i, \vec{r}_j).
+\end{align*}
+
+\subsubsection*{2. Fall \(i = j\)}
+\label{sec:2.-fall}
+In diesem Fall gilt:
+\begin{align*}
+\partial_{\vec{r}_i}\partial_{\vec{r}_i} V(\vec{r}_1, \dots, \vec{r}_N) &= \partial_{\vec{r}_i} \left( \sum_{j=1, j\neq i}^N \partial_{\vec{r}_i} V_{r_i r_j}(\vec{r}_i, \vec{r}_j) \right) \\
+&= \sum_{j=1, j\neq i}^N \partial_{\vec{r}_i} \partial_{\vec{r}_i} V_{r_i r_j}(\vec{r}_i, \vec{r}_j).
+\end{align*}
+
+\subsubsection*{Zusammenfassung}
+\label{sec:zusammenfassung}
+
+Insgesamt lässt sich die Hesse-Matrix des Gesamtsystems also wie folgt
+darstellen:
+\[H_V(\vec{r}_1, \dots, \vec{r}_N) =
+\left( \partial_{\vec{r}_i} \partial_{\vec{r}_j} V(\vec{r}_1, \dots,
+  \vec{r}_N) \right)_{i,j = 1}^N \]
+mit den \(3\times 3\)-Matrizen
+\[
+\partial_{\vec{r}_i}\partial_{\vec{r}_j} V(\vec{r}_1, \dots, \vec{r}_N) =
+\begin{cases}
+  \partial_{\vec{r}_i}\partial_{\vec{r}_j} V_{r_j r_i}(\vec{r}_i,
+  \vec{r}_j) & \text{, falls } i \neq j \\
+  \partial_{\vec{r}_i} \partial_{\vec{r}_i} \sum_{j=1, j\neq i}^N
+  V_{r_i r_j}(\vec{r}_i, \vec{r}_j) & \text{, sonst.}
+\end{cases}
+\]
+
+\subsection*{Implementierung}
+\label{sec:implementierung}
+
+Die Hesse-Matrix des Systems wird für die Implementierung in die
+lokalen \(3\times 3\)-Matrizen
+\(\partial_{\vec{r}_i}\partial_{\vec{r}_j} V(\vec{r_1}, \dots,
+\vec{r_N})\) aufgeteilt.
+Jedes \texttt{Particle struct} \(r_i\) speichert dabei die Matrizen
+\[
+\partial_{\vec{r}_i} \partial_{\vec{r}_j} V_{r_i r_j} \text{für } j=1,
+\dots, N, j\neq i \quad \text{ und }
+\quad \partial_{\vec{r}_i} \partial_{\vec{r}_i} V_{r_i r_j} \text{ für
+} j = 1, \dots, N, j\neq i.
+\]
+
+Die dafür benötigten Datenstrukturen sind:
+\begin{itemize}
+\item Ein Array \texttt{localHessians} der Größe \(N\times (3\times
+  3)\)\footnote{Aufgrund der Lokalität der verwendeten Potentiale
+    dürfte auch ein deutlich kleineres Array in diesem Fall genügen.}. Dies soll die lokalen Hesse-Matrizen speichern.
+\item Eine Map \texttt{hessianIndex<particle, localIndex>}, welche die
+  Indizes der Partikel auf den richtigen Eintrag in
+  \texttt{localHessians} mapped.
+\end{itemize}
+
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "."
+%%% End:

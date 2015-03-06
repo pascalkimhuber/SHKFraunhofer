@@ -1,0 +1,444 @@
+#+STARTUP: lognotedone
+
+* Workflow [2015-01-19 Mon]
+** Commit conventions
+1. Name branch I am working in.
+2. Be explicit about what has been done.
+3. Mark if a "project" is finished.
+
+** Working with tremolo
+*** Konventionen für Tremolo Code (Kommentare, Coding Guidlines)
+- Zum Einrücken immer nur 2 Leerzeichen verwenden. (Habe das bereits in Emacs geändert.)
+
+*** Tremolo und tremologui aktualisieren
+
+Nachdem eine neue Version des Tremolo-Ordners gepullt wurde, kann Tremolo wie folgt aktualisiert werden:
+: cd ~/tremolo/build
+: make && make install
+
+Das selbe gilt für Tremologui.
+: cd ~/tremologui/build
+: make && make install
+
+In seltenen Fällen muss evtl. auch die CMake-Datei neu erzeugt werden: Dafür im build-Ordner:
+: ccmake ..
+
+Momentan sind die Pfadvariablen so eingestellt, dass die binaries in /home/huber/bin kopiert werden. Das kann man im ccmake Menu unter install_prefix ändern.
+
+*** Neue source und header Dateien in Tremolo einbinden
+Dateien zunächst in [[file:~/tremolo/src]] einfügen, dann die Source-Datei in [[file:~/tremolo/CMakeLists.txt]] hinzufügen.
+
+*** Tremolo testen
+Für self-tests von Tremolo kann das Programm runpybbt.py in [[~/tremolo/build/tests/]] verwendet werden.
+*** Visualisieren von Tremolodaten
+Dazu kann das Programm VMD verwendet werden: VMD visualisiert .xyz und .pdb Files:
+: vmd *.xyz
+Die graphische Anpassung kann in VMD unter Graphics->Representation angepasst werden.
+
+** Gnuplot Befehle
+
+Einen Ueberblick zu nuetzlichen Gnuplot Befehlen kann auf der folgenden Seite gefunden werden: http://people.duke.edu/~hpgavin/gnuplot.html
+
+1. Um ein Data-file (zum Beispiel =*.epot*=) mit Gnuplot zu plotten, verwendet man: \\
+   : gnuplot> plot "./argon.epot" using 1:2
+   Hierbei wird die zweite Spalte gegen die erste Spalte aufgetragen.
+2. Dies kann auch mit mehreren Files gleichzeitig getan werden: \\
+   : gnuplot> plot "./argon.etot" using 1:2, "./argon.ekin" using 1:2, "./argon.epot" using 1:2
+3. Um den Achsenabschnitt zu veraendern, verwendet man: \\
+   : gnuplot> plot "./argon.epot" using 1:2; set yrange [-0.1: 2]
+4. Den urspruenglichen Achsenabschnitt kann man wie folgt wieder herstellen: \\
+   : gnuplot> plot "./argon.epot" using 1:2; set autoscale
+5. Mit \\
+   : gnuplot> replot
+   kann der Plot aktualisiert werden.
+6. Eine Uebersicht von =set= Befehlen:
+   Create a title:
+   : set title "Force-Deflection Data"
+   Put a label on the x-axis:
+   : set xlabel "Deflection (meters)"
+   Put a label on the y-axis:
+   : set ylabel "Force (kN)"
+   Change the x-axis range:
+   : set xrange [0.001:0.005]
+   Change the y-axis range:
+   : set yrange [20:500]
+   Have Gnuplot determine ranges:
+   : set autoscale
+   Move the key:
+   : set key 0.01,100
+   Delete the key:
+   : unset key
+   Put a label on the plot:
+   : set label "yield point" at 0.003, 260
+   Remove all labels:
+   : unset label
+   Plot using log-axes:
+   : set logscale
+   Plot using log-axes on y-axis:
+   : unset logscale; set logscale y
+   Change the tic-marks:
+   : set xtics (0.002,0.004,0.006,0.008)
+   Return to the default tics:
+   : unset xtics; set xtics auto
+   Set output:
+   : set output 'introduction.png'
+
+** Grep Befehle
+
+http://www.panix.com/~elflord/unix/grep.html
+
+** Git Befehle
+
+*** Branches
+- Create a new branch:
+  : git branch <name_of_new_branch>
+- Create a new branch by pulling from a remote branch:
+  : git checkout -b <name_of_new_branch> origin/<name_of_branch>
+- Delete a local branch:
+  : git branch -d <name_of_branch>
+- Naming convention: use well defined tokes like
+  : feature
+  : bugfix
+  : test
+  followed by a slash '/' and a describing name, e.g.:
+  : feature/potentials
+
+*** Diff
+- Show differences between <branch1> and <branch2>
+  : git diff <branch1>..<branch2>
+
+*** Manipulate changes.
+- Remove untracked files:
+  : git clean -f -d
+
+*** Add and remove changes.
+- Remove deleted files from stack:
+  : git add -u .
+
+*** Remote repositories
+- Add remote repository with name /origin/ (e.g. https://pascalkimhuber@bitbucket.org/pascalkimhuber/stacked.git)
+  : git remote add origin <address of remote>
+- Push a local repository to a remote repository with name /origin/ for the first time
+  : git push -u origin --all
+
+*** Merging branches
+- Merge <branch1> into <branch2>
+  : git checkout <branch2>
+  : git merge <branch1>
+** Find Befehle
+
+- Find all files with names containing =<pattern>= (wildcards have to be used with a preceeding backslash!):
+  : find -name <pattern>
+  or e.g.
+  : find -name <pattern>\*
+
+** Doxygen Befehle
+
+- [[http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdc][List of special commands]]
+
+** GDB Befehle
+
+*** Within GDB
+Start the TUI (see source code and output)
+: CTRL-x a
+or just
+: win
+** CTags in Emacs
+In order to create the tags I ran the following command:
+: find . -type f -iname "*.[xhS]" |xargs etags -a
+
+In emacs ctags can be handled with the following commands:
+- =M-. <RET>= :: Jump to the tag underneath the cursor.
+- =M-. <tag> <RET>= :: Search for a particular tag.
+- =C-u M-.= :: Find the next definition for the last tag.
+- =M-*= :: Pop back where you previously invoked "M-.".
+
+
+
+* Emacs [2015-01-19 Mon]
+** TODO Rewrite Arbeitszeiten section
+
+
+* Todos [2015-01-19 Mon]
+
+** TODO <2015-01-19 Mon> Test Hessian computation in tremolo
+Log all tests for later reference.
+*** DONE For two particles
+    CLOSED: [2015-02-25 Wed 15:44]
+    - CLOSING NOTE [2015-02-25 Wed 15:44] \\
+      Finished tests for two particles simulation.
+- [X] Test in all three coordinate directions for the following points: at \sigma, at the two points defining the valley, and at the tail, and zero-interaction
+- [X] Test diagonal alignement of the coordinates for the same points
+- [X] Test transition from interaction to zero-intraction (e.g. one particle with start velocity)
+*** TODO For three partifcles
+    DEADLINE: <2015-02-26 Thu 17:45> SCHEDULED: <2015-02-25 Wed 17:45>
+- [X] Test in all three coordinate directions for the following points: at \sigma, at the two points defining the valley, and at the tail, an zero-interaction
+- [ ] Note matrix eigenvalues
+- [ ] Test 3 particle fly-by
+- [ ] Test elastic collision (with two different interaction positions)
+*** TODO For four particles
+    DEADLINE: <2015-03-06 Fri 19:00> SCHEDULED: <2015-03-06 Fri 19:00>
+- [ ] Tetrahedron, note matrix eigenvalues for all 5 different radii
+*** TODO Find examples in the papers and test them with tremolo (used case)
+*** TODO Order of local Hessians in output
+    - Note taken on [2015-02-26 Thu 15:12] \\
+      Ask Christian if it is ok, if the local Hessians in the output are not always in the same order.
+*** TODO Test parallel computation
+*** TODO Question for Christian
+- Why are the eigenvalues of the Hessians equal?
+** TODO <2015-03-06 Fri> Merge <testing> into <hessians_pascal>
+** TODO <2015-01-21 Wed> Implement warnings for missing Hessian functions in potentials
+   - Note taken on [2015-01-21 Wed 16:37] \\
+     Implement warnings if potentials without Hessian registration functions are present in the potentials file.
+     1. Give out a warning in the console: "There are potentials without Hessian capability present in the potentials file. Hessian computation may be incomplete!"
+     2. Write out a similar warning in every .hessians file
+
+     In order to check if such potentials are set, one can probably compare the lengths of the registration lists of Hessians and forces.
+** TODO <2015-01-21 Wed> Enable tabulated potentials
+   - Note taken on [2015-01-21 Wed 16:41] \\
+     Implement framework for the use of tabulted potentials: The idea is to replace complicated potentials with simple functions like splines.
+     Spline functions are already implemented in [[file:~/tremolo/src/splines/]], these are cpp-files.
+     For the incorporation in the existing tremolo code compare with the EAM potentials.
+
+     This should work as follows:
+     1. New tag in the potentials-file: tabulated_two_body: on/off, spline_type (maybe also num_sampling_points)
+        (If Hessians are set "on", one can check if tabulated_two_body is "on" too --> not sure till now)
+     2. Register pair-potentials in another registration list
+     3. Find max. r_cut (the spline is defined on [0, r_cut_max])
+     4. Compute equidistant sample points (num = 1000, but may change)
+     5. Sum all potential values/derivatives/second derivatives for every sample point (-> energy, force, Hessians), for this use the tabulated-bib found in src/spline
+** TODO <2015-01-30 Fri> Create a new tabulated potential
+   - Note taken on [2015-01-30 Fri 11:59] \\
+     Create a new potential "tabulated_potential" which just uses a spline.
+     Ask Jan again if necessary.
+
+** TODO <2015-01-19 Mon> Use symmetries to reduce storage amount
+** DONE <2015-02-13 Fri> Merge bugfix branch into <hessians_pascal>
+   CLOSED: [2015-02-16 Mon 16:20]
+   - CLOSING NOTE [2015-02-16 Mon 16:20] \\
+     Merged branch hessians_pascal_bugfix1 into hessians_pascal and deleted branch hessians_pascal_bugfix1.
+** DONE <2015-01-19 Mon> Write extensive documentation about the Hessians
+   CLOSED: [2015-02-16 Mon 13:49]
+   - CLOSING NOTE [2015-02-16 Mon 13:49] \\
+     Wrote an overview of all code related to the computation of Hessians: [[file:~/Documents/Work/docs/notes/hessians_implementation.pdf][Hessians implementation]]
+*** Hessian data structures <2015-02-13 Fri>
+The Hessians data is stored in form of local Hessians (matrices of size NDIMMAT).
+**** Data structures for storing Hessians:
+In =struct Particle= (see data.h):
+- =double *localHessians= :: Pointer to an array of length =NDIMMAT x neighbors= which stores the entries of the local Hessians.
+     For every neighbor Particle the Hessian \partial_p \partial_q is stored, where p is the Particle represented by the struct.
+     All entries are stored in a rowwise manner: \partial_{p1}\partial_{q1} \partial_{p1}\partial_{q2} \partial{p1}\partial{q3} \partial_{p2}\partial{q1} \partial_{p2}\partial{q2} ...
+- =trx_htab *hessianIndex= :: Pointer to a hash table which maps particle indices to the corresponding array entry in =localHessians=. This allows quick retrieval of local Hessians for each pair of Particle structs.
+- =unsigned int sizeOfLocalHessians= :: Stores the maximal number of entries (not Hessians!) that can be stored by the =localHessian= array. This is important for cleaning of the data structures.
+In =struct Problem= (see data.h):
+- =int computeHessians= :: Flag that indicates if Hessians are computed (=1) in the simulation or not (=0).
+**** Function for data structure handling:
+In order to work with the Hessian data structures some "comfort functions" are implemented in =particle.c=:
+- =void createLocalHessians(struct Particle *p, int numberOfHessians)= :: Allocates memory for the =localHessians= array and creates the =hessianIndex= hash table.
+- =void destroyLocalHessians(struct Particle *p)= :: Frees memory for all entries of =localHessians= and destroys the =hessianIndex= hash table.
+- =int getLocalHessian(struct Particle *p, unsigned int qIndex, double *values)= :: Gets the whole local Hessian \partial_p\partial_q and stores it in =values=.
+- =double getLocalHessianComponent(struct Particle *p, unsigned int qIndex, unsigned int i, unsigned int j)= :: Returns the (i,j)-th entry of the local Hessian \partial_p\partial_q.
+- =void cleanHashTable(trx_htab *table)= :: Frees the memory of all entries in =table=. The hash table itself is not destroyed. This is used to reinitialize =hessianIndex=.
+- =void cleanLocalHessians(struct Particle *p)= :: Reinitializes the data structure for the Particle struct p.
+- =void addLocalHessian(struct Particle *p, unsigned int qIndex, double *values)= :: Adds a new local Hessian matrix to Particle p.
+**** Initialization of Hessian data structures:
+The Hessian data structures are initialized during the creation of the Particle structs. A short overview of the overall structure of the initialization:
+1. (tremolo.c): =int main()= calls =void Run(int argc, char **argv)= to start the simulation.
+2. (tremolo.c): =static void Run(int argc, char **argv)= calls =void Init(struct Problem *P)= for the initialization of the main data structures.
+3. (init.c): =void Init(struct Problem *P)= calls =void InitSimBox(struct Problem *P)= to add the Particle structs to the simulation.
+4. (particle.c) =void InitSimBox(struct Problem *P)= calls =int ReadParticles(struct Problem *P, FILE *f, struct ParseInfoBlock *PIB)= which adds Particle structs according to the input file =*f=
+5. (particle.c) =int ReadParticles(struct Problem *P, FILE *f, struct ParseInfoBlock *PIB)= creates all Particle structs for the simulation using =struct Particle *CreateParticleNoSpeStr(const struct Problem *P)= which allocates memory for a Particle struct and initializes some member variables.
+The actual initialization is done in =struct Particle *CreateParticleNoSpeStr(const struct Problem *P)=. For this, the =computeHessian= flag of the Problem struct is checked.
+According to the flag memory for the Hessian data structures is allocated or not. The size of the =localHessian= array is roughly estimated using the total number of Particles and the number of cells in the simulation.
+**** Deletion of Hessian data structures:
+The Hessian data structures are destroyed whenever the associated Particle struct is deleted. This is done especially at the end of the program:
+1. (tremolo.c): =int main()= calls =void Run(int argc, char **argv)= to start the simulation.
+2. (tremolo.c): =static void Run(int argc, char **argv)= calls =void RemoveEverything(struct Problem *P)= at the end of the program to free all allocated memory.
+3. (helpers.c): =void RemoveEverythin(struct Problem *P)= calls =void DeleteLists(struct Problem *P)= to delete the linked cell structure.
+4. (helpers.c): =void DeleteLists(struct Problems *P)= calls =void DeleteAllParticles(struct Problem *P, struct LCStructData *LCS)= in order to delete all Particle structs.
+5. (helpers.c): =void DeleteAllParticles(struct Problem *P, struct LCStructData *LCS)= calls =void DeleteLCListRec()= which in turn calls =void DeleteParticle(const struct Problem * UNUSED(P), struct Particle *p)=.
+The actual deletion of the Hessian data structures is done in =void DeleteParticle(const struct Problem * UNUSED(P), struct Particle *p)= (particle.c). For this, a NULL-check for the =localHessian= array is performed and then the memory of the Hessian data structures is freed.
+*** Data structures for Hessian calculation <2015-02-16 Mon>
+For the computation of Hessians every potential provides a function used for the calculation. These functions are stored in lists of structs which store the function pointers. Tremolo iterates at every time step over these lists and calls the function pointers.
+The struct used for Hessian calculation is defined in lcforces.h
+- =struct LCHessianList= :: Struct similar to =LCForceList= storing the function pointers and data necessary for the computation of Hessians. Every struct represents a given potential and a given pair of particles.
+The list of =LCHessianList= structs is stored in the =LCForceParams= struct:
+- =LCForceParams= :: is stored in the =Problem= struct (for different "stages").
+- =LCForceData= :: Every =LCForceParams= struct stores an array of =LCForceData= structs. Every =LCForceData= struct represents a pair of particles.
+- =LCHessianList= :: For every potential the =LCForceData= struct points to a =LCForceList= and to a =LCHessianList= struct which in turn store the function pointer for the calculation.
+*** Registration of Hessian computation <2015-02-16 Mon>
+For the computation of Hessians every potential must provide a function =Calc<Potentialname>Hessian= (cf. e.g. =CalcLennardJonesHessian()=).
+This function must be registered such that tremolo can call it during the simulation. Since the potentials file is parsed before the parameter file the registration of the Hessian calculation function is done in two steps:
+1. For all potentials in the potentials file (that provide Hessian calculation functions) the corresponding Hessian calculation function is registered regardless if Hessians are computed during the simulation.
+2. If in the parameter file Hessian computation is disabled, all registered Hessian calculation functions are unregistered.
+The registration process is done in the function =void ReadParameters(struct Problem * const P, const char *const filename)=.
+**** Set default behaviour for Hessian computation.
+If no tag "hessians" is provided in the parameters file then the Hessian computation is disabled:
+1. (tremolo.c): =int main()= calls =void Run(int argc, char **argv)= to start the simulation.
+2. (tremolo.c): =static void Run(int argc, char **argv)= calls =void ReadParameters(struct Problem *const P, const char *const filename)= in order to parse the input files.
+3. (init.c): =void ReadParameter(struct Problem *const P, const char *const filename)= calls the function =void FirstInit(struct Problem *const P)=.
+4. (init.c): =void FirstInit(struct Problem *const P)= sets =P->computeHessians = 0=: by default no Hessians are computed.
+**** Registration of Hessian calculation functions
+The actual registration of the Hessian calculation functions is done in the function =int ParsePotentialFiles(struct Problem *P)= (parse.c). The registration is done by each potential itself. For this the potential must implement the Hessian registration in the corresponding =Store<Potentialname>Data()= function (c.f. =StoreLennardJonesData()= (twobody.c)).
+1. (tremolo.c): =int main()= calls =void Run(int argc, char **argv)= to start the simulation.
+2. (tremolo.c): =static void Run(int argc, char **argv)= calls =void ReadParameters(struct Problem *const P, const char *const filename)= in order to parse the input files.
+3. (init.c): =void ReadParameter(struct Problem *const P, const char *const filename)= calls =int ParsePotentialFiles(struct Problem *P)= which registers and calls for all potential the corresponding registration routines.
+For the Lennard-Jones potential the registration is done in the following steps:
+1. (init.c): =int ParsePotentialFiles(struct Problem *P)= calls =int Read2BodyPotentials(struct Problem *P, FilePosType *filePos, parse_data *pd)= which then in turn calls =int ReadLennardJonesData()=.
+2. (twobody.c): =int ReadLennardJonesData()= calls =int StoreLennardJonesData()= which performs the registration of the function =static void CalcLennardJonesHessian()= using the function =int RegisterLCHessian()= (implemented in lcforces.c).
+**** Check and possible deregistration of Hessian calculation functions
+After parsing the potentials file and the registration of the Hessian calculation functions, the parameter file is parsed in =int ParseParameterFiles(struct Problem *P)=.
+If the parameter file contains a =hessians= tag in the =analyze= block the =int StoreAnalyzeHessians()= function (in groupmeas.c) is called which sets the =computeHessians= flag of the Problem struct.
+1. (tremolo.c): =int main()= calls =void Run(int argc, char **argv)= to start the simulation.
+2. (tremolo.c): =static void Run(int argc, char **argv)= calls =void ReadParameters(struct Problem *const P, const char *const filename)= in order to parse the input files.
+3. (init.c): =void ReadParameter(struct Problem *const P, const char *const filename)= calls =int ParseParameterFiles(struct Problem *P)=.
+4. (parse.c): =int ParseParameterFiles(struct Problem *P)= parses the parameter file and calls =int StoreOutputAnalyze(struct Problem *P, FilePosType *filePos, parse_data *pd)=.
+5. (generalmeas.c): =int StoreOutputAnalyze()= calls =int StoreAnalyzeHessians(struct Problem *P, FilePosType *filePos, parse_data *pd)= if a =hessians= tag is found in the parameter file. If no =hessians= tag is found the function is not called and the default value (= 0) is used.
+5. (groupmeas.c): =int StoreAnalyzeHessians(struct Problem *P, FilePosType *filePos, parse_data *pd)= sets =P->computeHessians= to one or zero according to the value set in the parameter file.
+After parsing the parameter file some control function are called within =int ParseParameterFiles(struct Problem *P)=. If no Hessians are supposed to be computed the Hessian calculation functions are here deregistrated:
+1. (init.c): =void ReadParameter(struct Problem *const P, const char *const filename)= calls =int ParseParameterFiles(struct Problem *P)=.
+2. (parse.c): =int ParseParameterFiles(struct Problem *P)= calls =void ControlParseParameterFiles(struct Problem *P)=.
+3. (parse.c): =void ControlParseParameterFiles(struct Problem *P)= calls all =ControlParameterRecord= function pointers of the =ParamInit= array. This also includes the function =int ControlGroupMeasureRecord(struct Problem *P)=.
+4. (groupmeas.c): =int ControlGroupMeasureRecord(struct Problem *P)= calls =int ControlHessianRecord(struct Problem *P)=.
+5. (groupmeas.c): =int ControlHessianRecord(struct Problem *P)= deregisters all Hessian calculation functions if the =computeHessian=-flag is set to 0.
+*** Computation and reinitialization of Hessians
+The Hessian calculation is done for every time step in the =RunSim()= function:
+1. (tremolo.c): =int main()= calls =void Run(int argc, char **argv)= to start the simulation.
+2. (tremolo.c): =void Run(int argc, char **argv)= calls =static void RunSim(struct Problem *P)= which does all time steps.
+3. (tremolo.c): =static void RunSim(struct Problem *P)= calls =void UpdateMeasureVisData(struct Problem *P)= which iterates over all =Particle= structs and reinitializes the =localHessians= arrays.
+4. (tremolo.c): =static void RunSim(struct Problem *P)= calls =void MainLCForce(struct Problem *P)= which is the main function for linked cell force calculation.
+5. (lcforces.c): =void MainLCForce(struct Problem *P)= calls =void CalcLCForce()= which iterates over all cells.
+6. (lcforces.c): =void CalcLCForce()= calls for every cell =static void CalcLCForceForCell()= which iterates over all =Particles= in this cell.
+7. (lcforces.c): =static void CalcLCForceForParticle()= iterates for all neighboring particles over all =LCForceList= and =LCHessianList= structs and calls the force/Hessian calculation function.
+The calculation of the Hessians itself is done by a function which has to be defined for each potential. A pointer of this function is stored in the corresponding =LCHessianList= struct.
+An example of such a function =static void CalcLennardJonesHessian(void *data, struct LCForceFunctionData *const LFFD)=:
+The function computes for the given =Particle= pair (p,q) all local Hessians \partial_pp, \partial_pq, \partial_qp, \partial_qq which are then added to the =localHessians= arrays of the corresponding =Particle= structs.
+The Hessians \partial_pp and \partial_pq are added to =Particle= p and the other two to q.
+*** Output of Hessians
+The Hessian-file suffix is declared data.h in the =enum OutputFileSuffixes= as =hessiansfile= and then defined in the function =void ReadParameters(struct Problem *const P, const char * const filename)=.
+The output itself is done in a function =static void OutputFileHessians(struct Problem * P)=:
+1. (tremolo.c): =int main()= calls =void Run(int argc, char **argv)= to start the simulation.
+2. (tremolo.c): =void Run(int argc, char **argv)= calls =static void RunSim(struct Problem * P)= which does all time steps.
+3. (tremolo.c): =static void RunSim(struct Problem * P)= calls =void OutputBeforeUpdate(struct Problem * P)=.
+4. (output.c): =void OutputBeforeUpdate(struct Problem * P)= calls =void OutputV(struct Problem * P)=.
+5. (output.c): =void OutputV(struct Problem * P)= calls =void OutputVisualData(struct Problem * P)=.
+6. (output.c): =void OutputVisualData(struct Problem * P)= calls =static void OutputFileHessians(struct Problem * P)= which opens the .hessians file and writes for all =Particles= the local Hessians to that file.
+** DONE <2015-01-30 Fri> Rewrite StoreAnalyzeHessians
+   CLOSED: [2015-01-30 Fri 12:36]
+   - CLOSING NOTE [2015-01-30 Fri 12:36] \\
+     Wrote additional function ControlHessianRecord() in groupmeas.c such that the HList-Array is cleaned in this funtion and not while parsing.
+     This seems to work. Checked this for a deactivated and a missing "hessians"-tag in the parameters file.
+   - Note taken on [2015-01-30 Fri 12:01] \\
+     Problem description:
+     If in the parameters file no tag "hessians" is present, then StoreAnalyzeHessians() is not called because of the missing keyword.
+     Therefore the "pruning" of the HLists must be done in an other function.
+
+     Solution:
+     The idea is that
+     - StoreAnalyzeHessians() just sets the computeHessians-flag in the Problem struct
+     - The actual pruning is done in the corresponding "control" function (must still be found).
+** DONE <2015-01-28 Wed> Fix invalid reads/frees
+   CLOSED: [2015-02-13 Fri 11:05]
+   - CLOSING NOTE [2015-02-13 Fri 11:05] \\
+     Fixed error concerning the jump caused by an uninitialized variable. The problem was an uninitialized file suffix.
+1. valgrind auf testing -> jump caused by uninitialized
+
+
+* Log
+
+** Log <2015-03-06 Fri>
+   :LOGBOOK:
+   CLOCK: [2015-03-06 Fri 15:33]--[2015-03-06 Fri 18:33] =>  3:00
+   CLOCK: [2015-03-06 Fri 10:09]--[2015-03-06 Fri 12:33] =>  2:24
+   :END:
+** Log <2015-02-26 Thu>
+   :LOGBOOK:
+   CLOCK: [2015-02-26 Thu 17:34]--[2015-02-26 Thu 18:07] =>  0:33
+   CLOCK: [2015-02-26 Thu 12:05]--[2015-02-26 Thu 17:34] =>  5:29
+   :END:
+** Log <2015-02-25 Wed>
+   :LOGBOOK:
+   CLOCK: [2015-02-25 Wed 16:44]--[2015-02-25 Wed 17:46] =>  1:02
+   CLOCK: [2015-02-25 Wed 13:01]--[2015-02-25 Wed 16:43] =>  3:42
+   CLOCK: [2015-02-25 Wed 12:50]--[2015-02-25 Wed 13:00] =>  0:10
+   :END:
+** Log <2015-02-20 Fri>
+   :LOGBOOK:
+   CLOCK: [2015-02-20 Fri 14:30]--[2015-02-20 Fri 17:46] =>  3:16
+   CLOCK: [2015-02-20 Fri 09:20]--[2015-02-20 Fri 12:25] =>  3:05
+   :END:
+** Log <2015-02-16 Mon>
+   :LOGBOOK:
+   CLOCK: [2015-02-16 Mon 15:23]--[2015-02-16 Mon 18:27] =>  3:04
+   CLOCK: [2015-02-16 Mon 10:39]--[2015-02-16 Mon 13:53] =>  3:14
+   CLOCK: [2015-02-16 Mon 09:53]--[2015-02-16 Mon 10:39] =>  0:46
+   :END:
+** Log <2015-02-13 Fri>
+   :LOGBOOK:
+   CLOCK: [2015-02-13 Fri 14:01]--[2015-02-13 Fri 16:53] =>  2:52
+   CLOCK: [2015-02-13 Fri 9:13]--[2015-02-13 Fri 11:51] =>  2:38
+   :END:
+** Log <2015-01-30 Fri>
+   :LOGBOOK:
+   CLOCK: [2015-01-30 Fri 18:19]--[2015-01-30 Fri 18:19] =>  0:00
+   CLOCK: [2015-01-30 Fri 16:30]--[2015-01-30 Fri 17:58] =>  1:28
+   CLOCK: [2015-01-30 Fri 09:11]--[2015-01-30 Fri 12:45] =>  3:34
+   :END:
+
+*** Rewrote StoreAnalyzeHessians <2015-01-30 Fri>
+1. Simplified StoreAnalyzeHessians() in groupmeas.c: The function now only checks if the tag "hessians" in the parameters file is set or not and changes the "computeHessians"-flag in the Problem struct accordingly.
+2. Added function ControlHessianRecord() to groupmeas.c: The function checks if "computeHessians"-flag is set to true and if not cleans the HList-array s.t. no Hessians are computed.
+3. Added function call of ControlHessianRecord() to ControlGroupMeasureRecord() in groupmeas.c.
+** Log <2015-01-28 Wed>
+   :LOGBOOK:
+   CLOCK: [2015-01-28 Wed 10:26]--[2015-01-28 Wed 15:44] =>  5:18
+   :END:
+*** Fix bug if hessians: measure=off; is set in parameters file
+** Log <2015-01-23 Fri>
+   :LOGBOOK:
+   CLOCK: [2015-01-23 Fri 17:00]--[2015-01-23 Fri 19:10] =>  2:10
+   CLOCK: [2015-01-23 Fri 09:30]--[2015-01-23 Fri 12:50] =>  3:20
+   :END:
+*** Hessian testing
+** Log <2015-01-21 Wed>
+   :LOGBOOK:
+   CLOCK: [2015-01-21 Wed 15:42]--[2015-01-21 Wed 17:18] =>  1:36
+   :END:
+*** Started Hessian-testing log-file in [[file:hessians/tests/test.org]] and set testing parameters
+** Log <2015-01-19 Mon>
+   :LOGBOOK:
+   CLOCK: [2015-01-19 Mon 17:16]--[2015-01-19 Mon 19:03] =>  1:47
+   CLOCK: [2015-01-19 Mon 13:02]--[2015-01-19 Mon 13:14] =>  0:12
+   CLOCK: [2015-01-19 Mon 11:30]--[2015-01-19 Mon 12:59] =>  1:29
+   :END:
+*** Generate test environment for Hessian-testing
+- File for Hessian tests: [[file:~/Sandbox/testHessians/][testHessians]]
+
+
+* Working hours
+** Clocktable
+#+BEGIN: clocktable :maxlevel 2 :scope file :block thisweek
+#+CAPTION: Clock summary at [2015-03-06 Fri 18:34], for week 2015-W10.
+| Headline                   | Time   |      |
+|----------------------------+--------+------|
+| *Total time*               | *5:24* |      |
+|----------------------------+--------+------|
+| Log                        | 5:24   |      |
+| \emsp Log <2015-03-06 Fri> |        | 5:24 |
+#+END:
+
+** Summary
+| Week     |     Time |  Overtime |
+|----------+----------+-----------|
+| 2015-W02 |     8:05 | -00:55:00 |
+| 2015-W03 |     6:06 | -02:54:00 |
+| 2015-W04 |    10:34 |  01:34:00 |
+| 2015-W05 |    10:20 |  01:20:00 |
+| 2015-W06 |     0:00 | -09:00:00 |
+| 2015-W07 |     5:30 | -03:30:00 |
+| 2015-W08 |    22:25 |  13:25:00 |
+| 2015-W09 |    10:56 |  01:56:00 |
+| 2015-W10 |     5:24 | -03:36:00 |
+|----------+----------+-----------|
+| Total    | 79:20:00 | -01:40:00 |
+#+TBLFM: $3=$2-9*3600;T::@>$2=vsum(@2$2..@-1$2);T::@>$3=vsum(@2$3..@-1$3);T::

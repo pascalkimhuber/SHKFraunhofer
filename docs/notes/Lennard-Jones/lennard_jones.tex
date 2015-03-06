@@ -1,0 +1,64 @@
+\documentclass{scrartcl}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Commands ------------------------------------------------------------------
+\newcommand{\boldp}{\boldsymbol{p}}
+\newcommand{\boldq}{\boldsymbol{q}}
+
+\begin{document}
+
+\section{Hessians for the Lennard-Jones pair potential}
+\label{sec:hess-lenn-jones}
+
+Set 
+\begin{equation}
+  \label{eq:1}
+  V(r) =  4 \varepsilon \left( (\frac{\sigma}{r})^{12} -
+    (\frac{\sigma}{r})^{6} \right) = 4 \varepsilon \left( R^{12} -
+    R^6 \right),  \qquad \text{ with } R = \frac{\sigma}{r},  
+\end{equation}
+and 
+\begin{equation}
+  \label{eq:2}
+  r(\boldp, \boldq) = \lVert \boldq - \boldp \rVert =
+  \sqrt{\sum_{i=1}^d r_i^2} \qquad \text{ with } r_i \coloneqq (q_i - p_i).
+\end{equation}
+
+\subsection{Partial derivatives of \(r\)}
+\label{sec:part-deriv-r}
+
+We have (\(r = r(\boldp, \boldq)\)):
+\begin{align}
+\partial_{p_i} r(\boldp, \boldq) &= - \frac{r_i}{r},  \\
+\partial_{q_j} r(\boldp, \boldq) &=  \frac{r_j}{r},  \\
+\partial_{q_i}\partial_{p_i} r(\boldp, \boldq) &= - \partial_{p_i}\partial_{p_i} r(\boldp, \boldq) =  \frac{r_i^2}{r^3} - \frac{1}{r},  \\
+\partial_{q_j}\partial_{p_i} r(\boldp, \boldq) &= - \partial_{p_j}\partial_{p_i} r(\boldp, \boldq) =  \frac{r_ir_j}{r^3}, \\
+\end{align}
+
+\subsection{One dimensional derivatives of the Lennard-Jones
+  potential}
+\label{sec:one-dimens-deriv}
+
+We have 
+\begin{align}
+  V'(r) &= \frac{24 \varepsilon}{r} R^6 \left(1 - 2 R^6\right) \\
+  V''(r) &= \frac{24 \varepsilon}{r^2} R^6 \left( 26 R^6 - 7 \right).
+\end{align}
+
+\subsection{Lennard-Jones forces and Hessians}
+\label{sec:lennard-jones-forces}
+
+We have 
+\begin{align}
+  \partial_{p_i} V(r(\boldp, \boldq)) &= - \frac{24 \varepsilon}{r^2} R^6 \left(1 - 2 R^6\right)r_i \\
+  \partial_{q_i}\partial_{p_i} V(r(\boldp, \boldq)) &= - \partial_{p_i}\partial_{p_i} V(r(\boldp, \boldq)) = \frac{24 \varepsilon}{r^4} R^6 \left(8 - 28 R^6\right)r_i^2 - \frac{24 \varepsilon}{r^2} R^6 \left(1 - 2 R^6\right) \\ 
+  \partial_{q_j}\partial_{p_i} V(r(\boldp, \boldq)) &= - \partial_{p_j}\partial_{p_i} V(r(\boldp, \boldq)) = \frac{24 \varepsilon}{r^4} R^6 \left(8 - 28 R^6\right)r_ir_j
+\end{align}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
