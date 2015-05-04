@@ -354,7 +354,10 @@ In this case the user should get three different options:
 1. Load potentials file even if the unit systems are different
 2. Take over system of units to tremolo file
 3. Abort loading.
-*** TODO <2015-04-30 Thu> Adapt custom-settings.
+*** DONE <2015-04-30 Thu> Adapt custom-settings.
+    CLOSED: [2015-05-04 Mon 14:36]
+    - CLOSING NOTE [2015-05-04 Mon 14:36] \\
+      Done
 This includes
 - [ ] Load custom settings, if unit system is set to =custom=
 - [ ] Compare custom settings, if unit system is set to =custom=
@@ -369,6 +372,70 @@ This includes
     - CLOSING NOTE [2015-04-30 Thu 17:28] \\
       Done
 *** TODO <2015-04-20 Mon> Adapt Manual to changes
+**** Description: Behaviour of tremologui with regard to the system of units. 
+In the following the behaviour of tremologui with respect to changes in the 
+project's system of units in described: 
+***** Loading an existent project
+This section describes the behaviour of tremologui when opening an existent 
+project using the "Open Project" button: 
+****** No system of units declared in the project to be loaded: 
+If neither in the tremolo-file nor in the potentials-file any system of units is
+present, tremologui aborts the load-process and displays an error message. 
+****** System of units present in only one of the two files
+In this case the user is asked if he/she would like to transfer the system of 
+units also to the file in which it is missing. If he accepts the system of units
+is transfered immediately to the other file and the project is loaded. If he 
+declines, the project is loaded nevertheless. 
+****** Different system of units
+If the system of units in both files differ, then the load-process is aborted 
+and an error message is displayed. 
+****** Invalid system of units
+If in one of the files an invalid descriptor for the system of units is set
+(e.g. =global: systemofunits=iamstupid=) then tremologui aborts the load-process
+and issues an error message. 
+****** Consistent system of units 
+If in both files the same system of units (and in the case of =custom= the same
+parameters) are set, then the project is loaded without errors. 
+***** Creating a new project
+If a new project is created the system of units is set to =KCal per Mole= by 
+default and the system of units is written to both files (tremolo-file and 
+potentials-file) immediately. 
+***** Changing the system of units and saving the current project
+This section describes the behaviour of tremologui if the system of units of 
+the currently loaded project is changed within tremologui and these changes are
+then saved to the project.
+****** Change system of units in "General parameters" tab 
+If the user changes the system of units in the "General parameters" tab of 
+tremologui and attempts to save the project afterwards, then tremologui issues 
+a warning messages. In this message the user is asked if he/she would like to 
+apply the system of units set in the *potentials*-file to the project. 
+If he/she choses "Apply" the system of units is reset to the value set in the 
+potentials-file. If he/she choses "Abort" the same message appears again (the 
+reason for this is how the save-methods in tremologui are written...) and if 
+the user choses "Abort" once again an error message appears indicating that the 
+project was not saved. 
+This means: if the user wants to change the system of units he/she has to do 
+it in the "Generam parameters" tab *and* in the potentials file. 
+****** Edit/change the potentials file 
+If the system of units in the potentials-file is changed (either by manually 
+editing the existent file or by loading a new file) and the user likes to 
+save the changes afterwards, then tremologui issues the same message as above,
+i.e. the user is asked if he/she would like to "Apply" the system of units in 
+the potentials file to the whole project (in this case the system of units is 
+transferred immediately to the tremolo-file) or if he/she would like to "Abort"
+the save-process (in this case the behaviour is the same as described in the 
+previous subsection). 
+****** Saving if no system of units is set in the potentials-file
+If no system of units is set in the potentials-file and the user attempts to 
+save the current project, he/she is asked if tremologui should transfer the 
+current system of units (as displayed in the "General parameters" tab) to the 
+potentials file. (If he/she declines this question the question is displayed 
+again - this is the same sort of bug as for the error message described in 
+two preceding sections). 
+***** General remarks
+If the one of the two files (tremolo-file or potentials-file) contains a keyword
+like =systemofunits= at some strange position in the file (e.g. as part of the 
+file-path) the file will not be parsed. 
 ** DONE <2015-03-27 Fri> Adapt Manual for Hessian output
    CLOSED: [2015-04-17 Fri 19:24]
    - CLOSING NOTE [2015-04-17 Fri 19:24] \\

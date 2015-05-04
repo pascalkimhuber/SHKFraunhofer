@@ -1,5 +1,0 @@
-global: defaultpath="../test";
-global: projectname="test";
-global: comment="Reduced argon example";
-
-#global: systemofunits=evolt;

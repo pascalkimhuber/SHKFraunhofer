@@ -2,9 +2,9 @@
  "test"
  (lambda ()
    (TeX-add-to-alist 'LaTeX-provided-class-options
-                     '(("article" "11pt")))
+                     '(("article" "a4paper")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("inputenc" "utf8") ("fontenc" "T1") ("ulem" "normalem")))
+                     '(("inputenc" "utf8") ("fontenc" "T1") ("ulem" "normalem") ("geometry" "margin=1in")))
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
@@ -16,7 +16,7 @@
    (TeX-run-style-hooks
     "latex2e"
     "article"
-    "art11"
+    "art10"
     "inputenc"
     "fontenc"
     "fixltx2e"
@@ -31,7 +31,14 @@
     "marvosym"
     "wasysym"
     "amssymb"
-    "hyperref")
+    "hyperref"
+    "mathtools"
+    "geometry")
+   (TeX-add-symbols
+    "boldp"
+    "boldq"
+    "reals"
+    "verbatim")
    (LaTeX-add-labels
     "sec-1"
     "sec-1-1"
@@ -40,7 +47,12 @@
     "sec-1-1-1"
     "sec-1-1-2"
     "sec-1-1-3"
+    "sec-1-1-4"
     "sec-1-2"
+    "sec-1-2-1"
+    "sec-1-2-1-1"
+    "sec-1-2-1-2"
+    "sec-1-2-2"
     "sec-1-3"
     "sec-1-4"
     "sec-1-4-1"
@@ -79,5 +91,31 @@
     "sec-1-4-6-2"
     "sec-1-5"
     "sec-1-5-1"
-    "sec-1-5-1-1")))
+    "sec-1-5-1-1"
+    "sec-1-5-1-2"
+    "sec-1-5-1-3"
+    "sec-1-5-1-3-1"
+    "sec-1-5-1-3-2"
+    "sec-1-5-1-3-3"
+    "sec-1-5-1-3-4"
+    "sec-1-5-1-4"
+    "sec-1-5-1-5"
+    "sec-1-5-1-6"
+    "sec-1-5-1-7"
+    "sec-1-5-1-8"
+    "sec-1-5-2"
+    "sec-1-5-2-1"
+    "sec-1-5-2-2"
+    "sec-1-5-2-3"
+    "sec-1-5-2-4"
+    "sec-1-6"
+    "sec-1-6-1"
+    "sec-1-6-1-1"
+    "sec-1-6-1-2"
+    "sec-1-6-1-3"
+    "sec-1-6-1-4"
+    "sec-1-6-1-5"
+    "sec-1-6-1-6"
+    "sec-1-6-1-7"
+    "sec-1-6-1-8")))
 

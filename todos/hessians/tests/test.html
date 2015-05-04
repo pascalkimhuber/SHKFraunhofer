@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>test</title>
-<!-- 2015-02-26 Thu 17:17 -->
+<title>Test-Log for Hessian implementation in tremolo</title>
+<!-- 2015-03-16 Mon 17:08 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Pascal Huber" />
@@ -179,7 +179,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">test</h1>
+<h1 class="title">Test-Log for Hessian implementation in tremolo</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -193,14 +193,19 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-1-3">1.1.3. Lennard-Jones forces and Hessians</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-2">1.2. Test parameters</a></li>
-<li><a href="#sec-1-3">1.3. Without hessian tag</a></li>
+<li><a href="#sec-1-2">1.2. Test description and parameters</a>
+<ul>
+<li><a href="#sec-1-2-1">1.2.1. Test parameters</a></li>
+<li><a href="#sec-1-2-2">1.2.2. Output</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">1.3. Test with deactivated hessians tag</a></li>
 <li><a href="#sec-1-4">1.4. Test for two particles</a>
 <ul>
 <li><a href="#sec-1-4-1">1.4.1. Particles aligned in x-direction, no start velocities</a></li>
 <li><a href="#sec-1-4-2">1.4.2. Particles aligned in y-direction, no start velocities</a></li>
 <li><a href="#sec-1-4-3">1.4.3. Particles aligned in z-direction, no start velocities</a></li>
-<li><a href="#sec-1-4-4">1.4.4. Particles aligned along a diagonal, no start velocities</a></li>
+<li><a href="#sec-1-4-4">1.4.4. Particles aligned along a diagonal, pno start velocities</a></li>
 <li><a href="#sec-1-4-5">1.4.5. Particle fly-by/swing-by</a></li>
 <li><a href="#sec-1-4-6">1.4.6. Particle collision</a></li>
 </ul>
@@ -208,6 +213,12 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-5">1.5. Test for three particles</a>
 <ul>
 <li><a href="#sec-1-5-1">1.5.1. Three particles in an equilateral triangle</a></li>
+<li><a href="#sec-1-5-2">1.5.2. Particle collision</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-6">1.6. Test for four particles</a>
+<ul>
+<li><a href="#sec-1-6-1">1.6.1. Four particles in an tetrahedron</a></li>
 </ul>
 </li>
 </ul>
@@ -215,6 +226,7 @@ for the JavaScript code in this tag.
 </ul>
 </div>
 </div>
+
 <div id="outline-container-sec-1" class="outline-2">
 <h2 id="sec-1"><span class="section-number-2">1</span> Tests of the Lennard-Jones Hessian implementation in tremolo <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-01-21 Wed&gt;</span></span></h2>
 <div class="outline-text-2" id="text-1">
@@ -265,6 +277,12 @@ We have
   V'(r) &= \frac{24 \varepsilon}{r} R^6 \left(1 - 2 R^6\right) \\
   V''(r) &= \frac{24 \varepsilon}{r^2} R^6 \left( 26 R^6 - 7 \right).
 \end{align}
+
+
+<div class="figure">
+<p><img src="lennardjones.png" alt="lennardjones.png" />
+</p>
+</div>
 </div>
 </div>
 
@@ -284,51 +302,173 @@ We have
 </div>
 
 <div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Test parameters</h3>
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Test description and parameters</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
-Summary of the test parameters. The directory to the parameter files for tremolo can be found <a href="file:///home/huber/Sandbox/testHessians/">here</a>.
+In order to test the Hessian computation, simulations with two, three and four particles are conducted.
+In most cases stationary particles are placed symmetrically at different distances from each other.
+Theses distances occur multiple times in the following and are given by:
 </p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">distance</th>
+<th scope="col" class="left">value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">r<sub>1</sub></td>
+<td class="left">1 &sigma;</td>
+</tr>
+
+<tr>
+<td class="left">r<sub>2</sub></td>
+<td class="left">2<sup>\frac{1}{6}</sup> &sigma;</td>
+</tr>
+
+<tr>
+<td class="left">r<sub>3</sub></td>
+<td class="left">1.5 &sigma;</td>
+</tr>
+
+<tr>
+<td class="left">r<sub>4</sub></td>
+<td class="left">4 &sigma;</td>
+</tr>
+
+<tr>
+<td class="left">r<sub>5</sub></td>
+<td class="left">20 &sigma; (zero interaction)</td>
+</tr>
+</tbody>
+</table>
 <ul class="org-ul">
-<li>sigma = epsilon = 1
+<li>r<sub>1</sub> corresponds to the first intersection of the Lennard-Jones potential \(V\) with the x-axis.
 </li>
-<li>cellrcut = 12
+<li>r<sub>2</sub> is the minimizer of the Lennard-Jones potential \(V\).
 </li>
-<li>edge length of the cube: 80
+<li>r<sub>3</sub> is situated near r<sub>2</sub> on the right-hand side of the minimum of \(V\).
 </li>
-<li>delta<sub>T</sub> = 5.0e-3
+<li>r<sub>4</sub> is situated far away of the minimum and \(V\) does not change much.
 </li>
-<li>endtime = 5.0e-1
-</li>
-<li>outvis T<sub>Delta</sub> = 1.0e-2
+<li>r<sub>5</sub> is situated outside the cell r<sub>cut</sub> and thus no interaction should take place at this distance.
 </li>
 </ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Test parameters</h4>
+<div class="outline-text-4" id="text-1-2-1">
+</div><ol class="org-ol"><li><a id="sec-1-2-1-1" name="sec-1-2-1-1"></a>parameters file:<br  /><div class="outline-text-5" id="text-1-2-1-1">
 <p>
-The test distances at which the particles are initially situated are given by:
+For most of a test a the following parameters-file is used (in all other cases the parameters-file is explicitely given):
 </p>
-<ul class="org-ul">
-<li>r<sub>1</sub> = 1 sigma
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr"> 1: </span>integration: type=dynamics;
+<span class="linenr"> 2: </span>
+<span class="linenr"> 3: </span>lcs: cellrcut=12.0;
+<span class="linenr"> 4: </span>
+<span class="linenr"> 5: </span>domain {
+<span class="linenr"> 6: </span>    size: type=cube, size=80.0;
+<span class="linenr"> 7: </span>    border: bt_xlow=periodic, bt_xhigh=periodic, bt_ylow=periodic, bt_yhigh=periodic,
+<span class="linenr"> 8: </span>        bt_zlow=periodic, bt_zhigh=periodic;
+<span class="linenr"> 9: </span>};
+<span class="linenr">10: </span>
+<span class="linenr">11: </span>dynamics {
+<span class="linenr">12: </span>    ensemble: ensemble=NVE;
+<span class="linenr">13: </span>    propagator, verlet: delta_T=5.0e-3, endtime=1.0;
+<span class="linenr">14: </span>};
+<span class="linenr">15: </span>
+<span class="linenr">16: </span>optimization {
+<span class="linenr">17: </span>    particle: state=on, alpha=0.2, beta=0.8, lambda1=0, lambda2=1;
+<span class="linenr">18: </span>
+<span class="linenr">19: </span>    common: algorithm=cg, maxcg=2001, RT=periodical, maxresetcg=6, LS=strongwolfe,
+<span class="linenr">20: </span>        maxlinesearch=6, mean_force_eps=1e-6, mean_force_eps_rel=1e-10, prefactor=1e-4;
+<span class="linenr">21: </span>};
+<span class="linenr">22: </span>
+<span class="linenr">23: </span>output {
+<span class="linenr">24: </span>    Outvis: T_Start=0, T_Delta=1.0e-2, Step_Delta=10;
+<span class="linenr">25: </span>    Outdata: T_Start=0, T_Delta=500, Step_Delta=10;
+<span class="linenr">26: </span>
+<span class="linenr">27: </span>    Outm: T_Start=0, T_Delta=0.5, Step_Delta=1;
+<span class="linenr">28: </span>
+<span class="linenr">29: </span>    energy: measure=on;
+<span class="linenr">30: </span>
+<span class="linenr">31: </span>    analyze {
+<span class="linenr">32: </span>        velocity: measure=on, meanmeasure=off, vis=off, min=0.0, max=25.0, n_bin=50;
+<span class="linenr">33: </span>        hessians: measure=on;
+<span class="linenr">34: </span>    };
+<span class="linenr">35: </span>};
+</pre>
+</div>
+<p>
+Thus the simulation is done in a cube with side length 80, the cell r<sub>cut</sub> is set to 12.
+The simulation time is 1.0 such that exactly 100 Hessian measurments are performed.
+The &lt;hessians&gt; tag is set in the &lt;analyze&gt; block of the parameters file.
+</p>
+</div>
 </li>
-<li>r<sub>2</sub> = r<sub>m</sub> = 2<sup>(1/6)</sup> sigma
-</li>
-<li>r<sub>3</sub> = 3/2 sigma
-</li>
-<li>r<sub>4</sub> = 4 sigma
-</li>
-<li>r<sub>5</sub> = 20 (zero interaction)
-</li>
-</ul>
+<li><a id="sec-1-2-1-2" name="sec-1-2-1-2"></a>potentials file:<br  /><div class="outline-text-5" id="text-1-2-1-2">
+<p>
+For the simulation the only active potential is the Lennard-Jones potential with a cut-off of 12.
+The parameters &sigma; and &epsilon; are both set to 1.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr"> 1: </span>particles       {
+<span class="linenr"> 2: </span>        particle:       particle_type=Argon,    element_name=Ar,        sigma=1,        epsilon=1,
+<span class="linenr"> 3: </span>                        sigma14=1,              epsilon14=1,            mass=1,         free=3,     charge=0;
+<span class="linenr"> 4: </span>        };
+<span class="linenr"> 5: </span>nonbonded_2body_potentials      {
+<span class="linenr"> 6: </span>        lennardjones:   particle_type1=Argon,   particle_type2=Argon,   r_cut=12;
+<span class="linenr"> 7: </span>        };
+<span class="linenr"> 8: </span>unitsystem: systemofunits=custom;
+<span class="linenr"> 9: </span>
+<span class="linenr">10: </span>custom: lengthunit=angstrom;
+<span class="linenr">11: </span>custom: lengthscalingfactor=3.4;
+<span class="linenr">12: </span>custom: timeunit=ps;
+<span class="linenr">13: </span>custom: timescalingfactor=2.17;
+<span class="linenr">14: </span>custom: massunit=u;
+<span class="linenr">15: </span>custom: massscalingfactor=39.948;
+<span class="linenr">16: </span>custom: currentunit="e/s";
+<span class="linenr">17: </span>custom: currentscalingfactor=1;
+<span class="linenr">18: </span>custom: temperatureunit=K;
+<span class="linenr">19: </span>custom: temperaturescalingfactor=120;
+</pre>
+</div>
+</div>
+</li></ol>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> Output</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+All local Hessians are stored in files <code>&lt;projectname&gt;.xxxx.hessians</code>, where xxxx can include the numbers <code>0000</code> to <code>9999</code>.
+In most of the test only for 100 time steps the Hessians are calculated, such that only the files <code>test.0000.hessians</code> to <code>test.0100.hessians</code> are created.
+</p>
+</div>
 </div>
 </div>
 
 <div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Without hessian tag</h3>
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Test with deactivated hessians tag</h3>
 <div class="outline-text-3" id="text-1-3">
-<p>
-If the tag &lt;hessians&gt; does not exist, no files <code>&lt;projectname&gt;.xxxx.hessians</code> are created.
-If the tag &lt;hessians&gt; exists but the option <code>measure=off</code> is set, no files <code>&lt;projectname&gt;.xxxx.hessians</code> are created.
-If the tag &lt;hessians&gt; exists and an invalid option is set, then tremolo displays an error message and aborts the simulation.
-</p>
+<ul class="org-ul">
+<li>If the tag &lt;hessians&gt; does not exist in the parameters file, no files <code>&lt;projectname&gt;.xxxx.hessians</code> are created and no Hessians are calculated.
+</li>
+<li>If the tag &lt;hessians&gt; exists but the option <code>measure=off</code> is set in the parameters file, no files <code>&lt;projectname&gt;.xxxx.hessians</code> are created and no Hessians are calculated. .
+</li>
+<li>If the tag &lt;hessians&gt; exists in the parameters file and an invalid option is set, then tremolo displays an error message and aborts the simulation.
+</li>
+</ul>
 </div>
 </div>
 
@@ -336,7 +476,8 @@ If the tag &lt;hessians&gt; exists and an invalid option is set, then tremolo di
 <h3 id="sec-1-4"><span class="section-number-3">1.4</span> Test for two particles</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
-Note that the local Hessians for a single particle &part;<sub>pp</sub> and for two different particles &part;<sub>pq</sub> only differ by a sign.
+Note that by the formula for the second derivative of the Lennard-Jones potential the local Hessians for a single particle &part;<sub>pp</sub> and for two different particles &part;<sub>pq</sub> only differ by a sign.
+Thus it is enough to consider only &part;<sub>pp</sub>.
 </p>
 </div>
 <div id="outline-container-sec-1-4-1" class="outline-4">
@@ -352,7 +493,7 @@ For two particles aligned in x-direction one expects:
 </li>
 </ul>
 </div>
-<ol class="org-ol"><li><a id="sec-1-4-1-1" name="sec-1-4-1-1"></a>Summary<br  /><div class="outline-text-5" id="text-1-4-1-1">
+<ol class="org-ol"><li><a id="sec-1-4-1-1" name="sec-1-4-1-1"></a>Summary:<br  /><div class="outline-text-5" id="text-1-4-1-1">
 <p>
 As expected one obtains for all radii diagonal matrices for which the second and third diagonal entries are equal.
 For r<sub>2</sub> only the first entry is no equal to zero which is expected since the other two diagonal entries are given by the force value which in this case is zero as the particles are already at the energy minimum.
@@ -360,17 +501,17 @@ For r<sub>5</sub> no entries are calculated since the distance between the parti
 </p>
 </div>
 </li>
-<li><a id="sec-1-4-1-2" name="sec-1-4-1-2"></a>r<sub>1</sub><br  /><div class="outline-text-5" id="text-1-4-1-2">
+<li><a id="sec-1-4-1-2" name="sec-1-4-1-2"></a>r<sub>1</sub>:<br  /><div class="outline-text-5" id="text-1-4-1-2">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0    40.0    40.0    0.0     0.0     0.0     Argon
-2       41.0    40.0    40.0    0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0    40.0    0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       41.0    40.0    40.0    0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 At all time steps one obtains diagonal matrices as expected.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1, diag(456, 24, 24)
@@ -382,19 +523,19 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-1-3" name="sec-1-4-1-3"></a>r<sub>2</sub><br  /><div class="outline-text-5" id="text-1-4-1-3">
+<li><a id="sec-1-4-1-3" name="sec-1-4-1-3"></a>r<sub>2</sub>:<br  /><div class="outline-text-5" id="text-1-4-1-3">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0          40.0    40.0      0.0     0.0     0.0     Argon
-2       41.122462048  40.0    40.0      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0          40.0    40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       41.122462048  40.0    40.0      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 Since r<sub>2</sub> is the distance of the minimal potential energy the distance between the two particles remains the same during the whole simulation.
 As expected one obtains at all times the same matrix which consists of only one single non-zero entry at the (1,1)-position.
 The other two diagonal entries dissapear since they consists basically of the force between the two particles which vanishes in this case.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1.122462048, diag(57.146438, 0, 0)
@@ -406,17 +547,17 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-1-4" name="sec-1-4-1-4"></a>r<sub>3</sub><br  /><div class="outline-text-5" id="text-1-4-1-4">
+<li><a id="sec-1-4-1-4" name="sec-1-4-1-4"></a>r<sub>3</sub>:<br  /><div class="outline-text-5" id="text-1-4-1-4">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
-2       41.5  40.0    40.0      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       41.5  40.0    40.0      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 As for r<sub>1</sub> one obtains at all time steps diagonal matrices.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1.5, diag(4.41759, 0.772019, 0.772019)
@@ -428,17 +569,17 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-1-5" name="sec-1-4-1-5"></a>r<sub>4</sub><br  /><div class="outline-text-5" id="text-1-4-1-5">
+<li><a id="sec-1-4-1-5" name="sec-1-4-1-5"></a>r<sub>4</sub>:<br  /><div class="outline-text-5" id="text-1-4-1-5">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
-2       44.0  40.0    40.0      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       44.0  40.0    40.0      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 Same situation as for r<sub>3</sub>.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 4, diag(0.002561, 0.000366, 0.000366)
@@ -450,12 +591,12 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-1-6" name="sec-1-4-1-6"></a>r<sub>5</sub><br  /><div class="outline-text-5" id="text-1-4-1-6">
+<li><a id="sec-1-4-1-6" name="sec-1-4-1-6"></a>r<sub>5</sub>:<br  /><div class="outline-text-5" id="text-1-4-1-6">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
-2       60.0  40.0    40.0      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       60.0  40.0    40.0      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
@@ -463,13 +604,10 @@ In this case no interaction between the two particles can happen, since the dist
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh"># time 0.000000e+00
-# particle_id1   coord1  particle_id2    coord2  hessian_entry
+<pre class="src src-sh"><span class="linenr">1: </span># time 0.000000e+00
+<span class="linenr">2: </span># particle_id1   coord1  particle_id2    coord2  hessian_entry
 </pre>
 </div>
-<p>
-Note that in the case of r = r<sub>cut</sub> Hessians are calculated and one does not obtain empty hessians files but files which contain all only zero matrices!
-</p>
 </div>
 </li></ol>
 </div>
@@ -486,23 +624,23 @@ For two particles aligned in y-direction one expects:
 </li>
 </ul>
 </div>
-<ol class="org-ol"><li><a id="sec-1-4-2-1" name="sec-1-4-2-1"></a>Summary<br  /><div class="outline-text-5" id="text-1-4-2-1">
+<ol class="org-ol"><li><a id="sec-1-4-2-1" name="sec-1-4-2-1"></a>Summary:<br  /><div class="outline-text-5" id="text-1-4-2-1">
 <p>
 One obtains the analogous results as for the case of x-aligned particles.
 </p>
 </div>
 </li>
-<li><a id="sec-1-4-2-2" name="sec-1-4-2-2"></a>r<sub>1</sub><br  /><div class="outline-text-5" id="text-1-4-2-2">
+<li><a id="sec-1-4-2-2" name="sec-1-4-2-2"></a>r<sub>1</sub>:<br  /><div class="outline-text-5" id="text-1-4-2-2">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0    40.0    40.0    0.0     0.0     0.0     Argon
-2       40.0    41.0    40.0    0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0    40.0    0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0    41.0    40.0    0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 At all time steps one obtains diagonal matrices as expected.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1, diag(24, 456, 24)
@@ -514,19 +652,19 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-2-3" name="sec-1-4-2-3"></a>r<sub>2</sub><br  /><div class="outline-text-5" id="text-1-4-2-3">
+<li><a id="sec-1-4-2-3" name="sec-1-4-2-3"></a>r<sub>2</sub>:<br  /><div class="outline-text-5" id="text-1-4-2-3">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0    40.0          40.0      0.0     0.0     0.0     Argon
-2       40.0    41.122462048  40.0      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0          40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0    41.122462048  40.0      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 Since r<sub>2</sub> is the distance of the minimal potential energy the distance between the two particles remains the same during the whole simulation.
 As expected one obtains at all times the same matrix which consists of only one single non-zero entry at the (2,2)-position.
 The other two diagonal entries dissapear since they consists basically of the force between the two particles which vanishes in this case.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1.122462048, diag(0, 57.146438, 0)
@@ -538,17 +676,17 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-2-4" name="sec-1-4-2-4"></a>r<sub>3</sub><br  /><div class="outline-text-5" id="text-1-4-2-4">
+<li><a id="sec-1-4-2-4" name="sec-1-4-2-4"></a>r<sub>3</sub>:<br  /><div class="outline-text-5" id="text-1-4-2-4">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
-2       40.0  41.5    40.0      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0  41.5    40.0      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 As for r<sub>1</sub> one obtains at all time steps diagonal matrices.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1.5, diag(0.772019, 4.41759, 0.772019)
@@ -560,17 +698,17 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-2-5" name="sec-1-4-2-5"></a>r<sub>4</sub><br  /><div class="outline-text-5" id="text-1-4-2-5">
+<li><a id="sec-1-4-2-5" name="sec-1-4-2-5"></a>r<sub>4</sub>:<br  /><div class="outline-text-5" id="text-1-4-2-5">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
-2       40.0  44.0    40.0      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0  44.0    40.0      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 Same situation as for r<sub>3</sub>.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 4, diag(0.000366, 0.002561, 0.000366)
@@ -582,12 +720,12 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-2-6" name="sec-1-4-2-6"></a>r<sub>5</sub><br  /><div class="outline-text-5" id="text-1-4-2-6">
+<li><a id="sec-1-4-2-6" name="sec-1-4-2-6"></a>r<sub>5</sub>:<br  /><div class="outline-text-5" id="text-1-4-2-6">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
-2       40.0  60.0    40.0      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0  60.0    40.0      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
@@ -595,13 +733,10 @@ In this case no interaction between the two particles can happen, since the dist
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh"># time 0.000000e+00
-# particle_id1   coord1  particle_id2    coord2  hessian_entry
+<pre class="src src-sh"><span class="linenr">1: </span># time 0.000000e+00
+<span class="linenr">2: </span># particle_id1   coord1  particle_id2    coord2  hessian_entry
 </pre>
 </div>
-<p>
-Note that in the case of r = r<sub>cut</sub> Hessians are calculated and one does not obtain empty hessians files but files which contain all only zero matrices!
-</p>
 </div>
 </li></ol>
 </div>
@@ -618,23 +753,23 @@ For two particles aligned in z-direction one expects:
 </li>
 </ul>
 </div>
-<ol class="org-ol"><li><a id="sec-1-4-3-1" name="sec-1-4-3-1"></a>Summary<br  /><div class="outline-text-5" id="text-1-4-3-1">
+<ol class="org-ol"><li><a id="sec-1-4-3-1" name="sec-1-4-3-1"></a>Summary:<br  /><div class="outline-text-5" id="text-1-4-3-1">
 <p>
 One obtains the analogous results as for the case of x-aligned and y-aligned particles.
 </p>
 </div>
 </li>
-<li><a id="sec-1-4-3-2" name="sec-1-4-3-2"></a>r<sub>1</sub><br  /><div class="outline-text-5" id="text-1-4-3-2">
+<li><a id="sec-1-4-3-2" name="sec-1-4-3-2"></a>r<sub>1</sub>:<br  /><div class="outline-text-5" id="text-1-4-3-2">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0    40.0    40.0    0.0     0.0     0.0     Argon
-2       40.0    40.0    41.0    0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0    40.0    0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0    40.0    41.0    0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 At all time steps one obtains diagonal matrices as expected.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1, diag(24, 24, 456)
@@ -646,19 +781,19 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-3-3" name="sec-1-4-3-3"></a>r<sub>2</sub><br  /><div class="outline-text-5" id="text-1-4-3-3">
+<li><a id="sec-1-4-3-3" name="sec-1-4-3-3"></a>r<sub>2</sub>:<br  /><div class="outline-text-5" id="text-1-4-3-3">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0    40.0    40.0           0.0      0.0     0.0     Argon
-2       40.0    40.0    41.122462048   0.0      0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0    40.0           0.0      0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0    40.0    41.122462048   0.0      0.0     0.0     Argon
 </pre>
 </div>
 <p>
 Since r<sub>2</sub> is the distance of the minimal potential energy the distance between the two particles remains the same during the whole simulation.
 As expected one obtains at all times the same matrix which consists of only one single non-zero entry at the (3,3)-position.
 The other two diagonal entries dissapear since they consists basically of the force between the two particles which vanishes in this case.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1.122462048, diag(0, 0, 57.146438)
@@ -670,17 +805,17 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-3-4" name="sec-1-4-3-4"></a>r<sub>3</sub><br  /><div class="outline-text-5" id="text-1-4-3-4">
+<li><a id="sec-1-4-3-4" name="sec-1-4-3-4"></a>r<sub>3</sub>:<br  /><div class="outline-text-5" id="text-1-4-3-4">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
-2       40.0  40.0    41.5      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0  40.0    41.5      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 As for r<sub>1</sub> one obtains at all time steps diagonal matrices.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1.5, diag(0.772019, 0.772019, 4.41759)
@@ -692,17 +827,17 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-3-5" name="sec-1-4-3-5"></a>r<sub>4</sub><br  /><div class="outline-text-5" id="text-1-4-3-5">
+<li><a id="sec-1-4-3-5" name="sec-1-4-3-5"></a>r<sub>4</sub>:<br  /><div class="outline-text-5" id="text-1-4-3-5">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
-2       40.0  40.0    44.0      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0  40.0    44.0      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
 Same situation as for r<sub>3</sub>.
-In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given:
+In the following the absolute values of the local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given:
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 4, diag(0.000366, 0.000366, 0.002561)
@@ -714,12 +849,12 @@ In the following the absolute values of the local Hessian &part;<sub>p<sub>1</su
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-3-6" name="sec-1-4-3-6"></a>r<sub>5</sub><br  /><div class="outline-text-5" id="text-1-4-3-6">
+<li><a id="sec-1-4-3-6" name="sec-1-4-3-6"></a>r<sub>5</sub>:<br  /><div class="outline-text-5" id="text-1-4-3-6">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
-2       40.0  40.0    60.0      0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0  40.0    40.0      0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0  40.0    60.0      0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
@@ -727,18 +862,15 @@ In this case no interaction between the two particles can happen, since the dist
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh"># time 0.000000e+00
-# particle_id1   coord1  particle_id2    coord2  hessian_entry
+<pre class="src src-sh"><span class="linenr">1: </span># time 0.000000e+00
+<span class="linenr">2: </span># particle_id1   coord1  particle_id2    coord2  hessian_entry
 </pre>
 </div>
-<p>
-Note that in the case of r = r<sub>cut</sub> Hessians are calculated and one does not obtain empty hessians files but files which contain all only zero matrices!
-</p>
 </div>
 </li></ol>
 </div>
 <div id="outline-container-sec-1-4-4" class="outline-4">
-<h4 id="sec-1-4-4"><span class="section-number-4">1.4.4</span> Particles aligned along a diagonal, no start velocities</h4>
+<h4 id="sec-1-4-4"><span class="section-number-4">1.4.4</span> Particles aligned along a diagonal, pno start velocities</h4>
 <div class="outline-text-4" id="text-1-4-4">
 <p>
 For two (initially stationary) particles which are aligned along a space diagonal one can expect:
@@ -750,7 +882,7 @@ For two (initially stationary) particles which are aligned along a space diagona
 </li>
 </ul>
 </div>
-<ol class="org-ol"><li><a id="sec-1-4-4-1" name="sec-1-4-4-1"></a>Summary<br  /><div class="outline-text-5" id="text-1-4-4-1">
+<ol class="org-ol"><li><a id="sec-1-4-4-1" name="sec-1-4-4-1"></a>Summary:<br  /><div class="outline-text-5" id="text-1-4-4-1">
 <p>
 As expected all computed local Hessians have the mentioned symmetric properties, such that all diagonal entries on the one hand and all non-diagonal entries on the other hand are equal.
 In contrast to the previous cases no entries are equal to zero which is also quite reasonable, since the difference vector has no zero-entries.
@@ -758,22 +890,24 @@ The values of the entries seem to be correct as well.
 </p>
 </div>
 </li>
-<li><a id="sec-1-4-4-2" name="sec-1-4-4-2"></a>r<sub>1</sub><br  /><div class="outline-text-5" id="text-1-4-4-2">
+<li><a id="sec-1-4-4-2" name="sec-1-4-4-2"></a>r<sub>1</sub>:<br  /><div class="outline-text-5" id="text-1-4-4-2">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
-2       40.577350269    40.577350269    40.577350269    0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.577350269    40.577350269    40.577350269    0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
-The local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> for the first particle at time 0 is given by<br  />
-[136.000001 160.000001 160.000001]<br  />
-[160.000001 136.000001 160.000001]<br  />
-[136.000001 160.000001 136.000001]
+The local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> for the first particle at time 0 is given by
+\[\begin{pmatrix}
+136.000001 & 160.000001 & 160.000001 \\
+160.000001 & 136.000001 & 160.000001 \\
+136.000001 & 160.000001 & 136.000001
+\end{pmatrix}\]
 The other three local Hessians differ only in the sign. As expected all diagonal entries are equal as are the non-diagonal ones.
 The difference between the diagonal and non-diagonal entries is 24 which is exactly the norm of the force between the particles.
-In the following the local Hessians &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given
+In the following the local Hessians &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1, (136.000001 160.000001 160.000001, 160.000001 136.000001 160.000001, 136.000001 160.000001 136.000001)
@@ -785,22 +919,24 @@ In the following the local Hessians &part;<sub>p<sub>1</sub> p<sub>1</sub></sub>
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-4-3" name="sec-1-4-4-3"></a>r<sub>2</sub><br  /><div class="outline-text-5" id="text-1-4-4-3">
+<li><a id="sec-1-4-4-3" name="sec-1-4-4-3"></a>r<sub>2</sub>:<br  /><div class="outline-text-5" id="text-1-4-4-3">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
-2       40.648053766    40.648053766    40.648053766    0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.648053766    40.648053766    40.648053766    0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
-The local Hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> for the first particle at time 0 is given by<br  />
-[19.048812 19.048812 19.048812]<br  />
-[19.048812 19.048812 19.048812]<br  />
-[19.048812 19.048812 19.048812]<br  />
+The local Hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> for the first particle at time 0 is given by
+\[\begin{pmatrix}
+19.048812 & 19.048812 & 19.048812\\
+19.048812 & 19.048812 & 19.048812\\
+19.048812 & 19.048812 & 19.048812
+\end{pmatrix}\]
 All entries are equal. Since the force at r<sub>2</sub> vanishes the second summand in the term for the diagonal entries of the
 local Hessians dissappears and the remaining term is equal to the formula for the non-diagonal entries of the local Hessians.
-In the following the local Hessians &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given
+In the following the local Hessians &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1.122462048, (19.048812 19.048812 19.048812, 19.048812 19.048812 19.048812, 19.048812 19.048812 19.048812)
@@ -812,21 +948,23 @@ In the following the local Hessians &part;<sub>p<sub>1</sub> p<sub>1</sub></sub>
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-4-4" name="sec-1-4-4-4"></a>r<sub>3</sub><br  /><div class="outline-text-5" id="text-1-4-4-4">
+<li><a id="sec-1-4-4-4" name="sec-1-4-4-4"></a>r<sub>3</sub>:<br  /><div class="outline-text-5" id="text-1-4-4-4">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
-2       40.866025404    40.866025404    40.866025404    0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.866025404    40.866025404    40.866025404    0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
-The local hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> for the first particle at time 0 is given by<br  />
-[-0.957852 -1.729871 -1.729871]<br  />
-[-1.729871 -0.957852 -1.729871]<br  />
-[-1.729871 -1.729871 -0.957852]<br  />
+The local hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> for the first particle at time 0 is given by
+\[\begin{pmatrix}
+-0.957852 & -1.729871 & -1.729871\\
+-1.729871 & -0.957852 & -1.729871\\
+-1.729871 & -1.729871 & -0.957852
+\end{pmatrix}\]
 The situation is similar as for r<sub>1</sub>, i.e. the diagonal entries and the non-diagonal entries each are equal which is quite expected.
-In the following the local Hessians &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given
+In the following the local Hessians &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 1.5, (-0.957852 -1.729871 -1.729871, -1.729871 -0.957852 -1.729871, -1.729871 -1.729871 -0.957852)
@@ -838,21 +976,23 @@ In the following the local Hessians &part;<sub>p<sub>1</sub> p<sub>1</sub></sub>
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-4-5" name="sec-1-4-4-5"></a>r<sub>4</sub><br  /><div class="outline-text-5" id="text-1-4-4-5">
+<li><a id="sec-1-4-4-5" name="sec-1-4-4-5"></a>r<sub>4</sub>:<br  /><div class="outline-text-5" id="text-1-4-4-5">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
-2       42.309401077    42.309401077    42.309401077    0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       42.309401077    42.309401077    42.309401077    0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
-The local hessian &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> for the first particle at time 0 is given by<br  />
-[-0.000610 -0.000976 -0.000976]<br  />
-[-0.000976 -0.000610 -0.000976]<br  />
-[-0.000976 -0.000976 -0.000610]<br  />
+The local hessian &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> for the first particle at time 0 is given by
+\[\begin{pmatrix}
+-0.000610 & -0.000976 & -0.000976\\
+-0.000976 & -0.000610 & -0.000976\\
+-0.000976 & -0.000976 & -0.000610
+\end{pmatrix}\]
 In this case too, the local Hessians maintain their symmetry properties as in the other cases.
-In the following the local Hessians &part;<sub>p<sub>1</sub> p<sub>1</sub></sub> are given
+In the following the local Hessians &part;<sub>p<sub>1</sub>,p<sub>1</sub></sub> are given
 </p>
 <dl class="org-dl">
 <dt> 0000 </dt><dd>r = 4, (-0.000610 -0.000976 -0.000976, -0.000976 -0.000610 -0.000976, -0.000976 -0.000976 -0.000610)
@@ -864,12 +1004,12 @@ In the following the local Hessians &part;<sub>p<sub>1</sub> p<sub>1</sub></sub>
 </dl>
 </div>
 </li>
-<li><a id="sec-1-4-4-6" name="sec-1-4-4-6"></a>r<sub>5</sub><br  /><div class="outline-text-5" id="text-1-4-4-6">
+<li><a id="sec-1-4-4-6" name="sec-1-4-4-6"></a>r<sub>5</sub>:<br  /><div class="outline-text-5" id="text-1-4-4-6">
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
-2       51.547005384    51.547005384    51.547005384    0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       51.547005384    51.547005384    51.547005384    0.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
@@ -878,8 +1018,8 @@ Thus all hessians files look like
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh"># time 5.000000e-01
-# particle_id1   coord1  particle_id2    coord2  hessian_entry
+<pre class="src src-sh"><span class="linenr">1: </span># time 5.000000e-01
+<span class="linenr">2: </span># particle_id1   coord1  particle_id2    coord2  hessian_entry
 </pre>
 </div>
 </div>
@@ -888,7 +1028,7 @@ Thus all hessians files look like
 <div id="outline-container-sec-1-4-5" class="outline-4">
 <h4 id="sec-1-4-5"><span class="section-number-4">1.4.5</span> Particle fly-by/swing-by</h4>
 <div class="outline-text-4" id="text-1-4-5">
-</div><ol class="org-ol"><li><a id="sec-1-4-5-1" name="sec-1-4-5-1"></a>Description<br  /><div class="outline-text-5" id="text-1-4-5-1">
+</div><ol class="org-ol"><li><a id="sec-1-4-5-1" name="sec-1-4-5-1"></a>Description:<br  /><div class="outline-text-5" id="text-1-4-5-1">
 <p>
 Two particles are positioned at zero-interaction distance from each other (p at (40.0, 40.0, 40.0) and q at (20.0, 45.0, 40.0)).
 The first particle (p) is stationary while the second one has an initial velocity ((40.0, 0.0, 0.0)) such that it passes the
@@ -897,9 +1037,9 @@ The .data file is given by
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0    40.0    40.0    0.0     0.0     0.0     Argon
-2       20.0    45.0    40.0   40.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0    40.0    0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       20.0    45.0    40.0   40.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
@@ -927,17 +1067,17 @@ The remaining files show the expected local Hessians. E.g. for time t = 0.40 (an
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh"># time 4.000000e-01
-# particle_id1   coord1  particle_id2    coord2  hessian_entry
-1       0       1       0       -0.000018
-1       0       1       1       0.000033
-1       0       1       2       0.000000
-1       1       1       0       0.000033
-1       1       1       1       -0.000033
-1       1       1       2       -0.000000
-1       2       1       0       0.000000
-1       2       1       1       -0.000000
-1       2       1       2       0.000008
+<pre class="src src-sh"><span class="linenr"> 1: </span># time 4.000000e-01
+<span class="linenr"> 2: </span># particle_id1   coord1  particle_id2    coord2  hessian_entry
+<span class="linenr"> 3: </span>1       0       1       0       -0.000018
+<span class="linenr"> 4: </span>1       0       1       1       0.000033
+<span class="linenr"> 5: </span>1       0       1       2       0.000000
+<span class="linenr"> 6: </span>1       1       1       0       0.000033
+<span class="linenr"> 7: </span>1       1       1       1       -0.000033
+<span class="linenr"> 8: </span>1       1       1       2       -0.000000
+<span class="linenr"> 9: </span>1       2       1       0       0.000000
+<span class="linenr">10: </span>1       2       1       1       -0.000000
+<span class="linenr">11: </span>1       2       1       2       0.000008
 </pre>
 </div>
 <p>
@@ -945,17 +1085,17 @@ One can see that the entries (1,3), (2,3), (3,1) and (3,2) are equal to zero. Fo
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh"># time 5.000000e-01
-# particle_id1   coord1  particle_id2    coord2  hessian_entry
-1       0       1       0       0.000061
-1       0       1       1       -0.000000
-1       0       1       2       -0.000000
-1       1       1       0       -0.000000
-1       1       1       1       -0.000430
-1       1       1       2       -0.000000
-1       2       1       0       -0.000000
-1       2       1       1       -0.000000
-1       2       1       2       0.000061
+<pre class="src src-sh"><span class="linenr"> 1: </span># time 5.000000e-01
+<span class="linenr"> 2: </span># particle_id1   coord1  particle_id2    coord2  hessian_entry
+<span class="linenr"> 3: </span>1       0       1       0       0.000061
+<span class="linenr"> 4: </span>1       0       1       1       -0.000000
+<span class="linenr"> 5: </span>1       0       1       2       -0.000000
+<span class="linenr"> 6: </span>1       1       1       0       -0.000000
+<span class="linenr"> 7: </span>1       1       1       1       -0.000430
+<span class="linenr"> 8: </span>1       1       1       2       -0.000000
+<span class="linenr"> 9: </span>1       2       1       0       -0.000000
+<span class="linenr">10: </span>1       2       1       1       -0.000000
+<span class="linenr">11: </span>1       2       1       2       0.000061
 </pre>
 </div>
 <p>
@@ -976,9 +1116,9 @@ The .data file is given by
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0    40.0    40.0    0.0     0.0     0.0     Argon
-2       20.0    40.0    40.0   40.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0    40.0    0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       20.0    40.0    40.0   40.0     0.0     0.0     Argon
 </pre>
 </div>
 <p>
@@ -1004,17 +1144,17 @@ All other files display diagonal matrices. For t = 0.48 one gets for the first l
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh"># time 4.800000e-01
-# particle_id1   coord1  particle_id2    coord2  hessian_entry
-1       0       1       0       13019.502641
-1       0       1       1       0.000000
-1       0       1       2       0.000000
-1       1       1       0       0.000000
-1       1       1       1       -935.941320
-1       1       1       2       0.000000
-1       2       1       0       0.000000
-1       2       1       1       0.000000
-1       2       1       2       -935.941320
+<pre class="src src-sh"><span class="linenr"> 1: </span># time 4.800000e-01
+<span class="linenr"> 2: </span># particle_id1   coord1  particle_id2    coord2  hessian_entry
+<span class="linenr"> 3: </span>1       0       1       0       13019.502641
+<span class="linenr"> 4: </span>1       0       1       1       0.000000
+<span class="linenr"> 5: </span>1       0       1       2       0.000000
+<span class="linenr"> 6: </span>1       1       1       0       0.000000
+<span class="linenr"> 7: </span>1       1       1       1       -935.941320
+<span class="linenr"> 8: </span>1       1       1       2       0.000000
+<span class="linenr"> 9: </span>1       2       1       0       0.000000
+<span class="linenr">10: </span>1       2       1       1       0.000000
+<span class="linenr">11: </span>1       2       1       2       -935.941320
 </pre>
 </div>
 </div>
@@ -1035,10 +1175,10 @@ The z-direction of all particles is equal:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh"># ATOMDATA Id x=3 u=3 type
-1       40.0            40.0            40.0    0.0     0.0     0.0     Argon
-2       40.0+r          40.0            40.0    0.0     0.0     0.0     Argon
-3       40.0+r/2        40.0+sqrt(3)r/2 40.0    0.0     0.0     0.0     Argon
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0            40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       40.0+r          40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>3       40.0+r/2        40.0+sqrt(3)r/2 40.0    0.0     0.0     0.0     Argon
 </pre>
 </div>
 
@@ -1090,7 +1230,7 @@ The matrices H<sub>13</sub> and H<sub>23</sub> however are not diagonal matrices
 One notes that the entries of H<sub>13</sub> and H<sub>23</sub> differ only by the sign which can be traced to the symmetry.
 </li>
 <li>The local Hessians H<sub>11</sub>, H<sub>22</sub>, H<sub>33</sub> have all vanishing entries at the (1,3), (3,1), (2,3) and (3,2) positions.
-This seems to be reasonable since one can write these Hessians as sums of mixed local Hessians which has only zeros at these positions (already seen in 1.).
+This seems to be reasonable since one can write these Hessians as sums of mixed local Hessians which have only zeros at these positions (already seen in 1.).
 The simulated values of the entries coincide with samples computed manually.
 </li>
 <li>The absolute values of all entries of the local Hessians in inversely proportional to the distance between the particles which agrees with the formulas for the Lennard-Jones Hessians.
@@ -1126,14 +1266,633 @@ As an example the local Hessians in the case of r = r<sub>1</sub> are given. All
 </dd>
 </dl>
 </div>
+</li>
+<li><a id="sec-1-5-1-3" name="sec-1-5-1-3"></a>Eigenvalues of the Hessians<br  /><div class="outline-text-5" id="text-1-5-1-3">
+<p>
+As a further check the eigenvalues of the local Hessians are computed. For the above simulation one expects that the three eigenvalues of the "pure" Hessians (H<sub>ii</sub>) are always the same. The same should apply for the mixed Hessians (H<sub>ij</sub>).
+In the following the eigenvalues of the computed Hessians at t = 0 for r1, r2 and r3 are given:
+One can see that the eigenvalues of the matrices do indeed coincide in the described manner.
+</p>
+</div>
+<ol class="org-ol"><li><a id="sec-1-5-1-3-1" name="sec-1-5-1-3-1"></a>r1<br  /><div class="outline-text-6" id="text-1-5-1-3-1">
+<dl class="org-dl">
+<dt> H<sub>11</sub> </dt><dd>&lambda; = (672, 192, -48)
+</dd>
+<dt> H<sub>22</sub> </dt><dd>&lambda; = (672, 192, -48)
+</dd>
+<dt> H<sub>33</sub> </dt><dd>&lambda; = (672, 192, -48)
+</dd>
+<dt> H<sub>12</sub> </dt><dd>&lambda; = (24, 24, -456)
+</dd>
+<dt> H<sub>13</sub> </dt><dd>&lambda; = (24, 24, -456)
+</dd>
+<dt> H<sub>23</sub> </dt><dd>&lambda; = (24, 24, -456)
+</dd>
+</dl>
+</div>
+</li>
+<li><a id="sec-1-5-1-3-2" name="sec-1-5-1-3-2"></a>r2<br  /><div class="outline-text-6" id="text-1-5-1-3-2">
+<dl class="org-dl">
+<dt> H<sub>11</sub> </dt><dd>&lambda; = (85.719656, 28.573219, 0.0)
+</dd>
+<dt> H<sub>22</sub> </dt><dd>&lambda; = (85.719656, 28.573219, 0.0)
+</dd>
+<dt> H<sub>33</sub> </dt><dd>&lambda; = (85.719656, 28.573219, 0.0)
+</dd>
+<dt> H<sub>12</sub> </dt><dd>&lambda; = (-57.146437, 0.0, 0.0)
+</dd>
+<dt> H<sub>13</sub> </dt><dd>&lambda; = (-57.146438, 0.0, 0.0)
+</dd>
+<dt> H<sub>23</sub> </dt><dd>&lambda; = (-57.146437, 0.0, 0.0)
+</dd>
+</dl>
+</div>
+</li>
+<li><a id="sec-1-5-1-3-3" name="sec-1-5-1-3-3"></a>r<sub>3</sub><br  /><div class="outline-text-6" id="text-1-5-1-3-3">
+<dl class="org-dl">
+<dt> H<sub>11</sub> </dt><dd>&lambda; = (-6.240382, -1.050768, 1.544038)
+</dd>
+<dt> H<sub>22</sub> </dt><dd>&lambda; = (-6.240382, -1.050768, 1.544038)
+</dd>
+<dt> H<sub>33</sub> </dt><dd>&lambda; = (-6.240382, -1.050768, 1.544038)
+</dd>
+<dt> H<sub>12</sub> </dt><dd>&lambda; = (4.417594, -0.772019, -0.772019)
+</dd>
+<dt> H<sub>13</sub> </dt><dd>&lambda; = (4.417594, -0.772019, -0.772019)
+</dd>
+<dt> H<sub>23</sub> </dt><dd>&lambda; = (4.417594, -0.772019, -0.772019)
+</dd>
+</dl>
+</div>
+</li></ol>
+</li>
+<li><a id="sec-1-5-1-4" name="sec-1-5-1-4"></a>r<sub>1</sub><br  /><div class="outline-text-5" id="text-1-5-1-4">
+<p>
+The data file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       41.0    40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>3       40.5    40.866025404    40.0    0.0     0.0     0.0     Argon
+</pre>
+</div>
+</div>
+</li>
+<li><a id="sec-1-5-1-5" name="sec-1-5-1-5"></a>r<sub>2</sub><br  /><div class="outline-text-5" id="text-1-5-1-5">
+<p>
+the data file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">3: </span>1       40.0            40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>2       41.122462048    40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">5: </span>3       40.561231024    40.972080649    40.0    0.0     0.0     0.0     Argon
+</pre>
+</div>
+<p>
+In this case all particles stay stationary over the whole simulation. The local Hessians are (nearly, up to 6 decimal?) constant.
+</p>
+</div>
+</li>
+<li><a id="sec-1-5-1-6" name="sec-1-5-1-6"></a>r<sub>3</sub><br  /><div class="outline-text-5" id="text-1-5-1-6">
+<p>
+The data file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       41.5    40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>3       40.75   41.299038106    40.0    0.0     0.0     0.0     Argon
+</pre>
+</div>
+</div>
+</li>
+<li><a id="sec-1-5-1-7" name="sec-1-5-1-7"></a>r<sub>4</sub><br  /><div class="outline-text-5" id="text-1-5-1-7">
+<p>
+The data file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       44.0    40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>3       42.0    43.464101615    40.0    0.0     0.0     0.0     Argon
+</pre>
+</div>
+</div>
+</li>
+<li><a id="sec-1-5-1-8" name="sec-1-5-1-8"></a>r<sub>5</sub><br  /><div class="outline-text-5" id="text-1-5-1-8">
+<p>
+the data file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       60.0    40.0            40.0    0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>3       50.0    57.320508076    40.0    0.0     0.0     0.0     Argon
+</pre>
+</div>
+<p>
+In this case (r &gt; r<sub>cut</sub>) all hessians-files are empty for the whole simulation.
+</p>
+</div>
+</li></ol>
+</div>
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> Particle collision</h4>
+<div class="outline-text-4" id="text-1-5-2">
+</div><ol class="org-ol"><li><a id="sec-1-5-2-1" name="sec-1-5-2-1"></a>Test parameters<br  /><div class="outline-text-5" id="text-1-5-2-1">
+<p>
+For this collision test slightly different test parameters are chosen.
+</p>
+<ul class="org-ul">
+<li>sigma = epsilon = 1
+</li>
+<li>cellrcut = 10
+</li>
+<li>edge length of the simulation cube: 100
+</li>
+<li>delta<sub>T</sub> = 5.0e-3
+</li>
+<li>endtime = 3.0
+</li>
+<li>outvis T<sub>Delta</sub> = 1.0e-2
+</li>
+</ul>
+<p>
+The only active potential is the Lennard-Jones potential.
+The parameter file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr"> 1: </span>integration: type=dynamics;
+<span class="linenr"> 2: </span>
+<span class="linenr"> 3: </span>domain {
+<span class="linenr"> 4: </span>    size: type=cube, size=100.0;
+<span class="linenr"> 5: </span>    border: bt_xlow=periodic, bt_xhigh=periodic, bt_ylow=periodic, bt_yhigh=periodic,
+<span class="linenr"> 6: </span>        bt_zlow=periodic, bt_zhigh=periodic;
+<span class="linenr"> 7: </span>};
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span>dynamics {
+<span class="linenr">10: </span>    ensemble: ensemble=NVE;
+<span class="linenr">11: </span>    propagator, verlet: delta_T=5.0e-3, endtime=3.0;
+<span class="linenr">12: </span>};
+<span class="linenr">13: </span>
+<span class="linenr">14: </span>optimization {
+<span class="linenr">15: </span>    particle: state=on, alpha=0.2, beta=0.8, lambda1=0, lambda2=1;
+<span class="linenr">16: </span>
+<span class="linenr">17: </span>    common: algorithm=cg, maxcg=2001, RT=periodical, maxresetcg=6, LS=strongwolfe,
+<span class="linenr">18: </span>        maxlinesearch=6, mean_force_eps=1e-6, mean_force_eps_rel=1e-10, prefactor=1e-4;
+<span class="linenr">19: </span>};
+<span class="linenr">20: </span>
+<span class="linenr">21: </span>output {
+<span class="linenr">22: </span>    Outvis: T_Start=0, T_Delta=1.0e-2, Step_Delta=10;
+<span class="linenr">23: </span>    Outdata: T_Start=0, T_Delta=500, Step_Delta=10;
+<span class="linenr">24: </span>
+<span class="linenr">25: </span>    Outm: T_Start=0, T_Delta=0.5, Step_Delta=1;
+<span class="linenr">26: </span>
+<span class="linenr">27: </span>    energy: measure=on;
+<span class="linenr">28: </span>
+<span class="linenr">29: </span>    analyze {
+<span class="linenr">30: </span>        velocity: measure=on, meanmeasure=off, vis=off, min=0.0, max=25.0, n_bin=50;
+<span class="linenr">31: </span>        hessians: measure=on;
+<span class="linenr">32: </span>    };
+<span class="linenr">33: </span>};
+</pre>
+</div>
+</div>
+</li>
+<li><a id="sec-1-5-2-2" name="sec-1-5-2-2"></a>Test description<br  /><div class="outline-text-5" id="text-1-5-2-2">
+<ul class="org-ul">
+<li>All 3 identical particles p<sub>1</sub>, p<sub>2</sub>, p<sub>3</sub> share the same z-plane. Two of the particles (p<sub>1</sub> and p<sub>2</sub>) are situated stationary
+at a distance of ca. 28.28 aligned along the (x,y)-diagonal (p<sub>1</sub> = (50.75, 55, 55), p<sub>2</sub> = (70.75, 75, 55)).
+Note that, p<sub>1</sub> is placed near the linked-cell face at x = 50 such that it can be checked the Hessians are calculated correctly across linked-cells.
+The third particle p<sub>3</sub> is also aligned along this axis. Its initial position is about 42.43 away from p<sub>1</sub>  and 70.71 from p<sub>2</sub>.
+The third particle has an initial velocity of v = (20, 20, 0).
+Note that at the beginning all distances between the particles are larger than the given r<sub>cut</sub>, so no interaction happens in the initial state.
+The data file is given by:
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span># INPUTCONV moment 0
+<span class="linenr">3: </span>1       50.75   55.0    55.0    0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>2       70.75   75.0    55.0    0.0     0.0     0.0     Argon
+<span class="linenr">5: </span>3       20.75   25.0    55.0    20.0    20.0    0.0     Argon
+</pre>
+</div>
+</li>
+<li>During the simulation p<sub>3</sub> collides first with p<sub>1</sub> and is decelerated and p<sub>1</sub> is accelarated.
+Therefore p<sub>3</sub> nearly stops moving whereas p<sub>1</sub> collides with p<sub>2</sub> resulting in a similar collision as before.
+Because of the chosen distances between the particles only two of the three particles interact at any given time step.
+</li>
+</ul>
+<p>
+<img src="collision_1.png" alt="collision_1.png" />
+<img src="collision_2.png" alt="collision_2.png" />
+<img src="collision_3.png" alt="collision_3.png" />
+</p>
+</div>
+</li>
+<li><a id="sec-1-5-2-3" name="sec-1-5-2-3"></a>Test results<br  /><div class="outline-text-5" id="text-1-5-2-3">
+<ol class="org-ol">
+<li>General results:
+<ul class="org-ul">
+<li>all local Hessians are symmetric as expected
+</li>
+<li>For all local Hessians the (1,3), (3,1), (2,3) and (3,2) entries are zero, which is a consequence of the fact that all particles share the same z-coordinate
+</li>
+<li>The values of local Hessians change according to the distances between the particles (see below).
+As expected only local Hessians of particles which have distances below 10.0 are displayed in the hessians-files.
+</li>
+</ul>
+</li>
+<li>The simulation can be partitioned in 7 phases:
+<ol class="org-ol">
+<li>t=0 to t=1.145 (files 0000 to 0114):
+<ul class="org-ul">
+<li>distances between p<sub>1</sub> and p<sub>3</sub>: r<sub>0</sub>=42.43 to r<sub>1.145</sub>=10.041
+</li>
+<li>no interaction between the particles
+</li>
+</ul>
+</li>
+<li>t=1.155 to t=1.475 (files 0115 to 0147):
+<ul class="org-ul">
+<li>decreasing distances between p<sub>1</sub> and p<sub>3</sub>: r<sub>1.155</sub>=9.76 to r<sub>1.475</sub>=0.72
+</li>
+<li>only interactions between p<sub>1</sub> and p<sub>3</sub>
+</li>
+</ul>
+</li>
+<li>t=1.485 to t=1.825 (files 0148 to 0182):
+<ul class="org-ul">
+<li>increasing distances between p<sub>1</sub> and p<sub>3</sub>: r<sub>1.485</sub>=0.87 to r<sub>1.825</sub>=9.86
+</li>
+<li>only interactions between p<sub>1</sub> and p<sub>3</sub>
+</li>
+</ul>
+</li>
+<li>t=1.835 to t=2.135 (files 0183 to 0213):
+<ul class="org-ul">
+<li>distance between p<sub>1</sub> and p<sub>2</sub> decreases to r<sub>2.135</sub>=10.27
+</li>
+<li>no interaction between the particles
+</li>
+</ul>
+</li>
+<li>t=2.145 to t=2.485 (files 0214 to 0248):
+<ul class="org-ul">
+<li>decreasing distances between p<sub>1</sub> and p<sub>2</sub>: r<sub>2.145</sub>=9.997 to r<sub>2.485</sub>=0.72
+</li>
+<li>only interactions between p<sub>1</sub> and p<sub>2</sub>
+</li>
+</ul>
+</li>
+<li>t=2.495 to t=2.855 (files 0249 to 0285):
+<ul class="org-ul">
+<li>increasing distances between p<sub>1</sub> and p<sub>2</sub>: r<sub>2.495</sub>=0.89 to r<sub>2.855</sub>=9.94
+</li>
+<li>only interactions between p<sub>1</sub> and p<sub>2</sub>
+</li>
+</ul>
+</li>
+<li>t=2.865 to t=3.000 (files 0286 to 0300):
+<ul class="org-ul">
+<li>increasing distances between p<sub>1</sub> and p<sub>2</sub>: r<sub>2.865</sub>=10.19 to r<sub>3.000</sub>=13.71
+</li>
+<li>no interaction between the particles
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>For these 7 phases the following results concerning the local Hessians were archieved:
+<ol class="org-ol">
+<li>In phase 1 all corresponding hessians-files were empty. This is the desired behaviour since all distances are larger than the r<sub>cut</sub>.
+</li>
+<li>In phase 2 the corresponding hessians-files display values for H<sub>11</sub>, H<sub>33</sub>, H<sub>13</sub> and H<sub>31</sub>.
+The values of the (H<sub>11</sub>)<sub>1,1</sub> decrease first very slowly from -0.000001 to -1.508 and then increase fast to 25165.93.
+This follows the graph of the second derivative of the Lennard-Jones potential.
+</li>
+<li>In phase 3 again all corresponding hessians-files display ony values for H<sub>11</sub>, H<sub>33</sub>, H<sub>13</sub> and H<sub>31</sub>.
+The numerical values evolve backwards in comparison to phase 2.
+</li>
+<li>In pahse 4 all corresponding hessians-files are again empty.
+</li>
+<li>The phases 5, 6, 7 are similar to the phases 2, 3, 4, respectively, with slightly different values in the entries.
+A comparison of the values of (H<sub>11</sub>)<sub>1,1</sub> during the first collision with the values of (H<sub>22</sub>)<sub>1,1</sub> during the second
+collision show an almost identical behaviour (see plot)
+</li>
+</ol>
+</li>
+</ol>
+
+<div class="figure">
+<p><img src="comparison.png" alt="comparison.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="sec-1-5-2-4" name="sec-1-5-2-4"></a>Similar test with different epsilon values<br  /><div class="outline-text-5" id="text-1-5-2-4">
+<p>
+A similar test with a different epsilon value (4 instead of 1) for p<sub>1</sub> gives similar results with slightly different numerical values.
+</p>
+</div>
+</li></ol>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Test for four particles</h3>
+<div class="outline-text-3" id="text-1-6">
+</div><div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Four particles in an tetrahedron</h4>
+<div class="outline-text-4" id="text-1-6-1">
+</div><ol class="org-ol"><li><a id="sec-1-6-1-1" name="sec-1-6-1-1"></a>General description<br  /><div class="outline-text-5" id="text-1-6-1-1">
+<p>
+Four identical particles are positioned in such a way that they form an tetrahedron with side lengths r = r<sub>1</sub>, r<sub>2</sub>, r<sub>3</sub>, r<sub>4</sub> and r<sub>5</sub>, respectively.
+The first three particles p<sub>1</sub>, p<sub>2</sub> and p<sub>3</sub> form the equilateral triangle described in the section about three particles in an equilateral triangle.
+The last particle has a different z-coordinate with respect to the other particles:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1    40.0       40.0                40.0           0.0    0.0    0.0    Argon
+<span class="linenr">3: </span>2    40.0+r     40.0                40.0           0.0    0.0    0.0    Argon
+<span class="linenr">4: </span>3    40.0+r/2   40.0+sqrt(3)r/2     40.0           0.0    0.0    0.0    Argon
+<span class="linenr">5: </span>4    40.0+r/2   40.0+r/(2*sqrt(3))  40+sqrt(2/3)r  0.0    0.0    0.0    Argon
+</pre>
+</div>
+
+<div class="figure">
+<p><img src="tetrahedron_r1.png" alt="tetrahedron_r1.png" />
+</p>
+</div>
+</div>
+</li>
+<li><a id="sec-1-6-1-2" name="sec-1-6-1-2"></a>Observations<br  /><div class="outline-text-5" id="text-1-6-1-2">
+<p>
+As the only active potential during the simulation is the Lennard-Jones potential the system potential is given by
+\[
+V(p_1, p_2, p_3, p_4) = V_{12}(p_1, p_2) + V_{13}(p_1, p_2) + V_{23}(p_2, p_3) + V_{24}(p_2, p_4) + V_{34}(p_3, p_4).
+\]
+Hence the (local) Hessians are given by
+\[
+H_{ii} = \sum_{j=1}^4 \partial_i \partial_i V_{ij} \quad \text{for all } i = 1, ..., 4,
+\]
+and
+\[
+H_{ij} = \partial_i \partial_j V_{ij} \quad \text{for all } i, j = 1, ..., 4.
+\]
+From this we can deduce the following expectations:
+</p>
+<ol class="org-ol">
+<li>The mixed Hessians H<sub>ij</sub> do only depend on the two particles p<sub>i</sub> and p<sub>j</sub>. In particular this means that the Hessians H<sub>12</sub>, H<sub>13</sub> and H<sub>23</sub> must have the exact same form as for the 3 particle case (equilateral triangle, see above).
+</li>
+<li>All mixed Hessians with the same indices must be identical: H<sub>ij</sub> = H<sub>ji</sub>.
+</li>
+<li>With increasing distance the absolute values of the Hessian entries should decrease.
+</li>
+<li>All Hessians should share the same eigenvalues (for mixed/pure Hessians separately).
+</li>
+</ol>
+<p>
+We will see in the following that these expectations are indeed fullfilled in the simulations.
+</p>
+</div>
+</li>
+<li><a id="sec-1-6-1-3" name="sec-1-6-1-3"></a>Overview of the test results<br  /><div class="outline-text-5" id="text-1-6-1-3">
+<p>
+For all radii r<sub>1</sub>, &#x2026;, r<sub>5</sub> the following test results could be found:
+</p>
+<ol class="org-ol">
+<li>The absolute values of the local Hessian's entries are large for small distances r &lt; 1.2 and very small for large distances r &gt; 2. For 1.2 &lt; r &lt; 2 the entries are of magnitude 5-10.
+For r -&gt; 1 the absolute values of the Hessian's entries increase very fast wheras for r -&gt; inf the decay is rather slowly. In between, for r going from 1.2 to 2, the absolute values first decay, then increase towards r = 1.4 and decrease again.
+This coincides with the graph of the second derivative of the Lennard-Jones potential.
+</li>
+<li>All local Hessians are symmetric and one has the relation H<sub>ij</sub> = H<sub>ji</sub> for all mixed local Hessians.
+</li>
+<li>The local Hessians H<sub>12</sub>, H<sub>13</sub> and H<sub>23</sub> are equal to the ones found in the 3 particles case positioned in the an equilateral triangle (see above).
+</li>
+<li>The 'pure' Hessians H<sub>11</sub>, H<sub>22</sub> do not have any zero-entries wheras H<sub>33</sub> has zeros at the (1,2), (1,3), (2,1) and (3,1) entries and H<sub>44</sub> is diagonal. In addition H<sub>11</sub> and H<sub>22</sub> differ only in the signs of some of the entries.
+This behaviour is caused by the symmetry (p<sub>1</sub>, p<sub>2</sub> aligned in x-direction, p<sub>1</sub>, p<sub>2</sub>, p<sub>3</sub> aligned in the same z-plane).
+</li>
+<li>For each time step, the eigenvalues of all 'pure' Hessians are equal. The same applies to all mixed local Hessians.
+</li>
+</ol>
+</div>
+</li>
+<li><a id="sec-1-6-1-4" name="sec-1-6-1-4"></a>Test results for r<sub>1</sub><br  /><div class="outline-text-5" id="text-1-6-1-4">
+<p>
+The data file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">3: </span>1       40.0    40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>2       41.0    40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">5: </span>3       40.5    40.866025404    40.0            0.0     0.0     0.0     Argon
+<span class="linenr">6: </span>4       40.5    40.288675135    40.816496581    0.0     0.0     0.0     Argon
+</pre>
+</div>
+<p>
+Specific results:
+</p>
+<ol class="org-ol">
+<li>Absolute values of the entries in the local Hessians are large at the beginning but decrease very fast (from ca. 100 at t=0 to ca 5 at t=0.1) going slowly down to zero.
+As an example the values of H<sub>11</sub> for t = 0, t = 0.5 and t = 1.0 are given (row-wise):
+<dl class="org-dl">
+<dt> 0000 </dt><dd>r = 1.0, H<sub>11</sub> = (647.999999 277.128128 195.959179; 277.128128 327.999999 113.137085; 195.959179 113.137085 247.999999)
+</dd>
+<dt> 0050 </dt><dd>r = 1.97816, H<sub>11</sub> = (-0.859692 -0.445139 -0.314761; -0.445139 -0.345690 -0.181727; -0.314761 -0.181727 -0.217189)
+</dd>
+<dt> 0100 </dt><dd>r = 2.34264, H<sub>11</sub> = (-0.232366 -0.119620 -0.084584; -0.119620 -0.094241 -0.048835; -0.084584 -0.048835 -0.059709)
+</dd>
+</dl>
+</li>
+<li>For t=0 the eigenvalues of the local Hessians are given by
+<dl class="org-dl">
+<dt> H<sub>11</sub> </dt><dd>&lambda; = (888, 168, 168)
+</dd>
+<dt> H<sub>22</sub> </dt><dd>&lambda; = (888, 168, 168)
+</dd>
+<dt> H<sub>33</sub> </dt><dd>&lambda; = (888, 168, 168)
+</dd>
+<dt> H<sub>44</sub> </dt><dd>&lambda; = (888, 168, 168)
+</dd>
+<dt> H<sub>12</sub> </dt><dd>&lambda; = (24, 24, -456)
+</dd>
+<dt> H<sub>13</sub> </dt><dd>&lambda; = (24, 24, -456)
+</dd>
+<dt> H<sub>14</sub> </dt><dd>&lambda; = (24, 24, -456)
+</dd>
+<dt> H<sub>23</sub> </dt><dd>&lambda; = (24, 24, -456)
+</dd>
+<dt> H<sub>24</sub> </dt><dd>&lambda; = (24, 24, -456)
+</dd>
+<dt> H<sub>34</sub> </dt><dd>&lambda; = (24, 24, -456)
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+</li>
+<li><a id="sec-1-6-1-5" name="sec-1-6-1-5"></a>Test results for r<sub>2</sub><br  /><div class="outline-text-5" id="text-1-6-1-5">
+<p>
+The data file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0            40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       41.122462048    40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>3       40.561231024    40.972080649    40.0            0.0     0.0     0.0     Argon
+<span class="linenr">5: </span>4       40.561231024    40.324026883    40.916486425    0.0     0.0     0.0     Argon
+</pre>
+</div>
+<p>
+Specific tests results:
+</p>
+<ol class="org-ol">
+<li>During the whole simulation the local Hessians stay the same (apart from very small changes in the last decimal place).
+As an example the values of H<sub>11</sub> for t = 0, t = 0.5 and t = 1.0 are given (row-wise):
+<dl class="org-dl">
+<dt> 0000 </dt><dd>r = 1.22462048, H<sub>11</sub> = (85.719657 32.993511 23.329935; 32.993511 47.622031 13.469545; 23.329935 13.469545 38.097625)
+</dd>
+<dt> 0050 </dt><dd>r = 1.22462048, H<sub>11</sub> = (85.719657 32.993511 23.329936; 32.993511 47.622032 13.469545; 23.329936 13.469545 38.097625)
+</dd>
+<dt> 0100 </dt><dd>r = 1.22462048, H<sub>11</sub> = (85.719657 32.993511 23.329936; 32.993511 47.622032 13.469545; 23.329936 13.469545 38.097625)
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+</li>
+<li><a id="sec-1-6-1-6" name="sec-1-6-1-6"></a>Test results for r<sub>3</sub><br  /><div class="outline-text-5" id="text-1-6-1-6">
+<p>
+The data file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       41.5    40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>3       40.75   41.299038106    40.0            0.0     0.0     0.0     Argon
+<span class="linenr">5: </span>4       40.75   40.433012702    41.224744871    0.0     0.0     0.0     Argon
+</pre>
+</div>
+<p>
+Specific test results:
+</p>
+<ol class="org-ol">
+<li>During the simulation the absolute values of the local Hessians decrease and increase several times. This is due to the periodic motion of the particles:
+<ul class="org-ul">
+<li>t=0 &#x2013; t=0.16: values decrease slowly (values from (H<sub>11</sub>)<sub>1,1</sub>: -5.4 &#x2013; -6.9)
+</li>
+<li>t=0.16 &#x2013; t=0.3: values increase fast (-6.9 &#x2013; 499)
+</li>
+<li>t=0.3 &#x2013; t=0.46: values decrease fast (499 &#x2013; -6.9)
+</li>
+<li>t=0.46 &#x2013; t=0.62: values increase slowly (-6.9 &#x2013; -5.4)
+</li>
+<li>t=0.62 &#x2013; t=0.76: values decrease slowly (-5.4 &#x2013; -6.9)
+</li>
+<li>t=0.76 &#x2013; t=0.92: values increase fast (-6.0 &#x2013; 507)
+</li>
+<li>t=0.92 &#x2013; t=1.00: values decrease fast (507 &#x2013; 1.4)
+</li>
+</ul>
+<p>
+As an example the values of H<sub>11</sub> for t = 0, t = 0.5 and t = 1.0 are given (row-wise):
+</p>
+<dl class="org-dl">
+<dt> 0000 </dt><dd>r = 1.5, H<sub>11</sub> = (-5.468362 -2.996225 -2.118651; -2.996225 -2.008620 -1.223204; -2.118651 -1.223204 -1.143685)
+</dd>
+<dt> 0050 </dt><dd>r = 1.44476, H<sub>11</sub> = (-6.374040 -3.592231 -2.540091; -3.592231 -2.226089 -1.466522; -2.540091 -1.466522 -1.189101)
+</dd>
+<dt> 0100 </dt><dd>r = 1.25166, H<sub>11</sub> = (1.442896 -1.652185 -1.168270; -1.652185 3.350673 -0.674501; -1.168270 -0.674501 3.827620)
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+</li>
+<li><a id="sec-1-6-1-7" name="sec-1-6-1-7"></a>Test results for r<sub>4</sub><br  /><div class="outline-text-5" id="text-1-6-1-7">
+<p>
+The data file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       44.0    40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>3       42.0    43.464101615    40.0            0.0     0.0     0.0     Argon
+<span class="linenr">5: </span>4       42.0    41.154700538    43.265986324    0.0     0.0     0.0     Argon
+</pre>
+</div>
+<p>
+Specific test results:
+</p>
+<ol class="org-ol">
+<li>During the whole simulation the absolute values of the local Hessian's entries are rather small and increase very slowly.
+This is due to the relative large distance between the particles which results in a very slow motion during the simulation time.
+As an example the values of H<sub>11</sub> for t = 0, t = 0.5 and t = 1.0 are given (row-wise):
+<dl class="org-dl">
+<dt> 0000 </dt><dd>r = 4, H<sub>11</sub> = (-0.003293 -0.001690 -0.001195; -0.001690 -0.001341 -0.000690; -0.001195 -0.000690 -0.000853)
+</dd>
+<dt> 0050 </dt><dd>r = 3.99854, H<sub>11</sub> = (-0.003302 -0.001695 -0.001199; -0.001695 -0.001345 -0.000692; -0.001199 -0.000692 -0.000856)
+</dd>
+<dt> 0100 </dt><dd>r = 3.99414, H<sub>11</sub> = (-0.003332 -0.001710 -0.001209; -0.001710 -0.001357 -0.000698; -0.001209 -0.000698 -0.000863)
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+</li>
+<li><a id="sec-1-6-1-8" name="sec-1-6-1-8"></a>Test results for r<sub>5</sub><br  /><div class="outline-text-5" id="text-1-6-1-8">
+<p>
+The data file is given by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># ATOMDATA Id x=3 u=3 type
+<span class="linenr">2: </span>1       40.0    40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">3: </span>2       60.0    40.0            40.0            0.0     0.0     0.0     Argon
+<span class="linenr">4: </span>3       50.0    57.320508076    40.0            0.0     0.0     0.0     Argon
+<span class="linenr">5: </span>4       50.0    45.773502692    56.329931619    0.0     0.0     0.0     Argon
+</pre>
+</div>
+<p>
+Specific test results:
+</p>
+<ol class="org-ol">
+<li>All hessians-files are empty. This is expected since the distance between the particles is larger than the r<sub>cut</sub> distance, which results in zero interaction.
+Example of hessian file:
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span># time 0.000000e+00
+<span class="linenr">2: </span># particle_id1   coord1  particle_id2    coord2  hessian_entry
+</pre>
+</div>
+</li>
+</ol>
+</div>
 </li></ol>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
+<p class="date">Date: \today</p>
 <p class="author">Author: Pascal Huber</p>
-<p class="date">Created: 2015-02-26 Thu 17:17</p>
+<p class="date">Created: 2015-03-16 Mon 17:08</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

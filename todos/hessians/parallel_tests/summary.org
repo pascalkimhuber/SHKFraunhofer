@@ -1,0 +1,125 @@
+* Tests for bugs in tremolo code related to parallel Hessians computation
+** Test parameters
+- box :: sidelength = 100, r_cut = 10
+- potential :: lennard-jones potential
+
+** 2 particles tests
+*** Both particles in quadrant (1, 1, 1)
+**** data-file:
+#+BEGIN_SRC
+# ATOMDATA Id x=3 u=3 type
+# INPUTCONV moment 0
+1	24.0  25.0    25.0	0.0	0.0	0.0	Argon
+2	26.0  25.0    25.0	0.0	0.0	0.0	Argon
+#+END_SRC
+**** results:
+- all hessians are written in the first hessians files (=test.hessians.XXXX.0000=)
+- the values of parallel and sequentiel computation coincide
+*** Both particles in quadrant (2, 1, 1)
+**** data-file:
+#+BEGIN_SRC
+# ATOMDATA Id x=3 u=3 type
+# INPUTCONV moment 0
+1	74.0  25.0    25.0	0.0	0.0	0.0	Argon
+2	76.0  25.0    25.0	0.0	0.0	0.0	Argon
+#+END_SRC
+**** results
+- all hessians are written in the fifth hessians files (=test.hessians.XXXX.0004=)
+- the values of parallel and sequentiel computation coincide
+*** One particle in quadrant (1, 1, 1) and the other in (2, 1, 1)
+**** data-file
+#+BEGIN_SRC
+# ATOMDATA Id x=3 u=3 type
+# INPUTCONV moment 0
+1	49.0  25.0    25.0	0.0	0.0	0.0	Argon
+2	51.0  25.0    25.0	0.0	0.0	0.0	Argon
+#+END_SRC
+**** results:
+- all hessians are written in the first hessians files (=test.hessians.XXXX.0000=) *but* in the xyz-files the particle locations are in different files
+- the values of parallel and sequentiel computation coincide
+**** questions:
+- What does =IsSent()= do?
+*** One particle in quadrant (1, 1, 1) and the other in (2, 2, 2)
+**** data-file:
+#+BEGIN_SRC
+# ATOMDATA Id x=3 u=3 type
+# INPUTCONV moment 0
+1	49.5    49.5    49.5	0.0	0.0	0.0	Argon
+2	50.5    50.5    50.5	0.0	0.0	0.0	Argon
+#+END_SRC
+**** results:
+- all hessians are written in the first hessians files (=test.hessians.XXXX.0000=) *but* in the xyz-files the particle locations are in different files
+- the values of parallel and sequentiel computation coincide
+** 3 particles tests
+*** All particles in quadrant (1, 1, 1)
+**** data-file:
+#+BEGIN_SRC
+# ATOMDATA Id x=3 u=3 type
+# INPUTCONV moment 0
+1	25.0	25.0		25.0	0.0	0.0	0.0	Argon
+2	26.5	25.0		25.0	0.0	0.0	0.0	Argon
+3	25.75	26.299038106	25.0	0.0	0.0	0.0	Argon
+#+END_SRC
+**** results:
+- all hessians are written in the first hessians files (=test.hessians.XXXX.0000=)
+- the values of parallel and sequentiel computation coincide
+*** All particles in quadrant (2, 1, 1)
+**** data-file:
+#+BEGIN_SRC
+# ATOMDATA Id x=3 u=3 type
+# INPUTCONV moment 0
+1	75.0	75.0		25.0	0.0	0.0	0.0	Argon
+2	76.5	75.0		25.0	0.0	0.0	0.0	Argon
+3	75.75	76.299038106	25.0	0.0	0.0	0.0	Argon
+#+END_SRC
+**** results:
+- all hessians are written in the 5th hessians files (=test.hessians.XXXX.0004=)
+- the values of parallel and sequentiel computation coincide
+*** Two particles in quadrant (1, 1, 1) and one in quadrant (2, 1, 1)
+**** data-file:
+#+BEGIN_SRC
+# ATOMDATA Id x=3 u=3 type
+# INPUTCONV moment 0
+1	49.0	25.0		25.0	0.0	0.0	0.0	Argon
+2	50.5	25.0		25.0	0.0	0.0	0.0	Argon
+3	49.75	26.299038106	25.0	0.0	0.0	0.0	Argon
+#+END_SRC
+**** results:
+- all hessians are written in the first hessians files (=test.hessians.XXXX.0000=) *but* in the xyz-files the particle locations are in the first and in the fifth file
+- the values of parallel and sequential computation coincide
+*** One particle in quadrant(1, 1, 1), one in quadrant (2, 1, 1) and one in (1, 2, 1)
+**** data-file:
+#+BEGIN_SRC
+# ATOMDATA Id x=3 u=3 type
+# INPUTCONV moment 0
+1	49.0	49.0		25.0	0.0	0.0	0.0	Argon
+2	50.5	49.0		25.0	0.0	0.0	0.0	Argon
+3	49.75	50.299038106	25.0	0.0	0.0	0.0	Argon
+#+END_SRC
+**** results:
+- part of the hessians are written in the first hessians files (=test.hessians.XXXX.0000=), namely \(H_11, H_12, H_13, H_21, H_22, H_31, H_33\), others \(H_23, H_22, H_32, H_33\) are written in the fifth files (=test.hessians.XXXX.0004=)
+- the particle locations are all in different xyz-files
+- the values of parallel and sequential computation differ only for those hessians that are 'distributed' on both non-empty hessians files (here \(H_22, H_33\)),
+  if one sums for every entry the values of the two non-empty files in the parallel case, the sum equals the sequential value
+
+* Debugging tremolo code related to parallel Hessians computation
+** Simple test case
+- box :: sidelength = 100
+- potential :: lennard-jones, r_cut = 10
+- particle :: two particles
+- processors :: two processors (in x-direction)
+
+*** Debugging results
+**** Debugging in =OutputParticleHessians()=
+Added following source code to =OutputParticleHessians()=:
+#+BEGIN_SRC C
+  // DEBUG-Block
+  printf("rank %u: Particle %u, number of items in hash-table: %u \n", myrank, p->Id, trx_hcount(qTable));
+  // DEBUG-End
+#+END_SRC
+From the output of this line one can see that for the second processor the Hessian-table of the only existing
+particle is empty. This should not be the case.
+**** Final result
+It turns out that for the force computation always only for one processor the pair of (particle, ghost particle) is used to compute the force.
+All other processors receive the force values from this processor. This explains the strange behaviour described above.
+As a temporary solution I changed the MergeOutput.py script.
